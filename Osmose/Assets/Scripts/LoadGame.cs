@@ -16,6 +16,7 @@ public class LoadGame : MonoBehaviour {
 
     }
 
+    // load the game
     public void StartGame() {
         SceneManager.LoadScene(loadArea, LoadSceneMode.Single);
     }
