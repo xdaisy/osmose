@@ -71,11 +71,11 @@ public class PlayerControls : MonoBehaviour {
 
         vel = myRigidBody.velocity;
 
-        /*anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal")); // set MoveX var in animator
+        anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal")); // set MoveX var in animator
         anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical")); // set MoveY var in animator
         anim.SetBool("PlayerMoving", playerMoving); // set PlayerMoving var in animator
         anim.SetFloat("LastMoveX", lastMove.x); // set LastMoveX var in animator
-        anim.SetFloat("LastMoveY", lastMove.y); // set LastMoveY var in animator*/
+        anim.SetFloat("LastMoveY", lastMove.y); // set LastMoveY var in animator
     }
 
     void FixedUpdate()
