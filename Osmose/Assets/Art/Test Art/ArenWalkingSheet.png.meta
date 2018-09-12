@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: f44826a8e084aa94598b96577d00291b
-timeCreated: 1533698964
+timeCreated: 1536650257
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -85,12 +85,12 @@ TextureImporter:
       name: ArenWalkingSheet_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 384
-        width: 128
-        height: 128
+        x: 30
+        y: 387
+        width: 67
+        height: 121
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -98,12 +98,12 @@ TextureImporter:
       name: ArenWalkingSheet_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 154
         y: 384
-        width: 128
-        height: 128
+        width: 70
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -111,25 +111,25 @@ TextureImporter:
       name: ArenWalkingSheet_2
       rect:
         serializedVersion: 2
-        x: 256
+        x: 288
         y: 384
-        width: 128
-        height: 128
+        width: 61
+        height: 127
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 32, y: 2, z: 27, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
       name: ArenWalkingSheet_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
-        width: 128
-        height: 128
+        x: 42
+        y: 261
+        width: 43
+        height: 118
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -137,12 +137,12 @@ TextureImporter:
       name: ArenWalkingSheet_4
       rect:
         serializedVersion: 2
-        x: 128
-        y: 256
-        width: 128
-        height: 128
+        x: 170
+        y: 259
+        width: 43
+        height: 118
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -150,12 +150,12 @@ TextureImporter:
       name: ArenWalkingSheet_5
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
-        width: 128
-        height: 128
+        x: 299
+        y: 258
+        width: 43
+        height: 121
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -163,12 +163,12 @@ TextureImporter:
       name: ArenWalkingSheet_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 128
-        width: 128
-        height: 128
+        x: 36
+        y: 130
+        width: 51
+        height: 123
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -176,12 +176,12 @@ TextureImporter:
       name: ArenWalkingSheet_7
       rect:
         serializedVersion: 2
-        x: 128
-        y: 128
-        width: 128
-        height: 128
+        x: 166
+        y: 130
+        width: 56
+        height: 125
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -189,12 +189,12 @@ TextureImporter:
       name: ArenWalkingSheet_8
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 128
-        height: 128
+        x: 291
+        y: 130
+        width: 50
+        height: 122
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -202,12 +202,12 @@ TextureImporter:
       name: ArenWalkingSheet_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 128
-        height: 128
+        x: 45
+        y: 5
+        width: 38
+        height: 117
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -215,12 +215,12 @@ TextureImporter:
       name: ArenWalkingSheet_10
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
-        width: 128
-        height: 128
+        x: 172
+        y: 3
+        width: 39
+        height: 120
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -228,12 +228,12 @@ TextureImporter:
       name: ArenWalkingSheet_11
       rect:
         serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
+        x: 299
+        y: 3
+        width: 41
+        height: 120
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

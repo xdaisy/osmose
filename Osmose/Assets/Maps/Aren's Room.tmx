@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="left-down" width="9" height="8" tilewidth="128" tileheight="128" infinite="0" nextobjectid="1">
+ <properties>
+  <property name="unity:scale" type="float" value="0.0078125"/>
+ </properties>
+ <tileset firstgid="1" source="Room Sprite 1.tsx"/>
+ <tileset firstgid="7" source="Collision.tsx"/>
+ <layer name="Tile Layer 1" width="9" height="8">
+  <data encoding="csv">
+0,6,6,6,6,6,6,6,0,
+0,6,6,6,6,6,6,6,0,
+0,5,5,5,5,5,5,5,0,
+0,5,5,5,5,5,5,5,0,
+0,5,5,5,5,5,5,5,0,
+0,5,5,5,5,5,5,5,0,
+0,5,5,5,5,5,5,5,0,
+0,0,5,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Collision" width="9" height="8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,
+0,7,7,7,7,7,7,7,0,
+7,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,7,
+7,0,0,0,0,0,0,0,7,
+0,7,0,7,7,7,7,7,0
+</data>
+ </layer>
+</map>
