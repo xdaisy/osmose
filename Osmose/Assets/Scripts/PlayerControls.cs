@@ -16,8 +16,6 @@ public class PlayerControls : MonoBehaviour {
     private static bool playerExists; // keep track if player exist
     // all object with playercontroller attach will have playerExists bool
 
-    private Vector2 vel; // need this for FixedUpdate so that can move in x-direction 
-
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>(); // get animator for player
@@ -41,7 +39,6 @@ public class PlayerControls : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        //myRigidBody.velocity = vel;
         playerMoving = false; // default to false at start of every frame
 
         float xInput = Input.GetAxisRaw("Horizontal");
