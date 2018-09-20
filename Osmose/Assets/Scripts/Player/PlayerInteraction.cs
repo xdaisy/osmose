@@ -13,7 +13,7 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetButtonDown("Interact") && currentInterObject) {
+        if(Input.GetButtonUp("Interact") && currentInterObject) {
             // if the button is the interact button, interact with interactable object
             if (currInterObjScript.talks) {
                 // talks if interactable object has a message

@@ -8,9 +8,11 @@ public class InteractionObject : MonoBehaviour {
 
     public string message; // message this object will give to player
 
+    private Dialogue dialogue; // dialogue manager that will send the message to
+
     // Use this for initialization
     void Start() {
-
+        dialogue = FindObjectOfType<Dialogue>();
     }
 
     // Update is called once per frame
@@ -24,6 +26,6 @@ public class InteractionObject : MonoBehaviour {
 
     // talk if this object has a message
     public void Talk() {
-        
+        dialogue.showText(message);
     }
 }
