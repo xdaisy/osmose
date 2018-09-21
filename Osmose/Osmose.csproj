@@ -80,7 +80,7 @@
     <Compile Include="Assets\Scripts\DialogueManager.cs" />
     <Compile Include="Assets\Scripts\Interaction\Dialogue.cs" />
     <Compile Include="Assets\Scripts\Interaction\InteractionObject.cs" />
-    <Compile Include="Assets\Scripts\Interaction\NPCWander.cs" />
+    <Compile Include="Assets\Scripts\Interaction\NPCFacing.cs" />
     <Compile Include="Assets\Scripts\OnlyKeyboardInputModule.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerControls.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInteraction.cs" />

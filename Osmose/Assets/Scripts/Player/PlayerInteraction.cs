@@ -16,6 +16,13 @@ public class PlayerInteraction : MonoBehaviour {
         if(Input.GetButtonUp("Interact") && currentInterObject) {
             // if the button is the interact button, interact with interactable object
             if (currInterObjScript.talks) {
+                NPCFacing faceDir = currentInterObject.GetComponent<NPCFacing>(); // have if npc
+                if (faceDir != null) {
+                    Animator anim = GetComponent<Animator>(); // get the animator for player
+                    float x = anim.GetFloat("LastMoveX");
+                    float y = anim.GetFloat("LastMoveY");
+                    faceDir.setFaceDirection(-1f * x, -1f * y); // set the npc to face the player
+                }
                 // talks if interactable object has a message
                 currInterObjScript.Talk();
             }
@@ -25,7 +32,7 @@ public class PlayerInteraction : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("interactableObject")) {
             currentInterObject = other.gameObject; // if game object of other is interable, set currentInterObject to it
-            currInterObjScript = currentInterObject.GetComponent<InteractionObject>(); // get the object's interaction script
+            currInterObjScript = currentInterObject.GetComponent<InteractionObject>(); // get the object's interaction 
         }
     }
 

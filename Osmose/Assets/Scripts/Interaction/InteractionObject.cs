@@ -26,6 +26,7 @@ public class InteractionObject : MonoBehaviour {
 
     // talk if this object has a message
     public void Talk() {
-        dialogue.showText(message);
+        //dialogue.showText(message);
+        Debug.Log(message);
     }
 }
