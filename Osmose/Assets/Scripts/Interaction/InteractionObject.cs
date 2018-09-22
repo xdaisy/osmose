@@ -10,6 +10,8 @@ public class InteractionObject : MonoBehaviour {
 
     private Dialogue dialogue; // dialogue manager that will send the message to
 
+    public string[] dialogueLines; // lines of dialogue
+
     // Use this for initialization
     void Start() {
         dialogue = FindObjectOfType<Dialogue>();
@@ -27,6 +29,9 @@ public class InteractionObject : MonoBehaviour {
     // talk if this object has a message
     public void Talk() {
         //dialogue.showText(message);
-        Debug.Log(message);
+        //Debug.Log(message);
+        dialogue.dialogueLines = this.dialogueLines;
+        dialogue.currentLine = 0;
+        dialogue.ShowDialogue();
     }
 }
