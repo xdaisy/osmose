@@ -8,13 +8,13 @@ public class InteractionObject : MonoBehaviour {
 
     public string message; // message this object will give to player
 
-    private Dialogue dialogue; // dialogue manager that will send the message to
+    private Dialogue dMang; // dialogue manager that will send the message to
 
     public string[] dialogueLines; // lines of dialogue
 
     // Use this for initialization
     void Start() {
-        dialogue = FindObjectOfType<Dialogue>();
+        dMang = FindObjectOfType<Dialogue>();
     }
 
     // Update is called once per frame
@@ -30,8 +30,11 @@ public class InteractionObject : MonoBehaviour {
     public void Talk() {
         //dialogue.showText(message);
         //Debug.Log(message);
-        dialogue.dialogueLines = this.dialogueLines;
-        dialogue.currentLine = 0;
-        dialogue.ShowDialogue();
+        if (!dMang.dialogueActive) {
+            // shows if dialogue already not showing
+            dMang.dialogueLines = this.dialogueLines;
+            dMang.currentLine = 0;
+            dMang.ShowDialogue();
+        }
     }
 }
