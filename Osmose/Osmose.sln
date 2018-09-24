@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Osmose", "Osmose.csproj", "{74B575DE-4809-6B9A-1C07-2639DBDB4B4A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{EBD5456D-C4F9-1780-D8C5-2AE4EA12EB1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Osmose.Editor", "Osmose.Editor.csproj", "{4B92F234-1AE1-2B0D-4166-8D5347F11DF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{77741E0B-604B-E834-E310-0E4B5557B88F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74B575DE-4809-6B9A-1C07-2639DBDB4B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74B575DE-4809-6B9A-1C07-2639DBDB4B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74B575DE-4809-6B9A-1C07-2639DBDB4B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74B575DE-4809-6B9A-1C07-2639DBDB4B4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B92F234-1AE1-2B0D-4166-8D5347F11DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B92F234-1AE1-2B0D-4166-8D5347F11DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B92F234-1AE1-2B0D-4166-8D5347F11DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B92F234-1AE1-2B0D-4166-8D5347F11DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD5456D-C4F9-1780-D8C5-2AE4EA12EB1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD5456D-C4F9-1780-D8C5-2AE4EA12EB1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD5456D-C4F9-1780-D8C5-2AE4EA12EB1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD5456D-C4F9-1780-D8C5-2AE4EA12EB1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77741E0B-604B-E834-E310-0E4B5557B88F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77741E0B-604B-E834-E310-0E4B5557B88F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77741E0B-604B-E834-E310-0E4B5557B88F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77741E0B-604B-E834-E310-0E4B5557B88F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
