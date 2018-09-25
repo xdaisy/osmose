@@ -13,13 +13,37 @@ public class Dialogue : MonoBehaviour {
     public string[] dialogueLines; // lines of dialogue
     public int currentLine; // current line of dialogue
 
+    private static bool dialogueManagerExist;
+
+    private PlayerControls player; // controls of player
+
 	// Use this for initialization
 	void Start () {
+        player = FindObjectOfType<PlayerControls>();
+
+        if (!dialogueManagerExist) {
+            dialogueManagerExist = true;
+            DontDestroyOnLoad(transform.gameObject);
+        } else {
+            Destroy(gameObject);
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (dialogueActive && Input.GetButtonDown("Interact")) {
+	}
+
+    // start the dialogue
+    public void ShowDialogue() {
+        dialogueActive = true;
+        dBox.SetActive(true);
+        dText.text = dialogueLines[currentLine];
+        player.setCanMove(false); // make player not be able to move
+    }
+
+    // progress the dialogue
+    public void ShowNextLine() {
+        if (dialogueActive) {
             currentLine++;
         }
         if (currentLine >= dialogueLines.Length) {
@@ -27,18 +51,9 @@ public class Dialogue : MonoBehaviour {
             dialogueActive = false;
 
             currentLine = 0;
+
+            player.setCanMove(true); // allow player to move again
         }
         dText.text = dialogueLines[currentLine];
-	}
-
-    public void showText(string dialogue) {
-        dialogueActive = true;
-        dBox.SetActive(true);
-        dText.text = dialogue;
-    }
-
-    public void ShowDialogue() {
-        dialogueActive = true;
-        dBox.SetActive(true);
     }
 }

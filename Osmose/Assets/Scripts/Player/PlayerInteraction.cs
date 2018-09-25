@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour {
 
-    public GameObject currentInterObject = null;
-    public InteractionObject currInterObjScript = null;
+    private GameObject currentInterObject = null;
+    private InteractionObject currInterObjScript = null;
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +13,7 @@ public class PlayerInteraction : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetButtonUp("Interact") && currentInterObject) {
+        if(Input.GetButtonDown("Interact") && currentInterObject) {
             // if the button is the interact button, interact with interactable object
             if (currInterObjScript.talks) {
                 NPCFacing faceDir = currentInterObject.GetComponent<NPCFacing>(); // have if npc
@@ -22,6 +22,7 @@ public class PlayerInteraction : MonoBehaviour {
                     float x = anim.GetFloat("LastMoveX");
                     float y = anim.GetFloat("LastMoveY");
                     faceDir.setFaceDirection(-1f * x, -1f * y); // set the npc to face the player
+                    faceDir.setCanMove(false); // make the npc not move during dialogue
                 }
                 // talks if interactable object has a message
                 currInterObjScript.Talk();

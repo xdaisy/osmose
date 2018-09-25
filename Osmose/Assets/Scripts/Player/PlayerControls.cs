@@ -16,10 +16,14 @@ public class PlayerControls : MonoBehaviour {
     private static bool playerExists; // keep track if player exist
     // all object with playercontroller attach will have playerExists bool
 
+    private bool canMove; // determines if player can move or not
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>(); // get animator for player
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
+
+        canMove = true;
 
         // don't destroy object on load if player don't exist
         if (!playerExists)
@@ -39,6 +43,13 @@ public class PlayerControls : MonoBehaviour {
     }
 
     void FixedUpdate() {
+        
+        if (!canMove) {
+            // if can't move, make the velocity zero so not moving
+            myRigidBody.velocity = Vector2.zero;
+            return;
+        }
+
         playerMoving = false; // default to false at start of every frame
 
         float xInput = Input.GetAxisRaw("Horizontal");
@@ -74,5 +85,13 @@ public class PlayerControls : MonoBehaviour {
         anim.SetBool("PlayerMoving", playerMoving); // set PlayerMoving var in animator
         anim.SetFloat("LastMoveX", lastMove.x); // set LastMoveX var in animator
         anim.SetFloat("LastMoveY", lastMove.y); // set LastMoveY var in animator
+    }
+
+    public void setCanMove(bool canMove) {
+        this.canMove = canMove;
+    }
+
+    public bool getCanMove() {
+        return this.canMove;
     }
 }

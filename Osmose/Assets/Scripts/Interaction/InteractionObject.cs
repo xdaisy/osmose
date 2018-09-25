@@ -6,8 +6,6 @@ public class InteractionObject : MonoBehaviour {
 
     public bool talks; // if true, object here can talk to player
 
-    public string message; // message this object will give to player
-
     private Dialogue dMang; // dialogue manager that will send the message to
 
     public string[] dialogueLines; // lines of dialogue
@@ -22,10 +20,6 @@ public class InteractionObject : MonoBehaviour {
 
     }
 
-    void DoInteraction() {
-
-    }
-
     // talk if this object has a message
     public void Talk() {
         //dialogue.showText(message);
@@ -35,6 +29,9 @@ public class InteractionObject : MonoBehaviour {
             dMang.dialogueLines = this.dialogueLines;
             dMang.currentLine = 0;
             dMang.ShowDialogue();
+        } else {
+            // if dialogue is showing, go to next line
+            dMang.ShowNextLine();
         }
     }
 }
