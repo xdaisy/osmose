@@ -7,11 +7,12 @@ public class Dialogue : MonoBehaviour {
 
     public GameObject dBox; // dialogue box
     public Text dText; // dialogue text
+    public Text dName; // name of dialogue 
 
-    public bool dialogueActive; // check if dialogue box is visible
+    private bool dialogueActive; // check if dialogue box is visible
 
-    public string[] dialogueLines; // lines of dialogue
-    public int currentLine; // current line of dialogue
+    private string[] dialogueLines; // lines of dialogue
+    private int currentLine; // current line of dialogue
 
     private static bool dialogueManagerExist;
 
@@ -55,5 +56,21 @@ public class Dialogue : MonoBehaviour {
             player.setCanMove(true); // allow player to move again
         }
         dText.text = dialogueLines[currentLine];
+    }
+
+    public void setDialogueLines(string[] dialogueLines) {
+        this.dialogueLines = dialogueLines;
+    }
+
+    public bool getDialogueActive() {
+        return this.dialogueActive;
+    }
+
+    public void setCurrentLine(int currentLine) {
+        this.currentLine = currentLine;
+    }
+
+    public void setName(string name) {
+        this.dName.text = name;
     }
 }

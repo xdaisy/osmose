@@ -24,7 +24,7 @@ public class NPCFacing : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(!dMang.dialogueActive) {
+        if(!dMang.getDialogueActive()) {
             // set canMove back to true if dialogue is not active aka no dialogue on screen
             canMove = true;
         }

@@ -31,14 +31,14 @@ public class PlayerInteraction : MonoBehaviour {
 	}
 
     void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("interactableObject")) {
+        if (other.CompareTag("interactableObject") || other.CompareTag("NPC")) {
             currentInterObject = other.gameObject; // if game object of other is interable, set currentInterObject to it
             currInterObjScript = currentInterObject.GetComponent<InteractionObject>(); // get the object's interaction 
         }
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (other.CompareTag("interactableObject")) {
+        if (other.CompareTag("interactableObject") || other.CompareTag("NPC")) {
             if (other.gameObject == currentInterObject) {
                 currentInterObject = null; // if getting out of range of interable object, set currentInterObject to null
                 currInterObjScript = null; // set to null if get out of range of interactable object

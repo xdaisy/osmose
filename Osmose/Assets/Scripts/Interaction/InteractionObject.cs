@@ -10,6 +10,8 @@ public class InteractionObject : MonoBehaviour {
 
     public string[] dialogueLines; // lines of dialogue
 
+    public string personTalkingName; // name of person talking in dialogue
+
     // Use this for initialization
     void Start() {
         dMang = FindObjectOfType<Dialogue>();
@@ -24,10 +26,12 @@ public class InteractionObject : MonoBehaviour {
     public void Talk() {
         //dialogue.showText(message);
         //Debug.Log(message);
-        if (!dMang.dialogueActive) {
+        if (!dMang.getDialogueActive()) {
             // shows if dialogue already not showing
-            dMang.dialogueLines = this.dialogueLines;
-            dMang.currentLine = 0;
+            //dMang.dialogueLines = this.dialogueLines;
+            dMang.setDialogueLines(this.dialogueLines);
+            dMang.setCurrentLine(0);
+            dMang.setName(personTalkingName);
             dMang.ShowDialogue();
         } else {
             // if dialogue is showing, go to next line
