@@ -46,9 +46,17 @@ public class CutsceneManager : MonoBehaviour {
             }
             if (line.Contains(":")) {
                 // if line contains :, then is name
-                string[] person = line.Split('-');
+                string name = "";
+                if (line.Contains("-")) {
+                    // if have -, person talking have a specific sprite associating with text
+                    string[] person = line.Split('-');
+                    name = person[0];
+                } else {
+                    // if no -, then line is name of person talking
+                    name = line;
+                }
 
-                dName.text = person[0]; // name of person talking is always first word
+                dName.text = name; // name of person talking is always first word
                 line = reader.ReadLine(); // name of person talking always followed by lines of text
             }
 
