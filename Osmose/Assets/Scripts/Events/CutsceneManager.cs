@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CutsceneManager : MonoBehaviour {
 
@@ -14,6 +15,9 @@ public class CutsceneManager : MonoBehaviour {
 
     public Text dText;
     public Text dName;
+    public Image talkingSprite;
+
+    public string sceneToLoad;
 
 	// Use this for initialization
 	void Start () {
@@ -22,8 +26,18 @@ public class CutsceneManager : MonoBehaviour {
 
         // get name of person saying first line of dialogue in cutscene
         string line = reader.ReadLine();
-        string[] person = line.Split('-');
-        dName.text = person[0];
+        line = line.Remove(line.Length - 1);
+        string name = "";
+        if (line.Contains("-")) {
+            string[] person = line.Split('-');
+            name = person[0];
+
+            string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
+            Sprite personSprite = Resources.Load<Sprite>(spritePath);
+            talkingSprite.sprite = personSprite;
+        }
+
+        dName.text = name;
 
         // get first line of dialogue in cutscene
         line = reader.ReadLine();
@@ -36,7 +50,11 @@ public class CutsceneManager : MonoBehaviour {
 
             if(reader.EndOfStream) {
                 // if reader is at the end of the file, don't do anything
-                return;
+                string[] path = cutsceneTxtPath.Split('/');
+                string[] fileName = path[path.Length - 1].Split('.');
+                string eventName = fileName[0];
+                CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
+                SceneManager.LoadScene(sceneToLoad);
             }
 
             string line = reader.ReadLine();
@@ -45,12 +63,18 @@ public class CutsceneManager : MonoBehaviour {
                 line = reader.ReadLine();
             }
             if (line.Contains(":")) {
+                line = line.Remove(line.Length - 1); // remove :
                 // if line contains :, then is name
                 string name = "";
                 if (line.Contains("-")) {
                     // if have -, person talking have a specific sprite associating with text
                     string[] person = line.Split('-');
                     name = person[0];
+
+                    // change image of person talking
+                    string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
+                    Sprite personSprite = Resources.Load<Sprite>(spritePath);
+                    talkingSprite.sprite = personSprite;
                 } else {
                     // if no -, then line is name of person talking
                     name = line;
