@@ -30,14 +30,9 @@ public class CutsceneManager : MonoBehaviour {
         // get name of person saying first line of dialogue in cutscene
         string line = reader.ReadLine();
         line = line.Remove(line.Length - 1);
-        string name = "";
+        string name = line;
         if (line.Contains("-")) {
-            string[] person = line.Split('-');
-            name = person[0];
-
-            string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
-            Sprite personSprite = Resources.Load<Sprite>(spritePath);
-            talkingSprite.sprite = personSprite;
+            name = ChangeSprite(line);
         }
 
         dName.text = name;
@@ -55,7 +50,7 @@ public class CutsceneManager : MonoBehaviour {
                 // if reader is at the end of the file, don't do anything
                 string[] path = cutsceneTxtPath.Split('/');
                 string[] fileName = path[path.Length - 1].Split('.');
-                string eventName = fileName[0];
+                string eventName = fileName[0]; // get name of cutscene
                 CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
                 StartCoroutine(Fade()); // fade to next scene
             }
@@ -66,21 +61,11 @@ public class CutsceneManager : MonoBehaviour {
                 line = reader.ReadLine();
             }
             if (line.Contains(":")) {
-                line = line.Remove(line.Length - 1); // remove :
                 // if line contains :, then is name
-                string name = "";
+                line = line.Remove(line.Length - 1); // remove :
+                string name = line;
                 if (line.Contains("-")) {
-                    // if have -, person talking have a specific sprite associating with text
-                    string[] person = line.Split('-');
-                    name = person[0];
-
-                    // change image of person talking
-                    string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
-                    Sprite personSprite = Resources.Load<Sprite>(spritePath);
-                    talkingSprite.sprite = personSprite;
-                } else {
-                    // if no -, then line is name of person talking
-                    name = line;
+                    name = ChangeSprite(line);
                 }
 
                 dName.text = name; // name of person talking is always first word
@@ -90,6 +75,17 @@ public class CutsceneManager : MonoBehaviour {
             dText.text = line;
         }
 	}
+
+    private string ChangeSprite(string line) {
+        string[] person = line.Split('-'); // split name from expression
+        name = person[0];
+
+        string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
+        Sprite personSprite = Resources.Load<Sprite>(spritePath);
+        talkingSprite.sprite = personSprite;
+
+        return name;
+    }
 
     IEnumerator Fade() {
         fadeAnim.SetBool("Fade", true);

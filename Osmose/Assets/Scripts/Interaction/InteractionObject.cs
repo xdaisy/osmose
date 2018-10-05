@@ -21,6 +21,7 @@ public class InteractionObject : MonoBehaviour {
         dMang = FindObjectOfType<Dialogue>();
         if (this.CompareTag("NPC")) {
             // if this is an npc, npc is talking
+            Debug.Log("npc " + this.name);
             personTalking = this.name;
         } else {
             // else this the player's thoughts/observation
