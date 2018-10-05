@@ -22,12 +22,12 @@ public class Dialogue : MonoBehaviour {
 	void Start () {
         player = FindObjectOfType<PlayerControls>();
 
-        if (!dialogueManagerExist) {
-            dialogueManagerExist = true;
-            DontDestroyOnLoad(transform.gameObject);
-        } else {
-            Destroy(gameObject);
-        }
+        //if (!dialogueManagerExist) {
+        //    dialogueManagerExist = true;
+        //    DontDestroyOnLoad(transform.gameObject);
+        //} else {
+        //    Destroy(gameObject);
+        //}
 	}
 	
 	// Update is called once per frame

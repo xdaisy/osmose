@@ -19,6 +19,9 @@ public class CutsceneManager : MonoBehaviour {
 
     public string sceneToLoad;
 
+    public Image fadeScreen;
+    public Animator fadeAnim;
+
 	// Use this for initialization
 	void Start () {
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
@@ -54,7 +57,7 @@ public class CutsceneManager : MonoBehaviour {
                 string[] fileName = path[path.Length - 1].Split('.');
                 string eventName = fileName[0];
                 CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
-                SceneManager.LoadScene(sceneToLoad);
+                StartCoroutine(Fade()); // fade to next scene
             }
 
             string line = reader.ReadLine();
@@ -87,4 +90,10 @@ public class CutsceneManager : MonoBehaviour {
             dText.text = line;
         }
 	}
+
+    IEnumerator Fade() {
+        fadeAnim.SetBool("Fade", true);
+        yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
+        SceneManager.LoadScene(sceneToLoad);
+    }
 }
