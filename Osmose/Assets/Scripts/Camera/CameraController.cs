@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        transform.position = new Vector3(followTarget.transform.position.x, followTarget.transform.position.y, -10f); // set on player
+        transform.position = new Vector3(followTarget.transform.position.x, followTarget.transform.position.y, transform.position.z); // set on player
         if (!cameraExists)
         {
             cameraExists = true;
