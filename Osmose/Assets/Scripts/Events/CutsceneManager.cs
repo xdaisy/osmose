@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class CutsceneManager : MonoBehaviour {
 
@@ -27,19 +28,7 @@ public class CutsceneManager : MonoBehaviour {
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
         reader = sourceFile.OpenText(); // open the file to read
 
-        // get name of person saying first line of dialogue in cutscene
-        string line = reader.ReadLine();
-        line = line.Remove(line.Length - 1);
-        string name = line;
-        if (line.Contains("-")) {
-            name = ChangeSprite(line);
-        }
-
-        dName.text = name;
-
-        // get first line of dialogue in cutscene
-        line = reader.ReadLine();
-        dText.text = line;
+        ChangeText(); // show the first line of dialogue
 	}
 	
 	// Update is called once per frame
@@ -55,31 +44,46 @@ public class CutsceneManager : MonoBehaviour {
                 StartCoroutine(Fade()); // fade to next scene
             }
 
-            string line = reader.ReadLine();
-            while(line.Length == 0) {
-                // don't show empty strings
-                line = reader.ReadLine();
-            }
-            if (line.Contains(":")) {
-                // if line contains :, then is name
-                line = line.Remove(line.Length - 1); // remove :
-                string name = line;
-                if (line.Contains("-")) {
-                    name = ChangeSprite(line);
-                }
-
-                dName.text = name; // name of person talking is always first word
-                line = reader.ReadLine(); // name of person talking always followed by lines of text
-            }
-
-            dText.text = line;
+            ChangeText();
         }
 	}
 
+    private void ChangeText() {
+        string line = reader.ReadLine();
+        while (line.Length == 0) {
+            // don't show empty strings
+            line = reader.ReadLine();
+        }
+        if (line.Contains(":")) {
+            // if line contains :, then is name
+            line = line.Remove(line.Length - 1); // remove :
+            string name = line;
+            if (line.Contains("-")) {
+                name = ChangeSprite(line);
+            } else if(name.Equals("Portraitless")) {
+                // do NOT want to show sprite
+                talkingSprite.enabled = false;
+                name = ""; // set name to empty string
+            }
+
+            dName.text = name; // name of person talking is always first word
+            line = reader.ReadLine(); // name of person talking always followed by lines of text
+        }
+
+        if (line.Contains("\\n")) {
+            // be able to place new lines in the dialogue box
+            line = line.Replace("\\n", Environment.NewLine); // replace \n with new line
+        }
+
+        dText.text = line;
+    }
+
+    // changes the portrait of the person talking
     private string ChangeSprite(string line) {
         string[] person = line.Split('-'); // split name from expression
         name = person[0];
 
+        talkingSprite.enabled = true; // want to show sprite
         string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
         Sprite personSprite = Resources.Load<Sprite>(spritePath);
         talkingSprite.sprite = personSprite;
