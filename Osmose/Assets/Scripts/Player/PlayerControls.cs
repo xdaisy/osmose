@@ -34,16 +34,13 @@ public class PlayerControls : MonoBehaviour {
         movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
 
         // don't destroy object on load if player don't exist
-        //if (!playerExists)
-        //{
-        //    playerExists = true;
-        //    DontDestroyOnLoad(transform.gameObject);
-        //}
-        //else
-        //{
-        //    // if another player exists, destroy game object
-        //    Destroy(gameObject);
-        //}
+        if (!playerExists) {
+            playerExists = true;
+            DontDestroyOnLoad(transform.gameObject);
+        } else {
+            // if another player exists, destroy game object
+            Destroy(gameObject);
+        }
     }
 	
 	// Update is called once per frame
