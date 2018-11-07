@@ -23,6 +23,8 @@ public class CutsceneManager : MonoBehaviour {
     public Image fadeScreen;
     public Animator fadeAnim;
 
+    public Vector2 newPlayerPos;
+
 	// Use this for initialization
 	void Start () {
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
@@ -92,8 +94,11 @@ public class CutsceneManager : MonoBehaviour {
     }
 
     IEnumerator Fade() {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
+        player.transform.Translate(new Vector3(newPlayerPos.x - player.transform.position.x, newPlayerPos.y - player.transform.position.y, 0f));
         SceneManager.LoadScene(sceneToLoad);
     }
 }

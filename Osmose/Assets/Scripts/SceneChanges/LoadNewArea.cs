@@ -11,6 +11,8 @@ public class LoadNewArea : MonoBehaviour {
     public Image fadeScreen;
     public Animator fadeAnim;
 
+    public Vector2 newPlayerPos;
+
 	// Use this for initialization
 	void Start () {
 
@@ -24,13 +26,14 @@ public class LoadNewArea : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player")) {
             //SceneManager.LoadScene(sceneToLoad);
-            StartCoroutine(Fade());
+            StartCoroutine(Fade(other));
         }
     }
 
-    IEnumerator Fade() {
+    IEnumerator Fade(Collider2D other) {
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
+        other.transform.Translate(new Vector3(newPlayerPos.x - other.transform.position.x, newPlayerPos.y - other.transform.position.y, 0f));
         SceneManager.LoadScene(sceneToLoad);
     }
 }
