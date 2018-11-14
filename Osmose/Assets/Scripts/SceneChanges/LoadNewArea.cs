@@ -13,6 +13,8 @@ public class LoadNewArea : MonoBehaviour {
 
     public Vector2 newPlayerPos;
 
+    public bool isBattleMap;
+
 	// Use this for initialization
 	void Start () {
 
@@ -34,6 +36,7 @@ public class LoadNewArea : MonoBehaviour {
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
         other.transform.Translate(new Vector3(newPlayerPos.x - other.transform.position.x, newPlayerPos.y - other.transform.position.y, 0f));
+        other.GetComponent<PlayerControls>().isBattleMap = this.isBattleMap;
         SceneManager.LoadScene(sceneToLoad);
     }
 }
