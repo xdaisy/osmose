@@ -102,7 +102,7 @@ public class CutsceneManager : MonoBehaviour {
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
         player.transform.Translate(new Vector3(newPlayerPos.x - player.transform.position.x, newPlayerPos.y - player.transform.position.y, 0f));
-        player.isBattleMap = this.isBattleMap;
+        player.IsBattleMap = this.isBattleMap;
         SceneManager.LoadScene(sceneToLoad);
     }
 }

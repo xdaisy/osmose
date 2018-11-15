@@ -36,7 +36,7 @@ public class LoadNewArea : MonoBehaviour {
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
         other.transform.Translate(new Vector3(newPlayerPos.x - other.transform.position.x, newPlayerPos.y - other.transform.position.y, 0f));
-        other.GetComponent<PlayerControls>().isBattleMap = this.isBattleMap;
+        other.GetComponent<PlayerControls>().IsBattleMap = this.isBattleMap;
         SceneManager.LoadScene(sceneToLoad);
     }
 }

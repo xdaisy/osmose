@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour {
 
-    public float moveSpeed; // move speed for the character
+    public float MoveSpeed; // move speed for the character
 
-    public bool isBattleMap; // determines if battle occurs on map
+    public bool IsBattleMap; // determines if battle occurs on map
 
     private Animator anim; // reference to animator
 
@@ -48,7 +48,7 @@ public class PlayerControls : MonoBehaviour {
 
     void FixedUpdate() {
 
-        if (isBattleMap && amountPlayerMoved >= movementTilEncounter) {
+        if (IsBattleMap && amountPlayerMoved >= movementTilEncounter) {
             Debug.Log("Random encounter");
             amountPlayerMoved = 0f; // reset the amount that the player has moved
             movementTilEncounter = UnityEngine.Random.Range(300f, 500f); // new amount of movement until random encounter
@@ -68,19 +68,19 @@ public class PlayerControls : MonoBehaviour {
         // if player is pressing right or left
         if (xInput > 0.5f || xInput < -0.5f) {
             //transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-            myRigidBody.velocity = new Vector2(xInput * moveSpeed, myRigidBody.velocity.y); // change x-axis velocity for rigidbody
+            myRigidBody.velocity = new Vector2(xInput * MoveSpeed, myRigidBody.velocity.y); // change x-axis velocity for rigidbody
             playerMoving = true; // is moving right/left so true
             lastMove = new Vector2(xInput, 0f); // last move input for x direction
-            amountPlayerMoved += Math.Abs(xInput * moveSpeed);
+            amountPlayerMoved += Math.Abs(xInput * MoveSpeed);
         }
 
         // if player is pressing up or down
         if (yInput > 0.5f || yInput < -0.5f) {
             //transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, yInput * moveSpeed); // change y-axis velocity for rigidbody
+            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, yInput * MoveSpeed); // change y-axis velocity for rigidbody
             playerMoving = true; // is moving up/down so true
             lastMove = new Vector2(0f, yInput); // last move input for y direction
-            amountPlayerMoved += Math.Abs(yInput * moveSpeed);
+            amountPlayerMoved += Math.Abs(yInput * MoveSpeed);
         }
 
         // no force if no input from controls in x direction
@@ -99,11 +99,11 @@ public class PlayerControls : MonoBehaviour {
         anim.SetFloat("LastMoveY", lastMove.y); // set LastMoveY var in animator
     }
 
-    public void setCanMove(bool canMove) {
+    public void SetCanMove(bool canMove) {
         this.canMove = canMove;
     }
 
-    public bool getCanMove() {
+    public bool GetCanMove() {
         return this.canMove;
     }
 }
