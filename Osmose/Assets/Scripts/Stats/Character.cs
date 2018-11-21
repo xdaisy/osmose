@@ -133,10 +133,56 @@ public class Character {
     /// </summary>
     /// <param name="hitpoint">Amount of HP to recover</param>
     public void RecoverHP(float hitpoints) {
-        if (GetCurrentHP() + hitpoints > GetMaxHP()) {
+        if (GetCurrentHP() + hitpoints >= GetMaxHP()) {
             currentHP.BaseValue = GetMaxHP();
         } else {
             currentHP.BaseValue += hitpoints;
+        }
+    }
+
+    /// <summary>
+    /// Recover character's SP
+    /// </summary>
+    /// <param name="skillpoints">Amount of SP to recover</param>
+    public void RecoverSP(float skillpoints) {
+        if (GetCurrentSP() + skillpoints >= GetMaxSP()) {
+            currentSP.BaseValue = GetMaxHP();
+        } else {
+            currentSP.BaseValue += skillpoints;
+        }
+    }
+
+    /// <summary>
+    /// Buff the stat
+    /// </summary>
+    /// <param name="stat">Stat to buff</param>
+    /// <param name="buffer">Amount to buff</param>
+    public void Buff(StatType stat, StatModifier buffer) {
+        if (stat == StatType.ATTACK) {
+
+        } else if (stat == StatType.DEFENSE) {
+
+        } else if (stat == StatType.LUCK) {
+
+        } else if (stat == StatType.SPEED) {
+
+        }
+    }
+
+    /// <summary>
+    /// Debuff the stat
+    /// </summary>
+    /// <param name="stat">Stat to debuff</param>
+    /// <param name="debuffer">Amount to debuff</param>
+    public void Debuff(StatType stat, StatModifier debuffer) {
+        if (stat == StatType.ATTACK) {
+
+        } else if (stat == StatType.DEFENSE) {
+
+        } else if (stat == StatType.LUCK) {
+
+        } else if (stat == StatType.SPEED) {
+
         }
     }
 
