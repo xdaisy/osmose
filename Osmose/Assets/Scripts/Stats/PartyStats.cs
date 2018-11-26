@@ -137,17 +137,39 @@ public class PartyStats {
     /// Buff the stat of the character
     /// </summary>
     /// <param name="name">Name of the character</param>
+    /// <param name="stat">Type of the stat to buff</param>
     /// <param name="buffer">Amount to buff</param>
-    public void Buff(string name, StatModifier buffer) {
+    public void Buff(string name, StatType stat, StatModifier buffer) {
+        party[name].Buff(stat, buffer);
+    }
 
+    /// <summary>
+    /// Remove the buffs from a character
+    /// </summary>
+    /// <param name="name">Name of the character to remove the buff</param>
+    /// <param name="stat">Type of stat of the buff</param>
+    /// <param name="buffer">Buff to remove</param>
+    public void RemoveBuff(string name, StatType stat, StatModifier buffer) {
+        
     }
 
     /// <summary>
     /// Debuff the stat of the character
     /// </summary>
     /// <param name="name">Name of the character</param>
+    /// <param name="stat">Type of the stat to debuff</param>
     /// <param name="debuffer">Amount to debuff</param>
-    public void Debuff(string name, StatModifier debuffer) {
+    public void Debuff(string name, StatType stat, StatModifier debuffer) {
+        party[name].Debuff(stat, debuffer);
+    }
 
+    /// <summary>
+    /// Remove the debuff from a character
+    /// </summary>
+    /// <param name="name">Name of the character to remove the debuff from</param>
+    /// <param name="stat">Type of the stat of the debuff</param>
+    /// <param name="debuffer">Debuff to remove</param>
+    public void RemoveDebuff(string name, StatType stat, StatModifier debuffer) {
+        party[name].RemoveDebuff(stat, debuffer);
     }
 }

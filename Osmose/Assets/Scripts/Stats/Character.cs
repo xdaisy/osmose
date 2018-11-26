@@ -159,13 +159,30 @@ public class Character {
     /// <param name="buffer">Amount to buff</param>
     public void Buff(StatType stat, StatModifier buffer) {
         if (stat == StatType.ATTACK) {
-
+            attack.AddModifier(buffer);
         } else if (stat == StatType.DEFENSE) {
-
+            defense.AddModifier(buffer);
         } else if (stat == StatType.LUCK) {
-
+            luck.AddModifier(buffer);
         } else if (stat == StatType.SPEED) {
-
+            speed.AddModifier(buffer);
+        }
+    }
+    
+    /// <summary>
+    /// Remove the buff from the character
+    /// </summary>
+    /// <param name="stat">Stat to remove the buff</param>
+    /// <param name="buffer">Amount of buff to remove</param>
+    public void RemoveBuff(StatType stat, StatModifier buffer) {
+        if (stat == StatType.ATTACK) {
+            attack.RemoveModifier(buffer);
+        } else if (stat == StatType.DEFENSE) {
+            defense.RemoveModifier(buffer);
+        } else if (stat == StatType.LUCK) {
+            luck.RemoveModifier(buffer);
+        } else if (stat == StatType.SPEED) {
+            speed.RemoveModifier(buffer);
         }
     }
 
@@ -176,13 +193,30 @@ public class Character {
     /// <param name="debuffer">Amount to debuff</param>
     public void Debuff(StatType stat, StatModifier debuffer) {
         if (stat == StatType.ATTACK) {
-
+            attack.AddModifier(debuffer);
         } else if (stat == StatType.DEFENSE) {
-
+            defense.AddModifier(debuffer);
         } else if (stat == StatType.LUCK) {
-
+            luck.AddModifier(debuffer);
         } else if (stat == StatType.SPEED) {
+            speed.AddModifier(debuffer);
+        }
+    }
 
+    /// <summary>
+    /// Remove the debuff from the character
+    /// </summary>
+    /// <param name="stat">Type of stat of the debuff</param>
+    /// <param name="debuffer">Debuff to remove</param>
+    public void RemoveDebuff(StatType stat, StatModifier debuffer) {
+        if (stat == StatType.ATTACK) {
+            attack.RemoveModifier(debuffer);
+        } else if (stat == StatType.DEFENSE) {
+            defense.RemoveModifier(debuffer);
+        } else if (stat == StatType.LUCK) {
+            luck.RemoveModifier(debuffer);
+        } else if (stat == StatType.SPEED) {
+            speed.RemoveModifier(debuffer);
         }
     }
 
