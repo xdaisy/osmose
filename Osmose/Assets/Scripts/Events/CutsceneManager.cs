@@ -14,6 +14,9 @@ public class CutsceneManager : MonoBehaviour {
 
     private StreamReader reader;
 
+    public GameObject SpriteHolderObj;
+    private CutsceneSpriteHolder spriteHolder;
+
     public Text dText;
     public Text dName;
     public Image talkingSprite;
@@ -29,6 +32,10 @@ public class CutsceneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GameObject spriteHolderObj = Instantiate(SpriteHolderObj);
+
+        spriteHolder = spriteHolderObj.GetComponent<CutsceneSpriteHolder>();
+
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
         reader = sourceFile.OpenText(); // open the file to read
 
@@ -88,8 +95,9 @@ public class CutsceneManager : MonoBehaviour {
         name = person[0];
 
         talkingSprite.enabled = true; // want to show sprite
-        string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
-        Sprite personSprite = Resources.Load<Sprite>(spritePath);
+        //string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
+        //Sprite personSprite = Resources.Load<Sprite>(spritePath);
+        Sprite personSprite = spriteHolder.GetSprite(name);
         talkingSprite.sprite = personSprite;
 
         return name;
