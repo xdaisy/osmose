@@ -57,6 +57,8 @@ public class PlayerControls : MonoBehaviour {
         if (!canMove) {
             // if can't move, make the velocity zero so not moving
             myRigidBody.velocity = Vector2.zero;
+            // set so that the walking animation does not play
+            anim.SetBool("PlayerMoving", false);
             return;
         }
 

@@ -14,9 +14,6 @@ public class CutsceneManager : MonoBehaviour {
 
     private StreamReader reader;
 
-    public GameObject SpriteHolderObj;
-    private CutsceneSpriteHolder spriteHolder;
-
     public Text dText;
     public Text dName;
     public Image talkingSprite;
@@ -30,12 +27,11 @@ public class CutsceneManager : MonoBehaviour {
 
     public bool isBattleMap;
 
+    private CutsceneSpriteHolder spriteHolder;
+
 	// Use this for initialization
 	void Start () {
-        GameObject spriteHolderObj = Instantiate(SpriteHolderObj);
-
-        spriteHolder = spriteHolderObj.GetComponent<CutsceneSpriteHolder>();
-
+        spriteHolder = GetComponent<CutsceneSpriteHolder>();
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
         reader = sourceFile.OpenText(); // open the file to read
 
@@ -53,6 +49,7 @@ public class CutsceneManager : MonoBehaviour {
                 string eventName = fileName[0]; // get name of cutscene
                 CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
                 StartCoroutine(Fade()); // fade to next scene
+                return; // don't change the text bc at end of file
             }
 
             ChangeText();
@@ -92,19 +89,18 @@ public class CutsceneManager : MonoBehaviour {
     // changes the portrait of the person talking
     private string ChangeSprite(string line) {
         string[] person = line.Split('-'); // split name from expression
-        name = person[0];
+        string name = person[0];
 
         talkingSprite.enabled = true; // want to show sprite
-        //string spritePath = "Talking_Sprite/" + person[0] + "_" + person[1];
-        //Sprite personSprite = Resources.Load<Sprite>(spritePath);
-        Sprite personSprite = spriteHolder.GetSprite(name);
+        string spriteName = person[0] + "_" + person[1];
+        Sprite personSprite = spriteHolder.GetSprite(spriteName);
         talkingSprite.sprite = personSprite;
+        
 
         return name;
     }
 
     IEnumerator Fade() {
-        //GameObject player = GameObject.FindGameObjectWithTag("Player");
         PlayerControls player = FindObjectOfType<PlayerControls>();
 
         fadeAnim.SetBool("Fade", true);
