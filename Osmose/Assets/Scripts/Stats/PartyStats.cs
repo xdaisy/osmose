@@ -10,15 +10,28 @@ public enum StatType {
     LUCK = 4
 }
 
-public class PartyStats {
-    private Dictionary<string, Character> party = new Dictionary<string, Character>();
+public static class PartyStats {
+    private static Dictionary<string, Character> party;
+    private static List<string> currentPartyMembers;
+
+    static PartyStats() {
+        party = new Dictionary<string, Character>();
+        Character aren = new Character(145, 25, 50, 70, 25, 60, 15);
+        Character rey = new Character(125, 50, 35, 40, 50, 45, 20);
+        Character naoise = new Character(200, 35, 20, 30, 70, 50, 30);
+        party["Aren"] = aren;
+        party["Rey"] = rey;
+        party["Naoise"] = naoise;
+
+        currentPartyMembers = new List<string>();
+    }
 
     /// <summary>
     /// Get character's current HP
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's current HP</returns>
-    public float GetCharacterCurrentHP(string name) {
+    public static float GetCharacterCurrentHP(string name) {
         return party[name].GetCurrentHP();
     }
 
@@ -27,7 +40,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's max HP</returns>
-    public float GetCharacterMaxHP(string name) {
+    public static float GetCharacterMaxHP(string name) {
         return party[name].GetMaxHP();
     }
 
@@ -36,7 +49,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's current SP</returns>
-    public float GetCharacterCurrentSp(string name) {
+    public static float GetCharacterCurrentSp(string name) {
         return party[name].GetCurrentSP();
     }
 
@@ -45,7 +58,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's max SP</returns>
-    public float GetCharacterMaxSp(string name) {
+    public static float GetCharacterMaxSp(string name) {
         return party[name].GetMaxSP();
     }
 
@@ -54,7 +67,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's attack</returns>
-    public float GetCharacterAttack(string name) {
+    public static float GetCharacterAttack(string name) {
         return party[name].GetAttack();
     }
 
@@ -63,7 +76,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's defense</returns>
-    public float GetCharacterDefense(string name) {
+    public static float GetCharacterDefense(string name) {
         return party[name].GetDefense();
     }
 
@@ -72,7 +85,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's speed</returns>
-    public float GetCharacterSpeed(string name) {
+    public static float GetCharacterSpeed(string name) {
         return party[name].GetSpeed();
     }
 
@@ -81,7 +94,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <returns>Character's luck</returns>
-    public float GetCharacterLuck(string name) {
+    public static float GetCharacterLuck(string name) {
         return party[name].GetLuck();
     }
 
@@ -90,7 +103,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <param name="expPoints">Amount of EXP to gain</param>
-    public void GainExperience(string name, int expPoints) {
+    public static void GainExperience(string name, int expPoints) {
         party[name].GainExp(expPoints);
     }
 
@@ -99,7 +112,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <param name="hitpoints">Amount of HP to recover</param>
-    public void RecoverHP(string name, float hitpoints) {
+    public static void RecoverHP(string name, float hitpoints) {
         party[name].RecoverHP(hitpoints);
     }
 
@@ -108,7 +121,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <param name="percent">Percent of HP to recover</param>
-    public void RecoverPctHP(string name, float percent) {
+    public static void RecoverPctHP(string name, float percent) {
         Character character = party[name];
         float recoverHP = (float)Math.Round(character.GetCurrentHP() * percent, 4);
         character.RecoverHP(recoverHP);
@@ -119,7 +132,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <param name="skillpoints">Amount of SP to recover</param>
-    public void RecoverSP(string name, float skillpoints) {
+    public static void RecoverSP(string name, float skillpoints) {
         party[name].RecoverSP(skillpoints);
     }
 
@@ -128,7 +141,7 @@ public class PartyStats {
     /// </summary>
     /// <param name="name">Name of the character</param>
     /// <param name="percent">Percent of SP to recover</param>
-    public void RecoverPctSP(string name, float percent) {
+    public static void RecoverPctSP(string name, float percent) {
         Character character = party[name];
         float recoverSP = (float)Math.Round(character.GetCurrentSP() * percent, 4);
     }
@@ -139,7 +152,7 @@ public class PartyStats {
     /// <param name="name">Name of the character</param>
     /// <param name="stat">Type of the stat to buff</param>
     /// <param name="buffer">Amount to buff</param>
-    public void Buff(string name, StatType stat, StatModifier buffer) {
+    public static void Buff(string name, StatType stat, StatModifier buffer) {
         party[name].Buff(stat, buffer);
     }
 
@@ -149,7 +162,7 @@ public class PartyStats {
     /// <param name="name">Name of the character to remove the buff</param>
     /// <param name="stat">Type of stat of the buff</param>
     /// <param name="buffer">Buff to remove</param>
-    public void RemoveBuff(string name, StatType stat, StatModifier buffer) {
+    public static void RemoveBuff(string name, StatType stat, StatModifier buffer) {
         
     }
 
@@ -159,7 +172,7 @@ public class PartyStats {
     /// <param name="name">Name of the character</param>
     /// <param name="stat">Type of the stat to debuff</param>
     /// <param name="debuffer">Amount to debuff</param>
-    public void Debuff(string name, StatType stat, StatModifier debuffer) {
+    public static void Debuff(string name, StatType stat, StatModifier debuffer) {
         party[name].Debuff(stat, debuffer);
     }
 
@@ -169,7 +182,26 @@ public class PartyStats {
     /// <param name="name">Name of the character to remove the debuff from</param>
     /// <param name="stat">Type of the stat of the debuff</param>
     /// <param name="debuffer">Debuff to remove</param>
-    public void RemoveDebuff(string name, StatType stat, StatModifier debuffer) {
+    public static void RemoveDebuff(string name, StatType stat, StatModifier debuffer) {
         party[name].RemoveDebuff(stat, debuffer);
+    }
+
+    /// <summary>
+    /// Change who's in the party and the order of the party members
+    /// </summary>
+    /// <param name="party">Array of the members who's currently in the party</param>
+    public static void changeMembers(string[] party) {
+        currentPartyMembers.Clear();
+        foreach (string name in party) {
+            currentPartyMembers.Add(name);
+        }
+    }
+
+    /// <summary>
+    /// Return the current party members in order
+    /// </summary>
+    /// <returns></returns>
+    public static List<string> GetCurrentParty() {
+        return new List<string>(currentPartyMembers);
     }
 }

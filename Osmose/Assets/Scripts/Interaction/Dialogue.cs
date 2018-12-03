@@ -14,20 +14,12 @@ public class Dialogue : MonoBehaviour {
     private string[] dialogueLines; // lines of dialogue
     private int currentLine; // current line of dialogue
 
-    private static bool dialogueManagerExist;
-
     private PlayerControls player; // controls of player
 
 	// Use this for initialization
 	void Start () {
         player = FindObjectOfType<PlayerControls>();
-
-        //if (!dialogueManagerExist) {
-        //    dialogueManagerExist = true;
-        //    DontDestroyOnLoad(transform.gameObject);
-        //} else {
-        //    Destroy(gameObject);
-        //}
+        this.dialogueActive = false;
 	}
 	
 	// Update is called once per frame

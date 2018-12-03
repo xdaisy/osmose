@@ -14,13 +14,14 @@ public class Character {
     private Stat maxSP;
     private Stat attack;
     private Stat defense;
+    private Stat magicDefense;
     private Stat speed;
     private Stat luck;
 
     private Object weapon;
     private Object armor;
 
-    public Character(float hp, float sp, float attack, float defense, float speed, float luck) {
+    public Character(float hp, float sp, float attack, float defense, float magicDefense, float speed, float luck) {
         this.level = 1;
         this.currExp = 0;
         this.nextExp = 10;
@@ -31,6 +32,7 @@ public class Character {
         this.maxSP = new Stat(sp);
         this.attack = new Stat(attack);
         this.defense = new Stat(defense);
+        this.magicDefense = new Stat(magicDefense);
         this.speed = new Stat(speed);
         this.luck = new Stat(luck);
     }
@@ -89,6 +91,14 @@ public class Character {
     /// <returns></returns>
     public float GetDefense() {
         return this.defense.Value;
+    }
+
+    /// <summary>
+    /// Get character's magic defense
+    /// </summary>
+    /// <returns></returns>
+    public float GetMagicDefense() {
+        return this.magicDefense.Value;
     }
 
     /// <summary>
