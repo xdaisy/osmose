@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class BattleSystem : MonoBehaviour {
 
@@ -23,5 +24,7 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         EnemyHud.interactable = true;
         Button enemy = EnemyHud.GetComponent<Button>();
+        EventSystem enemyEventSys = EnemyHud.GetComponent<EventSystem>();
+        enemyEventSys.SetSelectedGameObject(enemy.gameObject);
     }
 }
