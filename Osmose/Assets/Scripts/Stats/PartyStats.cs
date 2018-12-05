@@ -123,8 +123,8 @@ public static class PartyStats {
     /// <param name="percent">Percent of HP to recover</param>
     public static void RecoverPctHP(string name, float percent) {
         Character character = party[name];
-        float recoverHP = (float)Math.Round(character.GetCurrentHP() * percent, 4);
-        character.RecoverHP(recoverHP);
+        float hitpoints = (float)Math.Round(character.GetCurrentHP() * percent, 4);
+        RecoverHP(name, hitpoints);
     }
 
     /// <summary>
@@ -143,7 +143,8 @@ public static class PartyStats {
     /// <param name="percent">Percent of SP to recover</param>
     public static void RecoverPctSP(string name, float percent) {
         Character character = party[name];
-        float recoverSP = (float)Math.Round(character.GetCurrentSP() * percent, 4);
+        float skillpoints = (float)Math.Round(character.GetCurrentSP() * percent, 4);
+        RecoverSP(name, skillpoints);
     }
 
     /// <summary>

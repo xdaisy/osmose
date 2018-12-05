@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class BattleSystem : MonoBehaviour {
 
+    public EventSystem eventSystem;
     public CanvasGroup MainHud;
     public CanvasGroup PartyHud;
     public CanvasGroup EnemyHud;
@@ -17,14 +18,17 @@ public class BattleSystem : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 
-    public void Attack() {
+    /// <summary>
+    /// Go from the Main Battle HUD to the Select Enemy HUD
+    /// </summary>
+    public void SelectAttack() {
         MainHud.interactable = false;
         EnemyHud.interactable = true;
-        Button enemy = EnemyHud.GetComponent<Button>();
-        EventSystem enemyEventSys = EnemyHud.GetComponent<EventSystem>();
-        enemyEventSys.SetSelectedGameObject(enemy.gameObject);
+
+        // TODO: Find way to get list of the Enemies and have the far left one selected 
+        Button enemy = EnemyHud.GetComponentInChildren<Button>();
+        eventSystem.SetSelectedGameObject(enemy.gameObject);
     }
 }
