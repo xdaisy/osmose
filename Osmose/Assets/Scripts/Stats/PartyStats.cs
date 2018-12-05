@@ -24,6 +24,7 @@ public static class PartyStats {
         party["Naoise"] = naoise;
 
         currentPartyMembers = new List<string>();
+        currentPartyMembers.Add("Aren");
     }
 
     /// <summary>
@@ -204,5 +205,14 @@ public static class PartyStats {
     /// <returns></returns>
     public static List<string> GetCurrentParty() {
         return new List<string>(currentPartyMembers);
+    }
+
+    /// <summary>
+    /// Return whether or not the character is in the current party
+    /// </summary>
+    /// <param name="name">Name of the character</param>
+    /// <returns></returns>
+    public static Boolean IsInParty(string name) {
+        return currentPartyMembers.Contains(name);
     }
 }
