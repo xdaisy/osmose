@@ -10,9 +10,12 @@ public class BattleSystem : MonoBehaviour {
     public CanvasGroup MainHud;
     public CanvasGroup PartyHud;
     public CanvasGroup EnemyHud;
+    public Text TextHud;
 
     // keep track of whose turn is it for this round
     private Queue<string> turnOrder;
+
+    private bool playerDeciding;
 
     private void Awake() {
         turnOrder = new Queue<string>();
@@ -21,6 +24,10 @@ public class BattleSystem : MonoBehaviour {
     // Use this for initialization
     void Start () {
         determineTurnOrder();
+        playerDeciding = false;
+
+        TextHud.gameObject.SetActive(true);
+        TextHud.text = "Enemy appeared!";
 	}
 	
 	// Update is called once per frame
@@ -28,6 +35,56 @@ public class BattleSystem : MonoBehaviour {
         // if the battle is still going on and the round is over, determine next turn order
         if (turnOrder.Count < 1) {
             determineTurnOrder();
+        }
+
+        if (!playerDeciding && !TextHud.IsActive()) {
+            string nextToGo = turnOrder.Dequeue();
+
+            if (PartyStats.IsInParty(nextToGo)) {
+                // if the next to go is a party member, is player's turn
+                MainHud.gameObject.SetActive(true);
+                MainHud.interactable = true;
+
+                // set the initial selected button
+                Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
+                Button attackButton = null;
+                foreach (Button command in battleCommands) {
+                    if (command.name == "AttackButton") {
+                        attackButton = command;
+                    }
+                }
+                eventSystem.SetSelectedGameObject(null);
+                eventSystem.SetSelectedGameObject(attackButton.gameObject);
+
+                playerDeciding = true;
+            } else {
+                // enemy's turn
+                MainHud.gameObject.SetActive(false);
+                MainHud.interactable = false;
+
+                TextHud.gameObject.SetActive(true);
+                TextHud.text = "Enemy's turn";
+            }
+        } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
+            // stop displaying text (one one screen of text per damage)
+            TextHud.gameObject.SetActive(false);
+        } else if (Input.GetButtonDown("Cancel")) {
+            // if on a different menu and hit cancel, go back to previous menu
+            if (EnemyHud.gameObject.activeSelf) {
+                // if selecting enemy and cancel, go back to main menu on the attack button
+                EnemyHud.interactable = false;
+                MainHud.interactable = true;
+
+                Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
+                Button attackButton = null;
+                foreach (Button command in battleCommands) {
+                    if (command.name == "AttackButton") {
+                        attackButton = command;
+                    }
+                }
+                eventSystem.SetSelectedGameObject(null);
+                eventSystem.SetSelectedGameObject(attackButton.gameObject);
+            }
         }
 	}
 
@@ -50,7 +107,8 @@ public class BattleSystem : MonoBehaviour {
 
         // get enemy object of the enenmy who was clicked
         Enemy enemy = lastClicked.GetComponent<Enemy>();
-        Debug.Log("Enemy Attacked");
+
+        playerDeciding = false;
     }
 
     private void determineTurnOrder() {
@@ -62,7 +120,7 @@ public class BattleSystem : MonoBehaviour {
             int idx = (int) speed;
             if (turn[idx] != null) {
                 // put character in the next available index if speed match
-                for (int i = idx + 1; i < turn.Length; i++) {
+                for (int i = idx - 1; i >= 0; i--) {
                     if (turn[i] == null) {
                         turn[i] = name;
                         break;
@@ -82,7 +140,7 @@ public class BattleSystem : MonoBehaviour {
 
             if (turn[idx] != null) {
                 // put character in the next available index if speed match
-                for (int i = idx + 1; i < turn.Length; i++) {
+                for (int i = idx - 1; i >= 0; i--) {
                     if (turn[i] == null) {
                         turn[i] = name;
                         break;
