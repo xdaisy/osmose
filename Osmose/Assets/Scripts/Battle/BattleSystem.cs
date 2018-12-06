@@ -15,7 +15,14 @@ public class BattleSystem : MonoBehaviour {
     // keep track of whose turn is it for this round
     private Queue<string> turnOrder;
 
-    private bool playerDeciding;
+    private bool playerDeciding; // whether or not the player is deciding their move
+    private string nextToGo; // keep track of whose turn is it
+    private string textToShow; // shows player's action
+
+    private int earnedExp;
+    private int earnedMoney;
+
+    private int numEnemiesRemaining;
 
     private void Awake() {
         turnOrder = new Queue<string>();
@@ -25,6 +32,10 @@ public class BattleSystem : MonoBehaviour {
     void Start () {
         determineTurnOrder();
         playerDeciding = false;
+        textToShow = "";
+        earnedExp = 0;
+        earnedMoney = 0;
+        numEnemiesRemaining = int.MaxValue;
 
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
@@ -36,9 +47,25 @@ public class BattleSystem : MonoBehaviour {
         if (turnOrder.Count < 1) {
             determineTurnOrder();
         }
+        
+        if (numEnemiesRemaining < 1) {
+            // all enemies defeated, battle won!
+            TextHud.gameObject.SetActive(true);
+            TextHud.text = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
 
-        if (!playerDeciding && !TextHud.IsActive()) {
-            string nextToGo = turnOrder.Dequeue();
+            if (Input.GetButtonDown("Interact")) {
+                // load back to previous scene
+            }
+        }
+
+        if (playerDeciding && textToShow.Length > 0) {
+            // if player have finished their command, show text
+            TextHud.gameObject.SetActive(true);
+            TextHud.text = textToShow;
+            textToShow = ""; // reset it to empty string
+            playerDeciding = false;
+        } else if (!playerDeciding && !TextHud.IsActive()) {
+            nextToGo = turnOrder.Dequeue();
 
             if (PartyStats.IsInParty(nextToGo)) {
                 // if the next to go is a party member, is player's turn
@@ -108,7 +135,28 @@ public class BattleSystem : MonoBehaviour {
         // get enemy object of the enenmy who was clicked
         Enemy enemy = lastClicked.GetComponent<Enemy>();
 
-        playerDeciding = false;
+        // calculate the damage
+        float damage = PartyStats.GetCharacterAttack(nextToGo) - enemy.Defense;
+
+        // reduce enemy's hp
+        enemy.CurrentHP -= damage;
+        enemy.CurrentHP = Mathf.Max(enemy.CurrentHP, 0f); // set so that 0 is the lowest amount it can go
+
+        MainHud.gameObject.SetActive(false); // set main hud invisible
+
+        // set the next displayed text
+        if (enemy.CurrentHP > 0) {
+            textToShow = lastClicked.name + " took " + damage + " damage!";
+        } else {
+            earnedExp += enemy.Exp;
+            earnedMoney += enemy.Money;
+            numEnemiesRemaining--;
+            textToShow = "Defeated " + lastClicked.name + "!";
+        }
+
+        if (numEnemiesRemaining < 1) {
+            textToShow = "";
+        }
     }
 
     private void determineTurnOrder() {
@@ -132,6 +180,7 @@ public class BattleSystem : MonoBehaviour {
         }
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        numEnemiesRemaining = enemies.Length;
         foreach(GameObject enemy in enemies) {
             string name = enemy.name;
 

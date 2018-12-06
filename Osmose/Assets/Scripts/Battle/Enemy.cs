@@ -14,6 +14,9 @@ public class Enemy : MonoBehaviour {
     public float Speed;
     public float Luck;
 
+    public int Exp; // amount of exp it gives
+    public int Money; // amount of money it gives
+
 	// Use this for initialization
 	void Start () {
 		
@@ -21,6 +24,8 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (CurrentHP <= 0) {
+            Destroy(this.gameObject);
+        }
 	}
 }
