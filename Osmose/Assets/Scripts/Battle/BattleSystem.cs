@@ -8,6 +8,7 @@ public class BattleSystem : MonoBehaviour {
 
     public EventSystem eventSystem;
     public CanvasGroup MainHud;
+    public CanvasGroup SkillHud;
     public CanvasGroup PartyHud;
     public CanvasGroup EnemyHud;
     public Text TextHud;
@@ -102,15 +103,18 @@ public class BattleSystem : MonoBehaviour {
                 EnemyHud.interactable = false;
                 MainHud.interactable = true;
 
-                Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
-                Button attackButton = null;
-                foreach (Button command in battleCommands) {
-                    if (command.name == "AttackButton") {
-                        attackButton = command;
-                    }
-                }
-                eventSystem.SetSelectedGameObject(null);
-                eventSystem.SetSelectedGameObject(attackButton.gameObject);
+                setSelectedButton("AttackButton");
+            }
+
+            if (SkillHud.gameObject.activeSelf) {
+                // selecting skill and cancel, go back to main menu on the skill button
+                SkillHud.interactable = false;
+                SkillHud.gameObject.SetActive(false);
+
+                MainHud.interactable = true;
+                MainHud.gameObject.SetActive(true);
+
+                setSelectedButton("SkillsButton");
             }
         }
 	}
@@ -157,6 +161,20 @@ public class BattleSystem : MonoBehaviour {
         if (numEnemiesRemaining < 1) {
             textToShow = "";
         }
+    }
+
+    public void ClickSkills() {
+        // turn off main hud
+        MainHud.interactable = false;
+        MainHud.gameObject.SetActive(false);
+
+        // turn on skill hud
+        float currSp = PartyStats.GetCharacterCurrentSp(nextToGo);
+        float maxSp = PartyStats.GetCharacterMaxSp(nextToGo);
+
+        SkillHud.gameObject.SetActive(true);
+        Text spText = SkillHud.GetComponentInChildren<Text>();
+        spText.text = "SP: " + currSp + "/" + maxSp;
     }
 
     private void determineTurnOrder() {
@@ -206,5 +224,17 @@ public class BattleSystem : MonoBehaviour {
                 turnOrder.Enqueue(turn[i]);
             }
         }
+    }
+
+    private void setSelectedButton(string name) {
+        Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
+        Button button = null;
+        foreach (Button command in battleCommands) {
+            if (command.name == name) {
+                button = command;
+            }
+        }
+        eventSystem.SetSelectedGameObject(null);
+        eventSystem.SetSelectedGameObject(button.gameObject);
     }
 }
