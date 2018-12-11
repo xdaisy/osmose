@@ -9,6 +9,7 @@ public class BattleSystem : MonoBehaviour {
     public EventSystem eventSystem;
     public CanvasGroup MainHud;
     public CanvasGroup SkillHud;
+    public CanvasGroup ItemHud;
     public CanvasGroup PartyHud;
     public CanvasGroup EnemyHud;
     public Text TextHud;
@@ -116,6 +117,27 @@ public class BattleSystem : MonoBehaviour {
 
                 setSelectedButton("SkillsButton");
             }
+
+            if (ItemHud.gameObject.activeSelf) {
+                // selecting item and cancel, go back to main menu on item button
+                ItemHud.interactable = false;
+                ItemHud.gameObject.SetActive(false);
+
+                MainHud.interactable = true;
+                MainHud.gameObject.SetActive(true);
+
+                setSelectedButton("ItemsButton");
+            }
+
+            if (PartyHud.gameObject.activeSelf) {
+                // selecting party member and cancel, go back to main menu
+                PartyHud.interactable = false;
+
+                MainHud.interactable = true;
+                MainHud.gameObject.SetActive(true);
+
+                setSelectedButton("AttackButton");
+            }
         }
 	}
 
@@ -173,8 +195,32 @@ public class BattleSystem : MonoBehaviour {
         float maxSp = PartyStats.GetCharacterMaxSp(nextToGo);
 
         SkillHud.gameObject.SetActive(true);
+        SkillHud.interactable = true;
         Text spText = SkillHud.GetComponentInChildren<Text>();
         spText.text = "SP: " + currSp + "/" + maxSp;
+    }
+
+    public void ClickItems() {
+        // turn off main hud
+        MainHud.interactable = false;
+        MainHud.gameObject.SetActive(false);
+
+        // turn on item hud
+        ItemHud.gameObject.SetActive(true);
+        ItemHud.interactable = true;    
+    }
+
+    public void SelectDefend() {
+        // turn off main hud
+        MainHud.interactable = false;
+        MainHud.gameObject.SetActive(false);
+
+        // turn on player select hud
+        PartyHud.interactable = true;
+        PartyHud.gameObject.SetActive(true);
+
+        Button partyMember = PartyHud.GetComponentInChildren<Button>();
+        eventSystem.SetSelectedGameObject(partyMember.gameObject);
     }
 
     private void determineTurnOrder() {
