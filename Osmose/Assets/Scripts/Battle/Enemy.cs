@@ -17,6 +17,8 @@ public class Enemy : MonoBehaviour {
     public int Exp; // amount of exp it gives
     public int Money; // amount of money it gives
 
+    public bool IsDefending; // whether enemy is defending or not
+
 	// Use this for initialization
 	void Start () {
 		

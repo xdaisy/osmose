@@ -28,6 +28,24 @@ public static class PartyStats {
     }
 
     /// <summary>
+    /// Return whether or not the specific character is defending
+    /// </summary>
+    /// <param name="name">name of the character</param>
+    /// <returns></returns>
+    public static bool IsDefending(string name) {
+        return party[name].IsDefending();
+    }
+
+    /// <summary>
+    /// Set whether or not the character is defending
+    /// </summary>
+    /// <param name="name">name of the character</param>
+    /// <param name="isDefending">if character is defending or not</param>
+    public static void SetDefending(string name, bool isDefending) {
+        party[name].SetDefend(isDefending);
+    }
+
+    /// <summary>
     /// Get character's current HP
     /// </summary>
     /// <param name="name">Name of the character</param>
@@ -124,7 +142,7 @@ public static class PartyStats {
     /// <param name="percent">Percent of HP to recover</param>
     public static void RecoverPctHP(string name, float percent) {
         Character character = party[name];
-        float hitpoints = (float)Math.Round(character.GetCurrentHP() * percent, 4);
+        float hitpoints = (float)Math.Round(character.GetCurrentHP() * percent);
         RecoverHP(name, hitpoints);
     }
 
@@ -144,7 +162,7 @@ public static class PartyStats {
     /// <param name="percent">Percent of SP to recover</param>
     public static void RecoverPctSP(string name, float percent) {
         Character character = party[name];
-        float skillpoints = (float)Math.Round(character.GetCurrentSP() * percent, 4);
+        float skillpoints = (float)Math.Round(character.GetCurrentSP() * percent);
         RecoverSP(name, skillpoints);
     }
 

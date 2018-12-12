@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class BattleSystem : MonoBehaviour {
 
@@ -26,6 +27,8 @@ public class BattleSystem : MonoBehaviour {
 
     private int numEnemiesRemaining;
 
+    private bool escaped; // keeps track if the player escaped
+
     private void Awake() {
         turnOrder = new Queue<string>();
     }
@@ -38,6 +41,7 @@ public class BattleSystem : MonoBehaviour {
         earnedExp = 0;
         earnedMoney = 0;
         numEnemiesRemaining = int.MaxValue;
+        escaped = false;
 
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
@@ -50,7 +54,15 @@ public class BattleSystem : MonoBehaviour {
             determineTurnOrder();
         }
         
-        if (numEnemiesRemaining < 1) {
+        if (escaped) {
+            // escaped!
+            TextHud.gameObject.SetActive(true);
+            TextHud.text = "You escaped!";
+
+            if (Input.GetButtonDown("Interact")) {
+                // load back to previous scene
+            }
+        } else if (numEnemiesRemaining < 1) {
             // all enemies defeated, battle won!
             TextHud.gameObject.SetActive(true);
             TextHud.text = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
@@ -85,6 +97,7 @@ public class BattleSystem : MonoBehaviour {
                 eventSystem.SetSelectedGameObject(null);
                 eventSystem.SetSelectedGameObject(attackButton.gameObject);
 
+                PartyStats.SetDefending(nextToGo, false); // character not defending at start of turn
                 playerDeciding = true;
             } else {
                 // enemy's turn
@@ -93,6 +106,10 @@ public class BattleSystem : MonoBehaviour {
 
                 TextHud.gameObject.SetActive(true);
                 TextHud.text = "Enemy's turn";
+
+                GameObject enemy = GameObject.Find(nextToGo);
+                Enemy enemyStat = enemy.GetComponent<Enemy>();
+                enemyStat.IsDefending= false; // enemy not defending at start of turn
             }
         } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per damage)
@@ -164,6 +181,11 @@ public class BattleSystem : MonoBehaviour {
         // calculate the damage
         float damage = PartyStats.GetCharacterAttack(nextToGo) - enemy.Defense;
 
+        // if enemy is defending, reduce damage
+        if (enemy.IsDefending) {
+            damage = (float)Math.Round(damage / 2);
+        }
+
         // reduce enemy's hp
         enemy.CurrentHP -= damage;
         enemy.CurrentHP = Mathf.Max(enemy.CurrentHP, 0f); // set so that 0 is the lowest amount it can go
@@ -215,12 +237,27 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
 
-        // turn on player select hud
-        PartyHud.interactable = true;
-        PartyHud.gameObject.SetActive(true);
+        PartyStats.SetDefending(nextToGo, true);
 
-        Button partyMember = PartyHud.GetComponentInChildren<Button>();
-        eventSystem.SetSelectedGameObject(partyMember.gameObject);
+        playerDeciding = false;
+    }
+
+    public void SelectEscape() {
+        // turn off main hud
+        MainHud.interactable = false;
+        MainHud.gameObject.SetActive(false);
+        int escape = UnityEngine.Random.Range(0, 2);
+
+        switch(escape) {
+            case 0:
+                escaped = true;
+                break;
+            default:
+                escaped = false;
+                break;
+        }
+
+        playerDeciding = false;
     }
 
     private void determineTurnOrder() {

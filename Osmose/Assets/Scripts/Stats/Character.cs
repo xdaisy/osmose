@@ -21,10 +21,13 @@ public class Character {
     private Object weapon;
     private Object armor;
 
+    private bool isDefending;
+
     public Character(float hp, float sp, float attack, float defense, float magicDefense, float speed, float luck) {
         this.level = 1;
         this.currExp = 0;
         this.nextExp = 10;
+        this.isDefending = false;
 
         this.currentHP = new Stat(hp);
         this.maxHP = new Stat(hp);
@@ -43,6 +46,22 @@ public class Character {
     /// <returns></returns>
     public int GetLevel() {
         return this.level;
+    }
+
+    /// <summary>
+    /// Return whether or not the character is defending
+    /// </summary>
+    /// <returns></returns>
+    public bool IsDefending() {
+        return this.isDefending;
+    }
+
+    /// <summary>
+    /// Change whether or not the character is defending
+    /// </summary>
+    /// <param name="isDefending">If character is defending or not</param>
+    public void SetDefend(bool isDefending) {
+        this.isDefending = isDefending;
     }
 
     /// <summary>

@@ -93,6 +93,6 @@ public class Stat {
         }
         // Rounding gets around dumb float calculation errors (like getting 12.0001f, instead of 12f)
         // 4 significant digits is usually precise enough, but feel free to change this to fit your needs
-        return (float)Math.Round(finalValue, 4);
+        return (float)Math.Round(finalValue);
     }
 }
