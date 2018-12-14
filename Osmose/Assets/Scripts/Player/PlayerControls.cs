@@ -17,7 +17,6 @@ public class PlayerControls : MonoBehaviour {
     private Vector2 lastMove; // keep track if player was moving up/down or left/right
 
     private static bool playerExists; // keep track if player exist
-    // all object with playercontroller attach will have playerExists bool
 
     private bool canMove; // determines if player can move or not
 
