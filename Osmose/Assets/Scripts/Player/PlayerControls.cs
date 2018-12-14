@@ -58,7 +58,8 @@ public class PlayerControls : MonoBehaviour {
             // if can't move, make the velocity zero so not moving
             myRigidBody.velocity = Vector2.zero;
             // set so that the walking animation does not play
-            anim.SetBool("PlayerMoving", false);
+            anim.SetFloat("MoveX", 0f);
+            anim.SetFloat("MoveY", 0f);
             return;
         }
 
@@ -67,38 +68,16 @@ public class PlayerControls : MonoBehaviour {
         float xInput = Input.GetAxisRaw("Horizontal");
         float yInput = Input.GetAxisRaw("Vertical");
 
-        // if player is pressing right or left
-        if (xInput > 0.5f || xInput < -0.5f) {
-            //transform.Translate(new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime, 0f, 0f));
-            myRigidBody.velocity = new Vector2(xInput * MoveSpeed, myRigidBody.velocity.y); // change x-axis velocity for rigidbody
-            playerMoving = true; // is moving right/left so true
-            lastMove = new Vector2(xInput, 0f); // last move input for x direction
-            amountPlayerMoved += Math.Abs(xInput * MoveSpeed);
-        }
-
-        // if player is pressing up or down
-        if (yInput > 0.5f || yInput < -0.5f) {
-            //transform.Translate(new Vector3(0f, Input.GetAxisRaw("Vertical") * moveSpeed * Time.deltaTime, 0f));
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, yInput * MoveSpeed); // change y-axis velocity for rigidbody
-            playerMoving = true; // is moving up/down so true
-            lastMove = new Vector2(0f, yInput); // last move input for y direction
-            amountPlayerMoved += Math.Abs(yInput * MoveSpeed);
-        }
-
-        // no force if no input from controls in x direction
-        if (xInput < 0.5f && xInput > -0.5f) {
-            myRigidBody.velocity = new Vector2(0f, myRigidBody.velocity.y);
-        }
-        // no force if no input from controls in y direction
-        if (yInput < 0.5f && yInput > -0.5f) {
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, 0f);
-        }
+        myRigidBody.velocity = new Vector2(xInput, yInput) * MoveSpeed;
 
         anim.SetFloat("MoveX", xInput); // set MoveX var in animator
         anim.SetFloat("MoveY", yInput); // set MoveY var in animator
-        anim.SetBool("PlayerMoving", playerMoving); // set PlayerMoving var in animator
-        anim.SetFloat("LastMoveX", lastMove.x); // set LastMoveX var in animator
-        anim.SetFloat("LastMoveY", lastMove.y); // set LastMoveY var in animator
+
+        if (xInput == 1 || xInput == -1 || yInput == 1 || yInput == -1) {
+            // if player press any of controls keys, set the last move to it
+            anim.SetFloat("LastMoveX", xInput); // set LastMoveX var in animator
+            anim.SetFloat("LastMoveY", yInput); // set LastMoveY var in animator
+        }
     }
 
     public void SetCanMove(bool canMove) {
