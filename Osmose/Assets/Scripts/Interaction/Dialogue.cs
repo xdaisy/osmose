@@ -14,11 +14,8 @@ public class Dialogue : MonoBehaviour {
     private string[] dialogueLines; // lines of dialogue
     private int currentLine; // current line of dialogue
 
-    private PlayerControls player; // controls of player
-
 	// Use this for initialization
 	void Start () {
-        player = FindObjectOfType<PlayerControls>();
         this.dialogueActive = false;
 	}
 	
@@ -31,7 +28,7 @@ public class Dialogue : MonoBehaviour {
         dialogueActive = true;
         dBox.SetActive(true);
         dText.text = dialogueLines[currentLine];
-        player.SetCanMove(false); // make player not be able to move
+        PlayerControls.instance.SetCanMove(false); // make player not be able to move
     }
 
     // progress the dialogue
@@ -45,7 +42,7 @@ public class Dialogue : MonoBehaviour {
 
             currentLine = 0;
 
-            player.SetCanMove(true); // allow player to move again
+            PlayerControls.instance.SetCanMove(true); // allow player to move again
         }
         dText.text = dialogueLines[currentLine];
     }

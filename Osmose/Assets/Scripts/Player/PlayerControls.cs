@@ -16,7 +16,7 @@ public class PlayerControls : MonoBehaviour {
     private bool playerMoving; // keep track if player is moving or not
     private Vector2 lastMove; // keep track if player was moving up/down or left/right
 
-    private static bool playerExists; // keep track if player exist
+    public static PlayerControls instance; // keep track if player exist
 
     private bool canMove; // determines if player can move or not
 
@@ -33,8 +33,8 @@ public class PlayerControls : MonoBehaviour {
         movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
 
         // don't destroy object on load if player don't exist
-        if (!playerExists) {
-            playerExists = true;
+        if (instance == null) {
+            instance = this;
             DontDestroyOnLoad(transform.gameObject);
         } else {
             // if another player exists, destroy game object

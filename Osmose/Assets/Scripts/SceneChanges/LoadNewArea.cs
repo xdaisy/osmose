@@ -15,6 +15,8 @@ public class LoadNewArea : MonoBehaviour {
 
     public bool isBattleMap;
 
+    public string transitionName;
+
 	// Use this for initialization
 	void Start () {
 
@@ -28,15 +30,15 @@ public class LoadNewArea : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player")) {
             //SceneManager.LoadScene(sceneToLoad);
-            StartCoroutine(Fade(other));
+            StartCoroutine(Fade());
         }
     }
 
-    IEnumerator Fade(Collider2D other) {
+    IEnumerator Fade() {
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
-        other.transform.Translate(new Vector3(newPlayerPos.x - other.transform.position.x, newPlayerPos.y - other.transform.position.y, 0f));
-        other.GetComponent<PlayerControls>().IsBattleMap = this.isBattleMap;
+        PlayerControls.instance.transform.Translate(new Vector3(newPlayerPos.x - PlayerControls.instance.transform.position.x, newPlayerPos.y - PlayerControls.instance.transform.position.y, 0f));
+        PlayerControls.instance.GetComponent<PlayerControls>().IsBattleMap = this.isBattleMap;
         SceneManager.LoadScene(sceneToLoad);
     }
 }
