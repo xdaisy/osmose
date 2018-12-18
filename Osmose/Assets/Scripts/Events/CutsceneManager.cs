@@ -23,9 +23,7 @@ public class CutsceneManager : MonoBehaviour {
     public Image fadeScreen;
     public Animator fadeAnim;
 
-    public Vector2 newPlayerPos;
-
-    public bool isBattleMap;
+    public string cutsceneName;
 
     private CutsceneSpriteHolder spriteHolder;
 
@@ -101,10 +99,10 @@ public class CutsceneManager : MonoBehaviour {
     }
 
     IEnumerator Fade() {
+        PlayerControls.instance.SetCanMove(false);
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
-        PlayerControls.instance.transform.Translate(new Vector3(newPlayerPos.x - PlayerControls.instance.transform.position.x, newPlayerPos.y - PlayerControls.instance.transform.position.y, 0f));
-        PlayerControls.instance.IsBattleMap = this.isBattleMap;
+        PlayerControls.instance.previousAreaName = cutsceneName;
         SceneManager.LoadScene(sceneToLoad);
     }
 }

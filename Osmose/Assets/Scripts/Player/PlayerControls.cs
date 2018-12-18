@@ -18,6 +18,8 @@ public class PlayerControls : MonoBehaviour {
 
     public static PlayerControls instance; // keep track if player exist
 
+    public string previousAreaName; // keep track of previous area player was in
+
     private bool canMove; // determines if player can move or not
 
     private float amountPlayerMoved; // keep track how much the player has moved
@@ -35,11 +37,11 @@ public class PlayerControls : MonoBehaviour {
         // don't destroy object on load if player don't exist
         if (instance == null) {
             instance = this;
-            DontDestroyOnLoad(transform.gameObject);
         } else {
             // if another player exists, destroy game object
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
     }
 	
 	// Update is called once per frame
