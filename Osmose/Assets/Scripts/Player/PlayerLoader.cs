@@ -10,7 +10,7 @@ public class PlayerLoader : MonoBehaviour {
 	void Start () {
 		if(PlayerControls.instance == null) {
             GameObject player = Instantiate(Player);
-            player.name = player.name.Substring(0, player.name.Length - 7); // remove (clone) from name
+            player.name = player.name.Replace("(Clone)", ""); // remove (clone) from name
         }
 	}
 	
