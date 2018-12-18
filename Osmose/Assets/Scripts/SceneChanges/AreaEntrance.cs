@@ -8,17 +8,18 @@ public class AreaEntrance : MonoBehaviour {
 
     public bool IsBattleMap;
 
-	// Use this for initialization
-	void Start () {
-		if (transitionFromArea == PlayerControls.instance.previousAreaName) {
+    // Use this for initialization
+    void Start() {
+        if (transitionFromArea == PlayerControls.instance.previousAreaName) {
+            // set player to entrance's position
             PlayerControls.instance.transform.position = transform.position;
             PlayerControls.instance.IsBattleMap = IsBattleMap;
             PlayerControls.instance.SetCanMove(true);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 }

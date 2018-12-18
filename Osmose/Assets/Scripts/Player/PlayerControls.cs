@@ -25,6 +25,17 @@ public class PlayerControls : MonoBehaviour {
     private float amountPlayerMoved; // keep track how much the player has moved
     private float movementTilEncounter; // amount of movement before player launch into battle
 
+    private void Awake() {
+        // don't destroy object on load if player don't exist
+        if (instance == null) {
+            instance = this;
+        } else {
+            // if another player exists, destroy game object
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     // Use this for initialization
     void Start () {
         anim = GetComponent<Animator>(); // get animator for player
@@ -34,14 +45,14 @@ public class PlayerControls : MonoBehaviour {
         amountPlayerMoved = 0f;
         movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
 
-        // don't destroy object on load if player don't exist
-        if (instance == null) {
-            instance = this;
-        } else {
-            // if another player exists, destroy game object
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
+        //// don't destroy object on load if player don't exist
+        //if (instance == null) {
+        //    instance = this;
+        //} else {
+        //    // if another player exists, destroy game object
+        //    Destroy(gameObject);
+        //}
+        //DontDestroyOnLoad(gameObject);
     }
 	
 	// Update is called once per frame

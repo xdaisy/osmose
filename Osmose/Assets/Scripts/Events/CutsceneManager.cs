@@ -104,5 +104,6 @@ public class CutsceneManager : MonoBehaviour {
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
         PlayerControls.instance.previousAreaName = cutsceneName;
         SceneManager.LoadScene(sceneToLoad);
+        PlayerControls.instance.SetCanMove(true);
     }
 }

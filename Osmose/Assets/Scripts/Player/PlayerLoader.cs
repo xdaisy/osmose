@@ -6,13 +6,17 @@ public class PlayerLoader : MonoBehaviour {
 
     public GameObject Player;
 
-	// Use this for initialization
-	void Start () {
-		if(PlayerControls.instance == null) {
+    private void Awake() {
+        if (PlayerControls.instance == null) {
             GameObject player = Instantiate(Player);
             player.name = player.name.Replace("(Clone)", ""); // remove (clone) from name
         }
-	}
+    }
+
+    // Use this for initialization
+    void Start () {
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
