@@ -99,11 +99,11 @@ public class CutsceneManager : MonoBehaviour {
     }
 
     IEnumerator Fade() {
-        PlayerControls.instance.SetCanMove(false);
+        PlayerControls.Instance.SetCanMove(false);
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
-        PlayerControls.instance.previousAreaName = cutsceneName;
+        PlayerControls.Instance.PreviousAreaName = cutsceneName;
         SceneManager.LoadScene(sceneToLoad);
-        PlayerControls.instance.SetCanMove(true);
+        PlayerControls.Instance.SetCanMove(true);
     }
 }

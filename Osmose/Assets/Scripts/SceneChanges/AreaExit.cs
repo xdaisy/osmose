@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class AreaExit : MonoBehaviour {
 
-    public string sceneToLoad;
+    public string SceneToLoad;
 
-    public Image fadeScreen;
-    public Animator fadeAnim;
+    public Image FadeScreen;
+    public Animator FadeAnim;
 
-    public string areaName; // area's name
+    public string AreaName; // area's name
 
     // Use this for initialization
     void Start() {
@@ -30,11 +30,11 @@ public class AreaExit : MonoBehaviour {
     }
 
     IEnumerator Fade() {
-        PlayerControls.instance.SetCanMove(false);
-        fadeAnim.SetBool("Fade", true);
-        yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
-        PlayerControls.instance.previousAreaName = areaName;
-        SceneManager.LoadScene(sceneToLoad);
-        PlayerControls.instance.SetCanMove(true);
+        PlayerControls.Instance.SetCanMove(false);
+        FadeAnim.SetBool("Fade", true);
+        yield return new WaitUntil(() => FadeScreen.color.a == 1); // wait until alpha value is one
+        PlayerControls.Instance.PreviousAreaName = AreaName;
+        SceneManager.LoadScene(SceneToLoad);
+        PlayerControls.Instance.SetCanMove(true);
     }
 }

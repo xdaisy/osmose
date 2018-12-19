@@ -16,9 +16,9 @@ public class PlayerControls : MonoBehaviour {
     private bool playerMoving; // keep track if player is moving or not
     private Vector2 lastMove; // keep track if player was moving up/down or left/right
 
-    public static PlayerControls instance; // keep track if player exist
+    public static PlayerControls Instance; // keep track if player exist
 
-    public string previousAreaName; // keep track of previous area player was in
+    public string PreviousAreaName; // keep track of previous area player was in
 
     private bool canMove; // determines if player can move or not
 
@@ -27,8 +27,8 @@ public class PlayerControls : MonoBehaviour {
 
     private void Awake() {
         // don't destroy object on load if player don't exist
-        if (instance == null) {
-            instance = this;
+        if (Instance == null) {
+            Instance = this;
         } else {
             // if another player exists, destroy game object
             Destroy(gameObject);

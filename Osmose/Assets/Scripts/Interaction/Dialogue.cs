@@ -28,7 +28,7 @@ public class Dialogue : MonoBehaviour {
         dialogueActive = true;
         dBox.SetActive(true);
         dText.text = dialogueLines[currentLine];
-        PlayerControls.instance.SetCanMove(false); // make player not be able to move
+        PlayerControls.Instance.SetCanMove(false); // make player not be able to move
     }
 
     // progress the dialogue
@@ -42,7 +42,7 @@ public class Dialogue : MonoBehaviour {
 
             currentLine = 0;
 
-            PlayerControls.instance.SetCanMove(true); // allow player to move again
+            PlayerControls.Instance.SetCanMove(true); // allow player to move again
         }
         dText.text = dialogueLines[currentLine];
     }

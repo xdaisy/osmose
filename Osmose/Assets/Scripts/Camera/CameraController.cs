@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Target = PlayerControls.instance.transform;
+        Target = PlayerControls.Instance.transform;
         transform.position = new Vector3(Target.transform.position.x, Target.transform.position.y, transform.position.z); // set on player
         offset = transform.position - Target.transform.position;
     }

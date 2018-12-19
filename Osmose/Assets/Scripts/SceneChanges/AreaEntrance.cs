@@ -10,11 +10,11 @@ public class AreaEntrance : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (transitionFromArea == PlayerControls.instance.previousAreaName) {
+        if (transitionFromArea == PlayerControls.Instance.PreviousAreaName) {
             // set player to entrance's position
-            PlayerControls.instance.transform.position = transform.position;
-            PlayerControls.instance.IsBattleMap = IsBattleMap;
-            PlayerControls.instance.SetCanMove(true);
+            PlayerControls.Instance.transform.position = transform.position;
+            PlayerControls.Instance.IsBattleMap = IsBattleMap;
+            PlayerControls.Instance.SetCanMove(true);
         }
     }
 
