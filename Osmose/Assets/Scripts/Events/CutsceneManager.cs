@@ -34,6 +34,8 @@ public class CutsceneManager : MonoBehaviour {
         reader = sourceFile.OpenText(); // open the file to read
 
         ChangeText(); // show the first line of dialogue
+
+        PlayerControls.Instance.SetCanMove(false); // player can't move when cutscene is happening
 	}
 	
 	// Update is called once per frame

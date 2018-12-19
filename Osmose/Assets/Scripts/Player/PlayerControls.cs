@@ -44,15 +44,6 @@ public class PlayerControls : MonoBehaviour {
         canMove = true;
         amountPlayerMoved = 0f;
         movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
-
-        //// don't destroy object on load if player don't exist
-        //if (instance == null) {
-        //    instance = this;
-        //} else {
-        //    // if another player exists, destroy game object
-        //    Destroy(gameObject);
-        //}
-        //DontDestroyOnLoad(gameObject);
     }
 	
 	// Update is called once per frame
@@ -66,29 +57,28 @@ public class PlayerControls : MonoBehaviour {
             movementTilEncounter = UnityEngine.Random.Range(300f, 500f); // new amount of movement until random encounter
         }
 
-        if (!canMove) {
+        float xInput = Input.GetAxisRaw("Horizontal");
+        float yInput = Input.GetAxisRaw("Vertical");
+
+        if (canMove) {
+            myRigidBody.velocity = new Vector2(xInput, yInput) * MoveSpeed;
+        } else {
             // if can't move, make the velocity zero so not moving
             myRigidBody.velocity = Vector2.zero;
-            // set so that the walking animation does not play
-            anim.SetFloat("MoveX", 0f);
-            anim.SetFloat("MoveY", 0f);
             return;
         }
 
         playerMoving = false; // default to false at start of every frame
 
-        float xInput = Input.GetAxisRaw("Horizontal");
-        float yInput = Input.GetAxisRaw("Vertical");
-
-        myRigidBody.velocity = new Vector2(xInput, yInput) * MoveSpeed;
-
-        anim.SetFloat("MoveX", xInput); // set MoveX var in animator
-        anim.SetFloat("MoveY", yInput); // set MoveY var in animator
+        anim.SetFloat("MoveX", myRigidBody.velocity.x); // set MoveX var in animator
+        anim.SetFloat("MoveY", myRigidBody.velocity.y); // set MoveY var in animator
 
         if (xInput == 1 || xInput == -1 || yInput == 1 || yInput == -1) {
             // if player press any of controls keys, set the last move to it
-            anim.SetFloat("LastMoveX", xInput); // set LastMoveX var in animator
-            anim.SetFloat("LastMoveY", yInput); // set LastMoveY var in animator
+            if (canMove) {
+                anim.SetFloat("LastMoveX", xInput); // set LastMoveX var in animator
+                anim.SetFloat("LastMoveY", yInput); // set LastMoveY var in animator
+            }
         }
     }
 

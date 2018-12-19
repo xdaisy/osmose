@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractionObject : MonoBehaviour {
-
-    public bool talks; // if true, object here can talk to player
+public class DialogueActivator : MonoBehaviour
+{
 
     public string specificEvent; // name of specific event for specific dialogue
-
-    private Dialogue dMang; // dialogue manager that will send the message to
 
     public string[] preEventDialogue; // lines of generic dialogue
 
@@ -16,9 +13,11 @@ public class InteractionObject : MonoBehaviour {
 
     private string personTalking; // name of person talking in dialogue
 
-    // Use this for initialization
-    void Start() {
-        dMang = FindObjectOfType<Dialogue>();
+    private bool canActivate = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
         if (this.CompareTag("NPC")) {
             // if this is an npc, npc is talking
             Debug.Log("npc " + this.name);
@@ -31,30 +30,29 @@ public class InteractionObject : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
-
-    }
-
-    // talk if this object has a message
-    public void Talk() {
-        if (!dMang.getDialogueActive()) {
-            // shows if dialogue already not showing
-
+    void Update()
+    {
+        if (canActivate && Input.GetButtonDown("Interact") && !Dialogue.instance.dBox.activeSelf) {
+            Dialogue.instance.SetName(personTalking);
             if (!this.specificEvent.Equals("") && CutSceneHandler.didEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
-                dMang.setDialogueLines(this.postEventDialogue);
+                Dialogue.instance.ShowDialogue(this.postEventDialogue);
             } else {
                 // event did not happened or there is no specified event
-                dMang.setDialogueLines(this.preEventDialogue);
+                Dialogue.instance.ShowDialogue(this.preEventDialogue);
             }
+        }
+    }
 
-            dMang.setCurrentLine(0);
-            dMang.setName(personTalking);
-            dMang.ShowDialogue();
-        } else {
-            // if dialogue is showing, go to next line
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Player") {
+            canActivate = true;
+        }
+    }
 
-            dMang.ShowNextLine();
+    void OnTriggerExit2D(Collider2D other) {
+        if (other.tag == "Player") {
+            canActivate = false;
         }
     }
 }

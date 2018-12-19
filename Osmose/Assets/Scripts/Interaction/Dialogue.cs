@@ -9,57 +9,58 @@ public class Dialogue : MonoBehaviour {
     public Text dText; // dialogue text
     public Text dName; // name of dialogue 
 
-    private bool dialogueActive; // check if dialogue box is visible
+    public static Dialogue instance; // dialogue manager instance
 
     private string[] dialogueLines; // lines of dialogue
     private int currentLine; // current line of dialogue
 
-	// Use this for initialization
-	void Start () {
-        this.dialogueActive = false;
+    private bool justStarted; // keep track if the dialogue just got started
+
+    private void Awake() {
+        instance = this;
+    }
+
+    // Use this for initialization
+    void Start () {
+        //if (instance == null) {
+        //    instance = this;
+        //}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (dBox.activeSelf && Input.GetButtonUp("Interact")) {
+            if (!justStarted) {
+                currentLine++;
+                if (currentLine >= dialogueLines.Length) {
+                    dBox.SetActive(false);
+
+                    currentLine = 0;
+
+                    PlayerControls.Instance.SetCanMove(true); // allow player to move again
+                }
+                dText.text = dialogueLines[currentLine];
+            } else {
+                justStarted = false;
+            }
+        }
 	}
 
     // start the dialogue
-    public void ShowDialogue() {
-        dialogueActive = true;
+    public void ShowDialogue(string[] lines) {
         dBox.SetActive(true);
+        dialogueLines = lines;
+        currentLine = 0;
         dText.text = dialogueLines[currentLine];
         PlayerControls.Instance.SetCanMove(false); // make player not be able to move
+        justStarted = true;
     }
 
-    // progress the dialogue
-    public void ShowNextLine() {
-        if (dialogueActive) {
-            currentLine++;
-        }
-        if (currentLine >= dialogueLines.Length) {
-            dBox.SetActive(false);
-            dialogueActive = false;
-
-            currentLine = 0;
-
-            PlayerControls.Instance.SetCanMove(true); // allow player to move again
-        }
-        dText.text = dialogueLines[currentLine];
+    public bool GetDialogueActive() {
+        return dBox.activeSelf;
     }
 
-    public void setDialogueLines(string[] dialogueLines) {
-        this.dialogueLines = dialogueLines;
-    }
-
-    public bool getDialogueActive() {
-        return this.dialogueActive;
-    }
-
-    public void setCurrentLine(int currentLine) {
-        this.currentLine = currentLine;
-    }
-
-    public void setName(string name) {
+    public void SetName(string name) {
         this.dName.text = name;
     }
 }
