@@ -65,7 +65,6 @@ public class PlayerControls : MonoBehaviour {
         } else {
             // if can't move, make the velocity zero so not moving
             myRigidBody.velocity = Vector2.zero;
-            return;
         }
 
         playerMoving = false; // default to false at start of every frame
