@@ -81,7 +81,7 @@ public class BattleSystem : MonoBehaviour {
         } else if (!playerDeciding && !TextHud.IsActive()) {
             nextToGo = turnOrder.Dequeue();
 
-            if (PartyStats.IsInParty(nextToGo)) {
+            if (GameManager.Instance.Party.IsInParty(nextToGo)) {
                 // if the next to go is a party member, is player's turn
                 MainHud.gameObject.SetActive(true);
                 MainHud.interactable = true;
@@ -97,7 +97,7 @@ public class BattleSystem : MonoBehaviour {
                 eventSystem.SetSelectedGameObject(null);
                 eventSystem.SetSelectedGameObject(attackButton.gameObject);
 
-                PartyStats.SetDefending(nextToGo, false); // character not defending at start of turn
+                GameManager.Instance.Party.SetDefending(nextToGo, false); // character not defending at start of turn
                 playerDeciding = true;
             } else {
                 // enemy's turn
@@ -179,7 +179,7 @@ public class BattleSystem : MonoBehaviour {
         Enemy enemy = lastClicked.GetComponent<Enemy>();
 
         // calculate the damage
-        float damage = PartyStats.GetCharacterAttack(nextToGo) - enemy.Defense;
+        float damage = GameManager.Instance.Party.GetCharacterAttack(nextToGo) - enemy.Defense;
 
         // if enemy is defending, reduce damage
         if (enemy.IsDefending) {
@@ -213,8 +213,8 @@ public class BattleSystem : MonoBehaviour {
         MainHud.gameObject.SetActive(false);
 
         // turn on skill hud
-        float currSp = PartyStats.GetCharacterCurrentSp(nextToGo);
-        float maxSp = PartyStats.GetCharacterMaxSp(nextToGo);
+        float currSp = GameManager.Instance.Party.GetCharacterCurrentSp(nextToGo);
+        float maxSp = GameManager.Instance.Party.GetCharacterMaxSp(nextToGo);
 
         SkillHud.gameObject.SetActive(true);
         SkillHud.interactable = true;
@@ -237,7 +237,7 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
 
-        PartyStats.SetDefending(nextToGo, true);
+        GameManager.Instance.Party.SetDefending(nextToGo, true);
 
         playerDeciding = false;
     }
@@ -262,10 +262,10 @@ public class BattleSystem : MonoBehaviour {
 
     private void determineTurnOrder() {
         string[] turn = new string[200];
-        List<string> party = PartyStats.GetCurrentParty();
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
 
         foreach(string name in party) {
-            float speed = PartyStats.GetCharacterSpeed(name);
+            float speed = GameManager.Instance.Party.GetCharacterSpeed(name);
             int idx = (int) speed;
             if (turn[idx] != null) {
                 // put character in the next available index if speed match

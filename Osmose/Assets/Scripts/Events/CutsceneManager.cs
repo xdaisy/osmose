@@ -27,6 +27,9 @@ public class CutsceneManager : MonoBehaviour {
 
     private CutsceneSpriteHolder spriteHolder;
 
+    public float WaitToLoad = 1f;
+    private bool shouldLoadAfterFade;
+
 	// Use this for initialization
 	void Start () {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
@@ -48,11 +51,18 @@ public class CutsceneManager : MonoBehaviour {
                 string[] fileName = path[path.Length - 1].Split('.');
                 string eventName = fileName[0]; // get name of cutscene
                 CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
-                StartCoroutine(Fade()); // fade to next scene
+                changeScene(); // fade to next scene
                 return; // don't change the text bc at end of file
             }
 
             ChangeText();
+        }
+        if (shouldLoadAfterFade) {
+            WaitToLoad -= Time.deltaTime;
+            if (WaitToLoad <= 0f) {
+                shouldLoadAfterFade = false;
+                SceneManager.LoadScene(sceneToLoad);
+            }
         }
 	}
 
@@ -100,12 +110,10 @@ public class CutsceneManager : MonoBehaviour {
         return name;
     }
 
-    IEnumerator Fade() {
-        PlayerControls.Instance.SetCanMove(false);
-        fadeAnim.SetBool("Fade", true);
-        yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
+    private void changeScene() {
+        UIFade.Instance.FadeToBlack();
+        shouldLoadAfterFade = true;
         PlayerControls.Instance.PreviousAreaName = cutsceneName;
-        SceneManager.LoadScene(sceneToLoad);
-        PlayerControls.Instance.SetCanMove(true);
+        PlayerControls.Instance.SetCanMove(false);
     }
 }

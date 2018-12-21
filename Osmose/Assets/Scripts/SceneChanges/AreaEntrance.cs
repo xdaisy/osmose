@@ -16,6 +16,7 @@ public class AreaEntrance : MonoBehaviour {
             PlayerControls.Instance.IsBattleMap = IsBattleMap;
             PlayerControls.Instance.SetCanMove(true);
         }
+        UIFade.Instance.FadeFromBlack();
     }
 
     // Update is called once per frame

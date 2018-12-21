@@ -6,231 +6,131 @@ using UnityEngine;
 public enum StatType {
     ATTACK = 1,
     DEFENSE = 2,
-    SPEED = 3,
-    LUCK = 4
+    MAGICDEFENSE = 3,
+    SPEED = 4,
+    LUCK = 5
 }
 
-public static class PartyStats {
-    private static Dictionary<string, Character> party;
-    private static List<string> currentPartyMembers;
+public class PartyStats {
+    private Dictionary<string, CharStats> party;
+    private List<string> currentPartyMembers;
 
-    static PartyStats() {
-        party = new Dictionary<string, Character>();
-        Character aren = new Character(145, 25, 50, 70, 25, 60, 15);
-        Character rey = new Character(125, 50, 35, 40, 50, 45, 20);
-        Character naoise = new Character(200, 35, 20, 30, 70, 50, 30);
+    private int maxLevel = 100;
+    private int baseExp = 100;
+
+    private int[] expToNextLvl;
+
+    public PartyStats() {
+        party = new Dictionary<string, CharStats>();
+        CharStats aren = new CharStats(145, 25, 50, 70, 25, 60, 15);
+        CharStats rey = new CharStats(125, 50, 35, 40, 50, 45, 20);
+        CharStats naoise = new CharStats(200, 35, 20, 30, 70, 50, 30);
         party["Aren"] = aren;
         party["Rey"] = rey;
         party["Naoise"] = naoise;
 
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add("Aren");
-    }
 
-    /// <summary>
-    /// Return whether or not the specific character is defending
-    /// </summary>
-    /// <param name="name">name of the character</param>
-    /// <returns></returns>
-    public static bool IsDefending(string name) {
-        return party[name].IsDefending();
+        expToNextLvl = new int[maxLevel];
+        expToNextLvl[1] = baseExp;
+        for (int i = 2; i < expToNextLvl.Length; i++) {
+            expToNextLvl[i] = Mathf.FloorToInt(expToNextLvl[i - 1] * 1.05f);
+        }
     }
-
-    /// <summary>
-    /// Set whether or not the character is defending
-    /// </summary>
-    /// <param name="name">name of the character</param>
-    /// <param name="isDefending">if character is defending or not</param>
-    public static void SetDefending(string name, bool isDefending) {
-        party[name].SetDefend(isDefending);
+    
+    public bool IsDefending(string name) {
+        return party[name].IsDefending;
     }
-
-    /// <summary>
-    /// Get character's current HP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's current HP</returns>
-    public static float GetCharacterCurrentHP(string name) {
-        return party[name].GetCurrentHP();
+    
+    public void SetDefending(string name, bool isDefending) {
+        party[name].IsDefending = isDefending;
     }
-
-    /// <summary>
-    /// Get character's max HP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's max HP</returns>
-    public static float GetCharacterMaxHP(string name) {
-        return party[name].GetMaxHP();
+    
+    public float GetCharacterCurrentHP(string name) {
+        return party[name].CurrHP;
     }
-
-    /// <summary>
-    /// Get character's current SP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's current SP</returns>
-    public static float GetCharacterCurrentSp(string name) {
-        return party[name].GetCurrentSP();
+    
+    public float GetCharacterMaxHP(string name) {
+        return party[name].MaxHP;
     }
-
-    /// <summary>
-    /// Get character's max SP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's max SP</returns>
-    public static float GetCharacterMaxSp(string name) {
-        return party[name].GetMaxSP();
+    
+    public float GetCharacterCurrentSp(string name) {
+        return party[name].CurrSP;
     }
-
-    /// <summary>
-    /// Get character's attack
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's attack</returns>
-    public static float GetCharacterAttack(string name) {
-        return party[name].GetAttack();
+    
+    public float GetCharacterMaxSp(string name) {
+        return party[name].MaxSP;
     }
-
-    /// <summary>
-    /// Get character's defense
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's defense</returns>
-    public static float GetCharacterDefense(string name) {
-        return party[name].GetDefense();
+    
+    public float GetCharacterAttack(string name) {
+        return party[name].Attack;
     }
-
-    /// <summary>
-    /// Get character's speed
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's speed</returns>
-    public static float GetCharacterSpeed(string name) {
-        return party[name].GetSpeed();
+    
+    public float GetCharacterDefense(string name) {
+        return party[name].Defense;
     }
-
-    /// <summary>
-    /// Get character's luck
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns>Character's luck</returns>
-    public static float GetCharacterLuck(string name) {
-        return party[name].GetLuck();
+    
+    public float GetCharacterSpeed(string name) {
+        return party[name].Speed;
     }
-
-    /// <summary>
-    /// Give the character EXP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="expPoints">Amount of EXP to gain</param>
-    public static void GainExperience(string name, int expPoints) {
-        party[name].GainExp(expPoints);
+    
+    public float GetCharacterLuck(string name) {
+        return party[name].Luck;
     }
-
-    /// <summary>
-    /// Recover HP for the character
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="hitpoints">Amount of HP to recover</param>
-    public static void RecoverHP(string name, float hitpoints) {
-        party[name].RecoverHP(hitpoints);
+    
+    public void GainExperience(int expPoints) {
+        foreach (string name in currentPartyMembers) {
+            party[name].GainExp(expPoints);
+        }
     }
-
-    /// <summary>
-    /// Recover a percent amount of the character's HP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="percent">Percent of HP to recover</param>
-    public static void RecoverPctHP(string name, float percent) {
-        Character character = party[name];
-        float hitpoints = (float)Math.Round(character.GetCurrentHP() * percent);
+    
+    public int GetExpToNextLvl(int level) {
+        return expToNextLvl[level];
+    }
+    
+    public void RecoverHP(string name, int hitpoints) {
+        party[name].CurrHP = Math.Min(party[name].CurrHP + hitpoints, party[name].MaxHP);
+    }
+    
+    public void RecoverPctHP(string name, float percent) {
+        CharStats character = party[name];
+        int hitpoints = Mathf.RoundToInt(character.CurrHP * percent);
         RecoverHP(name, hitpoints);
     }
-
-    /// <summary>
-    /// Recover the character's SP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="skillpoints">Amount of SP to recover</param>
-    public static void RecoverSP(string name, float skillpoints) {
-        party[name].RecoverSP(skillpoints);
+    
+    public void RecoverSP(string name, int skillpoints) {
+        party[name].CurrSP = Math.Min(party[name].CurrSP + skillpoints, party[name].MaxSP);
     }
-
-    /// <summary>
-    /// Recover a percent of the character's SP
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="percent">Percent of SP to recover</param>
-    public static void RecoverPctSP(string name, float percent) {
-        Character character = party[name];
-        float skillpoints = (float)Math.Round(character.GetCurrentSP() * percent);
+    
+    public void RecoverPctSP(string name, float percent) {
+        CharStats character = party[name];
+        int skillpoints = Mathf.RoundToInt(character.CurrSP * percent);
         RecoverSP(name, skillpoints);
     }
 
-    /// <summary>
-    /// Buff the stat of the character
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="stat">Type of the stat to buff</param>
-    /// <param name="buffer">Amount to buff</param>
-    public static void Buff(string name, StatType stat, StatModifier buffer) {
-        party[name].Buff(stat, buffer);
+    public void ClearStatsModifier() {
+        foreach (string name in currentPartyMembers) {
+            party[name].AttackModifier = 1f;
+            party[name].DefenseModifier = 1f;
+            party[name].MagicDefenseModifier = 1f;
+            party[name].SpeedModifier = 1f;
+            party[name].LuckModifier = 1f;
+        }
     }
-
-    /// <summary>
-    /// Remove the buffs from a character
-    /// </summary>
-    /// <param name="name">Name of the character to remove the buff</param>
-    /// <param name="stat">Type of stat of the buff</param>
-    /// <param name="buffer">Buff to remove</param>
-    public static void RemoveBuff(string name, StatType stat, StatModifier buffer) {
-        
-    }
-
-    /// <summary>
-    /// Debuff the stat of the character
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <param name="stat">Type of the stat to debuff</param>
-    /// <param name="debuffer">Amount to debuff</param>
-    public static void Debuff(string name, StatType stat, StatModifier debuffer) {
-        party[name].Debuff(stat, debuffer);
-    }
-
-    /// <summary>
-    /// Remove the debuff from a character
-    /// </summary>
-    /// <param name="name">Name of the character to remove the debuff from</param>
-    /// <param name="stat">Type of the stat of the debuff</param>
-    /// <param name="debuffer">Debuff to remove</param>
-    public static void RemoveDebuff(string name, StatType stat, StatModifier debuffer) {
-        party[name].RemoveDebuff(stat, debuffer);
-    }
-
-    /// <summary>
-    /// Change who's in the party and the order of the party members
-    /// </summary>
-    /// <param name="party">Array of the members who's currently in the party</param>
-    public static void changeMembers(string[] party) {
+    
+    public void ChangeMembers(string[] party) {
         currentPartyMembers.Clear();
         foreach (string name in party) {
             currentPartyMembers.Add(name);
         }
     }
-
-    /// <summary>
-    /// Return the current party members in order
-    /// </summary>
-    /// <returns></returns>
-    public static List<string> GetCurrentParty() {
+    
+    public List<string> GetCurrentParty() {
         return new List<string>(currentPartyMembers);
     }
-
-    /// <summary>
-    /// Return whether or not the character is in the current party
-    /// </summary>
-    /// <param name="name">Name of the character</param>
-    /// <returns></returns>
-    public static Boolean IsInParty(string name) {
+    
+    public Boolean IsInParty(string name) {
         return currentPartyMembers.Contains(name);
     }
 }

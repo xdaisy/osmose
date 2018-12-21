@@ -12,8 +12,7 @@ public class PlayerControls : MonoBehaviour {
     private Animator anim; // reference to animator
 
     private Rigidbody2D myRigidBody; // reference to ridgebody, use to add force, will push against collision boxes instead of bouncing off
-
-    private bool playerMoving; // keep track if player is moving or not
+    
     private Vector2 lastMove; // keep track if player was moving up/down or left/right
 
     public static PlayerControls Instance; // keep track if player exist
@@ -66,8 +65,6 @@ public class PlayerControls : MonoBehaviour {
             // if can't move, make the velocity zero so not moving
             myRigidBody.velocity = Vector2.zero;
         }
-
-        playerMoving = false; // default to false at start of every frame
 
         anim.SetFloat("MoveX", myRigidBody.velocity.x); // set MoveX var in animator
         anim.SetFloat("MoveY", myRigidBody.velocity.y); // set MoveY var in animator
