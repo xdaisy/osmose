@@ -10,7 +10,7 @@ public class AreaExit : MonoBehaviour {
 
     public string AreaName; // area's name
 
-    public float WaitToLoad = 1f;
+    public float WaitToLoad = 1f; 
 
     private bool shouldLoadAfterFade;
 

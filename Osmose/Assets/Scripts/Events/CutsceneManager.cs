@@ -28,13 +28,17 @@ public class CutsceneManager : MonoBehaviour {
     private CutsceneSpriteHolder spriteHolder;
 
     public float WaitToLoad = 1f;
-    private bool shouldLoadAfterFade;
+    private bool shouldLoadAfterFade = false;
+
+    private bool canGoThroughDialogue = false;
 
 	// Use this for initialization
 	void Start () {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         sourceFile = new FileInfo(cutsceneTxtPath); // get file
         reader = sourceFile.OpenText(); // open the file to read
+
+        UIFade.Instance.FadeFromBlack();
 
         ChangeText(); // show the first line of dialogue
 
