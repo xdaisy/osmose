@@ -42,8 +42,8 @@ public class CutsceneManager : MonoBehaviour {
 
         ChangeText(); // show the first line of dialogue
 
-        PlayerControls.Instance.SetCanMove(false); // player can't move when cutscene is happening
-	}
+        GameManager.Instance.FadingBetweenAreas = true;
+    }
 	
 	// Update is called once per frame
 	void Update () {

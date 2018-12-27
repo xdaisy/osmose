@@ -14,7 +14,7 @@ public class AreaEntrance : MonoBehaviour {
             // set player to entrance's position
             PlayerControls.Instance.transform.position = transform.position;
             PlayerControls.Instance.IsBattleMap = IsBattleMap;
-            PlayerControls.Instance.SetCanMove(true);
+            GameManager.Instance.FadingBetweenAreas = false;
         }
         UIFade.Instance.FadeFromBlack();
     }

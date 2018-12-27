@@ -22,9 +22,6 @@ public class Dialogue : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //if (instance == null) {
-        //    instance = this;
-        //}
 	}
 	
 	// Update is called once per frame
@@ -37,7 +34,7 @@ public class Dialogue : MonoBehaviour {
 
                     currentLine = 0;
 
-                    PlayerControls.Instance.SetCanMove(true); // allow player to move again
+                    GameManager.Instance.DialogActive = false;
                 }
                 dText.text = dialogueLines[currentLine];
             } else {
@@ -52,7 +49,7 @@ public class Dialogue : MonoBehaviour {
         dialogueLines = lines;
         currentLine = 0;
         dText.text = dialogueLines[currentLine];
-        PlayerControls.Instance.SetCanMove(false); // make player not be able to move
+        GameManager.Instance.DialogActive = true;
         justStarted = true;
     }
 
