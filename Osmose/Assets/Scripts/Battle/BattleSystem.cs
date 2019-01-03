@@ -15,6 +15,10 @@ public class BattleSystem : MonoBehaviour {
     public CanvasGroup EnemyHud;
     public Text TextHud;
 
+    public GameObject[] PartyMembers;
+    public Text[] PartyNames;
+    public Text[] PartyHP;
+
     // keep track of whose turn is it for this round
     private Queue<string> turnOrder;
 
@@ -35,6 +39,20 @@ public class BattleSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        // set up ui
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+        for (int i = 0; i < PartyMembers.Length; i++) {
+            if (i >= party.Count) {
+                // if have less members in current party than total party members, do not show the other
+                PartyMembers[i].SetActive(false);
+                continue;
+            }
+            string partyMember = party[i];
+            PartyNames[i].text = partyMember;
+            PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember) 
+                + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
+        }
+
         determineTurnOrder();
         playerDeciding = false;
         textToShow = "";
@@ -229,7 +247,15 @@ public class BattleSystem : MonoBehaviour {
 
         // turn on item hud
         ItemHud.gameObject.SetActive(true);
-        ItemHud.interactable = true;    
+        ItemHud.interactable = true;
+
+        eventSystem.SetSelectedGameObject(null);
+        Button item = ItemHud.GetComponentInChildren<Button>();
+        eventSystem.SetSelectedGameObject(item.gameObject, null);
+    }
+
+    public void SelectItem() {
+        Debug.Log("Click item");
     }
 
     public void SelectDefend() {
