@@ -19,6 +19,7 @@ public class Items : MonoBehaviour
     [Header("Item Details")]
     public int AmountToChange; // for healing or boosting stats
     public bool AffectHP, AffectSP, AffectAttk, AffectDefn;
+    public bool UseOnParty; // true for use on party member, false if use on enemy
 
     [Header("Weapon/Armor Details")]
     public int WeaponStr; // attack power for weapon
@@ -42,8 +43,9 @@ public class Items : MonoBehaviour
     /// </summary>
     /// <param name="charName">Name of the character to use the item on</param>
     public void Use(string charName) {
-        if (IsItem) {
+        if (IsItem && UseOnParty) {
             // is a regular item and use item
+            // item affects party member
 
             if (AffectHP) {
                 GameManager.Instance.Party.RecoverHP(charName, AmountToChange);
