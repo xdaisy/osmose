@@ -64,11 +64,13 @@ public class PartyStats {
     }
     
     public float GetCharacterAttack(string name) {
-        return party[name].Attack;
+        // get total attack
+        return party[name].Attack + party[name].WeaponAttack;
     }
     
     public float GetCharacterDefense(string name) {
-        return party[name].Defense;
+        // get total defense
+        return party[name].Defense + party[name].ArmorDefense;
     }
     
     public float GetCharacterSpeed(string name) {
@@ -107,6 +109,44 @@ public class PartyStats {
         CharStats character = party[name];
         int skillpoints = Mathf.RoundToInt(character.CurrSP * percent);
         RecoverSP(name, skillpoints);
+    }
+
+    public string GetWeapon(string name) {
+        return party[name].Weapon;
+    }
+
+    public void EquipWeapon(string name, string weapon, int weaponStr) {
+        party[name].Weapon = weapon;
+        party[name].WeaponAttack= weaponStr;
+    }
+
+    public string GetArmor(string name) {
+        return party[name].Armor;
+    }
+
+    public void EquipArmor(string name, string armor, int armorDefn) {
+        party[name].Armor = armor;
+        party[name].ArmorDefense = armorDefn;
+    }
+
+    public void IncreaseStat(string name, StatType statType, int amountToIncrease) {
+        switch(statType) {
+            case StatType.ATTACK:
+                party[name].Attack += amountToIncrease;
+                break;
+            case StatType.DEFENSE:
+                party[name].Defense += amountToIncrease;
+                break;
+            case StatType.MAGICDEFENSE:
+                party[name].MagicDefense += amountToIncrease;
+                break;
+            case StatType.SPEED:
+                party[name].Speed += amountToIncrease;
+                break;
+            case StatType.LUCK:
+                party[name].Luck += amountToIncrease;
+                break;
+        }
     }
 
     public void ClearStatsModifier() {

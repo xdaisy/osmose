@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Move the indexes with items to the front of the array
     /// </summary>
-    public void CompressItem() {
+    public void SortItems() {
         bool itemAfterSpace = true;
 
         while (itemAfterSpace) {
@@ -70,6 +70,63 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void AddItem(string itemName) {
+        // checks if item exists
+        bool itemExists = false;
+        foreach (Items item in ReferenceItems) {
+            if (item.ItemName == itemName) {
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (itemExists) {
+            // add item if the item is a real item
+            for (int i = 0; i < ItemsHeld.Length; i++) {
+                if (ItemsHeld[i] == itemName || ItemsHeld[i] == "") {
+                    ItemsHeld[i] = itemName; // set item in error
+                    NumOfItems[i]++; // increment number of itemName held, if added should be 0
+                    break;
+                }
+            }
+
+            SortItems();
+        } else {
+            Debug.LogError(itemName + " do not exist"); // log error
+        }
+    }
+
+    public void RemoveItem(string itemName) {
+        // checks if item exists
+        bool itemExists = false;
+        foreach (Items item in ReferenceItems) {
+            if (item.ItemName == itemName) {
+                itemExists = true;
+                break;
+            }
+        }
+
+        if (itemExists) {
+            // add item if the item is a real item
+            for (int i = 0; i < ItemsHeld.Length; i++) {
+                if (ItemsHeld[i] == itemName) {
+                    NumOfItems[i]--; // decrement number of itemName held, if added should be 0
+                    if (NumOfItems[i] <= 0) {
+                        // remove the item if carry 0 of them
+                        ItemsHeld[i] = "";
+                    }
+                    break;
+                } else if (ItemsHeld[i] == "") {
+                    // if didn't find it and got to end of array, break
+                    break;
+                }
+            }
+            SortItems();
+        } else {
+            Debug.LogError(itemName + " do not exist"); // log error
         }
     }
 }

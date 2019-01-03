@@ -18,6 +18,9 @@ public class CharStats {
     public int Speed;
     public int Luck;
 
+    public string Weapon;
+    public string Armor;
+
     public int WeaponAttack;
     public int ArmorDefense;
 
@@ -45,6 +48,11 @@ public class CharStats {
         this.MagicDefense = magicDefense;
         this.Speed = speed;
         this.Luck = luck;
+
+        this.Weapon = "";
+        this.WeaponAttack = 0;
+        this.Armor = "";
+        this.ArmorDefense = 0;
     }
     
     public int GetExpLeft() {
