@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 300}
+  m_MinSize: {x: 950, y: 498}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 448}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 63
+  controlID: 58
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 448}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 13
+  controlID: 71
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -329,7 +329,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 374
-    width: 534
+    width: 515
     height: 266
   m_PersistentViewDataDictionary: {fileID: 0}
 --- !u!114 &14
@@ -436,12 +436,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 374
-    width: 534
+    width: 515
     height: 266
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 3854
+  m_LastSelectedObjectID: 3896
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -471,9 +471,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 1ef0ffff
-      m_LastClickedID: -4066
-      m_ExpandedIDs: feecffffd4fbffffdc0e0000ee0e0000000f00000e0f0000320f00003c0f00005a0f0000600f00006c0f0000720f0000
+      m_SelectedIDs: f23c0000
+      m_LastClickedID: 15602
+      m_ExpandedIDs: fcebffff62eeffffd4fbffff0a0f00002a0f0000380f0000420f0000700f000066380000783d0000903d0000a83d0000d63d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -570,19 +570,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Scenes
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\kh2an\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ac090000
-    m_LastClickedID: 2476
+    m_SelectedIDs: ec090000
+    m_LastClickedID: 2540
     m_ExpandedIDs: 00000000ac090000ec090000140a0000780b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -777,9 +777,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 678.13696, y: 247.97696, z: -5.2787495}
+    m_Target: {x: 624.3318, y: 259.56403, z: -5.8745894}
     speed: 2
-    m_Value: {x: 678.13696, y: 247.97696, z: -5.2787495}
+    m_Value: {x: 624.3318, y: 259.56403, z: -5.8745894}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -811,9 +811,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 650.4628
+    m_Target: 710.32166
     speed: 2
-    m_Value: 650.4628
+    m_Value: 710.32166
   m_Ortho:
     m_Target: 1
     speed: 2
