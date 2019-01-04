@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas;
 
-    public string[] ItemsHeld; // keep track of which item the player has
+    public string[] ItemsHeld; // keep track of which usable item the player has
     public int[] NumOfItems; // keep track of how many of each item held
     public Items[] ReferenceItems; // reference to prefab of the items
 
@@ -37,6 +37,26 @@ public class GameManager : MonoBehaviour
         } else {
             PlayerControls.Instance.SetCanMove(true);
         }
+    }
+
+    public Items GetItemAt(int index) {
+        if (index >= ItemsHeld.Length) {
+            return null;
+        }
+        return GetItemDetails(ItemsHeld[index]);
+    }
+
+    public int GetAmountOfItem(string itemName) {
+        for (int i = 0; i < ItemsHeld.Length; i++) {
+            if (ItemsHeld[i] == "") {
+                break;
+            }
+
+            if (ItemsHeld[i] == itemName) {
+                return NumOfItems[i];
+            }
+        }
+        return 0;
     }
 
     public Items GetItemDetails(string itemName) {

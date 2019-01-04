@@ -6,8 +6,9 @@ using UnityEngine.EventSystems;
 using System;
 
 public class BattleSystem : MonoBehaviour {
+    private EventSystem eventSystem; // event system for battle
 
-    public EventSystem eventSystem;
+    // All the HUDS
     public CanvasGroup MainHud;
     public CanvasGroup SkillHud;
     public CanvasGroup ItemHud;
@@ -15,9 +16,20 @@ public class BattleSystem : MonoBehaviour {
     public CanvasGroup EnemyHud;
     public Text TextHud;
 
+    // For showing party members
     public GameObject[] PartyMembers;
     public Text[] PartyNames;
     public Text[] PartyHP;
+
+    // For showing Item HUD
+    public Button[] ItemButtons;
+    public Text ItemName;
+    public Text ItemDescription;
+    public Text ItemAmount;
+    public GameObject PreviousPageButton;
+    public GameObject NextPageButton;
+
+    private int itemStartOn = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
 
     // keep track of whose turn is it for this round
     private Queue<string> turnOrder;
@@ -39,6 +51,7 @@ public class BattleSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        eventSystem = EventSystem.current;
         // set up ui
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
         for (int i = 0; i < PartyMembers.Length; i++) {
@@ -174,6 +187,11 @@ public class BattleSystem : MonoBehaviour {
                 setSelectedButton("AttackButton");
             }
         }
+
+        if (ItemHud.gameObject.activeSelf) {
+            // if item hud is active, make sure the correct description is on
+            updateItemDescriptionPanel();
+        }
 	}
 
     /// <summary>
@@ -252,10 +270,63 @@ public class BattleSystem : MonoBehaviour {
         eventSystem.SetSelectedGameObject(null);
         Button item = ItemHud.GetComponentInChildren<Button>();
         eventSystem.SetSelectedGameObject(item.gameObject, null);
+
+        showItems();
     }
 
     public void SelectItem() {
         Debug.Log("Click item");
+    }
+
+    private void showItems() {
+        for (int i = 0; i < ItemButtons.Length; i++) {
+            // go through each item button
+            int idx = i + itemStartOn; // get index for items array
+            Button itemButton = ItemButtons[i];
+            Items item = GameManager.Instance.GetItemAt(idx);
+            if (item == null) {
+                // if no item, set button off
+                itemButton.gameObject.SetActive(false);
+                
+                if (NextPageButton.activeSelf) {
+                    // if found "", if next page button is active, turn it inactive
+                    // find the first ""
+                    // means no more items
+                    NextPageButton.SetActive(false);
+                }
+            } else {
+                // got item
+                Text itemButtonText = itemButton.GetComponentInChildren<Text>();
+                itemButtonText.text = item.ItemName;
+            }
+        }
+        if (itemStartOn <= 0) {
+            // if at beginning of item list, can't go back a page
+            PreviousPageButton.SetActive(false);
+        } else {
+            // else, can go back a page
+            PreviousPageButton.SetActive(true);
+        }
+
+        updateItemDescriptionPanel();
+    }
+
+    private void updateItemDescriptionPanel() {
+        GameObject currentSelected = eventSystem.currentSelectedGameObject;
+
+        if (currentSelected.tag == "BattleItemButton") {
+            // update if the button is a battle item button
+            string currentSelectedItemName = currentSelected.GetComponentInChildren<Text>().text;
+
+            if (currentSelectedItemName != ItemName.text) {
+                // update if the current selected
+                Items currentSelectedItem = GameManager.Instance.GetItemDetails(currentSelectedItemName);
+
+                ItemName.text = currentSelectedItemName;
+                ItemDescription.text = currentSelectedItem.Description;
+                ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(currentSelectedItemName);
+            }
+        }
     }
 
     public void SelectDefend() {
