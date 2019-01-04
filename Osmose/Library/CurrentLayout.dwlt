@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 950, y: 498}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 448}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 13
+  controlID: 116
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 448}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 73
+  controlID: 61
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -471,9 +471,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 8e0e0000
-      m_LastClickedID: 3726
-      m_ExpandedIDs: d4fbffff0a0f0000220f00003c0f00006a0f0000
+      m_SelectedIDs: a8f6ffff
+      m_LastClickedID: -2392
+      m_ExpandedIDs: f6e0ffffc6e7ffff44ecfffff8eeffffb0f3ffff2af8ffffd4fbffff8e0e0000000f0000180f0000280f00005e0f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -570,19 +570,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scenes/Aren_Prologue
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scenes/Aren_Prologue
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\kh2an\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ea090000
-    m_LastClickedID: 2538
+    m_SelectedIDs: e60d0000
+    m_LastClickedID: 3558
     m_ExpandedIDs: 00000000aa090000ea090000120a0000760b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -777,9 +777,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 624.3318, y: 259.56403, z: -5.8745894}
+    m_Target: {x: 621.3233, y: 173.97914, z: -40.907845}
     speed: 2
-    m_Value: {x: 624.3318, y: 259.56403, z: -5.8745894}
+    m_Value: {x: 621.3233, y: 173.97914, z: -40.907845}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -811,9 +811,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 710.32166
+    m_Target: 564.5932
     speed: 2
-    m_Value: 710.32166
+    m_Value: 564.5932
   m_Ortho:
     m_Target: 1
     speed: 2
