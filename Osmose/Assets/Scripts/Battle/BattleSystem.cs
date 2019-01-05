@@ -16,6 +16,8 @@ public class BattleSystem : MonoBehaviour {
     public CanvasGroup EnemyHud;
     public Text TextHud;
 
+    private string previousHud; // keep track of the previous hud
+
     // For showing party members
     public GameObject[] PartyMembers;
     public Text[] PartyNames;
@@ -30,6 +32,8 @@ public class BattleSystem : MonoBehaviour {
     public GameObject NextPageButton;
 
     private int itemStartOn = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
+
+    private Items itemToUse; // keep track of which item selected to be used
 
     // keep track of whose turn is it for this round
     private Queue<string> turnOrder;
@@ -47,6 +51,7 @@ public class BattleSystem : MonoBehaviour {
 
     private void Awake() {
         turnOrder = new Queue<string>();
+        itemToUse = null;
     }
 
     // Use this for initialization
@@ -73,6 +78,7 @@ public class BattleSystem : MonoBehaviour {
         earnedMoney = 0;
         numEnemiesRemaining = int.MaxValue;
         escaped = false;
+        previousHud = "main";
 
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
@@ -147,7 +153,7 @@ public class BattleSystem : MonoBehaviour {
             TextHud.gameObject.SetActive(false);
         } else if (Input.GetButtonDown("Cancel")) {
             // if on a different menu and hit cancel, go back to previous menu
-            if (EnemyHud.gameObject.activeSelf) {
+            if (EnemyHud.interactable) {
                 // if selecting enemy and cancel, go back to main menu on the attack button
                 EnemyHud.interactable = false;
                 MainHud.interactable = true;
@@ -155,7 +161,7 @@ public class BattleSystem : MonoBehaviour {
                 setSelectedButton("AttackButton");
             }
 
-            if (SkillHud.gameObject.activeSelf) {
+            if (SkillHud.interactable) {
                 // selecting skill and cancel, go back to main menu on the skill button
                 SkillHud.interactable = false;
                 SkillHud.gameObject.SetActive(false);
@@ -166,7 +172,7 @@ public class BattleSystem : MonoBehaviour {
                 setSelectedButton("SkillsButton");
             }
 
-            if (ItemHud.gameObject.activeSelf) {
+            if (ItemHud.interactable) {
                 // selecting item and cancel, go back to main menu on item button
                 ItemHud.interactable = false;
                 ItemHud.gameObject.SetActive(false);
@@ -177,14 +183,35 @@ public class BattleSystem : MonoBehaviour {
                 setSelectedButton("ItemsButton");
             }
 
-            if (PartyHud.gameObject.activeSelf) {
-                // selecting party member and cancel, go back to main menu
-                PartyHud.interactable = false;
+            if (PartyHud.interactable) {
+                switch(previousHud) {
+                    case "item":
+                        // party hud is now not interable
+                        PartyHud.interactable = false;
 
-                MainHud.interactable = true;
-                MainHud.gameObject.SetActive(true);
+                        // item hud is now interactable
+                        // item hud is still visible, so don't have to set active
+                        ItemHud.interactable = true;
 
-                setSelectedButton("AttackButton");
+                        string itemName = itemToUse.ItemName;
+                        foreach (Button item in ItemButtons) {
+                            if (item.GetComponentInChildren<Text>().text == itemName) {
+                                eventSystem.SetSelectedGameObject(item.gameObject);
+                                break;
+                            }
+                        }
+                        break;
+                    case "skill":
+                        // party hud is now not interable
+                        PartyHud.interactable = false;
+
+                        // skill hud now interactable
+                        // skill hud already visible, so don't have to set active
+                        SkillHud.interactable = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -201,6 +228,8 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         EnemyHud.interactable = true;
 
+        previousHud = "main";
+
         // TODO: Find way to get list of the Enemies and have the far left one selected 
         Button enemy = EnemyHud.GetComponentInChildren<Button>();
         eventSystem.SetSelectedGameObject(enemy.gameObject);
@@ -208,6 +237,8 @@ public class BattleSystem : MonoBehaviour {
 
     public void SelectEnemy() {
         EnemyHud.interactable = false;
+
+        previousHud = "enemy";
         /// get enemy who was clicked
         GameObject lastClicked = eventSystem.currentSelectedGameObject;
 
@@ -252,6 +283,8 @@ public class BattleSystem : MonoBehaviour {
         float currSp = GameManager.Instance.Party.GetCharacterCurrentSp(nextToGo);
         float maxSp = GameManager.Instance.Party.GetCharacterMaxSp(nextToGo);
 
+        previousHud = "main";
+
         SkillHud.gameObject.SetActive(true);
         SkillHud.interactable = true;
         Text spText = SkillHud.GetComponentInChildren<Text>();
@@ -267,6 +300,8 @@ public class BattleSystem : MonoBehaviour {
         ItemHud.gameObject.SetActive(true);
         ItemHud.interactable = true;
 
+        previousHud = "main";
+
         eventSystem.SetSelectedGameObject(null);
         Button item = ItemHud.GetComponentInChildren<Button>();
         eventSystem.SetSelectedGameObject(item.gameObject, null);
@@ -274,8 +309,22 @@ public class BattleSystem : MonoBehaviour {
         showItems();
     }
 
-    public void SelectItem() {
-        Debug.Log("Click item");
+    public void SelectItem(int itemIdx) {
+        // get item info
+        string itemName = ItemButtons[itemIdx].GetComponentInChildren<Text>().text;
+        itemToUse = GameManager.Instance.GetItemDetails(itemName);
+
+        // set item hud to not interactable
+        ItemHud.interactable = false;
+
+        // set party hud to interactable
+        PartyHud.interactable = true;
+
+        previousHud = "item";
+
+        eventSystem.SetSelectedGameObject(null);
+        Button firstHighlightedCharacter = PartyHud.GetComponentInChildren<Button>();
+        eventSystem.SetSelectedGameObject(firstHighlightedCharacter.gameObject);
     }
 
     private void showItems() {
@@ -355,6 +404,32 @@ public class BattleSystem : MonoBehaviour {
         }
 
         playerDeciding = false;
+    }
+
+    public void SelectPartyMember(int partyMember) {
+        string character = PartyNames[partyMember].text;
+
+        if (itemToUse.AffectHP && GameManager.Instance.Party.GetCharacterCurrentHP(character) < GameManager.Instance.Party.GetCharacterMaxHP(character)) {
+            // recover character hp if current hp is less than max
+            itemToUse.Use(character);
+
+            PartyHP[partyMember].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(character) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(character);
+
+            PartyHud.interactable = false;
+            ItemHud.gameObject.SetActive(false);
+
+            textToShow = character + " healed " + itemToUse.AmountToChange + " hp!";
+        } else if (itemToUse.AffectSP && GameManager.Instance.Party.GetCharacterCurrentSp(character) < GameManager.Instance.Party.GetCharacterMaxSp(character)) {
+            // recover character sp if current sp is less than max
+            itemToUse.Use(character);
+
+            PartyHud.interactable = false;
+            ItemHud.gameObject.SetActive(false);
+
+            textToShow = character + " healed " + itemToUse.AmountToChange + " sp!";
+        } else {
+            // character can't be healed
+        }
     }
 
     private void determineTurnOrder() {
