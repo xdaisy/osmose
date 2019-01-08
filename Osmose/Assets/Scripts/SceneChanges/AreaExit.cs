@@ -36,6 +36,7 @@ public class AreaExit : MonoBehaviour {
             UIFade.Instance.FadeToBlack();
             PlayerControls.Instance.PreviousAreaName = AreaName;
             GameManager.Instance.FadingBetweenAreas = true;
+            GameManager.Instance.CurrentScene = SceneToLoad;
         }
     }
 }

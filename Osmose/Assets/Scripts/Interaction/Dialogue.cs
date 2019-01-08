@@ -9,7 +9,7 @@ public class Dialogue : MonoBehaviour {
     public Text dText; // dialogue text
     public Text dName; // name of dialogue 
 
-    public static Dialogue instance; // dialogue manager instance
+    public static Dialogue Instance; // dialogue manager instance
 
     private string[] dialogueLines; // lines of dialogue
     private int currentLine; // current line of dialogue
@@ -17,7 +17,12 @@ public class Dialogue : MonoBehaviour {
     private bool justStarted; // keep track if the dialogue just got started
 
     private void Awake() {
-        instance = this;
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization

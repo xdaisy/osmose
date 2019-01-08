@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
 
     public PartyStats Party;
 
-    public bool GameMenuOpen, DialogActive, FadingBetweenAreas;
+    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle;
+
+    public string CurrentScene;
 
     public string[] ItemsHeld; // keep track of which usable item the player has
     public int[] NumOfItems; // keep track of how many of each item held
@@ -32,7 +34,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);

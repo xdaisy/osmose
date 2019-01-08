@@ -56,6 +56,8 @@ public class BattleSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        GameManager.Instance.InBattle = true;
+
         eventSystem = EventSystem.current;
         // set up ui
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
@@ -106,6 +108,9 @@ public class BattleSystem : MonoBehaviour {
 
             if (Input.GetButtonDown("Interact")) {
                 // load back to previous scene
+                GameManager.Instance.InBattle = false;
+                PlayerControls.Instance.PreviousAreaName = "battle";
+                // need to load back into scene
             }
         }
 

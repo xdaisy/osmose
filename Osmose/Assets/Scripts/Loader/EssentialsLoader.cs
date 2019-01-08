@@ -7,6 +7,7 @@ public class EssentialsLoader : MonoBehaviour
     public GameObject UiFader;
     public GameObject PlayerLoader;
     public GameObject GameMang;
+    public GameObject DialogueCanvas;
 
     private void Awake() {
         if (UIFade.Instance == null) {
@@ -19,6 +20,10 @@ public class EssentialsLoader : MonoBehaviour
 
         if (GameManager.Instance == null) {
             Instantiate(GameMang);
+        }
+
+        if (Dialogue.Instance == null) {
+            Instantiate(DialogueCanvas);
         }
     }
 

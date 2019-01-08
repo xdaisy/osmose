@@ -31,14 +31,14 @@ public class DialogueActivator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canActivate && Input.GetButtonDown("Interact") && !Dialogue.instance.dBox.activeSelf) {
-            Dialogue.instance.SetName(personTalking);
+        if (canActivate && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
+            Dialogue.Instance.SetName(personTalking);
             if (!this.specificEvent.Equals("") && CutSceneHandler.didEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
-                Dialogue.instance.ShowDialogue(this.postEventDialogue);
+                Dialogue.Instance.ShowDialogue(this.postEventDialogue);
             } else {
                 // event did not happened or there is no specified event
-                Dialogue.instance.ShowDialogue(this.preEventDialogue);
+                Dialogue.Instance.ShowDialogue(this.preEventDialogue);
             }
         }
     }
