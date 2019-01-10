@@ -47,37 +47,37 @@ public class PartyStats {
         party[name].IsDefending = isDefending;
     }
     
-    public float GetCharacterCurrentHP(string name) {
+    public int GetCharacterCurrentHP(string name) {
         return party[name].CurrHP;
     }
     
-    public float GetCharacterMaxHP(string name) {
+    public int GetCharacterMaxHP(string name) {
         return party[name].MaxHP;
     }
     
-    public float GetCharacterCurrentSp(string name) {
+    public int GetCharacterCurrentSp(string name) {
         return party[name].CurrSP;
     }
     
-    public float GetCharacterMaxSp(string name) {
+    public int GetCharacterMaxSp(string name) {
         return party[name].MaxSP;
     }
     
-    public float GetCharacterAttack(string name) {
+    public int GetCharacterAttack(string name) {
         // get total attack
         return party[name].Attack + party[name].WeaponAttack;
     }
     
-    public float GetCharacterDefense(string name) {
+    public int GetCharacterDefense(string name) {
         // get total defense
         return party[name].Defense + party[name].ArmorDefense;
     }
     
-    public float GetCharacterSpeed(string name) {
+    public int GetCharacterSpeed(string name) {
         return party[name].Speed;
     }
     
-    public float GetCharacterLuck(string name) {
+    public int GetCharacterLuck(string name) {
         return party[name].Luck;
     }
     
@@ -172,5 +172,11 @@ public class PartyStats {
     
     public Boolean IsInParty(string name) {
         return currentPartyMembers.Contains(name);
+    }
+
+    public void DealtDamage(string name, int damage) {
+        int currentHP = GetCharacterCurrentHP(name) - damage;
+        currentHP = Math.Max(currentHP, 0); // hp can't go below 0
+        party[name].CurrHP = currentHP;
     }
 }

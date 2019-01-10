@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour {
+    public GameObject ParentObject;
 
     public GameObject dBox; // dialogue box
     public Text dText; // dialogue text
@@ -20,9 +21,9 @@ public class Dialogue : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         } else {
-            Destroy(gameObject);
+            Destroy(ParentObject);
         }
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(ParentObject);
     }
 
     // Use this for initialization

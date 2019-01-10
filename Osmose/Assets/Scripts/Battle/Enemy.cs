@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour {
 
-    public float CurrentHP;
-    public float MaxHP;
-    public float CurrentSP;
-    public float MaxSP;
-    public float Attack;
-    public float Defense;
-    public float MagicDefense;
-    public float Speed;
-    public float Luck;
+    public int CurrentHP;
+    public int MaxHP;
+    public int CurrentSP;
+    public int MaxSP;
+    public int Attack;
+    public int Defense;
+    public int MagicDefense;
+    public int Speed;
+    public int Luck;
 
     public int Exp; // amount of exp it gives
     public int Money; // amount of money it gives

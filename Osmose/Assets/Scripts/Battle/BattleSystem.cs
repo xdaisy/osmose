@@ -251,16 +251,16 @@ public class BattleSystem : MonoBehaviour {
         Enemy enemy = lastClicked.GetComponent<Enemy>();
 
         // calculate the damage
-        float damage = GameManager.Instance.Party.GetCharacterAttack(nextToGo) - enemy.Defense;
+        int damage = GameManager.Instance.Party.GetCharacterAttack(nextToGo) - enemy.Defense;
 
         // if enemy is defending, reduce damage
         if (enemy.IsDefending) {
-            damage = (float)Math.Round(damage / 2);
+            damage = Mathf.RoundToInt(damage / 2);
         }
 
         // reduce enemy's hp
         enemy.CurrentHP -= damage;
-        enemy.CurrentHP = Mathf.Max(enemy.CurrentHP, 0f); // set so that 0 is the lowest amount it can go
+        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
 
         MainHud.gameObject.SetActive(false); // set main hud invisible
 
