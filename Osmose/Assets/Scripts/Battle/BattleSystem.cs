@@ -22,6 +22,7 @@ public class BattleSystem : MonoBehaviour {
     public GameObject[] PartyMembers;
     public Text[] PartyNames;
     public Text[] PartyHP;
+    private int numPartyMembers;
 
     // For showing Item HUD
     public Button[] ItemButtons;
@@ -61,6 +62,7 @@ public class BattleSystem : MonoBehaviour {
         eventSystem = EventSystem.current;
         // set up ui
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
+        numPartyMembers = party.Count;
         for (int i = 0; i < PartyMembers.Length; i++) {
             if (i >= party.Count) {
                 // if have less members in current party than total party members, do not show the other
@@ -114,7 +116,7 @@ public class BattleSystem : MonoBehaviour {
             }
         }
 
-        if (playerDeciding && textToShow.Length > 0) {
+        if (textToShow.Length > 0) {
             // if player have finished their command, show text
             TextHud.gameObject.SetActive(true);
             TextHud.text = textToShow;
@@ -146,12 +148,9 @@ public class BattleSystem : MonoBehaviour {
                 MainHud.gameObject.SetActive(false);
                 MainHud.interactable = false;
 
-                TextHud.gameObject.SetActive(true);
-                TextHud.text = "Enemy's turn";
-
                 GameObject enemy = GameObject.Find(nextToGo);
                 Enemy enemyStat = enemy.GetComponent<Enemy>();
-                enemyStat.IsDefending= false; // enemy not defending at start of turn
+                enemyTurn(enemyStat);
             }
         } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per damage)
@@ -225,6 +224,41 @@ public class BattleSystem : MonoBehaviour {
             updateItemDescriptionPanel();
         }
 	}
+
+    private void enemyTurn(Enemy enemy) {
+        enemy.IsDefending = false;
+
+        int move = UnityEngine.Random.Range(0, 5);
+
+        switch(move) {
+            case 0:
+                // enemy attack
+                enemy.IsDefending = true;
+                textToShow = "Enemy defended";
+                break;
+            default:
+                int member = UnityEngine.Random.Range(0, numPartyMembers);
+                string partyMember = PartyNames[member].text;
+
+                int damage = enemy.Attack - GameManager.Instance.Party.GetCharacterDefense(partyMember);
+                if (GameManager.Instance.Party.IsDefending(partyMember)) {
+                    damage /= 2;
+                }
+
+                GameManager.Instance.Party.DealtDamage(partyMember, damage);
+
+                textToShow = partyMember + " took " + damage + " damage!";
+
+                updateHP(member);
+                break;
+        }
+    }
+
+    private void updateHP(int member) {
+        string partyMember = PartyNames[member].text;
+        PartyHP[member].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember)
+                    + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
+    }
 
     /// <summary>
     /// Go from the Main Battle HUD to the Select Enemy HUD
@@ -418,7 +452,7 @@ public class BattleSystem : MonoBehaviour {
             // recover character hp if current hp is less than max
             itemToUse.Use(character);
 
-            PartyHP[partyMember].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(character) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(character);
+            updateHP(partyMember);
 
             PartyHud.interactable = false;
             ItemHud.gameObject.SetActive(false);
