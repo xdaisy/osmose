@@ -63,7 +63,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 128
@@ -108,18 +108,18 @@ TextureImporter:
       name: Floor Assets Padded_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 824
+        x: 4
+        y: 820
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 20d5bbcdc02f5d547aad81fb44e239a5
+      spriteID: e5c6fe481ad2beb418108d9fe91a8b3b
       vertices: []
       indices: 
       edges: []
@@ -128,18 +128,18 @@ TextureImporter:
       name: Floor Assets Padded_1
       rect:
         serializedVersion: 2
-        x: 132
-        y: 824
+        x: 140
+        y: 820
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dcd672e035e53f743a5040372fbcfddd
+      spriteID: 07b7411f227de7e4bb9490428248d7b3
       vertices: []
       indices: 
       edges: []
@@ -148,18 +148,18 @@ TextureImporter:
       name: Floor Assets Padded_2
       rect:
         serializedVersion: 2
-        x: 264
-        y: 824
+        x: 4
+        y: 684
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5699916d9ae75054286331811a3f75f5
+      spriteID: ca1e40cb026d33f48a988091d9d30102
       vertices: []
       indices: 
       edges: []
@@ -168,18 +168,18 @@ TextureImporter:
       name: Floor Assets Padded_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 692
+        x: 140
+        y: 686
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 864aa6783bdca234a8d86b046a5f37ab
+      spriteID: c81848db7eb93534f9e7b8840c44d102
       vertices: []
       indices: 
       edges: []
@@ -188,18 +188,18 @@ TextureImporter:
       name: Floor Assets Padded_4
       rect:
         serializedVersion: 2
-        x: 132
-        y: 692
+        x: 276
+        y: 684
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb460df159b8d114b8c6249fb9e02f84
+      spriteID: 848db87b20aa55748932348e14895371
       vertices: []
       indices: 
       edges: []
@@ -208,18 +208,18 @@ TextureImporter:
       name: Floor Assets Padded_5
       rect:
         serializedVersion: 2
-        x: 264
-        y: 692
+        x: 4
+        y: 548
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24ed89d89dad1524cb9de887d31f5609
+      spriteID: 89d7ebad6372fa246bc4d7a3fffe0918
       vertices: []
       indices: 
       edges: []
@@ -228,18 +228,18 @@ TextureImporter:
       name: Floor Assets Padded_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 560
+        x: 140
+        y: 548
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 312315a608eafef47b511caca4f9377a
+      spriteID: b8a8c5642822930448ad92618ee7046e
       vertices: []
       indices: 
       edges: []
@@ -248,18 +248,18 @@ TextureImporter:
       name: Floor Assets Padded_7
       rect:
         serializedVersion: 2
-        x: 132
-        y: 560
+        x: 276
+        y: 548
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b94905c4684b50468ffe6ed04d7ab4d
+      spriteID: 69cbc2c26783a7f4a86970673acc1085
       vertices: []
       indices: 
       edges: []
@@ -268,18 +268,18 @@ TextureImporter:
       name: Floor Assets Padded_8
       rect:
         serializedVersion: 2
-        x: 264
-        y: 560
+        x: 4
+        y: 412
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41df4e4c3eacfc441a50dabe3c9129a6
+      spriteID: ab2753ec85d9e3f43ac07ca8ff6c9809
       vertices: []
       indices: 
       edges: []
@@ -288,18 +288,18 @@ TextureImporter:
       name: Floor Assets Padded_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 428
+        x: 140
+        y: 412
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5b443a40b12f3940aeedd29272db19f
+      spriteID: c16968e0d5fe65946a3f015a029c8a08
       vertices: []
       indices: 
       edges: []
@@ -308,18 +308,18 @@ TextureImporter:
       name: Floor Assets Padded_10
       rect:
         serializedVersion: 2
-        x: 132
-        y: 428
+        x: 276
+        y: 412
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72f8840ea444bd54384a572e927781e9
+      spriteID: 477f1e37ddba8fc4096951f84fdf0654
       vertices: []
       indices: 
       edges: []
@@ -328,18 +328,18 @@ TextureImporter:
       name: Floor Assets Padded_11
       rect:
         serializedVersion: 2
-        x: 264
-        y: 428
+        x: 4
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: def8466b5b0087544ade86af13b40c21
+      spriteID: 157db556983ac2c4382e10147811b47e
       vertices: []
       indices: 
       edges: []
@@ -348,18 +348,18 @@ TextureImporter:
       name: Floor Assets Padded_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 296
+        x: 140
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62ea3afdbb779e04082497899ed9ace3
+      spriteID: 2825f07a4d7f8fd47a5da28d51198656
       vertices: []
       indices: 
       edges: []
@@ -368,18 +368,18 @@ TextureImporter:
       name: Floor Assets Padded_13
       rect:
         serializedVersion: 2
-        x: 132
-        y: 296
+        x: 276
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c9ddc010a4194c04192bc906104201f7
+      spriteID: 4056cec38c300a3489480734069a3358
       vertices: []
       indices: 
       edges: []
@@ -388,18 +388,18 @@ TextureImporter:
       name: Floor Assets Padded_14
       rect:
         serializedVersion: 2
-        x: 264
-        y: 296
+        x: 4
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: edefd15375af8224fa4efe1f8e268e86
+      spriteID: 949fbaecac462bb418dae07f7946faff
       vertices: []
       indices: 
       edges: []
@@ -408,18 +408,18 @@ TextureImporter:
       name: Floor Assets Padded_15
       rect:
         serializedVersion: 2
-        x: 0
-        y: 164
+        x: 140
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0624ac87a945a9344a290d4db72d5dea
+      spriteID: 4e38cb4fc88eb9d4899cbeaaff8a2f93
       vertices: []
       indices: 
       edges: []
@@ -428,18 +428,18 @@ TextureImporter:
       name: Floor Assets Padded_16
       rect:
         serializedVersion: 2
-        x: 132
-        y: 164
+        x: 276
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac6c5e1a8e7d9654599e2567bba80b09
+      spriteID: ffae15e4db4e07d478dc286e4b2e4433
       vertices: []
       indices: 
       edges: []
@@ -448,18 +448,18 @@ TextureImporter:
       name: Floor Assets Padded_17
       rect:
         serializedVersion: 2
-        x: 264
-        y: 164
+        x: 4
+        y: 4
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3527b08365858744980eca66fbc43139
+      spriteID: 5cb638129786c2546910b7f74363d9a7
       vertices: []
       indices: 
       edges: []
@@ -468,18 +468,18 @@ TextureImporter:
       name: Floor Assets Padded_18
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 140
+        y: 4
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d348aded82093d4438f1d744395b7311
+      spriteID: e1b2fcfb3b48b3e4f88f408cc3566efd
       vertices: []
       indices: 
       edges: []
@@ -488,38 +488,18 @@ TextureImporter:
       name: Floor Assets Padded_19
       rect:
         serializedVersion: 2
-        x: 132
-        y: 32
+        x: 276
+        y: 4
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4112225f075c5f7479875f4f50bb2d61
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Floor Assets Padded_20
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 32
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cc833cbfa96d23841be4f83428a34737
+      spriteID: 581fbb3338f6b22438183f0df5c12eab
       vertices: []
       indices: 
       edges: []
