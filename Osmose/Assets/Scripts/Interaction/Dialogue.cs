@@ -42,7 +42,7 @@ public class Dialogue : MonoBehaviour {
 
                     GameManager.Instance.DialogActive = false;
                 }
-                dText.text = dialogueLines[currentLine];
+                showText();
             } else {
                 justStarted = false;
             }
@@ -54,9 +54,23 @@ public class Dialogue : MonoBehaviour {
         dBox.SetActive(true);
         dialogueLines = lines;
         currentLine = 0;
-        dText.text = dialogueLines[currentLine];
+        showText();
         GameManager.Instance.DialogActive = true;
         justStarted = true;
+    }
+
+    private void showText() {
+        string line = dialogueLines[currentLine];
+        if (line.Contains("-")) {
+            // if someone is talking, will have <name>-<text>
+            string[] lineSplit = line.Split('-');
+            dName.text = lineSplit[0];
+            line = lineSplit[1];
+        } else {
+            // else, no one is talking. have text showing
+            dName.text = "";
+        }
+        dText.text = line;
     }
 
     public bool GetDialogueActive() {
