@@ -22,7 +22,7 @@ public class PlayerControls : MonoBehaviour {
     private bool canMove; // determines if player can move or not
 
     private float amountPlayerMoved; // keep track how much the player has moved
-    private float movementTilEncounter; // amount of movement before player launch into battle
+    private float movementTilEncounter; // amount of movement before player launch into battles
 
     private void Awake() {
         // don't destroy object on load if player don't exist
@@ -49,7 +49,6 @@ public class PlayerControls : MonoBehaviour {
 	void Update () {}
 
     void FixedUpdate() {
-
         if (IsBattleMap && amountPlayerMoved >= movementTilEncounter) {
             Debug.Log("Random encounter");
             amountPlayerMoved = 0f; // reset the amount that the player has moved
