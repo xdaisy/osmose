@@ -80,6 +80,18 @@ public class PartyStats {
     public int GetCharacterLuck(string name) {
         return party[name].Luck;
     }
+
+    public int GetCharacterLevel(string name) {
+        return party[name].Level;
+    }
+
+    public int GetCharacterCurrentEXP(string name) {
+        return party[name].CurrExp;
+    }
+    
+    public int GetCharacterEXPtoNextLvl(string name) {
+        return party[name].NextExp;
+    }
     
     public void GainExperience(int expPoints) {
         foreach (string name in currentPartyMembers) {
