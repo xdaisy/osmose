@@ -17,6 +17,8 @@ public class Menu : MonoBehaviour
     public Slider[] PartyExpToNextLvl;
     public Text[] PartyEXP;
 
+    public GameObject ItemFirstHighlightedObject;
+
     private string previousHud;
     private string currentHud;
 
@@ -80,6 +82,7 @@ public class Menu : MonoBehaviour
                 break;
             case 1:
                 currentHud = "Item";
+                eventSystem.SetSelectedGameObject(ItemFirstHighlightedObject);
                 break;
             case 2:
                 currentHud = "Skills";
