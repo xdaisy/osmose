@@ -42,17 +42,33 @@ public class ItemMenu : MonoBehaviour {
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.UpArrow) && ItemList.gameObject.activeSelf && ItemList.interactable) {
+            // only update if item hud is active and the item list is interactable
+            if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
+                // if was at the is on the first item, scroll up
+                if (itemIndx > 0) {
+                    // more items, so scroll
+                    itemIndx--;
+                    showItems();
+                }
+            }
+        }
+        currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
     }
 
     private void showItems() {
         // update which item is being shown
         for (int i = 0; i < Items.Length; i++) {
+            Text itemText = Items[i];
+            itemText.GetComponent<Button>().interactable = true;
             Items item = GameManager.Instance.GetItemAt(i + itemIndx);
             if (item == null) {
-                Items[i].gameObject.SetActive(false);
+                // if there is no item at this slot, disable it
+                itemText.text = "";
+                itemText.GetComponent<Button>().interactable = false;
                 continue;
             }
-            Items[i].text = item.ItemName;
+            itemText.text = item.ItemName;
         }
     }
 }
