@@ -9,6 +9,9 @@ public class Menu : MonoBehaviour
     private EventSystem eventSystem;
     public GameObject[] MenuHud;
 
+    public ItemMenu ItemMenuUI;
+
+    // Party stats HUD
     public GameObject[] PartyStatHud;
     public Text[] PartyName;
     public Text[] PartyLevel;
@@ -17,7 +20,11 @@ public class Menu : MonoBehaviour
     public Slider[] PartyExpToNextLvl;
     public Text[] PartyEXP;
 
+    // Item HUD
     public GameObject ItemFirstHighlightedObject;
+    public CanvasGroup ItemType;
+    public CanvasGroup ItemList;
+    public CanvasGroup DescriptionPanel;
 
     private string previousHud;
     private string currentHud;
@@ -36,14 +43,21 @@ public class Menu : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Cancel")) {
-            OpenMenu(0);
+            if (previousHud == "Main") {
+                // go back to main menu
+                OpenMenu(0);
 
-            Button[] mainButtons = MenuHud[0].GetComponentsInChildren<Button>();
-            for (int i = 0; i < mainButtons.Length; i++) {
-                if (mainButtons[i].name == previousHud) {
-                    eventSystem.SetSelectedGameObject(mainButtons[i].gameObject);
-                    break;
+                Button[] mainButtons = MenuHud[0].GetComponentsInChildren<Button>();
+                for (int i = 0; i < mainButtons.Length; i++) {
+                    if (mainButtons[i].name == previousHud) {
+                        eventSystem.SetSelectedGameObject(mainButtons[i].gameObject);
+                        break;
+                    }
                 }
+            }
+            if (previousHud == "ItemType") {
+                ItemList.interactable = false;
+                ItemType.interactable = true;
             }
         }
     }
@@ -81,7 +95,7 @@ public class Menu : MonoBehaviour
                 currentHud = "Main";
                 break;
             case 1:
-                currentHud = "Item";
+                currentHud = "ItemType";
                 eventSystem.SetSelectedGameObject(ItemFirstHighlightedObject);
                 break;
             case 2:
@@ -99,6 +113,28 @@ public class Menu : MonoBehaviour
     public void closeAllMenu() {
         foreach (GameObject menu in MenuHud) {
             menu.SetActive(false);
+        }
+    }
+
+    public void ChooseWhichItem(int itemType) {
+        ItemType.interactable = false;
+        ItemList.interactable = true;
+        eventSystem.SetSelectedGameObject(ItemList.GetComponentInChildren<Button>().gameObject);
+        previousHud = currentHud;
+        currentHud = "ItemList";
+        switch (itemType) {
+            case 0:
+                // items
+                ItemMenuUI.SetItemType(ITEMTYPE.ITEMS);
+                break;
+            case 1:
+                // equipments
+                ItemMenuUI.SetItemType(ITEMTYPE.EQUIPMENT);
+                break;
+            case 2:
+                // key
+                ItemMenuUI.SetItemType(ITEMTYPE.KEY);
+                break;
         }
     }
 }

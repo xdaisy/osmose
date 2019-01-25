@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+public enum ITEMTYPE {
+    ITEMS=1,
+    EQUIPMENT=2,
+    KEY=3
+}
 public class ItemMenu : MonoBehaviour {
     private EventSystem eventSystem;
 
@@ -14,9 +19,11 @@ public class ItemMenu : MonoBehaviour {
     public Image ItemImage;
     public Text ItemAmount;
     public Text Description;
+    public Button UseButton;
 
     private Text currentItem;
     private int itemIndx;
+    private ITEMTYPE itemType;
 
     // Start is called before the first frame update
     void Start()
@@ -30,30 +37,37 @@ public class ItemMenu : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && ItemList.gameObject.activeSelf && ItemList.interactable) {
-            // only update if item hud is active and the item list is interactable
-            if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
-                // if was at the is on the last item, scroll down
-                Items item = GameManager.Instance.GetItemAt(itemIndx + Items.Length);
-                if (item != null) {
-                    // more items, so scroll
-                    itemIndx++;
-                    showItems();
+        if (ItemList.gameObject.activeSelf && ItemList.interactable) {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                // only update if item hud is active and the item list is interactable
+                if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
+                    // if was at the is on the last item, scroll down
+                    Items item = GameManager.Instance.GetItemAt(itemIndx + Items.Length);
+                    if (item != null) {
+                        // more items, so scroll
+                        itemIndx++;
+                        showItems();
+                    }
                 }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && ItemList.gameObject.activeSelf && ItemList.interactable) {
-            // only update if item hud is active and the item list is interactable
-            if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
-                // if was at the is on the first item, scroll up
-                if (itemIndx > 0) {
-                    // more items, so scroll
-                    itemIndx--;
-                    showItems();
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                // only update if item hud is active and the item list is interactable
+                if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
+                    // if was at the is on the first item, scroll up
+                    if (itemIndx > 0) {
+                        // more items, so scroll
+                        itemIndx--;
+                        showItems();
+                    }
                 }
             }
+            Text highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+            if (currentItem.name != highlightedItem.name) {
+                // is different item, change description
+                currentItem = highlightedItem;
+                changeDescription();
+            }
         }
-        currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
     }
 
     private void showItems() {
@@ -70,5 +84,28 @@ public class ItemMenu : MonoBehaviour {
             }
             itemText.text = item.ItemName;
         }
+    }
+
+    private void changeDescription() {
+        // change the description to the current highlighted item
+        string itemName = currentItem.text;
+        Items item = GameManager.Instance.GetItemDetails(itemName);
+        ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(itemName); // change the amount of the item
+        Description.text = item.Description;
+        if (item.IsItem) {
+            // if is item, can use
+            UseButton.gameObject.SetActive(true);
+        } else {
+            UseButton.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetItemType(ITEMTYPE itemType) {
+        // called when choosing which type of item to view
+        // when called, show the items and description of current item
+        this.itemType = itemType;
+        currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+        showItems();
+        changeDescription();
     }
 }
