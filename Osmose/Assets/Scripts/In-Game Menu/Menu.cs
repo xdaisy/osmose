@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
 {
     private EventSystem eventSystem;
     public GameObject[] MenuHud;
+    public GameObject[] MainButtons;
 
     public ItemMenu ItemMenuUI;
 
@@ -34,6 +35,7 @@ public class Menu : MonoBehaviour
     {
         GameManager.Instance.GameMenuOpen = true;
         previousHud = "Main";
+        currentHud = "Main";
 
         eventSystem = EventSystem.current;
         updatePartyStats();
@@ -43,21 +45,20 @@ public class Menu : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Cancel")) {
-            if (previousHud == "Main") {
+            if (previousHud == "Main" && currentHud != "Main") {
                 // go back to main menu
-                OpenMenu(0);
-
-                Button[] mainButtons = MenuHud[0].GetComponentsInChildren<Button>();
-                for (int i = 0; i < mainButtons.Length; i++) {
-                    if (mainButtons[i].name == previousHud) {
-                        eventSystem.SetSelectedGameObject(mainButtons[i].gameObject);
-                        break;
-                    }
+                if (currentHud == "ItemType") {
+                    currentHud = "Items";
                 }
+
+                OpenMenu(0);
             }
             if (previousHud == "ItemType") {
                 ItemList.interactable = false;
                 ItemType.interactable = true;
+                previousHud = "Main";
+                currentHud = "ItemType";
+                ItemMenuUI.ExitItemList();
             }
         }
     }
@@ -92,6 +93,12 @@ public class Menu : MonoBehaviour
         MenuHud[menu].SetActive(true);
         switch(menu) {
             case 0:
+                foreach(GameObject mainButton in MainButtons) {
+                    if (mainButton.name == currentHud) {
+                        eventSystem.SetSelectedGameObject(mainButton);
+                        break;
+                    }
+                }
                 currentHud = "Main";
                 break;
             case 1:
@@ -125,15 +132,15 @@ public class Menu : MonoBehaviour
         switch (itemType) {
             case 0:
                 // items
-                ItemMenuUI.SetItemType(ITEMTYPE.ITEMS);
+                ItemMenuUI.SetItemType(itemType);
                 break;
             case 1:
                 // equipments
-                ItemMenuUI.SetItemType(ITEMTYPE.EQUIPMENT);
+                ItemMenuUI.SetItemType(itemType);
                 break;
             case 2:
                 // key
-                ItemMenuUI.SetItemType(ITEMTYPE.KEY);
+                ItemMenuUI.SetItemType(itemType);
                 break;
         }
     }

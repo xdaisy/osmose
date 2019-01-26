@@ -4,13 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public enum ITEMTYPE {
-    ITEMS=1,
-    EQUIPMENT=2,
-    KEY=3
-}
 public class ItemMenu : MonoBehaviour {
     private EventSystem eventSystem;
+
+    public Button[] ItemType;
 
     public CanvasGroup ItemList;
 
@@ -20,10 +17,11 @@ public class ItemMenu : MonoBehaviour {
     public Text ItemAmount;
     public Text Description;
     public Button UseButton;
+    public Button DiscardButton;
 
     private Text currentItem;
     private int itemIndx;
-    private ITEMTYPE itemType;
+    private int itemTypeIndx;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +29,7 @@ public class ItemMenu : MonoBehaviour {
         eventSystem = EventSystem.current;
         currentItem = Items[0]; // set to first item
         itemIndx = 0;
+        itemTypeIndx = 0;
         showItems();
     }
 
@@ -100,12 +99,23 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
-    public void SetItemType(ITEMTYPE itemType) {
+    public void SetItemType(int itemTypeIndx) {
         // called when choosing which type of item to view
         // when called, show the items and description of current item
-        this.itemType = itemType;
+        this.itemTypeIndx = itemTypeIndx;
+
         currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+        DiscardButton.gameObject.SetActive(true);
         showItems();
         changeDescription();
+    }
+
+    public void ExitItemList() {
+        UseButton.gameObject.SetActive(false);
+        DiscardButton.gameObject.SetActive(false);
+        ItemAmount.text = "";
+        Description.text = "";
+
+        eventSystem.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
     }
 }
