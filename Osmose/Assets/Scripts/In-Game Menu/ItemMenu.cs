@@ -60,8 +60,13 @@ public class ItemMenu : MonoBehaviour {
                     }
                 }
             }
-            Text highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
-            if (currentItem.name != highlightedItem.name) {
+            Text highlightedItem = null;
+            if (eventSystem.currentSelectedGameObject != null) {
+                highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+            }
+
+            if (highlightedItem != null && currentItem.name != highlightedItem.name) {
+                // not null
                 // is different item, change description
                 currentItem = highlightedItem;
                 changeDescription();
@@ -74,7 +79,21 @@ public class ItemMenu : MonoBehaviour {
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
             itemText.GetComponent<Button>().interactable = true;
-            Items item = GameManager.Instance.GetItemAt(i + itemIndx);
+            Items item = null;
+            switch(itemTypeIndx) {
+                case 0:
+                    // items
+                    item = GameManager.Instance.GetItemAt(i + itemIndx);
+                    break;
+                case 1:
+                    // equipment
+                    item = GameManager.Instance.GetEquipmentAt(i + itemIndx);
+                    break;
+                case 2:
+                    // key items
+                    item = GameManager.Instance.GetKeyItemAt(i + itemIndx);
+                    break;
+            }
             if (item == null) {
                 // if there is no item at this slot, disable it
                 itemText.text = "";
@@ -88,14 +107,43 @@ public class ItemMenu : MonoBehaviour {
     private void changeDescription() {
         // change the description to the current highlighted item
         string itemName = currentItem.text;
-        Items item = GameManager.Instance.GetItemDetails(itemName);
-        ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(itemName); // change the amount of the item
-        Description.text = item.Description;
-        if (item.IsItem) {
-            // if is item, can use
-            UseButton.gameObject.SetActive(true);
+        Items item = null;
+        switch(itemTypeIndx) {
+            case 0:
+                // is item
+                item = GameManager.Instance.GetItemDetails(itemName);
+                break;
+            case 1:
+                // is equipment
+                item = GameManager.Instance.GetEquipmentDetails(itemName);
+                break;
+            case 2:
+                // is key item
+                item = GameManager.Instance.GetKeyItemDetails(itemName);
+                break;
+        }
+        if (item == null) {
+            ItemAmount.text = "";
+        } else if (itemTypeIndx != 2) {
+            // if not key item, get the amount
+            ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(itemName); // change the amount of the item
         } else {
+            // else, amount = 1
+            ItemAmount.text = "1";
+        }
+
+        if (item != null) {
+            Description.text = item.Description;
+            if (item.IsItem) {
+                // if is item, can use
+                UseButton.gameObject.SetActive(true);
+            } else {
+                UseButton.gameObject.SetActive(false);
+            }
+        } else {
+            Description.text = "";
             UseButton.gameObject.SetActive(false);
+            DiscardButton.gameObject.SetActive(false);
         }
     }
 
