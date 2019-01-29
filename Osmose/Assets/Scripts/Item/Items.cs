@@ -64,7 +64,7 @@ public class Items : MonoBehaviour
         if (IsWeapon) {
             if (GameManager.Instance.Party.GetWeapon(charName) != "") {
                 // add weapon back to equipment
-                GameManager.Instance.AddItem(GameManager.Instance.Party.GetWeapon(charName));
+                GameManager.Instance.AddItem(GameManager.Instance.Party.GetWeapon(charName), 1);
             }
 
             GameManager.Instance.Party.EquipWeapon(charName, ItemName, WeaponStr);
@@ -73,12 +73,12 @@ public class Items : MonoBehaviour
         if (IsArmor) {
             if (GameManager.Instance.Party.GetArmor(charName) != "") {
                 // add weapon back to equipment
-                GameManager.Instance.AddItem(GameManager.Instance.Party.GetArmor(charName));
+                GameManager.Instance.AddItem(GameManager.Instance.Party.GetArmor(charName), 1);
             }
 
             GameManager.Instance.Party.EquipArmor(charName, ItemName, ArmorDefn);
         }
 
-        GameManager.Instance.RemoveItem(ItemName); // remove this item from inventory
+        GameManager.Instance.RemoveItem(ItemName, 1); // remove this item from inventory
     }
 }

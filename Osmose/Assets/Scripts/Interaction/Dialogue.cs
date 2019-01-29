@@ -76,8 +76,4 @@ public class Dialogue : MonoBehaviour {
     public bool GetDialogueActive() {
         return dBox.activeSelf;
     }
-
-    public void SetName(string name) {
-        this.dName.text = name;
-    }
 }

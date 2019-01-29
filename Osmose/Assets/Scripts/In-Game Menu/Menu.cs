@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour
     public ItemMenu ItemMenuUI;
 
     // Party stats HUD
+    [Header("Party stats")]
     public GameObject[] PartyStatHud;
     public Text[] PartyName;
     public Text[] PartyLevel;
@@ -22,6 +23,7 @@ public class Menu : MonoBehaviour
     public Text[] PartyEXP;
 
     // Item HUD
+    [Header("Items HUD")]
     public GameObject ItemFirstHighlightedObject;
     public CanvasGroup ItemType;
     public CanvasGroup ItemList;

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Equipment Held")]
     public List<string> EquipmentHeld; // keep track of which equipment the player has
-    public int[] NumOfEquipment; // keep track of how many of each equipment is held
+    public List<int> NumOfEquipment; // keep track of how many of each equipment is held
 
     [Header("Key Items Held")]
     public List<string> KeyItemsHeld; // keep track of which key item the player has, can only have one of each key item
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public void AddItem(string itemName) {
+    public void AddItem(string itemName, int amount) {
         // checks if item exists
         bool itemExists = false;
         foreach (Items item in ReferenceItems) {
@@ -100,19 +100,25 @@ public class GameManager : MonoBehaviour
 
         if (itemExists) {
             // add item if the item is a real item
-            for (int i = 0; i < ItemsHeld.Count; i++) {
-                if (ItemsHeld[i] == itemName || ItemsHeld[i] == "") {
-                    ItemsHeld[i] = itemName; // set item in error
-                    NumOfItems[i]++; // increment number of itemName held, if added should be 0
-                    break;
+            if (ItemsHeld.Contains(itemName)) {
+                // if have item
+                for (int i = 0; i < ItemsHeld.Count; i++) {
+                    if (ItemsHeld[i] == itemName) {
+                        NumOfItems[i] += amount; // increment number of itemName held
+                        break;
+                    }
                 }
+            } else {
+                // if don't have, add it
+                ItemsHeld.Add(itemName);
+                NumOfItems.Add(amount);
             }
         } else {
             Debug.LogError(itemName + " do not exist"); // log error
         }
     }
 
-    public void RemoveItem(string itemName) {
+    public void RemoveItem(string itemName, int amount) {
         // checks if item exists
         bool itemExists = false;
         foreach (Items item in ReferenceItems) {
@@ -126,14 +132,12 @@ public class GameManager : MonoBehaviour
             // add item if the item is a real item
             for (int i = 0; i < ItemsHeld.Count; i++) {
                 if (ItemsHeld[i] == itemName) {
-                    NumOfItems[i]--; // decrement number of itemName held, if added should be 0
+                    NumOfItems[i] -= amount; // decrement number of itemName held, if added should be 0
                     if (NumOfItems[i] <= 0) {
                         // remove the item if carry 0 of them
-                        ItemsHeld[i] = "";
+                        ItemsHeld.RemoveAt(i);
+                        NumOfItems.RemoveAt(i);
                     }
-                    break;
-                } else if (ItemsHeld[i] == "") {
-                    // if didn't find it and got to end of array, break
                     break;
                 }
             }
@@ -153,10 +157,6 @@ public class GameManager : MonoBehaviour
 
     public int GetAmountOfEquipment(string equipmentName) {
         for (int i = 0; i < EquipmentHeld.Count; i++) {
-            if (EquipmentHeld[i] == "") {
-                break;
-            }
-
             if (EquipmentHeld[i] == equipmentName) {
                 return NumOfEquipment[i];
             }
@@ -164,10 +164,10 @@ public class GameManager : MonoBehaviour
         return 0;
     }
 
-    public void AddEquipment(string equipmentName) {
+    public void AddEquipment(string equipmentName, int amount) {
         // checks if item exists
         bool itemExists = false;
-        foreach (Items item in ReferenceItems) {
+        foreach (Items item in ReferenceEquipment) {
             if (item.ItemName == equipmentName) {
                 itemExists = true;
                 break;
@@ -176,19 +176,25 @@ public class GameManager : MonoBehaviour
 
         if (itemExists) {
             // add item if the item is a real item
-            for (int i = 0; i < EquipmentHeld.Count; i++) {
-                if (EquipmentHeld[i] == equipmentName || EquipmentHeld[i] == "") {
-                    EquipmentHeld[i] = equipmentName; // set item in error
-                    NumOfEquipment[i]++; // increment number of itemName held, if added should be 0
-                    break;
+            if (EquipmentHeld.Contains(equipmentName)) {
+                // if have equipment, find it and increment count
+                for (int i = 0; i < EquipmentHeld.Count; i++) {
+                    if (EquipmentHeld[i] == equipmentName) {
+                        NumOfEquipment[i] += amount; // increment number of itemName held, if added should be 0
+                        break;
+                    }
                 }
+            } else {
+                EquipmentHeld.Add(equipmentName);
+                NumOfEquipment.Add(amount);
             }
+            
         } else {
             Debug.LogError(equipmentName + " do not exist"); // log error
         }
     }
 
-    public void RemoveEquipment(string equipmentName) {
+    public void RemoveEquipment(string equipmentName, int amount) {
         // checks if item exists
         bool itemExists = false;
         foreach (Items item in ReferenceItems) {
@@ -200,17 +206,18 @@ public class GameManager : MonoBehaviour
 
         if (itemExists) {
             // add item if the item is a real item
-            for (int i = 0; i < EquipmentHeld.Count; i++) {
-                if (EquipmentHeld[i] == equipmentName) {
-                    NumOfEquipment[i]--; // decrement number of itemName held, if added should be 0
-                    if (NumOfEquipment[i] <= 0) {
-                        // remove the item if carry 0 of them
-                        EquipmentHeld[i] = "";
+            if (EquipmentHeld.Contains(equipmentName)) {
+                // get rid of if item has it
+                for (int i = 0; i < EquipmentHeld.Count; i++) {
+                    if (EquipmentHeld[i] == equipmentName) {
+                        NumOfEquipment[i] -= amount; // decrement number of itemName held, if added should be 0
+                        if (NumOfEquipment[i] <= 0) {
+                            // remove the item if carry 0 of them
+                            EquipmentHeld.RemoveAt(i);
+                            NumOfEquipment.RemoveAt(i);
+                        }
+                        break;
                     }
-                    break;
-                } else if (EquipmentHeld[i] == "") {
-                    // if didn't find it and got to end of array, break
-                    break;
                 }
             }
         } else {
