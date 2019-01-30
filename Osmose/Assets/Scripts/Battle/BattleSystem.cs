@@ -319,8 +319,8 @@ public class BattleSystem : MonoBehaviour {
         MainHud.gameObject.SetActive(false);
 
         // turn on skill hud
-        float currSp = GameManager.Instance.Party.GetCharacterCurrentSp(nextToGo);
-        float maxSp = GameManager.Instance.Party.GetCharacterMaxSp(nextToGo);
+        float currSp = GameManager.Instance.Party.GetCharacterCurrentSP(nextToGo);
+        float maxSp = GameManager.Instance.Party.GetCharacterMaxSP(nextToGo);
 
         previousHud = "main";
 
@@ -458,7 +458,7 @@ public class BattleSystem : MonoBehaviour {
             ItemHud.gameObject.SetActive(false);
 
             textToShow = character + " healed " + itemToUse.AmountToChange + " hp!";
-        } else if (itemToUse.AffectSP && GameManager.Instance.Party.GetCharacterCurrentSp(character) < GameManager.Instance.Party.GetCharacterMaxSp(character)) {
+        } else if (itemToUse.AffectSP && GameManager.Instance.Party.GetCharacterCurrentSP(character) < GameManager.Instance.Party.GetCharacterMaxSP(character)) {
             // recover character sp if current sp is less than max
             itemToUse.Use(character);
 

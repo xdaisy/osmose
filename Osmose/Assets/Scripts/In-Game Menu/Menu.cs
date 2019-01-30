@@ -81,7 +81,7 @@ public class Menu : MonoBehaviour
             PartyName[i].text = partyMember;
             PartyLevel[i].text = "Level: " + GameManager.Instance.Party.GetCharacterLevel(partyMember);
             PartyHP[i].text = "HP: " + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
-            PartySP[i].text = "SP: " + GameManager.Instance.Party.GetCharacterCurrentSp(partyMember) + "/" + GameManager.Instance.Party.GetCharacterMaxSp(partyMember);
+            PartySP[i].text = "SP: " + GameManager.Instance.Party.GetCharacterCurrentSP(partyMember) + "/" + GameManager.Instance.Party.GetCharacterMaxSP(partyMember);
 
             int currExp = GameManager.Instance.Party.GetCharacterCurrentEXP(partyMember);
             int expToNextLvl = GameManager.Instance.Party.GetCharacterEXPtoNextLvl(partyMember);

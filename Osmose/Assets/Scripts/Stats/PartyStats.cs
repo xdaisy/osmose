@@ -55,11 +55,11 @@ public class PartyStats {
         return party[name].MaxHP;
     }
     
-    public int GetCharacterCurrentSp(string name) {
+    public int GetCharacterCurrentSP(string name) {
         return party[name].CurrSP;
     }
     
-    public int GetCharacterMaxSp(string name) {
+    public int GetCharacterMaxSP(string name) {
         return party[name].MaxSP;
     }
     
@@ -71,6 +71,11 @@ public class PartyStats {
     public int GetCharacterDefense(string name) {
         // get total defense
         return party[name].Defense + party[name].ArmorDefense;
+    }
+    
+    public int GetCharacterMagicDefense(string name) {
+        // get magic defense
+        return party[name].MagicDefense;
     }
     
     public int GetCharacterSpeed(string name) {
