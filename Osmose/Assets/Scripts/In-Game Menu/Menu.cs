@@ -10,8 +10,6 @@ public class Menu : MonoBehaviour
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
 
-    public ItemMenu ItemMenuUI;
-
     // Party stats HUD
     [Header("Party stats")]
     public GameObject[] PartyStatHud;
@@ -22,12 +20,17 @@ public class Menu : MonoBehaviour
     public Slider[] PartyExpToNextLvl;
     public Text[] PartyEXP;
 
-    // Item HUD
-    [Header("Items HUD")]
+    // Item Menu
+    [Header("Items Menu")]
+    public ItemMenu ItemMenuUI;
     public GameObject ItemFirstHighlightedObject;
     public CanvasGroup ItemType;
     public CanvasGroup ItemList;
     public CanvasGroup DescriptionPanel;
+
+    // Stats Menu
+    [Header("Stats Menu")]
+    public StatsMenu StatsMenuUI;
 
     private string previousHud;
     private string currentHud;
@@ -115,6 +118,7 @@ public class Menu : MonoBehaviour
                 break;
             case 4:
                 currentHud = "Stats";
+                StatsMenuUI.OpenStatsMenu();
                 break;
         }
     }

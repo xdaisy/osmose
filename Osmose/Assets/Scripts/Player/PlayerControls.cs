@@ -7,17 +7,17 @@ public class PlayerControls : MonoBehaviour {
 
     public float MoveSpeed; // move speed for the character
 
-    public bool IsBattleMap; // determines if battle occurs on map
-
-    private Animator anim; // reference to animator
-
-    private Rigidbody2D myRigidBody; // reference to ridgebody, use to add force, will push against collision boxes instead of bouncing off
-    
-    private Vector2 lastMove; // keep track if player was moving up/down or left/right
+    public bool IsBattleMap; // determines if battle occurs on mapright
 
     public static PlayerControls Instance; // keep track if player exist
 
     public string PreviousAreaName; // keep track of previous area player was in
+
+    public GameObject Menu;
+
+    private Animator anim; // reference to animator
+    private Rigidbody2D myRigidBody; // reference to ridgebody, use to add force, will push against collision boxes instead of bouncing off
+    private Vector2 lastMove; // keep track if player was moving up/down or left/
 
     private bool canMove; // determines if player can move or not
 
@@ -49,6 +49,18 @@ public class PlayerControls : MonoBehaviour {
 	void Update () {}
 
     void FixedUpdate() {
+        if (Input.GetKeyDown(KeyCode.M)) {
+            // if click m, do open/close menu
+            if (Menu.activeSelf) {
+                // close menu
+                Menu.SetActive(false);
+                GameManager.Instance.GameMenuOpen = false;
+            } else {
+                // open menu
+                Menu.SetActive(true);
+                GameManager.Instance.GameMenuOpen = true;
+            }
+        }
         if (IsBattleMap && amountPlayerMoved >= movementTilEncounter) {
             Debug.Log("Random encounter");
             amountPlayerMoved = 0f; // reset the amount that the player has moved
