@@ -10,7 +10,6 @@ public class Menu : MonoBehaviour
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
 
-    // Party stats HUD
     [Header("Party stats")]
     public GameObject[] PartyStatHud;
     public Text[] PartyName;
@@ -20,17 +19,22 @@ public class Menu : MonoBehaviour
     public Slider[] PartyExpToNextLvl;
     public Text[] PartyEXP;
 
-    // Item Menu
     [Header("Items Menu")]
     public ItemMenu ItemMenuUI;
-    public GameObject ItemFirstHighlightedObject;
+    public GameObject ItemFirstHighlighted;
     public CanvasGroup ItemType;
     public CanvasGroup ItemList;
     public CanvasGroup DescriptionPanel;
 
-    // Stats Menu
     [Header("Stats Menu")]
     public StatsMenu StatsMenuUI;
+
+    [Header("Equipment Menu")]
+    public EquipmentMenu EquipmentMenuUI;
+    public CanvasGroup EquipmentCharacters;
+    public CanvasGroup EquippedPanel; // show current equipment
+    public GameObject EquipmentFirstEquipped; // first highlighted button when go to equipped panel
+    public CanvasGroup EquipmentPanel; // show equipments in inventory
 
     private string previousHud;
     private string currentHud;
@@ -108,13 +112,14 @@ public class Menu : MonoBehaviour
                 break;
             case 1:
                 currentHud = "ItemType";
-                eventSystem.SetSelectedGameObject(ItemFirstHighlightedObject);
+                eventSystem.SetSelectedGameObject(ItemFirstHighlighted);
                 break;
             case 2:
                 currentHud = "Skills";
                 break;
             case 3:
                 currentHud = "Equipment";
+                EquipmentMenuUI.OpenEquipmentMenu();
                 break;
             case 4:
                 currentHud = "Stats";
@@ -149,5 +154,17 @@ public class Menu : MonoBehaviour
                 ItemMenuUI.SetItemType(itemType);
                 break;
         }
+    }
+
+    public void SelectWhichCharacterEqpmt(int character) {
+        EquipmentMenuUI.ShowCharacterEquipment(character);
+        EquipmentCharacters.interactable = false;
+        EquippedPanel.interactable = true;
+        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
+    }
+
+    public void SelectWhichEquipment(bool isWeapon) {
+        EquippedPanel.interactable = false;
+        EquipmentPanel.interactable = true;
     }
 }
