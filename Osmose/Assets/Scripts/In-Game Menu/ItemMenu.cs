@@ -19,7 +19,8 @@ public class ItemMenu : MonoBehaviour {
     public Button UseButton;
     public Button DiscardButton;
 
-    private Text currentItem;
+    //private Text currentItem;
+    private string currentItem;
     private int itemIndx;
     private int itemTypeIndx;
 
@@ -27,21 +28,21 @@ public class ItemMenu : MonoBehaviour {
     void Start()
     {
         eventSystem = EventSystem.current;
-        currentItem = Items[0]; // set to first item
+        currentItem = Items[0].text; // set to first item
         itemIndx = 0;
         itemTypeIndx = 0;
         showItems();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (ItemList.gameObject.activeSelf && ItemList.interactable) {
             if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 // only update if item hud is active and the item list is interactable
-                if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
+                if (currentItem == eventSystem.currentSelectedGameObject.GetComponent<Text>().text) {
                     // if was at the is on the last item, scroll down
-                    Items item = GameManager.Instance.GetItemAt(itemIndx + Items.Length);
+                    int i = itemIndx + Items.Length;
+                    Items item = getItem(itemIndx + Items.Length);
                     if (item != null) {
                         // more items, so scroll
                         itemIndx++;
@@ -51,7 +52,7 @@ public class ItemMenu : MonoBehaviour {
             }
             if (Input.GetKeyDown(KeyCode.UpArrow)) {
                 // only update if item hud is active and the item list is interactable
-                if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
+                if (currentItem == eventSystem.currentSelectedGameObject.GetComponent<Text>().text) {
                     // if was at the is on the first item, scroll up
                     if (itemIndx > 0) {
                         // more items, so scroll
@@ -65,13 +66,32 @@ public class ItemMenu : MonoBehaviour {
                 highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
             }
 
-            if (highlightedItem != null && currentItem.name != highlightedItem.name) {
+            if (highlightedItem != null && currentItem != highlightedItem.text) {
                 // not null
                 // is different item, change description
-                currentItem = highlightedItem;
+                currentItem = highlightedItem.text;
                 changeDescription();
             }
         }
+    }
+
+    private Items getItem(int indx) {
+        Items item = null;
+        switch(itemTypeIndx) {
+            case 0:
+                // item
+                item = GameManager.Instance.GetItemAt(indx);
+                break;
+            case 1:
+                // equipment
+                item = GameManager.Instance.GetEquipmentAt(indx);
+                break;
+            case 2:
+                // key item
+                item = GameManager.Instance.GetKeyItemAt(indx);
+                break;
+        }
+        return item;
     }
 
     private void showItems() {
@@ -79,21 +99,7 @@ public class ItemMenu : MonoBehaviour {
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
             itemText.GetComponent<Button>().interactable = true;
-            Items item = null;
-            switch(itemTypeIndx) {
-                case 0:
-                    // items
-                    item = GameManager.Instance.GetItemAt(i + itemIndx);
-                    break;
-                case 1:
-                    // equipment
-                    item = GameManager.Instance.GetEquipmentAt(i + itemIndx);
-                    break;
-                case 2:
-                    // key items
-                    item = GameManager.Instance.GetKeyItemAt(i + itemIndx);
-                    break;
-            }
+            Items item = getItem(i + itemIndx);
             if (item == null) {
                 // if there is no item at this slot, disable it
                 itemText.text = "";
@@ -106,7 +112,7 @@ public class ItemMenu : MonoBehaviour {
 
     private void changeDescription() {
         // change the description to the current highlighted item
-        string itemName = currentItem.text;
+        string itemName = currentItem;
         Items item = null;
         switch(itemTypeIndx) {
             case 0:
@@ -152,7 +158,7 @@ public class ItemMenu : MonoBehaviour {
         // when called, show the items and description of current item
         this.itemTypeIndx = itemTypeIndx;
 
-        currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+        currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
         DiscardButton.gameObject.SetActive(true);
         showItems();
         changeDescription();

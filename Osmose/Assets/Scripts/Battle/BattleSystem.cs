@@ -9,6 +9,7 @@ public class BattleSystem : MonoBehaviour {
     private EventSystem eventSystem; // event system for battle
 
     // All the HUDS
+    [Header("HUDs")]
     public CanvasGroup MainHud;
     public CanvasGroup SkillHud;
     public CanvasGroup ItemHud;
@@ -19,18 +20,18 @@ public class BattleSystem : MonoBehaviour {
     private string previousHud; // keep track of the previous hud
 
     // For showing party members
+    [Header("Party")]
     public GameObject[] PartyMembers;
     public Text[] PartyNames;
     public Text[] PartyHP;
     private int numPartyMembers;
 
     // For showing Item HUD
+    [Header("Item HUD")]
     public Button[] ItemButtons;
     public Text ItemName;
     public Text ItemDescription;
     public Text ItemAmount;
-    public GameObject PreviousPageButton;
-    public GameObject NextPageButton;
 
     private int itemStartOn = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
 
@@ -375,25 +376,11 @@ public class BattleSystem : MonoBehaviour {
             if (item == null) {
                 // if no item, set button off
                 itemButton.gameObject.SetActive(false);
-                
-                if (NextPageButton.activeSelf) {
-                    // if found "", if next page button is active, turn it inactive
-                    // find the first ""
-                    // means no more items
-                    NextPageButton.SetActive(false);
-                }
             } else {
                 // got item
                 Text itemButtonText = itemButton.GetComponentInChildren<Text>();
                 itemButtonText.text = item.ItemName;
             }
-        }
-        if (itemStartOn <= 0) {
-            // if at beginning of item list, can't go back a page
-            PreviousPageButton.SetActive(false);
-        } else {
-            // else, can go back a page
-            PreviousPageButton.SetActive(true);
         }
 
         updateItemDescriptionPanel();

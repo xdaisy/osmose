@@ -93,7 +93,9 @@ public class StatsMenu : MonoBehaviour
         Speed.text = "" + GameManager.Instance.Party.GetCharacterSpeed(currCharacter);
         Luck.text = "" + GameManager.Instance.Party.GetCharacterLuck(currCharacter);
 
-        Weapon.text = "" + GameManager.Instance.Party.GetWeapon(currCharacter);
-        Armor.text = "" + GameManager.Instance.Party.GetArmor(currCharacter);
+        string eqpWeapon = "" + GameManager.Instance.Party.GetWeapon(currCharacter);
+        Weapon.text = eqpWeapon != "" ? eqpWeapon : "<No Weapon>";
+        string eqpArmor = "" + GameManager.Instance.Party.GetArmor(currCharacter);
+        Armor.text = eqpArmor != "" ? eqpArmor : "<No Armor>";
     }
 }
