@@ -36,15 +36,32 @@ public class Menu : MonoBehaviour
     public GameObject EquipmentFirstEquipped; // first highlighted button when go to equipped panel
     public CanvasGroup EquipmentPanel; // show equipments in inventory
 
+    private bool equipWeapon ;
+
+    private string currCharacter;
+
     private string previousHud;
     private string currentHud;
+
+    // constants to keep track of hud names
+    private const string MAIN = "Main";
+    private const string ITEMS = "Items";
+    private const string ITEM_TYPE = "ItemType";
+    private const string ITEM_LIST = "ItemList";
+    private const string SKILLS = "Skills";
+    private const string EQUIPMENT = "Equipment";
+    private const string CHARACTER_EQUIPMENT = "CharacterEquipment";
+    private const string EQUIPMENT_PANEL = "EquipmentPanel";
+    private const string STATS = "Stats";
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.GameMenuOpen = true;
-        previousHud = "Main";
-        currentHud = "Main";
+        previousHud = MAIN;
+        currentHud = MAIN;
+        equipWeapon = true;
+        currCharacter = "";
 
         eventSystem = EventSystem.current;
         updatePartyStats();
@@ -54,20 +71,48 @@ public class Menu : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Cancel")) {
-            if (previousHud == "Main" && currentHud != "Main") {
+            if (previousHud == MAIN && currentHud != MAIN) {
                 // go back to main menu
-                if (currentHud == "ItemType") {
-                    currentHud = "Items";
+                if (currentHud == ITEM_TYPE) {
+                    currentHud = ITEMS;
                 }
 
                 OpenMenu(0);
             }
-            if (previousHud == "ItemType") {
+            if (currentHud == ITEM_LIST) {
                 ItemList.interactable = false;
                 ItemType.interactable = true;
-                previousHud = "Main";
-                currentHud = "ItemType";
+                currentHud = previousHud;
+                previousHud = MAIN;
                 ItemMenuUI.ExitItemList();
+            }
+            if (currentHud == CHARACTER_EQUIPMENT) {
+                currentHud = previousHud;
+                previousHud = MAIN;
+                EquippedPanel.interactable = false;
+                EquipmentCharacters.interactable = true;
+
+                Button[] characters = EquipmentCharacters.GetComponentsInChildren<Button>();
+                for (int i = 0; i < characters.Length; i++) {
+                    string charName = characters[i].GetComponentInChildren<Text>().text;
+                    if (charName == currCharacter) {
+                        eventSystem.SetSelectedGameObject(characters[i].gameObject);
+                        break;
+                    }
+                }
+            }
+            if (currentHud == EQUIPMENT_PANEL) {
+                currentHud = previousHud;
+                previousHud = EQUIPMENT;
+                EquipmentPanel.interactable = false;
+                EquippedPanel.interactable = true;
+
+                Button[] buttons = EquippedPanel.GetComponentsInChildren<Button>();
+                if (equipWeapon) {
+                    eventSystem.SetSelectedGameObject(buttons[0].gameObject);
+                } else {
+                    eventSystem.SetSelectedGameObject(buttons[1].gameObject);
+                }
             }
         }
     }
@@ -108,21 +153,21 @@ public class Menu : MonoBehaviour
                         break;
                     }
                 }
-                currentHud = "Main";
+                currentHud = MAIN;
                 break;
             case 1:
-                currentHud = "ItemType";
+                currentHud = ITEM_TYPE;
                 eventSystem.SetSelectedGameObject(ItemFirstHighlighted);
                 break;
             case 2:
-                currentHud = "Skills";
+                currentHud = SKILLS;
                 break;
             case 3:
-                currentHud = "Equipment";
+                currentHud = EQUIPMENT;
                 EquipmentMenuUI.OpenEquipmentMenu();
                 break;
             case 4:
-                currentHud = "Stats";
+                currentHud = STATS;
                 StatsMenuUI.OpenStatsMenu();
                 break;
         }
@@ -139,7 +184,7 @@ public class Menu : MonoBehaviour
         ItemList.interactable = true;
         eventSystem.SetSelectedGameObject(ItemList.GetComponentInChildren<Button>().gameObject);
         previousHud = currentHud;
-        currentHud = "ItemList";
+        currentHud = ITEM_LIST;
         switch (itemType) {
             case 0:
                 // items
@@ -157,14 +202,22 @@ public class Menu : MonoBehaviour
     }
 
     public void SelectWhichCharacterEqpmt(int character) {
-        EquipmentMenuUI.ShowCharacterEquipment(character);
+        previousHud = currentHud;
+        currentHud = CHARACTER_EQUIPMENT;
+        currCharacter = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+
+        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentCharacters.interactable = false;
         EquippedPanel.interactable = true;
-        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
+        EquipmentMenuUI.ShowCharacterEquipment(character);
     }
 
-    public void SelectWhichEquipment(bool isWeapon) {
+    public void SelectWhichEquipment(bool equipWeapon) {
+        previousHud = currentHud;
+        currentHud = EQUIPMENT_PANEL;
+        this.equipWeapon = equipWeapon;
         EquippedPanel.interactable = false;
         EquipmentPanel.interactable = true;
+        EquipmentMenuUI.ShowEquipments(equipWeapon);
     }
 }

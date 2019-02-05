@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     public List<string> EquipmentHeld; // keep track of which equipment the player has
     public List<int> NumOfEquipment; // keep track of how many of each equipment is held
 
+    private List<string> WeaponsHeld; // keep track of weapon
+    private List<string> ArmorHeld; // keep track of weapon
+
     [Header("Key Items Held")]
     public List<string> KeyItemsHeld; // keep track of which key item the player has, can only have one of each key item
 
@@ -41,6 +44,16 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        WeaponsHeld = new List<string>();
+        ArmorHeld = new List<string>();
+        foreach (string equipmentName in EquipmentHeld) {
+            Items equipment = GetEquipmentDetails(equipmentName);
+            if (equipment.IsWeapon) {
+                WeaponsHeld.Add(equipmentName);
+            } else {
+                ArmorHeld.Add(equipmentName);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -153,6 +166,25 @@ public class GameManager : MonoBehaviour
             return null;
         }
         return GetEquipmentDetails(EquipmentHeld[index]);
+    }
+
+    public Items GetNthEquipment(int n, bool isWeapon) {
+        int count = 0;
+        for (int i = 0; i < EquipmentHeld.Count; i++) {
+            Items item = GetEquipmentAt(i);
+            if (isWeapon && item.IsWeapon) {
+                // if look for weapon and found weapon, increment count
+                count++;
+            } else if (!isWeapon && item.IsArmor) {
+                // if look for armor and found armor, increment count
+                count++;
+            }
+
+            if (count == n) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public int GetAmountOfEquipment(string equipmentName) {
