@@ -50,7 +50,7 @@ public class Menu : MonoBehaviour
     private const string ITEM_LIST = "ItemList";
     private const string SKILLS = "Skills";
     private const string EQUIPMENT = "Equipment";
-    private const string CHARACTER_EQUIPMENT = "CharacterEquipment";
+    private const string EQUIPPED_PANEL = "CharacterEquipment";
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
     private const string STATS = "Stats";
 
@@ -80,13 +80,15 @@ public class Menu : MonoBehaviour
                 OpenMenu(0);
             }
             if (currentHud == ITEM_LIST) {
+                // exit item list panel
                 ItemList.interactable = false;
                 ItemType.interactable = true;
                 currentHud = previousHud;
                 previousHud = MAIN;
                 ItemMenuUI.ExitItemList();
             }
-            if (currentHud == CHARACTER_EQUIPMENT) {
+            if (currentHud == EQUIPPED_PANEL) {
+                // exit equipped panel
                 currentHud = previousHud;
                 previousHud = MAIN;
                 EquippedPanel.interactable = false;
@@ -102,17 +104,21 @@ public class Menu : MonoBehaviour
                 }
             }
             if (currentHud == EQUIPMENT_PANEL) {
+                // exit equipment panel
                 currentHud = previousHud;
                 previousHud = EQUIPMENT;
                 EquipmentPanel.interactable = false;
                 EquippedPanel.interactable = true;
 
                 Button[] buttons = EquippedPanel.GetComponentsInChildren<Button>();
+                eventSystem.SetSelectedGameObject(null);
                 if (equipWeapon) {
                     eventSystem.SetSelectedGameObject(buttons[0].gameObject);
                 } else {
                     eventSystem.SetSelectedGameObject(buttons[1].gameObject);
                 }
+
+                EquipmentMenuUI.ExitEquipments();
             }
         }
     }
@@ -201,9 +207,10 @@ public class Menu : MonoBehaviour
         }
     }
 
+    // open up equipped panel
     public void SelectWhichCharacterEqpmt(int character) {
         previousHud = currentHud;
-        currentHud = CHARACTER_EQUIPMENT;
+        currentHud = EQUIPPED_PANEL;
         currCharacter = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
 
         eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
@@ -212,6 +219,7 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.ShowCharacterEquipment(character);
     }
 
+    // open up the equipment panel
     public void SelectWhichEquipment(bool equipWeapon) {
         previousHud = currentHud;
         currentHud = EQUIPMENT_PANEL;

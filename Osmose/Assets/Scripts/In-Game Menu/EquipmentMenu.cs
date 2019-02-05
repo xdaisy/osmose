@@ -20,6 +20,12 @@ public class EquipmentMenu : MonoBehaviour {
     public CanvasGroup EquipmentPanel;
     public Text[] Equipments;
 
+    [Header("Description Panel")]
+    public Text StatText;
+    public Text StatAmount;
+    public Image EquipmentImage;
+    public Text Description;
+
     private int equipmentIndx; // always start at the first weapon/armor
 
     private bool equipWeapon; // true if looking for weapon, false otherwise
@@ -32,6 +38,11 @@ public class EquipmentMenu : MonoBehaviour {
 
     private void Awake() {
         eventSystem = EventSystem.current;
+        currCharacter = "";
+        currEquipment = "";
+        currEquipmentButton = "";
+        equipmentIndx = 1;
+        equipWeapon = true;
     }
 
     // Start is called before the first frame update
@@ -56,23 +67,29 @@ public class EquipmentMenu : MonoBehaviour {
                 currEquipmentButton = highlightedEqpButton.name;
                 updateEquipments();
             }
+            currEquipmentButton = highlightedEqpButton.name;
         } else if (EquipmentPanel.interactable) {
             // equipment panel is interactable
             if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                string highlightedEqp = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
-                if (currEquipment == highlightedEqp && equipmentIndx > 1) {
+                // scroll up
+                if (currEquipment == eventSystem.currentSelectedGameObject.GetComponent<Text>().text && equipmentIndx > 1) {
                     equipmentIndx--;
                     updateEquipments();
                 }
             } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                string highlightedEqp = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
-                if (currEquipment == highlightedEqp) {
+                // scroll down
+                if (currEquipment == eventSystem.currentSelectedGameObject.GetComponent<Text>().text) {
                     Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon);
                     if (item != null) {
                         equipmentIndx++;
                         updateEquipments();
                     }
                 }
+            }
+            string highlightedEqp = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
+            if (currEquipment != highlightedEqp) {
+                currEquipment = highlightedEqp;
+                updateDescription();
             }
         } else {
             // character select panel is interactable
@@ -86,6 +103,7 @@ public class EquipmentMenu : MonoBehaviour {
                     }
                 }
             }
+            currCharacter = charName;
         }
     }
 
@@ -100,6 +118,14 @@ public class EquipmentMenu : MonoBehaviour {
             }
             equipmentText.text = item.ItemName;
         }
+    }
+
+    private void updateDescription() {
+        Items equipment = GameManager.Instance.GetEquipmentDetails(currEquipment);
+
+        StatText.text = equipment.IsWeapon ? "Attack:" : "Defense:"; // say whether or not it has attack or defense
+        StatAmount.text = equipment.IsWeapon ? "" + equipment.WeaponStr : "" + equipment.ArmorDefn;
+        Description.text = equipment.Description;
     }
 
     public void OpenEquipmentMenu() {
@@ -144,5 +170,10 @@ public class EquipmentMenu : MonoBehaviour {
         Text equipment = Equipments[0];
         currEquipment = equipment.text;
         eventSystem.SetSelectedGameObject(equipment.gameObject);
+        updateDescription();
+    }
+
+    public void ExitEquipments() {
+        equipmentIndx = 1;
     }
 }
