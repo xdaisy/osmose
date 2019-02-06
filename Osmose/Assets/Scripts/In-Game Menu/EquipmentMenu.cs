@@ -60,7 +60,7 @@ public class EquipmentMenu : MonoBehaviour {
     {
         if (EquippedPanel.interactable) {
             // equipped panel is interactable
-            GameObject highlightedEqpButton = eventSystem.currentSelectedGameObject;
+            GameObject highlightedEqpButton = EventSystem.current.currentSelectedGameObject;
             if (currEquipmentButton != highlightedEqpButton.name) {
                 // if not looking at previous equipment type, change equipment type
                 equipWeapon = !equipWeapon; // change equipment choice
@@ -72,13 +72,13 @@ public class EquipmentMenu : MonoBehaviour {
             // equipment panel is interactable
             if (Input.GetKeyDown(KeyCode.UpArrow)) {
                 // scroll up
-                if (currEquipment == eventSystem.currentSelectedGameObject.GetComponent<Text>().text && equipmentIndx > 1) {
+                if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text && equipmentIndx > 1) {
                     equipmentIndx--;
                     updateEquipments();
                 }
             } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 // scroll down
-                if (currEquipment == eventSystem.currentSelectedGameObject.GetComponent<Text>().text) {
+                if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text) {
                     Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon);
                     if (item != null) {
                         equipmentIndx++;
@@ -86,14 +86,14 @@ public class EquipmentMenu : MonoBehaviour {
                     }
                 }
             }
-            string highlightedEqp = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
+            string highlightedEqp = EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text;
             if (currEquipment != highlightedEqp) {
                 currEquipment = highlightedEqp;
                 updateDescription();
             }
         } else {
             // character select panel is interactable
-            string charName = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            string charName = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
             if (charName != currCharacter) {
                 // if current character != highlighted character, update the equipped panel
                 for (int i = 0; i < Characters.Length; i++) {
@@ -110,13 +110,15 @@ public class EquipmentMenu : MonoBehaviour {
     private void updateEquipments() {
         for (int i = 0; i < Equipments.Length; i++) {
             Text equipmentText = Equipments[i];
+            Button equipmentButton = equipmentText.GetComponent<Button>();
             Items item = GameManager.Instance.GetNthEquipment(i + equipmentIndx, equipWeapon);
             if (item == null) {
                 equipmentText.text = "";
-                equipmentText.GetComponent<Button>().interactable = false;
+                equipmentButton.interactable = false;
                 continue;
             }
             equipmentText.text = item.ItemName;
+            equipmentButton.interactable = true;
         }
     }
 
@@ -158,7 +160,7 @@ public class EquipmentMenu : MonoBehaviour {
         EquippedWeapon.text = eqpWeapon != "" ? eqpWeapon : "<No Weapon>";
         EquippedArmor.text = eqpArmor != "" ? eqpArmor : "<No Armor>";
 
-        currEquipmentButton = eventSystem.currentSelectedGameObject.name;
+        currEquipmentButton = EventSystem.current.currentSelectedGameObject.name;
 
         equipWeapon = true;
         updateEquipments();
@@ -169,11 +171,15 @@ public class EquipmentMenu : MonoBehaviour {
         updateEquipments();
         Text equipment = Equipments[0];
         currEquipment = equipment.text;
-        eventSystem.SetSelectedGameObject(equipment.gameObject);
+        EventSystem.current.SetSelectedGameObject(equipment.gameObject);
         updateDescription();
     }
 
     public void ExitEquipments() {
         equipmentIndx = 1;
+        foreach(Text equipmentText in Equipments) {
+            Button equipmentButton = equipmentText.GetComponent<Button>();
+            equipmentButton.interactable = false;
+        }
     }
 }
