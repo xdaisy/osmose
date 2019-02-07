@@ -175,11 +175,10 @@ public class EquipmentMenu : MonoBehaviour {
         updateDescription();
     }
 
+    // dehighlight currenty highlighted equipment
     public void ExitEquipments() {
-        equipmentIndx = 1;
-        foreach(Text equipmentText in Equipments) {
-            Button equipmentButton = equipmentText.GetComponent<Button>();
-            equipmentButton.interactable = false;
-        }
+        Button currHighlightedEqmt = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        EventSystem.current.SetSelectedGameObject(null);
+        currHighlightedEqmt.interactable = false;
     }
 }

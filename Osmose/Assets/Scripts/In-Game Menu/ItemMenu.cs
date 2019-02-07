@@ -7,12 +7,15 @@ using UnityEngine.EventSystems;
 public class ItemMenu : MonoBehaviour {
     private EventSystem eventSystem;
 
+    [Header("Item Type")]
+    public CanvasGroup ItemTypePanel;
     public Button[] ItemType;
 
+    [Header("Item List")]
     public CanvasGroup ItemList;
-
     public Text[] Items;
 
+    [Header("Item Description")]
     public Image ItemImage;
     public Text ItemAmount;
     public Text Description;
@@ -22,6 +25,8 @@ public class ItemMenu : MonoBehaviour {
     //private Text currentItem;
     private string currentItem;
     private int itemIndx;
+
+    private string currentType;
     private int itemTypeIndx;
 
     // Start is called before the first frame update
@@ -30,13 +35,37 @@ public class ItemMenu : MonoBehaviour {
         eventSystem = EventSystem.current;
         currentItem = Items[0].text; // set to first item
         itemIndx = 0;
+        currentType = ItemType[0].GetComponentInChildren<Text>().text; // set to first item type
         itemTypeIndx = 0;
-        showItems();
+        updateItems();
     }
 
     // Update is called once per frame
     void Update() {
-        if (ItemList.gameObject.activeSelf && ItemList.interactable) {
+        if (ItemTypePanel.interactable) {
+            // if on type type panel
+            Text currHighlightedType = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>();
+            if (currentType != currHighlightedType.text) {
+                currentType = currHighlightedType.text;
+
+                switch(currentType) {
+                    case "Items":
+                        itemTypeIndx = 0;
+                        break;
+                    case "Equipment":
+                        itemTypeIndx = 1;
+                        break;
+                    case "Key":
+                        itemTypeIndx = 2;
+                        break;
+                }
+
+                updateItems();
+            }
+        }
+
+        if (ItemList.gameObject.activeSelf && ItemList.interactable && Items[0].text != "") {
+            // if itemlist is interactable and there are interactable buttons
             if (Input.GetKeyDown(KeyCode.DownArrow)) {
                 // only update if item hud is active and the item list is interactable
                 if (currentItem == eventSystem.currentSelectedGameObject.GetComponent<Text>().text) {
@@ -46,7 +75,7 @@ public class ItemMenu : MonoBehaviour {
                     if (item != null) {
                         // more items, so scroll
                         itemIndx++;
-                        showItems();
+                        updateItems();
                     }
                 }
             }
@@ -57,21 +86,22 @@ public class ItemMenu : MonoBehaviour {
                     if (itemIndx > 0) {
                         // more items, so scroll
                         itemIndx--;
-                        showItems();
+                        updateItems();
                     }
                 }
             }
-            Text highlightedItem = null;
-            if (eventSystem.currentSelectedGameObject != null) {
-                highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
-            }
+        }
 
-            if (highlightedItem != null && currentItem != highlightedItem.text) {
-                // not null
-                // is different item, change description
-                currentItem = highlightedItem.text;
-                changeDescription();
-            }
+        Text highlightedItem = null;
+        if (eventSystem.currentSelectedGameObject != null) {
+            highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+        }
+
+        if (highlightedItem != null && currentItem != highlightedItem.text) {
+            // not null
+            // is different item, change description
+            currentItem = highlightedItem.text;
+            updateDescription();
         }
     }
 
@@ -94,7 +124,7 @@ public class ItemMenu : MonoBehaviour {
         return item;
     }
 
-    private void showItems() {
+    private void updateItems() {
         // update which item is being shown
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
@@ -110,18 +140,21 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
-    private void changeDescription() {
+    private void updateDescription() {
         // change the description to the current highlighted item
         string itemName = currentItem;
         Items item = null;
+        int amount = 0;
         switch(itemTypeIndx) {
             case 0:
                 // is item
                 item = GameManager.Instance.GetItemDetails(itemName);
+                amount = GameManager.Instance.GetAmountOfItem(itemName);
                 break;
             case 1:
                 // is equipment
                 item = GameManager.Instance.GetEquipmentDetails(itemName);
+                amount = GameManager.Instance.GetAmountOfEquipment(itemName);
                 break;
             case 2:
                 // is key item
@@ -132,7 +165,7 @@ public class ItemMenu : MonoBehaviour {
             ItemAmount.text = "";
         } else if (itemTypeIndx != 2) {
             // if not key item, get the amount
-            ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(itemName); // change the amount of the item
+            ItemAmount.text = "" + amount; // change the amount of the item
         } else {
             // else, amount = 1
             ItemAmount.text = "1";
@@ -160,15 +193,21 @@ public class ItemMenu : MonoBehaviour {
 
         currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
         DiscardButton.gameObject.SetActive(true);
-        showItems();
-        changeDescription();
+        updateItems();
+        updateDescription();
     }
 
     public void ExitItemList() {
+        if (Items[0].text != "") {
+            EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
+        }
+
         UseButton.gameObject.SetActive(false);
         DiscardButton.gameObject.SetActive(false);
         ItemAmount.text = "";
         Description.text = "";
+
+        itemIndx = 0;
 
         eventSystem.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
     }

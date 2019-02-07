@@ -107,6 +107,8 @@ public class Menu : MonoBehaviour
                 // exit equipment panel
                 currentHud = previousHud;
                 previousHud = EQUIPMENT;
+
+                EquipmentMenuUI.ExitEquipments();
                 EquipmentPanel.interactable = false;
                 EquippedPanel.interactable = true;
 
@@ -117,8 +119,6 @@ public class Menu : MonoBehaviour
                 } else {
                     eventSystem.SetSelectedGameObject(buttons[1].gameObject);
                 }
-
-                EquipmentMenuUI.ExitEquipments();
             }
         }
     }
