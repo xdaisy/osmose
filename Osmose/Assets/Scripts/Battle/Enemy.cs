@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
+    public string EnemyName;
 
     public int CurrentHP;
     public int MaxHP;
@@ -18,6 +19,9 @@ public class Enemy : MonoBehaviour {
     public int Money; // amount of money it gives
 
     public bool IsDefending; // whether enemy is defending or not
+
+    public Sprite RegularSprite;
+    public Sprite HighlightedSprite;
 
 	// Use this for initialization
 	void Start () {

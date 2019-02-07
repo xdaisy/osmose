@@ -9,19 +9,12 @@ public class BattleSystem : MonoBehaviour {
     private EventSystem eventSystem; // event system for battle
 
     // All the HUDS
-    [Header("HUDs")]
-    public CanvasGroup MainHud;
-    public CanvasGroup SkillHud;
-    public CanvasGroup ItemHud;
     public CanvasGroup PartyHud;
-    public CanvasGroup EnemyHud;
-    public Text TextHud;
 
     private string previousHud; // keep track of the previous hud
 
     // For showing party members
     [Header("Party")]
-    public GameObject[] PartyMembers;
     public Text[] PartyNames;
     public Text[] PartyHP;
     private int numPartyMembers;
@@ -37,19 +30,39 @@ public class BattleSystem : MonoBehaviour {
 
     private Items itemToUse; // keep track of which item selected to be used
 
-    // keep track of whose turn is it for this round
-    private Queue<string> turnOrder;
+    
 
-    private bool playerDeciding; // whether or not the player is deciding their move
-    private string nextToGo; // keep track of whose turn is it
+    // ###############################
+    // keep track of what is going to be in refactored script
+    [Header("HUDs")]
+    public CanvasGroup MainHud;
+    public CanvasGroup SkillHud;
+    public CanvasGroup ItemHud;
+    public CanvasGroup SelectHud;
+    public Text TextHud;
+    public GameObject DescriptionPanel;
+
+    [Header("Hud UI Objects")]
+    public SelectHud SelectHudUI;
+
+    private Queue<string> turnOrder; // keep track of whose turn is it for this round
+
+    private bool playerTurn; // whether or not the it is the player's turn
+    private string charTurn; // keep track of whose turn is it
     private string textToShow; // shows player's action
 
     private int earnedExp;
     private int earnedMoney;
 
-    private int numEnemiesRemaining;
+    private List<Enemy> enemies;
 
     private bool escaped; // keeps track if the player escaped
+
+    private bool attacking, usingItem, usingSkill; // boolean for keeping track of what the player is doing
+
+    private const string ATTACK_BUTTON = "AttackButton";
+    private const string ITEMS_BUTTON = "ItemsButton";
+    private const string SKILLS_BUTTON = "SkillsButton";
 
     private void Awake() {
         turnOrder = new Queue<string>();
@@ -64,10 +77,11 @@ public class BattleSystem : MonoBehaviour {
         // set up ui
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
         numPartyMembers = party.Count;
-        for (int i = 0; i < PartyMembers.Length; i++) {
+        for (int i = 0; i < PartyNames.Length; i++) {
             if (i >= party.Count) {
                 // if have less members in current party than total party members, do not show the other
-                PartyMembers[i].SetActive(false);
+                PartyNames[i].text = "";
+                PartyHP[i].text = "";
                 continue;
             }
             string partyMember = party[i];
@@ -76,13 +90,16 @@ public class BattleSystem : MonoBehaviour {
                 + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
         }
 
+        getEnemies();
         determineTurnOrder();
-        playerDeciding = false;
+        playerTurn = false;
         textToShow = "";
         earnedExp = 0;
         earnedMoney = 0;
-        numEnemiesRemaining = int.MaxValue;
         escaped = false;
+        attacking = false;
+        usingItem = false;
+        usingSkill = false;
         previousHud = "main";
 
         TextHud.gameObject.SetActive(true);
@@ -104,7 +121,7 @@ public class BattleSystem : MonoBehaviour {
             if (Input.GetButtonDown("Interact")) {
                 // load back to previous scene
             }
-        } else if (numEnemiesRemaining < 1) {
+        } else if (enemies.Count < 1) {
             // all enemies defeated, battle won!
             TextHud.gameObject.SetActive(true);
             TextHud.text = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
@@ -122,11 +139,11 @@ public class BattleSystem : MonoBehaviour {
             TextHud.gameObject.SetActive(true);
             TextHud.text = textToShow;
             textToShow = ""; // reset it to empty string
-            playerDeciding = false;
-        } else if (!playerDeciding && !TextHud.IsActive()) {
-            nextToGo = turnOrder.Dequeue();
+            playerTurn = false;
+        } else if (!playerTurn && !TextHud.IsActive()) {
+            charTurn = turnOrder.Dequeue();
 
-            if (GameManager.Instance.Party.IsInParty(nextToGo)) {
+            if (GameManager.Instance.Party.IsInParty(charTurn)) {
                 // if the next to go is a party member, is player's turn
                 MainHud.gameObject.SetActive(true);
                 MainHud.interactable = true;
@@ -135,36 +152,33 @@ public class BattleSystem : MonoBehaviour {
                 Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
                 Button attackButton = null;
                 foreach (Button command in battleCommands) {
-                    if (command.name == "AttackButton") {
+                    if (command.name == ATTACK_BUTTON) {
                         attackButton = command;
                     }
                 }
                 eventSystem.SetSelectedGameObject(null);
                 eventSystem.SetSelectedGameObject(attackButton.gameObject);
 
-                GameManager.Instance.Party.SetDefending(nextToGo, false); // character not defending at start of turn
-                playerDeciding = true;
+                GameManager.Instance.Party.SetDefending(charTurn, false); // character not defending at start of turn
+                playerTurn = true;
             } else {
                 // enemy's turn
                 MainHud.gameObject.SetActive(false);
                 MainHud.interactable = false;
 
-                GameObject enemy = GameObject.Find(nextToGo);
-                Enemy enemyStat = enemy.GetComponent<Enemy>();
-                enemyTurn(enemyStat);
+                Enemy enemy = null;
+                for (int i = 0; i < enemies.Count; i++) {
+                    if (enemies[i].EnemyName == charTurn) {
+                        enemy = enemies[i];
+                    }
+                }
+                enemyTurn(enemy);
             }
         } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per damage)
             TextHud.gameObject.SetActive(false);
         } else if (Input.GetButtonDown("Cancel")) {
             // if on a different menu and hit cancel, go back to previous menu
-            if (EnemyHud.interactable) {
-                // if selecting enemy and cancel, go back to main menu on the attack button
-                EnemyHud.interactable = false;
-                MainHud.interactable = true;
-
-                setSelectedButton("AttackButton");
-            }
 
             if (SkillHud.interactable) {
                 // selecting skill and cancel, go back to main menu on the skill button
@@ -174,7 +188,7 @@ public class BattleSystem : MonoBehaviour {
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
 
-                setSelectedButton("SkillsButton");
+                setSelectedButton(SKILLS_BUTTON);
             }
 
             if (ItemHud.interactable) {
@@ -185,7 +199,7 @@ public class BattleSystem : MonoBehaviour {
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
 
-                setSelectedButton("ItemsButton");
+                setSelectedButton(ITEMS_BUTTON);
             }
 
             if (PartyHud.interactable) {
@@ -218,6 +232,22 @@ public class BattleSystem : MonoBehaviour {
                         break;
                 }
             }
+
+            if (SelectHud.interactable) {
+                // close select hud
+                SelectHud.interactable = false;
+                SelectHud.gameObject.SetActive(false);
+
+                if (attacking) {
+                    // select the attack button
+                    MainHud.interactable = true;
+                    setSelectedButton(ATTACK_BUTTON);
+                } else if (usingItem) {
+                    // select the item that was previously on
+                } else if (usingSkill) {
+                    // select the skill that was previously on
+                }
+            }
         }
 
         if (ItemHud.gameObject.activeSelf) {
@@ -235,7 +265,7 @@ public class BattleSystem : MonoBehaviour {
             case 0:
                 // enemy attack
                 enemy.IsDefending = true;
-                textToShow = "Enemy defended";
+                textToShow = enemy.EnemyName + " defended";
                 break;
             default:
                 int member = UnityEngine.Random.Range(0, numPartyMembers);
@@ -248,7 +278,7 @@ public class BattleSystem : MonoBehaviour {
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
-                textToShow = partyMember + " took " + damage + " damage!";
+                textToShow = enemy.EnemyName + " attacked! " + partyMember + " took " + damage + " damage!";
 
                 updateHP(member);
                 break;
@@ -261,56 +291,64 @@ public class BattleSystem : MonoBehaviour {
                     + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
     }
 
-    /// <summary>
-    /// Go from the Main Battle HUD to the Select Enemy HUD
-    /// </summary>
+    // select attack and show the selection of enemies to attack
     public void SelectAttack() {
         MainHud.interactable = false;
-        EnemyHud.interactable = true;
+        SelectHud.gameObject.SetActive(true);
+        SelectHud.interactable = true;
 
         previousHud = "main";
+        attacking = true;
 
         // TODO: Find way to get list of the Enemies and have the far left one selected 
-        Button enemy = EnemyHud.GetComponentInChildren<Button>();
-        eventSystem.SetSelectedGameObject(enemy.gameObject);
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        string[] enemyNames = new string[enemies.Length];
+
+        for (int i = 0; i < enemies.Length; i++) {
+            enemyNames[i] = enemies[i].EnemyName;
+        }
+
+        SelectHudUI.OpenSelectHud(enemyNames);
     }
 
-    public void SelectEnemy() {
-        EnemyHud.interactable = false;
+    public void Select(int choice) {
+        if (attacking) {
+            Enemy enemy = enemies[choice];
 
-        previousHud = "enemy";
-        /// get enemy who was clicked
-        GameObject lastClicked = eventSystem.currentSelectedGameObject;
+            // calculate the damage
+            int damage = GameManager.Instance.Party.GetCharacterAttack(charTurn) - enemy.Defense;
 
-        // get enemy object of the enenmy who was clicked
-        Enemy enemy = lastClicked.GetComponent<Enemy>();
+            // if enemy is defending, reduce damage
+            if (enemy.IsDefending) {
+                damage = Mathf.RoundToInt(damage / 2);
+            }
 
-        // calculate the damage
-        int damage = GameManager.Instance.Party.GetCharacterAttack(nextToGo) - enemy.Defense;
+            // reduce enemy's hp
+            enemy.CurrentHP -= damage;
+            enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
 
-        // if enemy is defending, reduce damage
-        if (enemy.IsDefending) {
-            damage = Mathf.RoundToInt(damage / 2);
-        }
+            MainHud.gameObject.SetActive(false); // set main hud invisible
 
-        // reduce enemy's hp
-        enemy.CurrentHP -= damage;
-        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
+            // set the next displayed text
+            if (enemy.CurrentHP > 0) {
+                textToShow = enemy.EnemyName + " took " + damage + " damage!";
+            } else {
+                earnedExp += enemy.Exp;
+                earnedMoney += enemy.Money;
+                textToShow = "Defeated " + enemy.EnemyName + "!";
+                enemies.RemoveAt(choice);
+            }
 
-        MainHud.gameObject.SetActive(false); // set main hud invisible
+            if (enemies.Count < 1) {
+                textToShow = "";
+            }
 
-        // set the next displayed text
-        if (enemy.CurrentHP > 0) {
-            textToShow = lastClicked.name + " took " + damage + " damage!";
-        } else {
-            earnedExp += enemy.Exp;
-            earnedMoney += enemy.Money;
-            numEnemiesRemaining--;
-            textToShow = "Defeated " + lastClicked.name + "!";
-        }
+            SelectHud.interactable = false;
+            SelectHud.gameObject.SetActive(false);
+        } else if (usingItem) {
 
-        if (numEnemiesRemaining < 1) {
-            textToShow = "";
+        } else if (usingSkill) {
+
         }
     }
 
@@ -320,8 +358,8 @@ public class BattleSystem : MonoBehaviour {
         MainHud.gameObject.SetActive(false);
 
         // turn on skill hud
-        float currSp = GameManager.Instance.Party.GetCharacterCurrentSP(nextToGo);
-        float maxSp = GameManager.Instance.Party.GetCharacterMaxSP(nextToGo);
+        float currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charTurn);
+        float maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charTurn);
 
         previousHud = "main";
 
@@ -409,9 +447,9 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
 
-        GameManager.Instance.Party.SetDefending(nextToGo, true);
+        GameManager.Instance.Party.SetDefending(charTurn, true);
 
-        playerDeciding = false;
+        playerTurn = false;
     }
 
     public void SelectEscape() {
@@ -429,7 +467,7 @@ public class BattleSystem : MonoBehaviour {
                 break;
         }
 
-        playerDeciding = false;
+        playerTurn = false;
     }
 
     public void SelectPartyMember(int partyMember) {
@@ -477,14 +515,11 @@ public class BattleSystem : MonoBehaviour {
                 turn[idx] = name;
             }
         }
+        
+        foreach(Enemy enemy in enemies) {
+            string name = enemy.EnemyName;
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        numEnemiesRemaining = enemies.Length;
-        foreach(GameObject enemy in enemies) {
-            string name = enemy.name;
-
-            Enemy enemyStat = enemy.GetComponent<Enemy>();
-            int idx = (int) enemyStat.Speed;
+            int idx = enemy.Speed;
 
             if (turn[idx] != null) {
                 // put character in the next available index if speed match
@@ -504,6 +539,17 @@ public class BattleSystem : MonoBehaviour {
             if (turn[i] != null) {
                 turnOrder.Enqueue(turn[i]);
             }
+        }
+    }
+
+    // called in beginning of battle to get the list of enemies
+    private void getEnemies() {
+        enemies = new List<Enemy>();
+
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemyList) {
+            Enemy enemyStat = enemy.GetComponent<Enemy>();
+            enemies.Add(enemyStat);
         }
     }
 
