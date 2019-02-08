@@ -107,6 +107,10 @@ public class PartyStats {
     public int GetExpToNextLvl(int level) {
         return expToNextLvl[level];
     }
+
+    public bool IsAlive(string name) {
+        return party[name].CurrHP > 0;
+    }
     
     public void RecoverHP(string name, int hitpoints) {
         party[name].CurrHP = Math.Min(party[name].CurrHP + hitpoints, party[name].MaxHP);

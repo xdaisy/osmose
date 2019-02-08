@@ -8,17 +8,6 @@ using System;
 public class BattleSystem : MonoBehaviour {
     private EventSystem eventSystem; // event system for battle
 
-    // All the HUDS
-    public CanvasGroup PartyHud;
-
-    private string previousHud; // keep track of the previous hud
-
-    // For showing party members
-    [Header("Party")]
-    public Text[] PartyNames;
-    public Text[] PartyHP;
-    private int numPartyMembers;
-
     // For showing Item HUD
     [Header("Item HUD")]
     public Button[] ItemButtons;
@@ -44,17 +33,23 @@ public class BattleSystem : MonoBehaviour {
 
     [Header("Hud UI Objects")]
     public SelectHud SelectHudUI;
+    public PartyHud PartyHudUI;
 
     private Queue<string> turnOrder; // keep track of whose turn is it for this round
+
+    private string previousHud; // keep track of the previous hud
 
     private bool playerTurn; // whether or not the it is the player's turn
     private string charTurn; // keep track of whose turn is it
     private string textToShow; // shows player's action
 
+    private List<Enemy> enemies;
     private int earnedExp;
     private int earnedMoney;
 
-    private List<Enemy> enemies;
+    // info about party members
+    private List<string> party;
+    private int numAliveChar; // keep track of how many members of the party are alive
 
     private bool escaped; // keeps track if the player escaped
 
@@ -75,20 +70,8 @@ public class BattleSystem : MonoBehaviour {
 
         eventSystem = EventSystem.current;
         // set up ui
-        List<string> party = GameManager.Instance.Party.GetCurrentParty();
-        numPartyMembers = party.Count;
-        for (int i = 0; i < PartyNames.Length; i++) {
-            if (i >= party.Count) {
-                // if have less members in current party than total party members, do not show the other
-                PartyNames[i].text = "";
-                PartyHP[i].text = "";
-                continue;
-            }
-            string partyMember = party[i];
-            PartyNames[i].text = partyMember;
-            PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember) 
-                + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
-        }
+        party = GameManager.Instance.Party.GetCurrentParty();
+        numAliveChar = party.Count;
 
         getEnemies();
         determineTurnOrder();
@@ -141,6 +124,7 @@ public class BattleSystem : MonoBehaviour {
             textToShow = ""; // reset it to empty string
             playerTurn = false;
         } else if (!playerTurn && !TextHud.IsActive()) {
+            // next turn
             charTurn = turnOrder.Dequeue();
 
             if (GameManager.Instance.Party.IsInParty(charTurn)) {
@@ -175,7 +159,7 @@ public class BattleSystem : MonoBehaviour {
                 enemyTurn(enemy);
             }
         } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
-            // stop displaying text (one one screen of text per damage)
+            // stop displaying text (one one screen of text per move)
             TextHud.gameObject.SetActive(false);
         } else if (Input.GetButtonDown("Cancel")) {
             // if on a different menu and hit cancel, go back to previous menu
@@ -200,37 +184,6 @@ public class BattleSystem : MonoBehaviour {
                 MainHud.gameObject.SetActive(true);
 
                 setSelectedButton(ITEMS_BUTTON);
-            }
-
-            if (PartyHud.interactable) {
-                switch(previousHud) {
-                    case "item":
-                        // party hud is now not interable
-                        PartyHud.interactable = false;
-
-                        // item hud is now interactable
-                        // item hud is still visible, so don't have to set active
-                        ItemHud.interactable = true;
-
-                        string itemName = itemToUse.ItemName;
-                        foreach (Button item in ItemButtons) {
-                            if (item.GetComponentInChildren<Text>().text == itemName) {
-                                eventSystem.SetSelectedGameObject(item.gameObject);
-                                break;
-                            }
-                        }
-                        break;
-                    case "skill":
-                        // party hud is now not interable
-                        PartyHud.interactable = false;
-
-                        // skill hud now interactable
-                        // skill hud already visible, so don't have to set active
-                        SkillHud.interactable = true;
-                        break;
-                    default:
-                        break;
-                }
             }
 
             if (SelectHud.interactable) {
@@ -268,8 +221,8 @@ public class BattleSystem : MonoBehaviour {
                 textToShow = enemy.EnemyName + " defended";
                 break;
             default:
-                int member = UnityEngine.Random.Range(0, numPartyMembers);
-                string partyMember = PartyNames[member].text;
+                int member = UnityEngine.Random.Range(0, numAliveChar);
+                string partyMember = party[member];
 
                 int damage = enemy.Attack - GameManager.Instance.Party.GetCharacterDefense(partyMember);
                 if (GameManager.Instance.Party.IsDefending(partyMember)) {
@@ -278,17 +231,12 @@ public class BattleSystem : MonoBehaviour {
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
-                textToShow = enemy.EnemyName + " attacked! " + partyMember + " took " + damage + " damage!";
+                PartyHudUI.UpdateHP();
 
-                updateHP(member);
+                textToShow = enemy.EnemyName + " attacked! " + partyMember + " took " + damage + " damage!";
+                
                 break;
         }
-    }
-
-    private void updateHP(int member) {
-        string partyMember = PartyNames[member].text;
-        PartyHP[member].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember)
-                    + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
     }
 
     // select attack and show the selection of enemies to attack
@@ -345,6 +293,8 @@ public class BattleSystem : MonoBehaviour {
 
             SelectHud.interactable = false;
             SelectHud.gameObject.SetActive(false);
+
+            attacking = false;
         } else if (usingItem) {
 
         } else if (usingSkill) {
@@ -385,24 +335,6 @@ public class BattleSystem : MonoBehaviour {
         eventSystem.SetSelectedGameObject(item.gameObject, null);
 
         showItems();
-    }
-
-    public void SelectItem(int itemIdx) {
-        // get item info
-        string itemName = ItemButtons[itemIdx].GetComponentInChildren<Text>().text;
-        itemToUse = GameManager.Instance.GetItemDetails(itemName);
-
-        // set item hud to not interactable
-        ItemHud.interactable = false;
-
-        // set party hud to interactable
-        PartyHud.interactable = true;
-
-        previousHud = "item";
-
-        eventSystem.SetSelectedGameObject(null);
-        Button firstHighlightedCharacter = PartyHud.GetComponentInChildren<Button>();
-        eventSystem.SetSelectedGameObject(firstHighlightedCharacter.gameObject);
     }
 
     private void showItems() {
@@ -468,32 +400,6 @@ public class BattleSystem : MonoBehaviour {
         }
 
         playerTurn = false;
-    }
-
-    public void SelectPartyMember(int partyMember) {
-        string character = PartyNames[partyMember].text;
-
-        if (itemToUse.AffectHP && GameManager.Instance.Party.GetCharacterCurrentHP(character) < GameManager.Instance.Party.GetCharacterMaxHP(character)) {
-            // recover character hp if current hp is less than max
-            itemToUse.Use(character);
-
-            updateHP(partyMember);
-
-            PartyHud.interactable = false;
-            ItemHud.gameObject.SetActive(false);
-
-            textToShow = character + " healed " + itemToUse.AmountToChange + " hp!";
-        } else if (itemToUse.AffectSP && GameManager.Instance.Party.GetCharacterCurrentSP(character) < GameManager.Instance.Party.GetCharacterMaxSP(character)) {
-            // recover character sp if current sp is less than max
-            itemToUse.Use(character);
-
-            PartyHud.interactable = false;
-            ItemHud.gameObject.SetActive(false);
-
-            textToShow = character + " healed " + itemToUse.AmountToChange + " sp!";
-        } else {
-            // character can't be healed
-        }
     }
 
     private void determineTurnOrder() {
