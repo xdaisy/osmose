@@ -6,7 +6,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("Party")]
     public PartyStats Party;
+    public Sprite ArenSprite;
+    public Sprite ReySprite;
+    public Sprite NaosheSprite;
 
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle;
 

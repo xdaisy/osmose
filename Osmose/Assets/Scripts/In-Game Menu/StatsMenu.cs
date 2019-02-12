@@ -75,6 +75,7 @@ public class StatsMenu : MonoBehaviour
 
     private void updateStats() {
         Name.text = currCharacter;
+        updateImage();
         Level.text = "" + GameManager.Instance.Party.GetCharacterLevel(currCharacter);
 
         HP.text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currCharacter) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currCharacter);
@@ -97,5 +98,19 @@ public class StatsMenu : MonoBehaviour
         Weapon.text = eqpWeapon != "" ? eqpWeapon : "<No Weapon>";
         string eqpArmor = "" + GameManager.Instance.Party.GetArmor(currCharacter);
         Armor.text = eqpArmor != "" ? eqpArmor : "<No Armor>";
+    }
+
+    private void updateImage() {
+        switch (currCharacter) {
+            case "Aren":
+                CharacterImage.sprite = GameManager.Instance.ArenSprite;
+                break;
+            case "Rey":
+                CharacterImage.sprite = GameManager.Instance.ReySprite;
+                break;
+            case "Naoshe":
+                CharacterImage.sprite = GameManager.Instance.NaosheSprite;
+                break;
+        }
     }
 }

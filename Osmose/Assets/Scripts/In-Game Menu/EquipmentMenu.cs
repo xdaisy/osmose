@@ -180,5 +180,6 @@ public class EquipmentMenu : MonoBehaviour {
         Button currHighlightedEqmt = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         EventSystem.current.SetSelectedGameObject(null);
         currHighlightedEqmt.interactable = false;
+        equipmentIndx = 1;
     }
 }

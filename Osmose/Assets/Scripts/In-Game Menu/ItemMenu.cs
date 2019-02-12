@@ -21,13 +21,12 @@ public class ItemMenu : MonoBehaviour {
     public Text Description;
     public Button UseButton;
     public Button DiscardButton;
+    
+    private string currentItem; // keep track of what item the player is currently on
+    private int itemIndx; // keep track of where in the items list the player is on (this allows for scrolling)
 
-    //private Text currentItem;
-    private string currentItem;
-    private int itemIndx;
-
-    private string currentType;
-    private int itemTypeIndx;
+    private string currentType; // keep track of what type of item player is currently looking at
+    private int itemTypeIndx; // keep track of which index of the type of item player is currently looking at
 
     // Start is called before the first frame update
     void Start()
@@ -197,6 +196,9 @@ public class ItemMenu : MonoBehaviour {
         updateDescription();
     }
 
+    public void UseItem() {
+    }
+
     public void ExitItemList() {
         if (Items[0].text != "") {
             EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
@@ -208,6 +210,7 @@ public class ItemMenu : MonoBehaviour {
         Description.text = "";
 
         itemIndx = 0;
+        currentItem = "";
 
         eventSystem.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
     }

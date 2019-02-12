@@ -185,6 +185,7 @@ public class Menu : MonoBehaviour
         }
     }
 
+    // select which type of item to go look at
     public void ChooseWhichItem(int itemType) {
         ItemType.interactable = false;
         ItemList.interactable = true;
@@ -207,15 +208,20 @@ public class Menu : MonoBehaviour
         }
     }
 
+    // open panel to either use or discard item
+    public void UseItem() {
+
+    }
+
     // open up equipped panel
     public void SelectWhichCharacterEqpmt(int character) {
         previousHud = currentHud;
         currentHud = EQUIPPED_PANEL;
         currCharacter = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
 
-        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentCharacters.interactable = false;
         EquippedPanel.interactable = true;
+        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentMenuUI.ShowCharacterEquipment(character);
     }
 
