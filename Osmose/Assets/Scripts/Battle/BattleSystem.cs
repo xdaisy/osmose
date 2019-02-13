@@ -191,6 +191,8 @@ public class BattleSystem : MonoBehaviour {
                 SelectHud.interactable = false;
                 SelectHud.gameObject.SetActive(false);
 
+                SelectHudUI.ExitSelectHud();
+
                 if (attacking) {
                     // select the attack button
                     MainHud.interactable = true;
@@ -249,14 +251,7 @@ public class BattleSystem : MonoBehaviour {
         attacking = true;
 
         // TODO: Find way to get list of the Enemies and have the far left one selected 
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-        string[] enemyNames = new string[enemies.Length];
-
-        for (int i = 0; i < enemies.Length; i++) {
-            enemyNames[i] = enemies[i].EnemyName;
-        }
-
-        SelectHudUI.OpenSelectHud(enemyNames);
+        SelectHudUI.OpenSelectHud(enemies.ToArray());
     }
 
     public void Select(int choice) {
@@ -290,6 +285,8 @@ public class BattleSystem : MonoBehaviour {
             if (enemies.Count < 1) {
                 textToShow = "";
             }
+
+            enemy.Highlight(false);
 
             SelectHud.interactable = false;
             SelectHud.gameObject.SetActive(false);

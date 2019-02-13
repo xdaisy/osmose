@@ -4,65 +4,72 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemHud : MonoBehaviour
-{
-    private EventSystem eventSystem;
-
+public class ItemHud : MonoBehaviour {
     public CanvasGroup Hud;
 
-    // For showing Item HUD
-    [Header("Item HUD")]
-    public Button[] ItemButtons;
-    public Text ItemName;
-    public Text ItemDescription;
-    public Text ItemAmount;
+    [Header("Item UI")]
+    public Text[] Items;
+    public Text[] ItemsAmount;
 
-    private Button currentItem;
-    private int itemIndx = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
+    [Header("Description")]
+    public Text Description;
 
-    private void Awake() {
-        eventSystem = EventSystem.current;
-    }
+    private string currItem;
+    private int itemIndx;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
+        currItem = "";
+        itemIndx = 0;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (Hud.interactable) {
-            // if hud is interactable
+            Text selectedItem = EventSystem.current.currentSelectedGameObject.GetComponent<Text>();
             if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                // only update if item hud is active and the item list is interactable
-                if (currentItem.name == eventSystem.currentSelectedGameObject.name) {
-                    // if was at the is on the last item, scroll down
-                    int i = itemIndx + ItemButtons.Length;
-                    Items item = GameManager.Instance.GetItemAt(itemIndx + ItemButtons.Length);
+                // if scrolling down
+                if (selectedItem.text == currItem) {
+                    // if at last item text
+                    int i = itemIndx + Items.Length;
+                    Items item = GameManager.Instance.GetItemAt(i);
                     if (item != null) {
-                        // more items, so scroll right
-                        itemIndx += 2;
-                        showItems();
+                        // if not at end of items list
+                        itemIndx++;
+                        updateItems();
                     }
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow) && itemIndx > 0) {
+                // if scrolling up and not at beginning of items list
+                itemIndx--;
+                updateItems();
+            }
+
+            // update the current selected item
+            currItem = selectedItem.text;
+            updateDescription();
         }
     }
 
-    private void showItems() {
-        // update which item is being shown
-        for (int i = 0; i < ItemButtons.Length; i++) {
-            Text itemText = ItemButtons[i].GetComponentInChildren<Text>();
+    private void updateItems() {
+        for (int i = 0; i < Items.Length; i++) {
+            Text itemText = Items[i];
             itemText.GetComponent<Button>().interactable = true;
             Items item = GameManager.Instance.GetItemAt(i + itemIndx);
             if (item == null) {
                 // if there is no item at this slot, disable it
-                ItemButtons[i].gameObject.SetActive(false);
+                itemText.text = "";
+                itemText.GetComponent<Button>().interactable = false;
                 continue;
             }
             itemText.text = item.ItemName;
         }
+    }
+
+    private void updateDescription() {
+        Items item = GameManager.Instance.GetItemDetails(currItem);
+        Description.text = item.Description;
     }
 }

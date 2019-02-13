@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
     public string EnemyName;
 
+    private Image EnemyImage; // displayed image of the enemy
+    public Sprite EnemySprite; // regular sprite
+    public Sprite HighlightedSprite; // sprite of enemy highlighted
+
+    [Header("Enemy Stats")]
     public int CurrentHP;
     public int MaxHP;
     public int CurrentSP;
@@ -20,12 +26,9 @@ public class Enemy : MonoBehaviour {
 
     public bool IsDefending; // whether enemy is defending or not
 
-    public Sprite RegularSprite;
-    public Sprite HighlightedSprite;
-
 	// Use this for initialization
 	void Start () {
-		
+        EnemyImage = this.GetComponent<Image>();
 	}
 	
 	// Update is called once per frame
@@ -34,4 +37,12 @@ public class Enemy : MonoBehaviour {
             Destroy(this.gameObject);
         }
 	}
+
+    public void Highlight(bool selected) {
+        if (selected) {
+            EnemyImage.sprite = HighlightedSprite;
+        } else {
+            EnemyImage.sprite = EnemySprite;
+        }
+    }
 }
