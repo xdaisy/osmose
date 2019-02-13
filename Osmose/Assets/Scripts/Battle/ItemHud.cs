@@ -53,18 +53,27 @@ public class ItemHud : MonoBehaviour {
         }
     }
 
+    public void OpenItemHud() {
+        updateItems();
+        EventSystem.current.SetSelectedGameObject(Items[0].gameObject);
+        updateDescription();
+    }
+
     private void updateItems() {
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
+            Text itemAmount = ItemsAmount[i];
             itemText.GetComponent<Button>().interactable = true;
             Items item = GameManager.Instance.GetItemAt(i + itemIndx);
             if (item == null) {
                 // if there is no item at this slot, disable it
                 itemText.text = "";
+                itemAmount.text = "";
                 itemText.GetComponent<Button>().interactable = false;
                 continue;
             }
             itemText.text = item.ItemName;
+            itemAmount.text = "" + GameManager.Instance.GetAmountOfItem(item.ItemName);
         }
     }
 

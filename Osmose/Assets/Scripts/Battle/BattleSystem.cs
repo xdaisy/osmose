@@ -8,13 +8,6 @@ using System;
 public class BattleSystem : MonoBehaviour {
     private EventSystem eventSystem; // event system for battle
 
-    // For showing Item HUD
-    [Header("Item HUD")]
-    public Button[] ItemButtons;
-    public Text ItemName;
-    public Text ItemDescription;
-    public Text ItemAmount;
-
     private int itemStartOn = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
 
     private Items itemToUse; // keep track of which item selected to be used
@@ -34,6 +27,7 @@ public class BattleSystem : MonoBehaviour {
     [Header("Hud UI Objects")]
     public SelectHud SelectHudUI;
     public PartyHud PartyHudUI;
+    public ItemHud ItemHudUI;
 
     private Queue<string> turnOrder; // keep track of whose turn is it for this round
 
@@ -179,6 +173,7 @@ public class BattleSystem : MonoBehaviour {
                 // selecting item and cancel, go back to main menu on item button
                 ItemHud.interactable = false;
                 ItemHud.gameObject.SetActive(false);
+                DescriptionPanel.gameObject.SetActive(false);
 
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
@@ -203,11 +198,6 @@ public class BattleSystem : MonoBehaviour {
                     // select the skill that was previously on
                 }
             }
-        }
-
-        if (ItemHud.gameObject.activeSelf) {
-            // if item hud is active, make sure the correct description is on
-            updateItemDescriptionPanel();
         }
 	}
 
@@ -316,59 +306,19 @@ public class BattleSystem : MonoBehaviour {
         spText.text = "SP: " + currSp + "/" + maxSp;
     }
 
-    public void ClickItems() {
+    public void SelectItems() {
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
 
-        // turn on item hud
+        // turn on item hud and description panel
         ItemHud.gameObject.SetActive(true);
         ItemHud.interactable = true;
+        DescriptionPanel.gameObject.SetActive(true);
 
         previousHud = "main";
 
-        eventSystem.SetSelectedGameObject(null);
-        Button item = ItemHud.GetComponentInChildren<Button>();
-        eventSystem.SetSelectedGameObject(item.gameObject, null);
-
-        showItems();
-    }
-
-    private void showItems() {
-        for (int i = 0; i < ItemButtons.Length; i++) {
-            // go through each item button
-            int idx = i + itemStartOn; // get index for items array
-            Button itemButton = ItemButtons[i];
-            Items item = GameManager.Instance.GetItemAt(idx);
-            if (item == null) {
-                // if no item, set button off
-                itemButton.gameObject.SetActive(false);
-            } else {
-                // got item
-                Text itemButtonText = itemButton.GetComponentInChildren<Text>();
-                itemButtonText.text = item.ItemName;
-            }
-        }
-
-        updateItemDescriptionPanel();
-    }
-
-    private void updateItemDescriptionPanel() {
-        GameObject currentSelected = eventSystem.currentSelectedGameObject;
-
-        if (currentSelected.tag == "BattleItemButton") {
-            // update if the button is a battle item button
-            string currentSelectedItemName = currentSelected.GetComponentInChildren<Text>().text;
-
-            if (currentSelectedItemName != ItemName.text) {
-                // update if the current selected
-                Items currentSelectedItem = GameManager.Instance.GetItemDetails(currentSelectedItemName);
-
-                ItemName.text = currentSelectedItemName;
-                ItemDescription.text = currentSelectedItem.Description;
-                ItemAmount.text = "" + GameManager.Instance.GetAmountOfItem(currentSelectedItemName);
-            }
-        }
+        ItemHudUI.OpenItemHud();
     }
 
     public void SelectDefend() {
