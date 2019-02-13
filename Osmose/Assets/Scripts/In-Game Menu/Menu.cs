@@ -48,6 +48,7 @@ public class Menu : MonoBehaviour
     private const string ITEMS = "Items";
     private const string ITEM_TYPE = "ItemType";
     private const string ITEM_LIST = "ItemList";
+    private const string ITEM_DESCRIPTION = "ItemDescriptionPanel";
     private const string SKILLS = "Skills";
     private const string EQUIPMENT = "Equipment";
     private const string EQUIPPED_PANEL = "CharacterEquipment";
@@ -86,6 +87,14 @@ public class Menu : MonoBehaviour
                 currentHud = previousHud;
                 previousHud = MAIN;
                 ItemMenuUI.ExitItemList();
+            }
+            if (currentHud == ITEM_DESCRIPTION) {
+                // exit item description panel
+                DescriptionPanel.interactable = false;
+                ItemList.interactable = true;
+                currentHud = previousHud;
+                previousHud = MAIN;
+                ItemMenuUI.ExitDescriptionPanel();
             }
             if (currentHud == EQUIPPED_PANEL) {
                 // exit equipped panel
@@ -209,8 +218,14 @@ public class Menu : MonoBehaviour
     }
 
     // open panel to either use or discard item
-    public void UseItem() {
+    public void OpenDescriptionPanel(int item) {
+        ItemList.interactable = false;
+        DescriptionPanel.interactable = true;
 
+        previousHud = currentHud;
+        currentHud = ITEM_DESCRIPTION;
+
+        ItemMenuUI.OpenDescriptionPanel(item);
     }
 
     // open up equipped panel

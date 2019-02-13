@@ -23,6 +23,7 @@ public class ItemMenu : MonoBehaviour {
     public Button DiscardButton;
     
     private string currentItem; // keep track of what item the player is currently on
+    private int currItemIndx; // keep track which item the player clicked on
     private int itemIndx; // keep track of where in the items list the player is on (this allows for scrolling)
 
     private string currentType; // keep track of what type of item player is currently looking at
@@ -171,6 +172,7 @@ public class ItemMenu : MonoBehaviour {
         }
 
         if (item != null) {
+            Debug.Log("setting buttons");
             Description.text = item.Description;
             if (item.IsItem) {
                 // if is item, can use
@@ -196,6 +198,15 @@ public class ItemMenu : MonoBehaviour {
         updateDescription();
     }
 
+    public void OpenDescriptionPanel(int item) {
+        currItemIndx = item;
+        if (UseButton.interactable) {
+            EventSystem.current.SetSelectedGameObject(UseButton.gameObject);
+        } else {
+            EventSystem.current.SetSelectedGameObject(DiscardButton.gameObject);
+        }
+    }
+
     public void UseItem() {
     }
 
@@ -211,7 +222,13 @@ public class ItemMenu : MonoBehaviour {
 
         itemIndx = 0;
         currentItem = "";
+        currItemIndx = 0;
 
         eventSystem.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
+    }
+
+    public void ExitDescriptionPanel() {
+        // set the clicked item as selected item
+        EventSystem.current.SetSelectedGameObject(Items[currItemIndx].gameObject);
     }
 }
