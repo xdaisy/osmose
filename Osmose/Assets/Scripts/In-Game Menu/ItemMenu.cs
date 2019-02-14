@@ -172,7 +172,6 @@ public class ItemMenu : MonoBehaviour {
         }
 
         if (item != null) {
-            Debug.Log("setting buttons");
             Description.text = item.Description;
             if (item.IsItem) {
                 // if is item, can use
@@ -205,6 +204,10 @@ public class ItemMenu : MonoBehaviour {
         } else {
             EventSystem.current.SetSelectedGameObject(DiscardButton.gameObject);
         }
+    }
+
+    public string GetClickedItem() {
+        return currentItem;
     }
 
     public void UseItem() {

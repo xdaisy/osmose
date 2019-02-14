@@ -36,12 +36,20 @@ public class Menu : MonoBehaviour
     public GameObject EquipmentFirstEquipped; // first highlighted button when go to equipped panel
     public CanvasGroup EquipmentPanel; // show equipments in inventory
 
+    [Header("Select Panel")]
+    public SelectMenu SelectMenuUI;
+    public GameObject SelectMenu;
+    public CanvasGroup SelectPanel;
+    public Button[] SelectCharacters;
+
     private bool equipWeapon ;
 
     private string currCharacter;
 
     private string previousHud;
     private string currentHud;
+
+    private string clickedItem;
 
     // constants to keep track of hud names
     private const string MAIN = "Main";
@@ -63,6 +71,7 @@ public class Menu : MonoBehaviour
         currentHud = MAIN;
         equipWeapon = true;
         currCharacter = "";
+        clickedItem = "";
 
         eventSystem = EventSystem.current;
         updatePartyStats();
@@ -215,6 +224,19 @@ public class Menu : MonoBehaviour
                 ItemMenuUI.SetItemType(itemType);
                 break;
         }
+    }
+
+    // go to character select panel
+    public void UseItem() {
+        clickedItem = ItemMenuUI.GetClickedItem();
+
+        // set description panel to not interactable
+        DescriptionPanel.interactable = false;
+
+        SelectMenu.SetActive(true);
+        SelectPanel.interactable = true;
+        SelectMenuUI.UpdateSelectPanel();
+        eventSystem.SetSelectedGameObject(SelectCharacters[0].gameObject);
     }
 
     // open panel to either use or discard item
