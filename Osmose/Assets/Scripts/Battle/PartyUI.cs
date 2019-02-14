@@ -17,9 +17,11 @@ public class PartyUI : MonoBehaviour
 
     public void Highlight(bool selected) {
         if (selected) {
-            image.color = RegularColor;
-        } else {
+            // hightlight
             image.color = HighlightedColor;
+        } else {
+            // dehighlight
+            image.color = RegularColor;
         }
     }
 }

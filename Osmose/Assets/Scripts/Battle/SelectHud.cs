@@ -122,5 +122,6 @@ public class SelectHud : MonoBehaviour
         }
         currSelected = "";
         currSelectedIndx = 0;
+        isSelectingEnemy = false;
     }
 }

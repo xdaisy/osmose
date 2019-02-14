@@ -185,14 +185,17 @@ public class BattleSystem : MonoBehaviour {
 
                 if (attacking) {
                     // select the attack button
+                    attacking = false;
                     MainHud.interactable = true;
                     setSelectedButton(ATTACK_BUTTON);
                 } else if (usingItem) {
                     // select the item that was previously on
+                    usingItem = false;
                     ItemHud.interactable = true;
                     ItemHudUI.SetLastClickedItem();
                 } else if (usingSkill) {
                     // select the skill that was previously on
+                    usingSkill = false;
                 }
             }
         }
@@ -276,6 +279,7 @@ public class BattleSystem : MonoBehaviour {
 
             SelectHud.interactable = false;
             SelectHud.gameObject.SetActive(false);
+            SelectHudUI.ExitSelectHud();
 
             attacking = false;
         } else if (usingItem) {
@@ -293,6 +297,7 @@ public class BattleSystem : MonoBehaviour {
                 item.Use(charName);
 
                 ItemHud.gameObject.SetActive(false);
+                ItemHudUI.ExitItemHud();
                 // set the text to show
                 textToShow = charName + " recovered ";
                 if (item.AffectHP) {
@@ -307,6 +312,7 @@ public class BattleSystem : MonoBehaviour {
                 // close select hud
                 SelectHud.interactable = false;
                 SelectHud.gameObject.SetActive(false);
+                SelectHudUI.ExitSelectHud();
 
                 DescriptionPanel.SetActive(false);
 
