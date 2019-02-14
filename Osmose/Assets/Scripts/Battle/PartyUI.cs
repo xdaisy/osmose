@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PartyMember : MonoBehaviour
+public class PartyUI : MonoBehaviour
 {
     public Color RegularColor; // regular color of party member ui
     public Color HighlightedColor; // highlighted color of party member ui

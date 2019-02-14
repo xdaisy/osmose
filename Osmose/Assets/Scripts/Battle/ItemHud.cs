@@ -17,10 +17,13 @@ public class ItemHud : MonoBehaviour {
     private string currItem;
     private int itemIndx;
 
+    private int clickedItem;
+
     // Start is called before the first frame update
     void Start() {
         currItem = "";
         itemIndx = 0;
+        clickedItem = 0;
     }
 
     // Update is called once per frame
@@ -53,12 +56,34 @@ public class ItemHud : MonoBehaviour {
         }
     }
 
+    // open the item hud
     public void OpenItemHud() {
         updateItems();
         EventSystem.current.SetSelectedGameObject(Items[0].gameObject);
         updateDescription();
     }
 
+    // exit the item hud
+    public void ExitItemHud() {
+        currItem = "";
+        itemIndx = 0;
+        clickedItem = 0;
+        Description.text = "";
+    }
+
+    // return the name of the clicked item
+    public string GetClickedItem(int item) {
+        clickedItem = item;
+        return Items[item].text;
+    }
+
+    // when exit from select hud, set the last clicked item as the current highlighted one
+    public void SetLastClickedItem() {
+        EventSystem.current.SetSelectedGameObject(Items[clickedItem].gameObject);
+        clickedItem = -1;
+    }
+
+    // update which items are shown
     private void updateItems() {
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
@@ -77,6 +102,7 @@ public class ItemHud : MonoBehaviour {
         }
     }
 
+    // update the description of the item the cursor is currently on
     private void updateDescription() {
         Items item = GameManager.Instance.GetItemDetails(currItem);
         Description.text = item.Description;

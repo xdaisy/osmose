@@ -8,10 +8,6 @@ using System;
 public class BattleSystem : MonoBehaviour {
     private EventSystem eventSystem; // event system for battle
 
-    private int itemStartOn = 0; // keeps track of the index of the items array we're looking at in Game Manager, use to know what page the items hud will be on
-
-    private Items itemToUse; // keep track of which item selected to be used
-
     
 
     // ###############################
@@ -28,10 +24,9 @@ public class BattleSystem : MonoBehaviour {
     public SelectHud SelectHudUI;
     public PartyHud PartyHudUI;
     public ItemHud ItemHudUI;
+    public PartyUI[] PartyMemUI;
 
     private Queue<string> turnOrder; // keep track of whose turn is it for this round
-
-    private string previousHud; // keep track of the previous hud
 
     private bool playerTurn; // whether or not the it is the player's turn
     private string charTurn; // keep track of whose turn is it
@@ -48,6 +43,7 @@ public class BattleSystem : MonoBehaviour {
     private bool escaped; // keeps track if the player escaped
 
     private bool attacking, usingItem, usingSkill; // boolean for keeping track of what the player is doing
+    private string itemToUse; // string that keep track of which item was clicked
 
     private const string ATTACK_BUTTON = "AttackButton";
     private const string ITEMS_BUTTON = "ItemsButton";
@@ -77,7 +73,6 @@ public class BattleSystem : MonoBehaviour {
         attacking = false;
         usingItem = false;
         usingSkill = false;
-        previousHud = "main";
 
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
@@ -194,6 +189,8 @@ public class BattleSystem : MonoBehaviour {
                     setSelectedButton(ATTACK_BUTTON);
                 } else if (usingItem) {
                     // select the item that was previously on
+                    ItemHud.interactable = true;
+                    ItemHudUI.SetLastClickedItem();
                 } else if (usingSkill) {
                     // select the skill that was previously on
                 }
@@ -236,8 +233,7 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         SelectHud.gameObject.SetActive(true);
         SelectHud.interactable = true;
-
-        previousHud = "main";
+        
         attacking = true;
 
         // TODO: Find way to get list of the Enemies and have the far left one selected 
@@ -283,7 +279,41 @@ public class BattleSystem : MonoBehaviour {
 
             attacking = false;
         } else if (usingItem) {
+            Items item = GameManager.Instance.GetItemDetails(itemToUse);
+            string charName = party[choice];
+            int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
+            int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+            int currSP = GameManager.Instance.Party.GetCharacterCurrentSP(charName);
+            int maxSP = GameManager.Instance.Party.GetCharacterMaxSP(charName);
 
+            if ((item.AffectHP && currHP != maxHP) || (item.AffectSP && currSP != maxSP)) {
+                // only use if can recover
+
+                // heal
+                item.Use(charName);
+
+                ItemHud.gameObject.SetActive(false);
+                // set the text to show
+                textToShow = charName + " recovered ";
+                if (item.AffectHP) {
+                    textToShow += (GameManager.Instance.Party.GetCharacterCurrentHP(charName) - currHP) + " HP!";
+                } else if (item.AffectSP) {
+                    textToShow += (GameManager.Instance.Party.GetCharacterCurrentSP(charName) - currSP) + " SP!";
+                }
+
+                // update hp
+                PartyHudUI.UpdateHP();
+
+                // close select hud
+                SelectHud.interactable = false;
+                SelectHud.gameObject.SetActive(false);
+
+                DescriptionPanel.SetActive(false);
+
+                // reset
+                usingItem = false;
+                itemToUse = "";
+            }
         } else if (usingSkill) {
 
         }
@@ -298,14 +328,13 @@ public class BattleSystem : MonoBehaviour {
         float currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charTurn);
         float maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charTurn);
 
-        previousHud = "main";
-
         SkillHud.gameObject.SetActive(true);
         SkillHud.interactable = true;
         Text spText = SkillHud.GetComponentInChildren<Text>();
         spText.text = "SP: " + currSp + "/" + maxSp;
     }
 
+    // going to item hud
     public void SelectItems() {
         // turn off main hud
         MainHud.interactable = false;
@@ -316,9 +345,26 @@ public class BattleSystem : MonoBehaviour {
         ItemHud.interactable = true;
         DescriptionPanel.gameObject.SetActive(true);
 
-        previousHud = "main";
-
         ItemHudUI.OpenItemHud();
+    }
+
+    // get name of clicked item
+    public void UseItem(int item) {
+        itemToUse = ItemHudUI.GetClickedItem(item);
+        ItemHud.interactable = false;
+        SelectHud.gameObject.SetActive(true);
+        SelectHud.interactable = true;
+
+        usingItem = true;
+
+        int numActPartyUI = PartyHudUI.GetNumActiveUI();
+
+        PartyUI[] activeParty = new PartyUI[numActPartyUI];
+        for(int i = 0; i < numActPartyUI; i++) {
+            activeParty[i] = PartyMemUI[i];
+        }
+
+        SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
     }
 
     public void SelectDefend() {

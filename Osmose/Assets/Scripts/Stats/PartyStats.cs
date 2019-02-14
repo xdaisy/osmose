@@ -28,7 +28,8 @@ public class PartyStats {
         party["Aren"] = aren;
         party["Rey"] = rey;
         party["Naoise"] = naoise;
-
+        party["Aren"].CurrHP = 100;
+        party["Aren"].CurrSP = 10;
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add("Aren");
 

@@ -9,7 +9,8 @@ public class SelectHud : MonoBehaviour
     public Text[] SelectChoices; // what can be selected on the select hud
 
     private Enemy[] enemyObjects; // list of enemy objects that will be highlighted
-    private PartyMember[] partyObjects; // list of party member objects that will be highlighted
+    private PartyUI[] partyObjects; // list of party member objects that will be highlighted
+    private string[] party;
     private bool isSelectingEnemy; // keep track if selecting enemies or party members
 
     private string currSelected;
@@ -26,6 +27,7 @@ public class SelectHud : MonoBehaviour
             int selectedIndx = findCurrObject(currObject.text);
 
             if (isSelectingEnemy) {
+                // is selecting enemy
                 // dehighlight previous selected enemy
                 Enemy prevSelectedEnemy = enemyObjects[currSelectedIndx];
                 prevSelectedEnemy.Highlight(false);
@@ -33,6 +35,15 @@ public class SelectHud : MonoBehaviour
                 // highlight current selected enemy
                 Enemy currSelectedEnemy = enemyObjects[selectedIndx];
                 currSelectedEnemy.Highlight(true);
+            } else {
+                // is selecting party
+                // dehighlight previous selected party ui
+                PartyUI prevPartyUI = partyObjects[selectedIndx];
+                prevPartyUI.Highlight(false);
+
+                // high current selected party ui
+                PartyUI currSelectedPartyUI = partyObjects[selectedIndx];
+                currSelectedPartyUI.Highlight(true);
             }
 
             currSelected = currObject.text;
@@ -42,7 +53,10 @@ public class SelectHud : MonoBehaviour
 
     private int findCurrObject(string name) {
         for (int i = 0; i < SelectChoices.Length; i++) {
-            if (SelectChoices[i].text == name) {
+            if (isSelectingEnemy && SelectChoices[i].text == name) {
+                return i;
+            }
+            if (!isSelectingEnemy && SelectChoices[i].text == party[i]) {
                 return i;
             }
         }
@@ -71,7 +85,7 @@ public class SelectHud : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(SelectChoices[0].gameObject);
     }
 
-    public void OpenSelectHud(PartyMember[] selection) {
+    public void OpenSelectHud(PartyUI[] selection, string[] currParty) {
         for (int i = 0; i < SelectChoices.Length; i++) {
             Text selectText = SelectChoices[i];
             Button selectButton = selectText.GetComponent<Button>();
@@ -81,20 +95,13 @@ public class SelectHud : MonoBehaviour
                 selectButton.interactable = false;
                 continue;
             }
-            string name = "";
-            if (isSelectingEnemy) {
-                // is seleecting enemy
-                Enemy enemy = selection[i].GetComponent<Enemy>();
-                name = enemy.EnemyName;
-            } else {
-                // is selecting party member
-            }
-            selectText.text = name;
-            selectButton.interactable = true;
+            selectText.text = currParty[i];
+            selectButton.interactable = GameManager.Instance.Party.IsAlive(currParty[i]);
         }
 
         this.isSelectingEnemy = false;
         this.partyObjects = selection;
+        this.party = currParty;
         selection[0].Highlight(true);
         EventSystem.current.SetSelectedGameObject(SelectChoices[0].gameObject);
     }
@@ -107,7 +114,11 @@ public class SelectHud : MonoBehaviour
 
         // dehighlight current selected object
         if (isSelectingEnemy) {
+            // is selecting party
             enemyObjects[currSelectedIndx].Highlight(false);
+        } else {
+            // is selecting party
+            partyObjects[currSelectedIndx].Highlight(false);
         }
         currSelected = "";
         currSelectedIndx = 0;
