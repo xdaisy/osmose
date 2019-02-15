@@ -13,8 +13,6 @@ public class PlayerControls : MonoBehaviour {
 
     public string PreviousAreaName; // keep track of previous area player was in
 
-    public GameObject Menu;
-
     private Animator anim; // reference to animator
     private Rigidbody2D myRigidBody; // reference to ridgebody, use to add force, will push against collision boxes instead of bouncing off
     private Vector2 lastMove; // keep track if player was moving up/down or left/
@@ -23,6 +21,8 @@ public class PlayerControls : MonoBehaviour {
 
     private float amountPlayerMoved; // keep track how much the player has moved
     private float movementTilEncounter; // amount of movement before player launch into battles
+
+    private bool menuOpen;
 
     private void Awake() {
         // don't destroy object on load if player don't exist
@@ -41,6 +41,7 @@ public class PlayerControls : MonoBehaviour {
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
 
         canMove = true;
+        menuOpen = false;
         amountPlayerMoved = 0f;
         movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
     }
@@ -49,16 +50,16 @@ public class PlayerControls : MonoBehaviour {
 	void Update () {}
 
     void FixedUpdate() {
-        if (Input.GetKeyDown(KeyCode.M)) {
+        if (Input.GetButtonDown("OpenMenu")) {
             // if click m, do open/close menu
-            if (Menu.activeSelf) {
+            if (menuOpen) {
                 // close menu
-                Menu.SetActive(false);
-                GameManager.Instance.GameMenuOpen = false;
+                Menu.Instance.CloseGameMenu();
+                menuOpen = false;
             } else {
                 // open menu
-                Menu.SetActive(true);
-                GameManager.Instance.GameMenuOpen = true;
+                Menu.Instance.OpenGameMenu();
+                menuOpen = true;
             }
         }
         if (IsBattleMap && amountPlayerMoved >= movementTilEncounter) {

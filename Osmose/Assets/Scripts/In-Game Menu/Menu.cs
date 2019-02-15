@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour
 {
+    public static Menu Instance;
+
     private EventSystem eventSystem;
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
@@ -42,14 +44,18 @@ public class Menu : MonoBehaviour
     public CanvasGroup SelectPanel;
     public Button[] SelectCharacters;
 
-    private bool equipWeapon ;
+    private bool equipWeapon;
 
     private string currCharacter;
 
     private string previousHud;
     private string currentHud;
 
+    // for using items
     private string clickedItem;
+    private bool usingItem;
+
+    private bool usingSkill;
 
     // constants to keep track of hud names
     private const string MAIN = "Main";
@@ -62,16 +68,29 @@ public class Menu : MonoBehaviour
     private const string EQUIPPED_PANEL = "CharacterEquipment";
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
     private const string STATS = "Stats";
+    private const string SELECT = "SelectMenu";
+
+    private void Awake() {
+        // don't destroy object on load if menu don't exist
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            // if another menu exists, destroy game object
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.Instance.GameMenuOpen = true;
         previousHud = MAIN;
         currentHud = MAIN;
         equipWeapon = true;
         currCharacter = "";
         clickedItem = "";
+        usingItem = false;
+        usingSkill = false;
 
         eventSystem = EventSystem.current;
         updatePartyStats();
@@ -101,8 +120,11 @@ public class Menu : MonoBehaviour
                 // exit item description panel
                 DescriptionPanel.interactable = false;
                 ItemList.interactable = true;
+
                 currentHud = previousHud;
-                previousHud = MAIN;
+                previousHud = ITEM_TYPE;
+                clickedItem = "";
+
                 ItemMenuUI.ExitDescriptionPanel();
             }
             if (currentHud == EQUIPPED_PANEL) {
@@ -138,6 +160,21 @@ public class Menu : MonoBehaviour
                     eventSystem.SetSelectedGameObject(buttons[1].gameObject);
                 }
             }
+            if (currentHud == SELECT) {
+                // exit character select panel
+                if (previousHud == ITEM_DESCRIPTION) {
+                    // if was on item description
+                    currentHud = ITEM_DESCRIPTION;
+                    previousHud = ITEM_LIST;
+
+                    DescriptionPanel.interactable = true;
+                    usingItem = false;
+                    ItemMenuUI.ExitSelectMenu();
+
+                    SelectMenu.SetActive(false);
+                    SelectPanel.interactable = false;
+                }
+            }
         }
     }
 
@@ -171,10 +208,14 @@ public class Menu : MonoBehaviour
         MenuHud[menu].SetActive(true);
         switch(menu) {
             case 0:
-                foreach(GameObject mainButton in MainButtons) {
-                    if (mainButton.name == currentHud) {
-                        eventSystem.SetSelectedGameObject(mainButton);
-                        break;
+                if (currentHud == MAIN) {
+                    eventSystem.SetSelectedGameObject(MainButtons[0]);
+                } else {
+                    foreach (GameObject mainButton in MainButtons) {
+                        if (mainButton.name == currentHud) {
+                            eventSystem.SetSelectedGameObject(mainButton);
+                            break;
+                        }
                     }
                 }
                 currentHud = MAIN;
@@ -197,6 +238,7 @@ public class Menu : MonoBehaviour
         }
     }
 
+    // close all the menus
     public void closeAllMenu() {
         foreach (GameObject menu in MenuHud) {
             menu.SetActive(false);
@@ -226,19 +268,6 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // go to character select panel
-    public void UseItem() {
-        clickedItem = ItemMenuUI.GetClickedItem();
-
-        // set description panel to not interactable
-        DescriptionPanel.interactable = false;
-
-        SelectMenu.SetActive(true);
-        SelectPanel.interactable = true;
-        SelectMenuUI.UpdateSelectPanel();
-        eventSystem.SetSelectedGameObject(SelectCharacters[0].gameObject);
-    }
-
     // open panel to either use or discard item
     public void OpenDescriptionPanel(int item) {
         ItemList.interactable = false;
@@ -248,6 +277,90 @@ public class Menu : MonoBehaviour
         currentHud = ITEM_DESCRIPTION;
 
         ItemMenuUI.OpenDescriptionPanel(item);
+    }
+
+    // go to character select panel
+    public void UseItem() {
+        clickedItem = ItemMenuUI.GetClickedItem();
+        usingItem = true;
+
+        previousHud = currentHud;
+        currentHud = SELECT;
+
+        // set description panel to not interactable
+        DescriptionPanel.interactable = false;
+
+        SelectMenu.SetActive(true);
+        SelectPanel.interactable = true;
+        eventSystem.SetSelectedGameObject(SelectCharacters[0].gameObject);
+    }
+
+    // choose which character to heal
+    public void SelectCharacter(int indx) {
+        string charName = PartyName[indx].text;
+        
+        if (usingItem) {
+            // using item
+            Items item = GameManager.Instance.GetItemDetails(clickedItem);
+
+            if (item.AffectHP) {
+                // heal hp
+                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+
+                if (currHP < maxHP) {
+                    // if not at max hp, can heal hp
+                    item.Use(charName);
+                }
+            }
+            if (item.AffectSP) {
+                // heal sp
+                int currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charName);
+                int maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charName);
+
+                if (currSp < maxSp) {
+                    // if not at max sp, can heal sp
+                    item.Use(charName);
+                }
+            }
+
+            int itemAmt = GameManager.Instance.GetAmountOfItem(item.ItemName);
+            if (itemAmt == 0) {
+                // if used last of this item, go back to item list
+                SelectMenu.SetActive(false);
+                SelectPanel.interactable = false;
+
+                ItemList.interactable = true;
+                ItemMenuUI.SetNewItem();
+
+                previousHud = ITEM_TYPE;
+                currentHud = ITEM_LIST;
+
+                usingItem = false;
+                clickedItem = "";
+            }
+            // else, stay on this panel
+        }
+        if (usingSkill) {
+            // using skill
+        }
+    }
+
+    public void Discard() {
+        clickedItem = ItemMenuUI.GetClickedItem();
+        GameManager.Instance.RemoveItem(clickedItem, 1);
+        int itemAmt = GameManager.Instance.GetAmountOfItem(clickedItem);
+        if (itemAmt == 0) {
+            // if used last of this item, go back to item list
+            DescriptionPanel.interactable = false;
+
+            ItemList.interactable = true;
+            ItemMenuUI.SetNewItem();
+
+            previousHud = ITEM_TYPE;
+            currentHud = ITEM_LIST;
+            clickedItem = "";
+        }
     }
 
     // open up equipped panel
@@ -270,5 +383,25 @@ public class Menu : MonoBehaviour
         EquippedPanel.interactable = false;
         EquipmentPanel.interactable = true;
         EquipmentMenuUI.ShowEquipments(equipWeapon);
+    }
+
+    // open the game menu
+    public void OpenGameMenu() {
+        OpenMenu(0);
+        eventSystem.SetSelectedGameObject(MainButtons[0]);
+        GameManager.Instance.GameMenuOpen = true;
+    }
+
+    // close the game menu
+    public void CloseGameMenu() {
+        closeAllMenu();
+        previousHud = MAIN;
+        currentHud = MAIN;
+        equipWeapon = true;
+        currCharacter = "";
+        clickedItem = "";
+        usingItem = false;
+        usingSkill = false;
+        GameManager.Instance.GameMenuOpen = false;
     }
 }

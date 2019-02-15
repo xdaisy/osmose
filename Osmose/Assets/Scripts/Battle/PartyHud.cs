@@ -9,8 +9,6 @@ public class PartyHud : MonoBehaviour{
     public Image[] PartyImages;
 
     private List<string> currParty;
-    private bool wasUpdated;
-
     private int numActiveUI;
 
     // Start is called before the first frame update
@@ -34,27 +32,17 @@ public class PartyHud : MonoBehaviour{
                 numActiveUI++;
             }
         }
-
-        wasUpdated = false;
     }
 
     // Update is called once per frame
     void Update() {
-        if (wasUpdated) {
-            for (int i = 0; i < PartyNames.Length; i++) {
-                if (i >= currParty.Count) {
-                    continue;
-                } else {
-                    PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currParty[i]);
-                }
+        for (int i = 0; i < PartyNames.Length; i++) {
+            if (i >= currParty.Count) {
+                continue;
+            } else {
+                PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currParty[i]);
             }
-
-            wasUpdated = false;
         }
-    }
-
-    public void UpdateHP() {
-        wasUpdated = true;
     }
 
     public int GetNumActiveUI() {

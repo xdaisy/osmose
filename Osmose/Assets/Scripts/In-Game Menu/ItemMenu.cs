@@ -90,17 +90,21 @@ public class ItemMenu : MonoBehaviour {
                     }
                 }
             }
+
+            Text highlightedItem = null;
+            if (eventSystem.currentSelectedGameObject != null) {
+                highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
+            }
+
+            if (currentItem != highlightedItem.text) {
+                // not null
+                // is different item, change description
+                currentItem = highlightedItem.text;
+            }
         }
 
-        Text highlightedItem = null;
-        if (eventSystem.currentSelectedGameObject != null) {
-            highlightedItem = eventSystem.currentSelectedGameObject.GetComponent<Text>();
-        }
-
-        if (highlightedItem != null && currentItem != highlightedItem.text) {
-            // not null
-            // is different item, change description
-            currentItem = highlightedItem.text;
+        if (!ItemTypePanel.interactable) {
+            // if item type panel is not interactable, can update description
             updateDescription();
         }
     }
@@ -186,14 +190,15 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
+    // when go to items list
     public void SetItemType(int itemTypeIndx) {
         // called when choosing which type of item to view
         // when called, show the items and description of current item
         this.itemTypeIndx = itemTypeIndx;
-
+        
+        updateItems();
         currentItem = eventSystem.currentSelectedGameObject.GetComponent<Text>().text;
         DiscardButton.gameObject.SetActive(true);
-        updateItems();
         updateDescription();
     }
 
@@ -207,10 +212,26 @@ public class ItemMenu : MonoBehaviour {
     }
 
     public string GetClickedItem() {
-        return currentItem;
+        return Items[currItemIndx].text;
     }
 
-    public void UseItem() {
+    // set to previous item if use up current item
+    public void SetNewItem() {
+        updateItems();
+        currItemIndx--;
+        if (currItemIndx < 0) {
+            // if on first item, stay on first one
+            currItemIndx = 0;
+        }
+        EventSystem.current.SetSelectedGameObject(Items[currItemIndx].gameObject);
+        currentItem = Items[currItemIndx].text;
+        updateDescription();
+    }
+
+    // exit select menu to the item menu
+    public void ExitSelectMenu() {
+        updateDescription();
+        EventSystem.current.SetSelectedGameObject(UseButton.gameObject);
     }
 
     public void ExitItemList() {

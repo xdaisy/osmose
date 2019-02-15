@@ -19,12 +19,14 @@ public class ItemHud : MonoBehaviour {
 
     private int clickedItem;
 
-    // Start is called before the first frame update
-    void Start() {
+    private void Awake() {
         currItem = "";
         itemIndx = 0;
         clickedItem = 0;
     }
+
+    // Start is called before the first frame update
+    void Start() {}
 
     // Update is called once per frame
     void Update() {
@@ -60,7 +62,6 @@ public class ItemHud : MonoBehaviour {
     public void OpenItemHud() {
         updateItems();
         EventSystem.current.SetSelectedGameObject(Items[0].gameObject);
-        updateDescription();
     }
 
     // exit the item hud

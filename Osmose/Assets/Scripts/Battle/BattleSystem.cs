@@ -223,8 +223,6 @@ public class BattleSystem : MonoBehaviour {
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
-                PartyHudUI.UpdateHP();
-
                 textToShow = enemy.EnemyName + " attacked! " + partyMember + " took " + damage + " damage!";
                 
                 break;
@@ -305,9 +303,6 @@ public class BattleSystem : MonoBehaviour {
                 } else if (item.AffectSP) {
                     textToShow += (GameManager.Instance.Party.GetCharacterCurrentSP(charName) - currSP) + " SP!";
                 }
-
-                // update hp
-                PartyHudUI.UpdateHP();
 
                 // close select hud
                 SelectHud.interactable = false;
