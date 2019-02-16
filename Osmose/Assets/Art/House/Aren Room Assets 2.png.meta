@@ -8,8 +8,11 @@ TextureImporter:
     21300006: Aren Room Assets 2_3
     21300008: Aren Room Assets 2_4
     21300010: Aren Room Assets 2_5
+    21300012: Aren Room Assets 2_6
+    21300014: Aren Room Assets 2_7
+    21300016: Aren Room Assets 2_8
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -94,17 +97,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 4
-        y: 140
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6291917a254b730459b393aaba828c66
+      spriteID: 54f5a39b7c7e73d4b991daed377384da
       vertices: []
       indices: 
       edges: []
@@ -114,17 +117,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 140
-        y: 140
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1447442ff51f8c43b653174377abf47
+      spriteID: 53c67cde13378af4ebf69c127e5e6651
       vertices: []
       indices: 
       edges: []
@@ -134,17 +137,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 276
-        y: 140
+        y: 276
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2784d1ee6ef8d1f4e9ea7d4a3712bd93
+      spriteID: 0ecbccd1b5927a047a0eaf34ab0d316b
       vertices: []
       indices: 
       edges: []
@@ -154,17 +157,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 4
-        y: 4
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4d3925cfa0933c44fabf071d8d04605b
+      spriteID: 83b58363d07ba594088fbda834eabc78
       vertices: []
       indices: 
       edges: []
@@ -174,17 +177,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 140
-        y: 4
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 613851912e1b4e345a8ccccc6c1c6ad5
+      spriteID: b72a7127ebe9c2740988015a9a32a27c
       vertices: []
       indices: 
       edges: []
@@ -194,17 +197,77 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 276
-        y: 4
+        y: 140
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c2b071150abedb4aa205bb3c5445b3a
+      spriteID: 30096170e70dade468c6eccd297cc1a5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Aren Room Assets 2_6
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d189954664ae5498801f272b26bb65
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Aren Room Assets 2_7
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 4
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f181d6d961933f4fba151a9964eeba6
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Aren Room Assets 2_8
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 4
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eed61f9e1a9e7b3438824e4f26990e4c
       vertices: []
       indices: 
       edges: []
