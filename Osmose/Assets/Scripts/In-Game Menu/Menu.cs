@@ -93,6 +93,7 @@ public class Menu : MonoBehaviour
         usingSkill = false;
 
         eventSystem = EventSystem.current;
+
         updatePartyStats();
     }
 
@@ -388,6 +389,7 @@ public class Menu : MonoBehaviour
     // open the game menu
     public void OpenGameMenu() {
         OpenMenu(0);
+        eventSystem.SetSelectedGameObject(null);
         eventSystem.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;
     }
