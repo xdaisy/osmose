@@ -386,6 +386,16 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.ShowEquipments(equipWeapon);
     }
 
+    // equip equipment
+    public void Equip(int indx) {
+        string eqmtName = EquipmentMenuUI.GetEquipment(indx);
+        string charName = EquipmentMenuUI.GetCurrentCharacter();
+        Items equipment = GameManager.Instance.GetEquipmentDetails(eqmtName);
+
+        equipment.Use(charName);
+        EquipmentMenuUI.UpdateAfterEquip();
+    }
+
     // open the game menu
     public void OpenGameMenu() {
         OpenMenu(0);

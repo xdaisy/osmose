@@ -137,7 +137,7 @@ public class PartyStats {
 
     public void EquipWeapon(string name, string weapon, int weaponStr) {
         party[name].Weapon = weapon;
-        party[name].WeaponAttack= weaponStr;
+        party[name].WeaponAttack = weaponStr;
     }
 
     public string GetArmor(string name) {

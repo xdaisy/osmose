@@ -33,6 +33,7 @@ public class EquipmentMenu : MonoBehaviour {
     private string currEquipmentButton;
 
     private string currEquipment;
+    private int currEqmtIndx;
 
     private string currCharacter;
 
@@ -40,6 +41,7 @@ public class EquipmentMenu : MonoBehaviour {
         eventSystem = EventSystem.current;
         currCharacter = "";
         currEquipment = "";
+        currEqmtIndx = 0;
         currEquipmentButton = "";
         equipmentIndx = 1;
         equipWeapon = true;
@@ -166,6 +168,32 @@ public class EquipmentMenu : MonoBehaviour {
         updateEquipments();
     }
 
+    public string GetCurrentCharacter() {
+        return currCharacter;
+    }
+
+    public string GetEquipment(int indx) {
+        currEqmtIndx = indx;
+        return Equipments[indx].text;
+    }
+
+    public void UpdateAfterEquip() {
+        string eqpWeapon = GameManager.Instance.Party.GetWeapon(currCharacter);
+        string eqpArmor = GameManager.Instance.Party.GetArmor(currCharacter);
+
+        EquippedWeapon.text = eqpWeapon != "" ? eqpWeapon : "<No Weapon>";
+        EquippedArmor.text = eqpArmor != "" ? eqpArmor : "<No Armor>";
+
+        updateEquipments();
+        currEqmtIndx--;
+        if (currEqmtIndx < 0) {
+            currEqmtIndx = 0;
+        }
+        Text newCurrEqmt = Equipments[currEqmtIndx];
+        currEquipment = newCurrEqmt.text;
+        eventSystem.SetSelectedGameObject(newCurrEqmt.gameObject);
+    }
+
     public void ShowEquipments(bool equipWeapon) {
         this.equipWeapon = equipWeapon;
         updateEquipments();
@@ -181,5 +209,9 @@ public class EquipmentMenu : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(null);
         currHighlightedEqmt.interactable = false;
         equipmentIndx = 1;
+
+        StatText.text = "";
+        StatAmount.text = "";
+        Description.text = "";
     }
 }

@@ -59,26 +59,28 @@ public class Items : MonoBehaviour
             if(AffectDefn) {
                 GameManager.Instance.Party.IncreaseStat(charName, StatType.DEFENSE, AmountToChange);
             }
+            GameManager.Instance.RemoveItem(ItemName, 1);
         }
 
         if (IsWeapon) {
             if (GameManager.Instance.Party.GetWeapon(charName) != "") {
                 // add weapon back to equipment
-                GameManager.Instance.AddItem(GameManager.Instance.Party.GetWeapon(charName), 1);
+                GameManager.Instance.AddEquipment(GameManager.Instance.Party.GetWeapon(charName), 1);
             }
 
             GameManager.Instance.Party.EquipWeapon(charName, ItemName, WeaponStr);
+            GameManager.Instance.RemoveEquipment(ItemName, 1);
         }
 
         if (IsArmor) {
             if (GameManager.Instance.Party.GetArmor(charName) != "") {
                 // add weapon back to equipment
-                GameManager.Instance.AddItem(GameManager.Instance.Party.GetArmor(charName), 1);
+                GameManager.Instance.AddEquipment(GameManager.Instance.Party.GetArmor(charName), 1);
             }
 
             GameManager.Instance.Party.EquipArmor(charName, ItemName, ArmorDefn);
+            GameManager.Instance.RemoveEquipment(ItemName, 1);
         }
 
-        GameManager.Instance.RemoveItem(ItemName, 1); // remove this item from inventory
     }
 }

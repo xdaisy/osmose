@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour
     public void RemoveEquipment(string equipmentName, int amount) {
         // checks if item exists
         bool itemExists = false;
-        foreach (Items item in ReferenceItems) {
+        foreach (Items item in ReferenceEquipment) {
             if (item.ItemName == equipmentName) {
                 itemExists = true;
                 break;
