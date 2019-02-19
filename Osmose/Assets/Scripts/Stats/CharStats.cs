@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharStats {
-
     public int Level;
     public int CurrExp;
     public int NextExp;
@@ -26,12 +25,12 @@ public class CharStats {
 
     public bool IsDefending;
 
-    // modifiers for buffing
-    public float AttackModifier = 1f;
-    public float DefenseModifier = 1f;
-    public float MagicDefenseModifier = 1f;
-    public float SpeedModifier = 1f;
-    public float LuckModifier = 1f;
+    // modifiers for buffing/debuffing
+    public float AttkMod = 1f;
+    public float DefMod = 1f;
+    public float MDefMod = 1f;
+    public float SpdMod = 1f;
+    public float LckMod = 1f;
 
     public CharStats(int hp, int sp, int attack, int defense, int magicDefense, int speed, int luck) {
         this.Level = 1;

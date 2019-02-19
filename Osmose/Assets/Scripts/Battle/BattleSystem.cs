@@ -6,12 +6,6 @@ using UnityEngine.EventSystems;
 using System;
 
 public class BattleSystem : MonoBehaviour {
-    private EventSystem eventSystem; // event system for battle
-
-    
-
-    // ###############################
-    // keep track of what is going to be in refactored script
     [Header("HUDs")]
     public CanvasGroup MainHud;
     public CanvasGroup SkillHud;
@@ -58,7 +52,6 @@ public class BattleSystem : MonoBehaviour {
     void Start () {
         GameManager.Instance.InBattle = true;
 
-        eventSystem = EventSystem.current;
         // set up ui
         party = GameManager.Instance.Party.GetCurrentParty();
         numAliveChar = party.Count;
@@ -129,8 +122,8 @@ public class BattleSystem : MonoBehaviour {
                         attackButton = command;
                     }
                 }
-                eventSystem.SetSelectedGameObject(null);
-                eventSystem.SetSelectedGameObject(attackButton.gameObject);
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(attackButton.gameObject);
 
                 GameManager.Instance.Party.SetDefending(charTurn, false); // character not defending at start of turn
                 playerTurn = true;
@@ -461,7 +454,7 @@ public class BattleSystem : MonoBehaviour {
                 button = command;
             }
         }
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(button.gameObject);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(button.gameObject);
     }
 }
