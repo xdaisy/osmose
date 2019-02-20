@@ -72,22 +72,26 @@ public class EquipmentMenu : MonoBehaviour {
             currEquipmentButton = highlightedEqpButton.name;
         } else if (EquipmentPanel.interactable) {
             // equipment panel is interactable
-            if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                // scroll up
-                if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text && equipmentIndx > 1) {
-                    equipmentIndx--;
-                    updateEquipments();
-                }
-            } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                // scroll down
-                if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text) {
-                    Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon);
-                    if (item != null) {
-                        equipmentIndx++;
+            if (Input.GetButtonDown("Vertical")) {
+                float buttonInput = Input.GetAxisRaw("Vertical");
+                if (buttonInput > 0.5f) {
+                    // scroll up
+                    if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text && equipmentIndx > 1) {
+                        equipmentIndx--;
                         updateEquipments();
+                    }
+                } else if (buttonInput < 0.5f) {
+                    // scroll down
+                    if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text) {
+                        Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon);
+                        if (item != null) {
+                            equipmentIndx++;
+                            updateEquipments();
+                        }
                     }
                 }
             }
+
             string highlightedEqp = EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text;
             if (currEquipment != highlightedEqp) {
                 currEquipment = highlightedEqp;

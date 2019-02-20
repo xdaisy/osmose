@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 public class Menu : MonoBehaviour
 {
     public static Menu Instance;
-
-    private EventSystem eventSystem;
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
 
@@ -92,8 +90,6 @@ public class Menu : MonoBehaviour
         usingItem = false;
         usingSkill = false;
 
-        eventSystem = EventSystem.current;
-
         updatePartyStats();
     }
 
@@ -139,7 +135,7 @@ public class Menu : MonoBehaviour
                 for (int i = 0; i < characters.Length; i++) {
                     string charName = characters[i].GetComponentInChildren<Text>().text;
                     if (charName == currCharacter) {
-                        eventSystem.SetSelectedGameObject(characters[i].gameObject);
+                        EventSystem.current.SetSelectedGameObject(characters[i].gameObject);
                         break;
                     }
                 }
@@ -154,11 +150,11 @@ public class Menu : MonoBehaviour
                 EquippedPanel.interactable = true;
 
                 Button[] buttons = EquippedPanel.GetComponentsInChildren<Button>();
-                eventSystem.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(null);
                 if (equipWeapon) {
-                    eventSystem.SetSelectedGameObject(buttons[0].gameObject);
+                    EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
                 } else {
-                    eventSystem.SetSelectedGameObject(buttons[1].gameObject);
+                    EventSystem.current.SetSelectedGameObject(buttons[1].gameObject);
                 }
             }
             if (currentHud == SELECT) {
@@ -210,11 +206,11 @@ public class Menu : MonoBehaviour
         switch(menu) {
             case 0:
                 if (currentHud == MAIN) {
-                    eventSystem.SetSelectedGameObject(MainButtons[0]);
+                    EventSystem.current.SetSelectedGameObject(MainButtons[0]);
                 } else {
                     foreach (GameObject mainButton in MainButtons) {
                         if (mainButton.name == currentHud) {
-                            eventSystem.SetSelectedGameObject(mainButton);
+                            EventSystem.current.SetSelectedGameObject(mainButton);
                             break;
                         }
                     }
@@ -223,7 +219,7 @@ public class Menu : MonoBehaviour
                 break;
             case 1:
                 currentHud = ITEM_TYPE;
-                eventSystem.SetSelectedGameObject(ItemFirstHighlighted);
+                EventSystem.current.SetSelectedGameObject(ItemFirstHighlighted);
                 break;
             case 2:
                 currentHud = SKILLS;
@@ -250,7 +246,7 @@ public class Menu : MonoBehaviour
     public void ChooseWhichItem(int itemType) {
         ItemType.interactable = false;
         ItemList.interactable = true;
-        eventSystem.SetSelectedGameObject(ItemList.GetComponentInChildren<Button>().gameObject);
+        EventSystem.current.SetSelectedGameObject(ItemList.GetComponentInChildren<Button>().gameObject);
         previousHud = currentHud;
         currentHud = ITEM_LIST;
         switch (itemType) {
@@ -293,7 +289,7 @@ public class Menu : MonoBehaviour
 
         SelectMenu.SetActive(true);
         SelectPanel.interactable = true;
-        eventSystem.SetSelectedGameObject(SelectCharacters[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
     }
 
     // choose which character to heal
@@ -368,11 +364,11 @@ public class Menu : MonoBehaviour
     public void SelectWhichCharacterEqpmt(int character) {
         previousHud = currentHud;
         currentHud = EQUIPPED_PANEL;
-        currCharacter = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        currCharacter = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
 
         EquipmentCharacters.interactable = false;
         EquippedPanel.interactable = true;
-        eventSystem.SetSelectedGameObject(EquipmentFirstEquipped);
+        EventSystem.current.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentMenuUI.ShowCharacterEquipment(character);
     }
 
@@ -399,8 +395,8 @@ public class Menu : MonoBehaviour
     // open the game menu
     public void OpenGameMenu() {
         OpenMenu(0);
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(MainButtons[0]);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;
     }
 

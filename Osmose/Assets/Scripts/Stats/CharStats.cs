@@ -6,6 +6,8 @@ public class CharStats {
     public int Level;
     public int CurrExp;
     public int NextExp;
+    public List<Skill> Skills; // learned skills
+    private Skill[] skillsToLearn; // skills need to learn
 
     public int CurrHP;
     public int CurrSP;
@@ -32,7 +34,8 @@ public class CharStats {
     public float SpdMod = 1f;
     public float LckMod = 1f;
 
-    public CharStats(int hp, int sp, int attack, int defense, int magicDefense, int speed, int luck) {
+    // constructor for creating character stats when start new game
+    public CharStats(int hp, int sp, int attack, int defense, int magicDefense, int speed, int luck, Skill[] skills) {
         this.Level = 1;
         this.CurrExp = 0;
         this.NextExp = 10;
@@ -52,8 +55,14 @@ public class CharStats {
         this.WeaponAttack = 0;
         this.Armor = "";
         this.ArmorDefense = 0;
+
+        skillsToLearn = skills;
+        // if have skill at level 1, put in learned skill list
+        if (skills[Level] != null) {
+            Skills.Add(skillsToLearn[Level]);
+        }
     }
-    
+
     public int GetExpLeft() {
         return this.NextExp - this.CurrExp;
     }

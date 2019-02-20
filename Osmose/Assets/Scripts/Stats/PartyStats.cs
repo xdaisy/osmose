@@ -16,15 +16,15 @@ public class PartyStats {
     private List<string> currentPartyMembers;
 
     private int maxLevel = 100;
-    private int baseExp = 100;
+    private int baseExp = 101;
 
     private int[] expToNextLvl;
 
     public PartyStats() {
         party = new Dictionary<string, CharStats>();
-        CharStats aren = new CharStats(145, 25, 50, 70, 25, 60, 15);
-        CharStats rey = new CharStats(125, 50, 35, 40, 50, 45, 20);
-        CharStats naoise = new CharStats(200, 35, 20, 30, 70, 50, 30);
+        CharStats aren = CharStatsFactory.GeneratorChar(protags.AREN);
+        CharStats rey = CharStatsFactory.GeneratorChar(protags.REY);
+        CharStats naoise = CharStatsFactory.GeneratorChar(protags.NAOISE);
         party["Aren"] = aren;
         party["Rey"] = rey;
         party["Naoise"] = naoise;
@@ -171,11 +171,11 @@ public class PartyStats {
 
     public void ClearStatsModifier() {
         foreach (string name in currentPartyMembers) {
-            party[name].AttackModifier = 1f;
-            party[name].DefenseModifier = 1f;
-            party[name].MagicDefenseModifier = 1f;
-            party[name].SpeedModifier = 1f;
-            party[name].LuckModifier = 1f;
+            party[name].AttkMod = 1f;
+            party[name].DefMod = 1f;
+            party[name].MDefMod = 1f;
+            party[name].SpdMod = 1f;
+            party[name].LckMod = 1f;
         }
     }
     

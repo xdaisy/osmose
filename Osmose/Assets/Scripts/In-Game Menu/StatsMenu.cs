@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class StatsMenu : MonoBehaviour
 {
-    private EventSystem eventSystem;
-    
     public Button[] Characters;
 
     [Header("Character Info")]
@@ -36,7 +34,6 @@ public class StatsMenu : MonoBehaviour
     private string currCharacter;
 
     private void Awake() {
-        eventSystem = EventSystem.current;
         currCharacter = "";
     }
     // Start is called before the first frame update
@@ -47,7 +44,7 @@ public class StatsMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string currHighlightedChar = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        string currHighlightedChar = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         if (currHighlightedChar != currCharacter) {
             currCharacter = currHighlightedChar;
             updateStats();
@@ -68,8 +65,8 @@ public class StatsMenu : MonoBehaviour
                 Characters[i].interactable = true;
             }
         }
-        eventSystem.SetSelectedGameObject(Characters[0].gameObject);
-        currCharacter = eventSystem.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        EventSystem.current.SetSelectedGameObject(Characters[0].gameObject);
+        currCharacter = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         updateStats();
     }
 

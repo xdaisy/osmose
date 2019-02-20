@@ -32,24 +32,27 @@ public class ItemHud : MonoBehaviour {
     void Update() {
         if (Hud.interactable) {
             Text selectedItem = EventSystem.current.currentSelectedGameObject.GetComponent<Text>();
-            if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                // if scrolling down
-                if (selectedItem.text == currItem) {
-                    // if at last item text
-                    int i = itemIndx + Items.Length;
-                    Items item = GameManager.Instance.GetItemAt(i);
-                    if (item != null) {
-                        // if not at end of items list
-                        itemIndx++;
-                        updateItems();
+            if (Input.GetButtonDown("Vertical")) {
+                float buttonInput = Input.GetAxisRaw("Vertical");
+                if (buttonInput < -0.5f) {
+                    // if scrolling down
+                    if (selectedItem.text == currItem) {
+                        // if at last item text
+                        int i = itemIndx + Items.Length;
+                        Items item = GameManager.Instance.GetItemAt(i);
+                        if (item != null) {
+                            // if not at end of items list
+                            itemIndx++;
+                            updateItems();
+                        }
                     }
                 }
-            }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && itemIndx > 0) {
-                // if scrolling up and not at beginning of items list
-                itemIndx--;
-                updateItems();
+                if (buttonInput > 0.5f && selectedItem.text == currItem && itemIndx > 0) {
+                    // if scrolling up and not at beginning of items list
+                    itemIndx--;
+                    updateItems();
+                }
             }
 
             // update the current selected item

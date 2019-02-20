@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public string CurrentScene;
 
+    public int MoneyAmt;
+
     [Header("Items Held")]
     public List<string> ItemsHeld; // keep track of which usable item the player has
     public List<int> NumOfItems; // keep track of how many of each item is held
@@ -23,9 +25,6 @@ public class GameManager : MonoBehaviour
     [Header("Equipment Held")]
     public List<string> EquipmentHeld; // keep track of which equipment the player has
     public List<int> NumOfEquipment; // keep track of how many of each equipment is held
-
-    private List<string> WeaponsHeld; // keep track of weapon
-    private List<string> ArmorHeld; // keep track of weapon
 
     [Header("Key Items Held")]
     public List<string> KeyItemsHeld; // keep track of which key item the player has, can only have one of each key item
@@ -46,23 +45,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        WeaponsHeld = new List<string>();
-        ArmorHeld = new List<string>();
-        foreach (string equipmentName in EquipmentHeld) {
-            Items equipment = GetEquipmentDetails(equipmentName);
-            if (equipment.IsWeapon) {
-                WeaponsHeld.Add(equipmentName);
-            } else {
-                ArmorHeld.Add(equipmentName);
-            }
-        }
-    }
+    void Start() {}
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
@@ -288,7 +274,7 @@ public class GameManager : MonoBehaviour
     public void AddKeyItem(string keyItemName) {
         // checks if item exists
         bool itemExists = false;
-        foreach (Items item in ReferenceItems) {
+        foreach (Items item in ReferenceKeyItems) {
             if (item.ItemName == keyItemName) {
                 itemExists = true;
                 break;
