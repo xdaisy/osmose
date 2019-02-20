@@ -37,6 +37,11 @@ public class PartyStats {
             expToNextLvl[i] = Mathf.FloorToInt(expToNextLvl[i - 1] * 1.05f);
         }
     }
+
+    // get character skills
+    public List<Skill> GetCharSkills(string name) {
+        return new List<Skill>(party[name].Skills);
+    }
     
     public bool IsDefending(string name) {
         return party[name].IsDefending;

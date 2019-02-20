@@ -10,7 +10,7 @@ public enum protags {
 public static class CharStatsFactory {
     public static CharStats GeneratorChar(protags name) {
         CharStats charStats = null;
-        Skill[] skills = new Skill[101];
+        Skill[] skills = SkillsManager.Instance.GetCharSkills(name);
         switch (name) {
             case protags.AREN:
                 charStats = new CharStats(145, 25, 50, 70, 25, 60, 15, skills);

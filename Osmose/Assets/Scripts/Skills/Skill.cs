@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
-{
+public class Skill : MonoBehaviour {
     [Header("General Info")]
     public string SkillName;
     public bool IsPhyAttk;

@@ -313,19 +313,14 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    public void ClickSkills() {
+    public void SelectSkills() {
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
 
         // turn on skill hud
-        float currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charTurn);
-        float maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charTurn);
-
         SkillHud.gameObject.SetActive(true);
         SkillHud.interactable = true;
-        Text spText = SkillHud.GetComponentInChildren<Text>();
-        spText.text = "SP: " + currSp + "/" + maxSp;
     }
 
     // going to item hud
