@@ -91,21 +91,21 @@ public class CharStats {
     private void levelUp() {
         Level++;
 
-        MaxHP += Mathf.RoundToInt(MaxHP * 1.05f);
+        MaxHP += Mathf.RoundToInt(Mathf.Min(MaxHP * 1.025f, 500));
         CurrHP = MaxHP;
 
-        MaxSP += Mathf.RoundToInt(MaxSP * 1.05f);
+        MaxSP += Mathf.RoundToInt(Mathf.Min(MaxSP * 1.025f, 300f));
         CurrSP = MaxSP;
 
-        Attack += Mathf.RoundToInt(Attack * 1.05f);
+        Attack += Mathf.RoundToInt(Mathf.Min(Attack * 1.025f, 200));
 
-        Defense += Mathf.RoundToInt(Defense * 1.05f);
+        Defense += Mathf.RoundToInt(Defense * 1.025f);
 
-        MagicDefense += Mathf.RoundToInt(MagicDefense * 1.05f);
+        MagicDefense += Mathf.RoundToInt(Mathf.Min(MagicDefense * 1.025f, 200f));
 
-        Speed += Mathf.RoundToInt(Speed * 1.05f);
+        Speed += Mathf.RoundToInt(Mathf.Min(Speed * 1.025f, 200f));
 
-        Luck += Mathf.RoundToInt(Luck * 1.05f);
+        Luck += Mathf.RoundToInt(Mathf.Min(Luck * 1.025f, 200f));
 
         if (skillsToLearn[Level] != null) {
             // learn skill

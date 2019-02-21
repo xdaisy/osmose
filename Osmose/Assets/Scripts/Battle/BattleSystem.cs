@@ -39,6 +39,7 @@ public class BattleSystem : MonoBehaviour {
 
     private bool attacking, usingItem, usingSkill; // boolean for keeping track of what the player is doing
     private string itemToUse; // string that keep track of which item was clicked
+    private Skill skillToUse; // string that keep track of which skill was clicked
 
     private const string ATTACK_BUTTON = "AttackButton";
     private const string ITEMS_BUTTON = "ItemsButton";
@@ -152,6 +153,7 @@ public class BattleSystem : MonoBehaviour {
                 SkillHud.interactable = false;
                 SkillHud.gameObject.SetActive(false);
                 DescriptionPanel.SetActive(false);
+                SkillHudUI.ExitSkillHud();
 
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
@@ -164,6 +166,7 @@ public class BattleSystem : MonoBehaviour {
                 ItemHud.interactable = false;
                 ItemHud.gameObject.SetActive(false);
                 DescriptionPanel.gameObject.SetActive(false);
+                ItemHudUI.ExitItemHud();
 
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
@@ -191,6 +194,8 @@ public class BattleSystem : MonoBehaviour {
                 } else if (usingSkill) {
                     // select the skill that was previously on
                     usingSkill = false;
+                    SkillHud.interactable = true;
+                    SkillHudUI.SetLastClickedSkill();
                 }
             }
         }
@@ -326,6 +331,30 @@ public class BattleSystem : MonoBehaviour {
         DescriptionPanel.SetActive(true);
 
         SkillHudUI.OpenSkillsHud(charTurn);
+    }
+
+    public void UseSkill(int skill) {
+        skillToUse = SkillHudUI.GetClickedSkill(skill);
+        SkillHud.interactable = false;
+        SelectHud.gameObject.SetActive(true);
+        SelectHud.interactable = true;
+
+        usingSkill = true;
+
+        if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
+            // use on enemy
+            SelectHudUI.OpenSelectHud(enemies.ToArray());
+        } else {
+            // use on party
+            int numActPartyUI = PartyHudUI.GetNumActiveUI();
+
+            PartyUI[] activeParty = new PartyUI[numActPartyUI];
+            for (int i = 0; i < numActPartyUI; i++) {
+                activeParty[i] = PartyMemUI[i];
+            }
+
+            SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
+        }
     }
 
     // going to item hud

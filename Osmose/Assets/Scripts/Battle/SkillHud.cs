@@ -31,16 +31,56 @@ public class SkillHud : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        
+        if (Hud.interactable) {
+            Text highlightedSkill = EventSystem.current.currentSelectedGameObject.GetComponent<Text>();
+            if (Input.GetButtonDown("Vertical")) {
+                float buttonInput = Input.GetAxisRaw("Vertical");
+                if (buttonInput < -0.5f && highlightedSkill.text == currSkill) {
+                    // scroll down
+                    Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, skillIndx + Skills.Length);
+                    if (skill != null) {
+                        skillIndx++;
+                        updateSkills();
+                    }
+                }
+                if (buttonInput > 0.5f && highlightedSkill.text == currSkill && skillIndx > 0) {
+                    // scroll up
+                    skillIndx--;
+                    updateSkills();
+                }
+            }
+
+            currSkill = highlightedSkill.text;
+            updateDescription();
+        }
     }
 
+    // open skill hud
     public void OpenSkillsHud(string charName) {
         currChar = charName;
-        skillIndx = 0;
         updateSkills();
         EventSystem.current.SetSelectedGameObject(Skills[0].gameObject);
-        currSkill = Skills[0].text;
-        updateDescription();
+    }
+
+    // exit skill hud
+    // reset some fields back to default
+    public void ExitSkillHud() {
+        currChar = "";
+        currSkill = "";
+        skillIndx = 0;
+        Description.text = "";
+    }
+
+    // get the clicked skill's name
+    public Skill GetClickedSkill(int skill) {
+        clickedSkill = skill;
+        return GameManager.Instance.Party.GetCharSkill(currChar, Skills[skill].text);
+    }
+
+    // set the last clicked skill as selected
+    public void SetLastClickedSkill() {
+        EventSystem.current.SetSelectedGameObject(Skills[clickedSkill].gameObject);
+        clickedSkill = -1;
     }
 
     private void updateSkills() {
