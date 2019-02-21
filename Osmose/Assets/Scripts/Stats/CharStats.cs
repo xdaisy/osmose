@@ -106,5 +106,10 @@ public class CharStats {
         Speed += Mathf.RoundToInt(Speed * 1.05f);
 
         Luck += Mathf.RoundToInt(Luck * 1.05f);
+
+        if (skillsToLearn[Level] != null) {
+            // learn skill
+            Skills.Add(skillsToLearn[Level]);
+        }
     }
 }
