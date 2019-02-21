@@ -56,11 +56,22 @@ public class CharStats {
         this.Armor = "";
         this.ArmorDefense = 0;
 
+        Skills = new List<Skill>();
         skillsToLearn = skills;
         // if have skill at level 1, put in learned skill list
         if (skills[Level] != null) {
             Skills.Add(skillsToLearn[Level]);
         }
+    }
+
+    // get the skill with the skillName
+    public Skill GetSkill(string skillName) {
+        for (int i = 0; i < Skills.Count; i++) {
+            if (Skills[i].SkillName == skillName) {
+                return Skills[i];
+            }
+        }
+        return null;
     }
 
     public int GetExpLeft() {

@@ -38,9 +38,17 @@ public class PartyStats {
         }
     }
 
-    // get character skills
-    public List<Skill> GetCharSkills(string name) {
-        return new List<Skill>(party[name].Skills);
+    // get character skill at indx
+    public Skill GetCharSkillAt(string name, int indx) {
+        if (indx >= party[name].Skills.Count) {
+            return null;
+        }
+        return party[name].Skills[indx];
+    }
+
+    // get skill from character with the skillName
+    public Skill GetCharSkill(string name, string skillName) {
+        return party[name].GetSkill(skillName);
     }
     
     public bool IsDefending(string name) {

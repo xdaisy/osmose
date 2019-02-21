@@ -18,6 +18,7 @@ public class BattleSystem : MonoBehaviour {
     public SelectHud SelectHudUI;
     public PartyHud PartyHudUI;
     public ItemHud ItemHudUI;
+    public SkillHud SkillHudUI;
     public PartyUI[] PartyMemUI;
 
     private Queue<string> turnOrder; // keep track of whose turn is it for this round
@@ -150,6 +151,7 @@ public class BattleSystem : MonoBehaviour {
                 // selecting skill and cancel, go back to main menu on the skill button
                 SkillHud.interactable = false;
                 SkillHud.gameObject.SetActive(false);
+                DescriptionPanel.SetActive(false);
 
                 MainHud.interactable = true;
                 MainHud.gameObject.SetActive(true);
@@ -321,6 +323,9 @@ public class BattleSystem : MonoBehaviour {
         // turn on skill hud
         SkillHud.gameObject.SetActive(true);
         SkillHud.interactable = true;
+        DescriptionPanel.SetActive(true);
+
+        SkillHudUI.OpenSkillsHud(charTurn);
     }
 
     // going to item hud

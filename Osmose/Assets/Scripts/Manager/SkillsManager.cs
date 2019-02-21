@@ -28,13 +28,13 @@ public class SkillsManager : MonoBehaviour {
         Skill[] skills = new Skill[ArenSkills.Length];
         switch(name) {
             case protags.AREN:
-                ArenSkills.CopyTo(skills, ArenSkills.Length);
+                ArenSkills.CopyTo(skills, 0);
                 break;
             case protags.REY:
-                ReySkills.CopyTo(skills, ReySkills.Length);
+                ReySkills.CopyTo(skills, 0);
                 break;
             case protags.NAOISE:
-                NaoiseSkills.CopyTo(skills, NaoiseSkills.Length);
+                NaoiseSkills.CopyTo(skills, 0);
                 break;
         }
         return skills;
