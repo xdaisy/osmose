@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public Sprite ReySprite;
     public Sprite NaosheSprite;
 
-    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle;
+    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene;
 
     public string CurrentScene;
 
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);

@@ -316,7 +316,44 @@ public class BattleSystem : MonoBehaviour {
                 itemToUse = "";
             }
         } else if (usingSkill) {
+            if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
+                // if attacking enemy
+                Enemy enemy = enemies[choice];
 
+                int damage = Mathf.RoundToInt(skillToUse.UseSkill(charTurn)) - enemy.Defense;
+
+                // reduce enemy's hp
+                enemy.CurrentHP -= damage;
+                enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
+
+                // close skill hud
+                SkillHud.gameObject.SetActive(false);
+                SkillHud.interactable = false;
+                DescriptionPanel.SetActive(false);
+                SkillHudUI.ExitSkillHud();
+
+                // set the next displayed text
+                if (enemy.CurrentHP > 0) {
+                    textToShow = enemy.EnemyName + " took " + damage + " damage!";
+                } else {
+                    earnedExp += enemy.Exp;
+                    earnedMoney += enemy.Money;
+                    textToShow = "Defeated " + enemy.EnemyName + "!";
+                    enemies.RemoveAt(choice);
+                }
+
+                if (enemies.Count < 1) {
+                    textToShow = "";
+                }
+
+                // close select hud
+                SelectHud.interactable = false;
+                SelectHud.gameObject.SetActive(false);
+                SelectHudUI.ExitSelectHud();
+
+                usingSkill = false;
+                skillToUse = null;
+            }
         }
     }
 

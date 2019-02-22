@@ -50,6 +50,11 @@ public class PartyStats {
     public Skill GetCharSkill(string name, string skillName) {
         return party[name].GetSkill(skillName);
     }
+
+    // deplete sp when char use skill
+    public void CharUseSkill(string name, int spCost) {
+        party[name].CurrSP -= spCost;
+    }
     
     public bool IsDefending(string name) {
         return party[name].IsDefending;

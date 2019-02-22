@@ -7,59 +7,49 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class CutsceneManager : MonoBehaviour {
+    [Header("Cutscene Info")]
+    public string CutsceneName;
+    public TextAsset TextFile;
 
-    public string cutsceneTxtPath;
-
-    private FileInfo sourceFile;
-
-    private StreamReader reader;
-
+    [Header("UI")]
     public Text dText;
     public Text dName;
     public Image talkingSprite;
 
+    [Header("Scene Load")]
     public string sceneToLoad;
+    public float WaitToLoad = 1f;
 
-    public Image fadeScreen;
-    public Animator fadeAnim;
-
-    public string cutsceneName;
+    private StringReader reader;
 
     private CutsceneSpriteHolder spriteHolder;
 
-    public float WaitToLoad = 1f;
     private bool shouldLoadAfterFade = false;
-
-    private bool canGoThroughDialogue = false;
 
 	// Use this for initialization
 	void Start () {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
-        sourceFile = new FileInfo(cutsceneTxtPath); // get file
-        reader = sourceFile.OpenText(); // open the file to read
+        reader = new StringReader(TextFile.text); // open the file to read
 
         UIFade.Instance.FadeFromBlack();
 
-        ChangeText(); // show the first line of dialogue
+        ChangeText(reader.ReadLine()); // show the first line of dialogue
 
-        GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.InCutscene = true;
     }
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetButtonDown("Interact")) {
-
-            if(reader.EndOfStream) {
+            string line = reader.ReadLine();
+            if (line == null) {
                 // if reader is at the end of the file, don't do anything
-                string[] path = cutsceneTxtPath.Split('/');
-                string[] fileName = path[path.Length - 1].Split('.');
-                string eventName = fileName[0]; // get name of cutscene
-                CutSceneHandler.addEvent(eventName); // add the event to cutscene handler
+                EventManager.AddEvent(CutsceneName); // add the event to cutscene handler
                 changeScene(); // fade to next scene
                 return; // don't change the text bc at end of file
             }
 
-            ChangeText();
+            ChangeText(line);
         }
         if (shouldLoadAfterFade) {
             WaitToLoad -= Time.deltaTime;
@@ -70,8 +60,7 @@ public class CutsceneManager : MonoBehaviour {
         }
 	}
 
-    private void ChangeText() {
-        string line = reader.ReadLine();
+    private void ChangeText(string line) {
         while (line.Length == 0) {
             // don't show empty strings
             line = reader.ReadLine();
@@ -117,7 +106,8 @@ public class CutsceneManager : MonoBehaviour {
     private void changeScene() {
         UIFade.Instance.FadeToBlack();
         shouldLoadAfterFade = true;
-        PlayerControls.Instance.PreviousAreaName = cutsceneName;
-        PlayerControls.Instance.SetCanMove(false);
+        PlayerControls.Instance.PreviousAreaName = CutsceneName;
+        GameManager.Instance.InCutscene = false;
+        GameManager.Instance.FadingBetweenAreas = true;
     }
 }

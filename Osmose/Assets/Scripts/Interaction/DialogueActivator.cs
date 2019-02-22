@@ -32,7 +32,7 @@ public class DialogueActivator : MonoBehaviour
     void Update()
     {
         if (canActivate && !GameManager.Instance.GameMenuOpen && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
-            if (!this.specificEvent.Equals("") && CutSceneHandler.didEventHappened(specificEvent)) {
+            if (!this.specificEvent.Equals("") && EventManager.DidEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
                 Dialogue.Instance.ShowDialogue(this.postEventDialogue);
             } else {

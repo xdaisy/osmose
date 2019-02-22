@@ -15,7 +15,13 @@ public class Skill : MonoBehaviour {
     [Header("Skill Info")]
     public float PercentValue;
 
-    public void UseSkill(string charUsingSkill) {
+    public float UseSkill(string charName) {
+        // reduce character's sp for using the skill
+        GameManager.Instance.Party.CharUseSkill(charName, Cost);
+        if (IsPhyAttk || IsMagAttk) {
+            return GameManager.Instance.Party.GetCharacterAttack(charName) * PercentValue;
+        }
 
+        return 0f;
     }
 }
