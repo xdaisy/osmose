@@ -18,12 +18,6 @@ public class SkillsManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public Skill[] GetCharSkills(protags name) {
         Skill[] skills = new Skill[ArenSkills.Length];
         switch(name) {

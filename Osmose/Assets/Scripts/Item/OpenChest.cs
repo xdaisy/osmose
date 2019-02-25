@@ -6,6 +6,7 @@ public class OpenChest : MonoBehaviour
 {
     public Items Item;
     public int Amount;
+    public int ChestNumber;
 
     private Animator anim;
 
@@ -18,6 +19,11 @@ public class OpenChest : MonoBehaviour
         canOpen = false;
         opened = false;
         anim = GetComponent<Animator>();
+
+        if (ObtainItemManager.Instance.DidOpenChest(ChestNumber)) {
+            anim.SetTrigger("OpenChest");
+            opened = true;
+        }
     }
 
     // Update is called once per frame
@@ -36,6 +42,8 @@ public class OpenChest : MonoBehaviour
                 // add key item
                 GameManager.Instance.AddKeyItem(Item.ItemName);
             }
+
+            ObtainItemManager.Instance.OpenChest(ChestNumber);
 
             anim.SetTrigger("OpenChest");
 
