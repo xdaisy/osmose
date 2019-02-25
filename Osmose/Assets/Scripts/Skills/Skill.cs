@@ -11,6 +11,7 @@ public class Skill : MonoBehaviour {
     [Header("Skill Type")]
     public bool IsPhyAttk;
     public bool IsMagAttk;
+    public bool IsHeal;
 
     [Header("Skill Info")]
     public float PercentValue;
@@ -20,6 +21,11 @@ public class Skill : MonoBehaviour {
         GameManager.Instance.Party.CharUseSkill(charName, Cost);
         if (IsPhyAttk || IsMagAttk) {
             return GameManager.Instance.Party.GetCharacterAttack(charName) * PercentValue;
+        }
+
+        if (IsHeal) {
+            GameManager.Instance.Party.RecoverPctHP(charName, PercentValue);
+            return PercentValue;
         }
 
         return 0f;

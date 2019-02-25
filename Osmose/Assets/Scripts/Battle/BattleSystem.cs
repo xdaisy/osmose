@@ -320,7 +320,15 @@ public class BattleSystem : MonoBehaviour {
                 // if attacking enemy
                 Enemy enemy = enemies[choice];
 
-                int damage = Mathf.RoundToInt(skillToUse.UseSkill(charTurn)) - enemy.Defense;
+                int damage = Mathf.RoundToInt(skillToUse.UseSkill(charTurn));
+
+                if (skillToUse.IsPhyAttk) {
+                    // reduce by defense
+                    damage -= enemy.Defense;
+                } else {
+                    // reduce by magic defense
+                    damage -= enemy.MagicDefense;
+                }
 
                 // reduce enemy's hp
                 enemy.CurrentHP -= damage;
@@ -334,7 +342,8 @@ public class BattleSystem : MonoBehaviour {
 
                 // set the next displayed text
                 if (enemy.CurrentHP > 0) {
-                    textToShow = enemy.EnemyName + " took " + damage + " damage!";
+                    textToShow = charTurn = " used " + skillToUse.SkillName;
+                    textToShow = "\n" + enemy.EnemyName + " took " + damage + " damage!";
                 } else {
                     earnedExp += enemy.Exp;
                     earnedMoney += enemy.Money;
@@ -353,6 +362,39 @@ public class BattleSystem : MonoBehaviour {
 
                 usingSkill = false;
                 skillToUse = null;
+            } else if (skillToUse.IsHeal) {
+                // heal
+                string charName = party[choice];
+                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+
+                if (currHP < maxHP) {
+                    // only use if can recover hp
+
+                    // heal
+                    skillToUse.UseSkill(charName);
+
+                    // close skill hud
+                    SkillHud.gameObject.SetActive(false);
+                    SkillHud.interactable = false;
+                    DescriptionPanel.SetActive(false);
+                    SkillHudUI.ExitSkillHud();
+
+                    // set the text to show
+                    textToShow = charTurn + " used " + skillToUse.SkillName + "!\n";
+                    textToShow = charName + " recovered " + (GameManager.Instance.Party.GetCharacterCurrentHP(charName) - currHP) + " HP!";
+
+                    // close select hud
+                    SelectHud.interactable = false;
+                    SelectHud.gameObject.SetActive(false);
+                    SelectHudUI.ExitSelectHud();
+
+                    DescriptionPanel.SetActive(false);
+
+                    // reset
+                    usingSkill = false;
+                    skillToUse = null;
+                }
             }
         }
     }
@@ -372,25 +414,30 @@ public class BattleSystem : MonoBehaviour {
 
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
-        SkillHud.interactable = false;
-        SelectHud.gameObject.SetActive(true);
-        SelectHud.interactable = true;
+        if (GameManager.Instance.Party.GetCharacterCurrentSP(charTurn) > skillToUse.Cost) {
+            // can only use if have enough sp to use
+            SkillHud.interactable = false;
+            SelectHud.gameObject.SetActive(true);
+            SelectHud.interactable = true;
 
-        usingSkill = true;
+            usingSkill = true;
 
-        if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
-            // use on enemy
-            SelectHudUI.OpenSelectHud(enemies.ToArray());
-        } else {
-            // use on party
-            int numActPartyUI = PartyHudUI.GetNumActiveUI();
+            if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
+                // use on enemy
+                SelectHudUI.OpenSelectHud(enemies.ToArray());
+            } else {
+                // use on party
+                int numActPartyUI = PartyHudUI.GetNumActiveUI();
 
-            PartyUI[] activeParty = new PartyUI[numActPartyUI];
-            for (int i = 0; i < numActPartyUI; i++) {
-                activeParty[i] = PartyMemUI[i];
+                PartyUI[] activeParty = new PartyUI[numActPartyUI];
+                for (int i = 0; i < numActPartyUI; i++) {
+                    activeParty[i] = PartyMemUI[i];
+                }
+
+                SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
             }
-
-            SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
+        } else {
+            skillToUse = null;
         }
     }
 
