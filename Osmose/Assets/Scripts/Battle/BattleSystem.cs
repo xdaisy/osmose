@@ -21,6 +21,10 @@ public class BattleSystem : MonoBehaviour {
     public SkillHud SkillHudUI;
     public PartyUI[] PartyMemUI;
 
+    [Header("Enemy Spawning")]
+    public Transform[] EnemyPos;
+    public Enemy[] ForestEnemyPrefabs;
+
     private Queue<string> turnOrder; // keep track of whose turn is it for this round
 
     private bool playerTurn; // whether or not the it is the player's turn
@@ -58,7 +62,7 @@ public class BattleSystem : MonoBehaviour {
         party = GameManager.Instance.Party.GetCurrentParty();
         numAliveChar = party.Count;
 
-        getEnemies();
+        spawnEnemies(new List<string> {"Squirrel"});
         determineTurnOrder();
         playerTurn = false;
         textToShow = "";
@@ -548,14 +552,20 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    // called in beginning of battle to get the list of enemies
-    private void getEnemies() {
+    // called in beginning of battle to spawn enemies
+    private void spawnEnemies(List<string> enemyNames) {
         enemies = new List<Enemy>();
 
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach(GameObject enemy in enemyList) {
-            Enemy enemyStat = enemy.GetComponent<Enemy>();
-            enemies.Add(enemyStat);
+        for (int i = 0; i < enemyNames.Count; i++) {
+            string name = enemyNames[i];
+            for (int j = 0; j < ForestEnemyPrefabs.Length; j++) {
+                Enemy em = ForestEnemyPrefabs[j];
+                if (ForestEnemyPrefabs[j].EnemyName == name) {
+                    Enemy enemy = Instantiate(ForestEnemyPrefabs[j], EnemyPos[i].position, EnemyPos[i].rotation);
+                    enemy.transform.SetParent(EnemyPos[i]);
+                    enemies.Add(enemy);
+                }
+            }
         }
     }
 
