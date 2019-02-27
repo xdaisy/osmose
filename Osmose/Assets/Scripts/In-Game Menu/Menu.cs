@@ -26,6 +26,10 @@ public class Menu : MonoBehaviour
     public CanvasGroup ItemList;
     public CanvasGroup DescriptionPanel;
 
+    [Header("Skills Menu")]
+    public SkillMenu SkillMenuUI;
+    public CanvasGroup CharSelectPanel;
+
     [Header("Stats Menu")]
     public StatsMenu StatsMenuUI;
 
@@ -62,6 +66,7 @@ public class Menu : MonoBehaviour
     private const string ITEM_LIST = "ItemList";
     private const string ITEM_DESCRIPTION = "ItemDescriptionPanel";
     private const string SKILLS = "Skills";
+    private const string CHAR_SELECT_PANEL = "CharacterSelectPanel";
     private const string EQUIPMENT = "Equipment";
     private const string EQUIPPED_PANEL = "CharacterEquipment";
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
@@ -101,6 +106,9 @@ public class Menu : MonoBehaviour
                 // go back to main menu
                 if (currentHud == ITEM_TYPE) {
                     currentHud = ITEMS;
+                }
+                if (currentHud == CHAR_SELECT_PANEL) {
+                    currentHud = SKILLS;
                 }
 
                 OpenMenu(0);
@@ -198,12 +206,17 @@ public class Menu : MonoBehaviour
         }
     }
 
+    // click on button to open menu
     public void OpenMenu(int menu) {
         previousHud = currentHud;
+        // close all menus
         closeAllMenu();
 
+        // open menu
         MenuHud[menu].SetActive(true);
-        switch(menu) {
+
+        // load ui for opened menu
+        switch (menu) {
             case 0:
                 if (currentHud == MAIN) {
                     EventSystem.current.SetSelectedGameObject(MainButtons[0]);
@@ -222,7 +235,8 @@ public class Menu : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(ItemFirstHighlighted);
                 break;
             case 2:
-                currentHud = SKILLS;
+                currentHud = CHAR_SELECT_PANEL;
+                SkillMenuUI.OpenSkillMenu();
                 break;
             case 3:
                 currentHud = EQUIPMENT;
