@@ -559,7 +559,6 @@ public class BattleSystem : MonoBehaviour {
         for (int i = 0; i < enemyNames.Count; i++) {
             string name = enemyNames[i];
             for (int j = 0; j < ForestEnemyPrefabs.Length; j++) {
-                Enemy em = ForestEnemyPrefabs[j];
                 if (ForestEnemyPrefabs[j].EnemyName == name) {
                     Enemy enemy = Instantiate(ForestEnemyPrefabs[j], EnemyPos[i].position, EnemyPos[i].rotation);
                     enemy.transform.SetParent(EnemyPos[i]);

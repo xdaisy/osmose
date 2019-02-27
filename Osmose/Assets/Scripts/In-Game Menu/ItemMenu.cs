@@ -68,7 +68,6 @@ public class ItemMenu : MonoBehaviour {
                     // only update if item hud is active and the item list is interactable
                     if (currentItem == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text) {
                         // if was at the is on the last item, scroll down
-                        int i = itemIndx + Items.Length;
                         Items item = getItem(itemIndx + Items.Length);
                         if (item != null) {
                             // more items, so scroll
