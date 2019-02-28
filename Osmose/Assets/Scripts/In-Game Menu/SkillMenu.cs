@@ -13,14 +13,12 @@ public class SkillMenu : MonoBehaviour
     private string currChar;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         currChar = "";
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         
     }
 
