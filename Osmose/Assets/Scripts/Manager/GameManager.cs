@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,8 +16,9 @@ public class GameManager : MonoBehaviour
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene;
 
     public string CurrentScene;
+    public bool IsBattleMap;
 
-    public int MoneyAmt;
+    public int Wallet;
 
     [Header("Items Held")]
     public List<string> ItemsHeld; // keep track of which usable item the player has
@@ -51,6 +53,18 @@ public class GameManager : MonoBehaviour
         } else {
             PlayerControls.Instance.SetCanMove(true);
         }
+    }
+
+    // get money
+    public void GainMoney(int amount) {
+        Wallet += amount;
+        Wallet = Math.Min(Wallet, 999999); // can't go above 999999
+    }
+
+    // lose money
+    public void UseMoney(int amount) {
+        Wallet -= amount;
+        Wallet = Math.Max(Wallet, 0); // can't go below 0
     }
 
     public Items GetItemAt(int index) {

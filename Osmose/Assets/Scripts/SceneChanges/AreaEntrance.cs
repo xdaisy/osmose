@@ -12,15 +12,10 @@ public class AreaEntrance : MonoBehaviour {
     void Start() {
         if (transitionFromArea == PlayerControls.Instance.PreviousAreaName) {
             // set player to entrance's position
-            PlayerControls.Instance.transform.position = transform.position;
-            PlayerControls.Instance.IsBattleMap = IsBattleMap;
+            PlayerControls.Instance.SetPosition(transform.position);
+            GameManager.Instance.IsBattleMap = IsBattleMap;
             GameManager.Instance.FadingBetweenAreas = false;
         }
         UIFade.Instance.FadeFromBlack();
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 }

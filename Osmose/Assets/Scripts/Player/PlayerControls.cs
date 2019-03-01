@@ -7,8 +7,6 @@ public class PlayerControls : MonoBehaviour {
 
     public float MoveSpeed; // move speed for the character
 
-    public bool IsBattleMap; // determines if battle occurs on mapright
-
     public static PlayerControls Instance; // keep track if player exist
 
     public string PreviousAreaName; // keep track of previous area player was in
@@ -19,10 +17,9 @@ public class PlayerControls : MonoBehaviour {
 
     private bool canMove; // determines if player can move or not
 
-    private float amountPlayerMoved; // keep track how much the player has moved
-    private float movementTilEncounter; // amount of movement before player launch into battles
-
     private bool menuOpen;
+
+    private EnterBattle enterBattle;
 
     private void Awake() {
         // don't destroy object on load if player don't exist
@@ -39,11 +36,10 @@ public class PlayerControls : MonoBehaviour {
     void Start () {
         anim = GetComponent<Animator>(); // get animator for player
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
+        enterBattle = GetComponent<EnterBattle>();
 
         canMove = true;
         menuOpen = false;
-        amountPlayerMoved = 0f;
-        movementTilEncounter = UnityEngine.Random.Range(300f, 500f);
     }
 	
 	// Update is called once per frame
@@ -61,11 +57,6 @@ public class PlayerControls : MonoBehaviour {
                 Menu.Instance.OpenGameMenu();
                 menuOpen = true;
             }
-        }
-        if (IsBattleMap && amountPlayerMoved >= movementTilEncounter) {
-            Debug.Log("Random encounter");
-            amountPlayerMoved = 0f; // reset the amount that the player has moved
-            movementTilEncounter = UnityEngine.Random.Range(300f, 500f); // new amount of movement until random encounter
         }
 
         float xInput = Input.GetAxisRaw("Horizontal");
@@ -96,5 +87,17 @@ public class PlayerControls : MonoBehaviour {
 
     public bool GetCanMove() {
         return this.canMove;
+    }
+
+    // set the player to face forward
+    // use for after the cutscene
+    public void SetPlayerForward() {
+        anim.SetFloat("LastMoveX", 0);
+        anim.SetFloat("LastMoveY", -1f);
+    }
+
+    public void SetPosition(Vector3 newPos) {
+        transform.position = newPos;
+        enterBattle.UpdatePos();
     }
 }

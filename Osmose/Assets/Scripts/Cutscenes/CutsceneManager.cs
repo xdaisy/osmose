@@ -107,6 +107,7 @@ public class CutsceneManager : MonoBehaviour {
         UIFade.Instance.FadeToBlack();
         shouldLoadAfterFade = true;
         PlayerControls.Instance.PreviousAreaName = CutsceneName;
+        PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
         GameManager.Instance.FadingBetweenAreas = true;
     }

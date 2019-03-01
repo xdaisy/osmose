@@ -14,11 +14,6 @@ public class AreaExit : MonoBehaviour {
 
     private bool shouldLoadAfterFade;
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
     // Update is called once per frame
     void Update() {
         if (shouldLoadAfterFade) {

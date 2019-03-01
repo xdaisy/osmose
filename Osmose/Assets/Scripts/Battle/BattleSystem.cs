@@ -25,7 +25,7 @@ public class BattleSystem : MonoBehaviour {
     public Transform[] EnemyPos;
     public Enemy[] ForestEnemyPrefabs;
 
-    private Queue<string> turnOrder; // keep track of whose turn is it for this round
+    private TurnQueue turnOrder; // keep track of whose turn is it for this round
 
     private bool playerTurn; // whether or not the it is the player's turn
     private string charTurn; // keep track of whose turn is it
@@ -49,8 +49,12 @@ public class BattleSystem : MonoBehaviour {
     private const string ITEMS_BUTTON = "ItemsButton";
     private const string SKILLS_BUTTON = "SkillsButton";
 
+    private bool endedBattle;
+
+    // for loading back to previous scene
+
     private void Awake() {
-        turnOrder = new Queue<string>();
+        turnOrder = new TurnQueue();
         itemToUse = null;
     }
 
@@ -62,7 +66,7 @@ public class BattleSystem : MonoBehaviour {
         party = GameManager.Instance.Party.GetCurrentParty();
         numAliveChar = party.Count;
 
-        spawnEnemies(new List<string> {"Squirrel"});
+        spawnEnemies(new Dictionary<string, int>{ { "Squirrel", 1 } });
         determineTurnOrder();
         playerTurn = false;
         textToShow = "";
@@ -75,6 +79,8 @@ public class BattleSystem : MonoBehaviour {
 
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
+
+        endedBattle = false;
 	}
 	
 	// Update is called once per frame
@@ -97,11 +103,15 @@ public class BattleSystem : MonoBehaviour {
             TextHud.gameObject.SetActive(true);
             TextHud.text = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
 
-            if (Input.GetButtonDown("Interact")) {
+            if (!endedBattle && Input.GetButtonDown("Interact")) {
+                GameManager.Instance.Party.GainExperience(earnedExp);
+                GameManager.Instance.GainMoney(earnedMoney);
                 // load back to previous scene
                 GameManager.Instance.InBattle = false;
-                PlayerControls.Instance.PreviousAreaName = "battle";
                 // need to load back into scene
+                ExitBattle battleExit = FindObjectOfType<ExitBattle>();
+                battleExit.EndBattle();
+                endedBattle = true;
             }
         }
 
@@ -224,6 +234,7 @@ public class BattleSystem : MonoBehaviour {
                 if (GameManager.Instance.Party.IsDefending(partyMember)) {
                     damage /= 2;
                 }
+                damage = Math.Max(damage, 1); // at least do 1 damage
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
@@ -271,6 +282,7 @@ public class BattleSystem : MonoBehaviour {
                 earnedMoney += enemy.Money;
                 textToShow = "Defeated " + enemy.EnemyName + "!";
                 enemies.RemoveAt(choice);
+                turnOrder.RemoveFromQueue(enemy.EnemyName);
             }
 
             if (enemies.Count < 1) {
@@ -353,6 +365,7 @@ public class BattleSystem : MonoBehaviour {
                     earnedMoney += enemy.Money;
                     textToShow = "Defeated " + enemy.EnemyName + "!";
                     enemies.RemoveAt(choice);
+                    turnOrder.RemoveFromQueue(enemy.EnemyName);
                 }
 
                 if (enemies.Count < 1) {
@@ -553,19 +566,49 @@ public class BattleSystem : MonoBehaviour {
     }
 
     // called in beginning of battle to spawn enemies
-    private void spawnEnemies(List<string> enemyNames) {
+    private void spawnEnemies(Dictionary<string, int> enemyNames) {
         enemies = new List<Enemy>();
 
-        for (int i = 0; i < enemyNames.Count; i++) {
-            string name = enemyNames[i];
-            for (int j = 0; j < ForestEnemyPrefabs.Length; j++) {
-                if (ForestEnemyPrefabs[j].EnemyName == name) {
-                    Enemy enemy = Instantiate(ForestEnemyPrefabs[j], EnemyPos[i].position, EnemyPos[i].rotation);
-                    enemy.transform.SetParent(EnemyPos[i]);
+        //for (int i = 0; i < enemyNames.Count; i++) {
+        //    string name = enemyNames[i];
+        //    for (int j = 0; j < ForestEnemyPrefabs.Length; j++) {
+        //        if (ForestEnemyPrefabs[j].EnemyName == name) {
+        //            Enemy enemy = Instantiate(ForestEnemyPrefabs[j], EnemyPos[i].position, EnemyPos[i].rotation);
+        //            enemy.transform.SetParent(EnemyPos[i]);
+        //            enemies.Add(enemy);
+        //        }
+        //    }
+        //}
+        int posIndx = 0;
+        foreach(string enemyName in enemyNames.Keys) {
+            int enemyPos = getEnemyIndx(enemyName);
+            if (enemyNames[enemyName] > 1) {
+                // if spawn more than 1 of the enemy
+                for (int i = 0; i < enemyNames[enemyName]; i++) {
+                    Enemy enemy = Instantiate(ForestEnemyPrefabs[enemyPos], EnemyPos[posIndx].position, EnemyPos[posIndx].rotation);
+                    enemy.EnemyName = enemyName + " " + (i + 1);
+                    enemy.transform.SetParent(EnemyPos[posIndx]);
                     enemies.Add(enemy);
+                    posIndx++;
                 }
+            } else {
+                // spawn only 1 of the enemy
+                Enemy enemy = Instantiate(ForestEnemyPrefabs[enemyPos], EnemyPos[posIndx].position, EnemyPos[posIndx].rotation);
+                enemy.transform.SetParent(EnemyPos[posIndx]);
+                enemies.Add(enemy);
+                posIndx++;
             }
         }
+    }
+
+    // find the position of the enemy with the enemyName
+    private int getEnemyIndx(string enemyName) {
+        for (int i = 0; i < ForestEnemyPrefabs.Length; i++) {
+            if (ForestEnemyPrefabs[i].EnemyName == enemyName) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void setSelectedButton(string name) {

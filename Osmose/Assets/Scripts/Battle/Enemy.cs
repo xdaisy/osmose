@@ -26,9 +26,12 @@ public class Enemy : MonoBehaviour {
 
     public bool IsDefending; // whether enemy is defending or not
 
+    private Animator anim;
+
 	// Use this for initialization
 	void Start () {
         EnemyImage = this.GetComponent<Image>();
+        anim = this.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -39,10 +42,6 @@ public class Enemy : MonoBehaviour {
 	}
 
     public void Highlight(bool selected) {
-        if (selected) {
-            EnemyImage.sprite = HighlightedSprite;
-        } else {
-            EnemyImage.sprite = EnemySprite;
-        }
+        anim.SetBool("IsSelected", selected);
     }
 }

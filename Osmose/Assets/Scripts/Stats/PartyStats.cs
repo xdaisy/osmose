@@ -135,7 +135,7 @@ public class PartyStats {
     
     public void RecoverPctHP(string name, float percent) {
         CharStats character = party[name];
-        int hitpoints = Mathf.RoundToInt(character.CurrHP * percent);
+        int hitpoints = Mathf.RoundToInt(character.MaxHP * percent);
         RecoverHP(name, hitpoints);
     }
     
@@ -145,7 +145,7 @@ public class PartyStats {
     
     public void RecoverPctSP(string name, float percent) {
         CharStats character = party[name];
-        int skillpoints = Mathf.RoundToInt(character.CurrSP * percent);
+        int skillpoints = Mathf.RoundToInt(character.MaxSP * percent);
         RecoverSP(name, skillpoints);
     }
 
