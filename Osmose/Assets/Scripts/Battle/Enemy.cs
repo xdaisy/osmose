@@ -6,10 +6,6 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour {
     public string EnemyName;
 
-    private Image EnemyImage; // displayed image of the enemy
-    public Sprite EnemySprite; // regular sprite
-    public Sprite HighlightedSprite; // sprite of enemy highlighted
-
     [Header("Enemy Stats")]
     public int CurrentHP;
     public int MaxHP;
@@ -30,7 +26,6 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EnemyImage = this.GetComponent<Image>();
         anim = this.GetComponent<Animator>();
 	}
 	
@@ -49,5 +44,15 @@ public class Enemy : MonoBehaviour {
         anim.SetTrigger("Died");
         yield return new WaitForSeconds(1f);
         Destroy(this.gameObject);
+    }
+
+    public void DoMove() {
+        StartCoroutine(playMoveAnimation());
+    }
+
+    private IEnumerator playMoveAnimation() {
+        anim.SetBool("DoMove", true);
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("DoMove", false);
     }
 }
