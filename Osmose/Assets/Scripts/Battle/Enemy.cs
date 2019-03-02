@@ -36,12 +36,18 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (CurrentHP <= 0) {
-            Destroy(this.gameObject);
+        if (CurrentHP <= 0) {
+            StartCoroutine(playDeathAnimation());
         }
-	}
+    }
 
     public void Highlight(bool selected) {
         anim.SetBool("IsSelected", selected);
+    }
+
+    private IEnumerator playDeathAnimation() {
+        anim.SetTrigger("Died");
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
     }
 }

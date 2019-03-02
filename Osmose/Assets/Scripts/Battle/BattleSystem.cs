@@ -21,9 +21,15 @@ public class BattleSystem : MonoBehaviour {
     public SkillHud SkillHudUI;
     public PartyUI[] PartyMemUI;
 
+    [Header("Character Pos")]
+    public Transform[] CharPos;
+
     [Header("Enemy Spawning")]
     public Transform[] EnemyPos;
     public Enemy[] ForestEnemyPrefabs;
+
+    [Header("Effects")]
+    public DamageEffect DamageNumber;
 
     private TurnQueue turnOrder; // keep track of whose turn is it for this round
 
@@ -66,7 +72,7 @@ public class BattleSystem : MonoBehaviour {
         party = GameManager.Instance.Party.GetCurrentParty();
         numAliveChar = party.Count;
 
-        spawnEnemies(new Dictionary<string, int>{ { "Squirrel", 1 } });
+        spawnEnemies(new Dictionary<string, int>{ { "Squirrel", 2 } });
         determineTurnOrder();
         playerTurn = false;
         textToShow = "";
@@ -92,18 +98,22 @@ public class BattleSystem : MonoBehaviour {
         
         if (escaped) {
             // escaped!
-            TextHud.gameObject.SetActive(true);
-            TextHud.text = "You escaped!";
+            textToShow = "You escaped!";
+            showText();
 
-            if (Input.GetButtonDown("Interact")) {
+            if (endedBattle && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
+                GameManager.Instance.InBattle = false;
+                ExitBattle battleExit = FindObjectOfType<ExitBattle>();
+                battleExit.EndBattle();
             }
+            endedBattle = true;
         } else if (enemies.Count < 1) {
             // all enemies defeated, battle won!
-            TextHud.gameObject.SetActive(true);
-            TextHud.text = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
+            textToShow = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
+            showText();
 
-            if (!endedBattle && Input.GetButtonDown("Interact")) {
+            if (endedBattle && Input.GetButtonDown("Interact")) {
                 GameManager.Instance.Party.GainExperience(earnedExp);
                 GameManager.Instance.GainMoney(earnedMoney);
                 // load back to previous scene
@@ -111,22 +121,22 @@ public class BattleSystem : MonoBehaviour {
                 // need to load back into scene
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
                 battleExit.EndBattle();
-                endedBattle = true;
             }
+            endedBattle = true;
+        } else if (isPartyDead()) {
+            // all characters dead, battle is over
         }
 
         if (textToShow.Length > 0) {
             // if player have finished their command, show text
-            TextHud.gameObject.SetActive(true);
-            TextHud.text = textToShow;
-            textToShow = ""; // reset it to empty string
+            showText();
             playerTurn = false;
         } else if (!playerTurn && !TextHud.IsActive()) {
             // next turn
             charTurn = turnOrder.Dequeue();
 
-            if (GameManager.Instance.Party.IsInParty(charTurn)) {
-                // if the next to go is a party member, is player's turn
+            if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
+                // if the next to go is a party member and character is alive, is player's turn
                 MainHud.gameObject.SetActive(true);
                 MainHud.interactable = true;
 
@@ -143,6 +153,8 @@ public class BattleSystem : MonoBehaviour {
 
                 GameManager.Instance.Party.SetDefending(charTurn, false); // character not defending at start of turn
                 playerTurn = true;
+            } else if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
+                // if character is in party but is dead, do nothing
             } else {
                 // enemy's turn
                 MainHud.gameObject.SetActive(false);
@@ -215,6 +227,12 @@ public class BattleSystem : MonoBehaviour {
         }
 	}
 
+    private void showText() {
+        TextHud.gameObject.SetActive(true);
+        TextHud.text = textToShow;
+        textToShow = ""; // reset it to empty string
+    }
+
     private void enemyTurn(Enemy enemy) {
         enemy.IsDefending = false;
 
@@ -227,14 +245,17 @@ public class BattleSystem : MonoBehaviour {
                 textToShow = enemy.EnemyName + " defended";
                 break;
             default:
-                int member = UnityEngine.Random.Range(0, numAliveChar);
-                string partyMember = party[member];
+                int target = UnityEngine.Random.Range(0, numAliveChar);
+                string partyMember = party[target];
 
                 int damage = enemy.Attack - GameManager.Instance.Party.GetCharacterDefense(partyMember);
                 if (GameManager.Instance.Party.IsDefending(partyMember)) {
                     damage /= 2;
                 }
                 damage = Math.Max(damage, 1); // at least do 1 damage
+
+                // show damage
+                Instantiate(DamageNumber).SetDamage(CharPos[target].transform.position, damage);
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
@@ -251,8 +272,7 @@ public class BattleSystem : MonoBehaviour {
         SelectHud.interactable = true;
         
         attacking = true;
-
-        // TODO: Find way to get list of the Enemies and have the far left one selected 
+        
         SelectHudUI.OpenSelectHud(enemies.ToArray());
     }
 
@@ -268,6 +288,9 @@ public class BattleSystem : MonoBehaviour {
                 damage = Mathf.RoundToInt(damage / 2);
             }
 
+            // show damage
+            Instantiate(DamageNumber).SetDamage(enemy.transform.position, damage);
+
             // reduce enemy's hp
             enemy.CurrentHP -= damage;
             enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
@@ -276,16 +299,17 @@ public class BattleSystem : MonoBehaviour {
 
             // set the next displayed text
             if (enemy.CurrentHP > 0) {
+                // enemy did not die
                 textToShow = enemy.EnemyName + " took " + damage + " damage!";
             } else {
+                // enemy died
                 earnedExp += enemy.Exp;
                 earnedMoney += enemy.Money;
-                textToShow = "Defeated " + enemy.EnemyName + "!";
-                enemies.RemoveAt(choice);
-                turnOrder.RemoveFromQueue(enemy.EnemyName);
+                StartCoroutine(enemyDied(enemy, choice));
             }
 
             if (enemies.Count < 1) {
+                // all enemies are defeated
                 textToShow = "";
             }
 
@@ -350,6 +374,9 @@ public class BattleSystem : MonoBehaviour {
                 enemy.CurrentHP -= damage;
                 enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
 
+                // show damage
+                Instantiate(DamageNumber).SetDamage(enemy.transform.position, damage);
+
                 // close skill hud
                 SkillHud.gameObject.SetActive(false);
                 SkillHud.interactable = false;
@@ -358,17 +385,18 @@ public class BattleSystem : MonoBehaviour {
 
                 // set the next displayed text
                 if (enemy.CurrentHP > 0) {
+                    // enemy did not die
                     textToShow = charTurn = " used " + skillToUse.SkillName;
                     textToShow = "\n" + enemy.EnemyName + " took " + damage + " damage!";
                 } else {
+                    // enemy died
                     earnedExp += enemy.Exp;
                     earnedMoney += enemy.Money;
-                    textToShow = "Defeated " + enemy.EnemyName + "!";
-                    enemies.RemoveAt(choice);
-                    turnOrder.RemoveFromQueue(enemy.EnemyName);
+                    StartCoroutine(enemyDied(enemy, choice));
                 }
 
                 if (enemies.Count < 1) {
+                    // all enemies are defeated
                     textToShow = "";
                 }
 
@@ -414,6 +442,15 @@ public class BattleSystem : MonoBehaviour {
                 }
             }
         }
+    }
+
+    // wait 1 sec when enemy die
+    public IEnumerator enemyDied(Enemy enemy, int choice) {
+        yield return new WaitForSeconds(1f);
+        textToShow = "Defeated " + enemy.EnemyName + "!";
+
+        enemies.RemoveAt(choice);
+        turnOrder.RemoveFromQueue(enemy.EnemyName);
     }
 
     public void SelectSkills() {
@@ -569,16 +606,6 @@ public class BattleSystem : MonoBehaviour {
     private void spawnEnemies(Dictionary<string, int> enemyNames) {
         enemies = new List<Enemy>();
 
-        //for (int i = 0; i < enemyNames.Count; i++) {
-        //    string name = enemyNames[i];
-        //    for (int j = 0; j < ForestEnemyPrefabs.Length; j++) {
-        //        if (ForestEnemyPrefabs[j].EnemyName == name) {
-        //            Enemy enemy = Instantiate(ForestEnemyPrefabs[j], EnemyPos[i].position, EnemyPos[i].rotation);
-        //            enemy.transform.SetParent(EnemyPos[i]);
-        //            enemies.Add(enemy);
-        //        }
-        //    }
-        //}
         int posIndx = 0;
         foreach(string enemyName in enemyNames.Keys) {
             int enemyPos = getEnemyIndx(enemyName);
@@ -621,5 +648,15 @@ public class BattleSystem : MonoBehaviour {
         }
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(button.gameObject);
+    }
+
+    // return whether or not all the party members are dead
+    private bool isPartyDead() {
+        for (int i = 0; i < party.Count; i++) {
+            if (GameManager.Instance.Party.IsAlive(party[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 }
