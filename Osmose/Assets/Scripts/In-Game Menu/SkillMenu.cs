@@ -10,6 +10,12 @@ public class SkillMenu : MonoBehaviour
     public CanvasGroup CharSelectPanel;
     public Button[] Characters;
 
+    [Header("Skills List")]
+    public Text[] Skills;
+
+    [Header("Description")]
+    public Text Description;
+
     private string currChar;
 
     // Start is called before the first frame update
@@ -29,8 +35,7 @@ public class SkillMenu : MonoBehaviour
             Text charName = Characters[i].GetComponentInChildren<Text>();
             if (i >= party.Count) {
                 // no party member
-                charName.text = "";
-                Characters[i].interactable = false;
+                Characters[i].gameObject.SetActive(false);
                 continue;
             }
             charName.text = party[i];
