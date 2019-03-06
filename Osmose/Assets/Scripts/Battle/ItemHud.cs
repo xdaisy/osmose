@@ -92,13 +92,13 @@ public class ItemHud : MonoBehaviour {
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
             Text itemAmount = ItemsAmount[i];
-            itemText.GetComponent<Button>().interactable = true;
+            itemText.gameObject.SetActive(true);
+            itemAmount.gameObject.SetActive(true);
             Items item = GameManager.Instance.GetItemAt(i + itemIndx);
             if (item == null) {
                 // if there is no item at this slot, disable it
-                itemText.text = "";
-                itemAmount.text = "";
-                itemText.GetComponent<Button>().interactable = false;
+                itemText.gameObject.SetActive(false);
+                itemAmount.gameObject.SetActive(false);
                 continue;
             }
             itemText.text = item.ItemName;

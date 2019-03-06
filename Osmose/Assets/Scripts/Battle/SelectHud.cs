@@ -69,14 +69,13 @@ public class SelectHud : MonoBehaviour
             Button selectButton = selectText.GetComponent<Button>();
             if (i >= selection.Length) {
                 // if no more selectables, turn "off" button
-                selectText.text = "";
-                selectButton.interactable = false;
+                selectText.gameObject.SetActive(false);
                 continue;
             }
             // is seleecting enemy
             Enemy enemy = selection[i].GetComponent<Enemy>();
             selectText.text = enemy.EnemyName;
-            selectButton.interactable = true;
+            selectText.gameObject.SetActive(true);
         }
 
         this.isSelectingEnemy = true;
@@ -91,8 +90,7 @@ public class SelectHud : MonoBehaviour
             Button selectButton = selectText.GetComponent<Button>();
             if (i >= selection.Length) {
                 // if no more selectables, turn "off" button
-                selectText.text = "";
-                selectButton.interactable = false;
+                selectText.gameObject.SetActive(false);
                 continue;
             }
             selectText.text = currParty[i];
@@ -110,7 +108,6 @@ public class SelectHud : MonoBehaviour
         // deselects current hightlighted button
         Button currHighlightedButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         EventSystem.current.SetSelectedGameObject(null);
-        currHighlightedButton.interactable = false;
 
         // dehighlight current selected object
         if (isSelectingEnemy) {
