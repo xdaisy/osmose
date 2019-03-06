@@ -54,8 +54,32 @@ public class SkillMenu : MonoBehaviour
         updateSkillList();
     }
 
+    public void CloseSkillMenu() {
+        currChar = "";
+        skillIndx = 0;
+    }
+
+    // open skills panel
     public void OpenSkillsPanel() {
+        CharSelectPanel.interactable = false;
+        SkillsPanel.interactable = true;
         EventSystem.current.SetSelectedGameObject(Skills[0].gameObject);
+        currSkill = Skills[0].text;
+        updateDescription();
+    }
+
+    // closes skills panel
+    public void CloseSkillsPanel() {
+        Description.text = "";
+        currSkill = "";
+        EventSystem.current.SetSelectedGameObject(null);
+        // set pointer to character whose skills was looking at
+        for (int i = 0; i < Characters.Length; i++) {
+            if (Characters[i].GetComponentInChildren<Text>().text == currChar) {
+                EventSystem.current.SetSelectedGameObject(Characters[i].gameObject);
+                break;
+            }
+        }
     }
 
     private void updateSkillList() {
@@ -71,6 +95,8 @@ public class SkillMenu : MonoBehaviour
     }
 
     private void updateDescription() {
+        Skill skill = GameManager.Instance.Party.GetCharSkill(currChar, currSkill);
 
+        Description.text = "Cost: " + skill.Cost + " SP\n" + skill.Description;
     }
 }
