@@ -29,6 +29,7 @@ public class Menu : MonoBehaviour
     [Header("Skills Menu")]
     public SkillMenu SkillMenuUI;
     public CanvasGroup CharSelectPanel;
+    public CanvasGroup SkillsPanel;
 
     [Header("Stats Menu")]
     public StatsMenu StatsMenuUI;
@@ -236,6 +237,7 @@ public class Menu : MonoBehaviour
                 break;
             case 2:
                 currentHud = CHAR_SELECT_PANEL;
+                CharSelectPanel.interactable = true;
                 SkillMenuUI.OpenSkillMenu();
                 break;
             case 3:
@@ -372,6 +374,14 @@ public class Menu : MonoBehaviour
             currentHud = ITEM_LIST;
             clickedItem = "";
         }
+    }
+
+    public void SelectSkillsChar() {
+        CharSelectPanel.interactable = false;
+
+        SkillsPanel.interactable = true;
+
+        SkillMenuUI.OpenSkillsPanel();
     }
 
     // open up equipped panel

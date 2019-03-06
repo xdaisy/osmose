@@ -30,6 +30,7 @@ public class PartyStats {
         party["Naoise"] = naoise;
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add("Aren");
+        currentPartyMembers.Add("Rey");
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;

@@ -11,21 +11,29 @@ public class SkillMenu : MonoBehaviour
     public Button[] Characters;
 
     [Header("Skills List")]
+    public CanvasGroup SkillsPanel;
     public Text[] Skills;
 
     [Header("Description")]
     public Text Description;
 
     private string currChar;
+    private int skillIndx;
+    private string currSkill;
 
     // Start is called before the first frame update
     void Start() {
         currChar = "";
+        skillIndx = 0;
     }
 
     // Update is called once per frame
     void Update() {
-        
+        if (CharSelectPanel.interactable && Input.GetButtonDown("Horizontal")) {
+            // if selecting character and detect key, set the current char to current highlighted character
+            currChar = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            updateSkillList();
+        }
     }
 
     public void OpenSkillMenu() {
@@ -43,5 +51,26 @@ public class SkillMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(Characters[0].gameObject);
         currChar = party[0];
+        updateSkillList();
+    }
+
+    public void OpenSkillsPanel() {
+        EventSystem.current.SetSelectedGameObject(Skills[0].gameObject);
+    }
+
+    private void updateSkillList() {
+        for (int i = 0; i < Skills.Length; i++) {
+            Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, i + skillIndx);
+            if (skill == null) {
+                Skills[i].gameObject.SetActive(false);
+                continue;
+            }
+            Skills[i].gameObject.SetActive(true);
+            Skills[i].text = skill.SkillName;
+        }
+    }
+
+    private void updateDescription() {
+
     }
 }
