@@ -88,20 +88,21 @@ public class SkillHud : MonoBehaviour {
             Button skillButton = Skills[i].GetComponent<Button>();
             Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, i + skillIndx);
             if (skill == null) {
-                skillButton.interactable = false;
-                Skills[i].text = "";
+                Skills[i].gameObject.SetActive(false);
                 continue;
             }
-            skillButton.interactable = true;
+            Skills[i].gameObject.SetActive(true);
             Skills[i].text = skill.SkillName;
         }
     }
 
     private void updateDescription() {
         Skill skill = GameManager.Instance.Party.GetCharSkill(currChar, currSkill);
-        int currSP = GameManager.Instance.Party.GetCharacterCurrentSP(currChar);
-        int maxSP = GameManager.Instance.Party.GetCharacterMaxSP(currChar);
+        if (skill != null) {
+            int currSP = GameManager.Instance.Party.GetCharacterCurrentSP(currChar);
+            int maxSP = GameManager.Instance.Party.GetCharacterMaxSP(currChar);
 
-        Description.text = "SP: " + currSP + "/" + maxSP + "\n" + skill.Description;
+            Description.text = "SP: " + currSP + "/" + maxSP + "\n" + skill.Description;
+        }
     }
 }

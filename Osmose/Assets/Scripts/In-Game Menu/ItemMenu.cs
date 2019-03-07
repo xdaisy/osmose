@@ -130,12 +130,11 @@ public class ItemMenu : MonoBehaviour {
         // update which item is being shown
         for (int i = 0; i < Items.Length; i++) {
             Text itemText = Items[i];
-            itemText.GetComponent<Button>().interactable = true;
+            itemText.gameObject.SetActive(true);
             Items item = getItem(i + itemIndx);
             if (item == null) {
                 // if there is no item at this slot, disable it
-                itemText.text = "";
-                itemText.GetComponent<Button>().interactable = false;
+                itemText.gameObject.SetActive(false);
                 continue;
             }
             itemText.text = item.ItemName;

@@ -96,7 +96,8 @@ public class SkillMenu : MonoBehaviour
 
     private void updateDescription() {
         Skill skill = GameManager.Instance.Party.GetCharSkill(currChar, currSkill);
-
-        Description.text = "Cost: " + skill.Cost + " SP\n" + skill.Description;
+        if (skill != null) {
+            Description.text = "Cost: " + skill.Cost + " SP\n" + skill.Description;
+        }
     }
 }

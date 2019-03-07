@@ -53,8 +53,10 @@ public class SelectMenu : MonoBehaviour
                     CharImages[i].sprite = GameManager.Instance.ArenSprite;
                     break;
                 case "Rey":
+                    CharImages[i].sprite = GameManager.Instance.ReySprite;
                     break;
-                case "Naoshe":
+                case "Naoise":
+                    CharImages[i].sprite = GameManager.Instance.NaoiseSprite;
                     break;
             }
 

@@ -30,7 +30,7 @@ public class ItemHud : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Hud.interactable) {
+        if (Hud.interactable && Input.GetButtonDown("Vertical")) {
             Text selectedItem = EventSystem.current.currentSelectedGameObject.GetComponent<Text>();
             if (Input.GetButtonDown("Vertical")) {
                 float buttonInput = Input.GetAxisRaw("Vertical");

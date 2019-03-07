@@ -58,12 +58,11 @@ public class StatsMenu : MonoBehaviour
             Text name = Characters[i].GetComponentInChildren<Text>();
             if (i >= currentParty.Count) {
                 // no other party member
-                name.text = "";
-                Characters[i].interactable = false;
-            } else {
-                name.text = currentParty[i];
-                Characters[i].interactable = true;
+                Characters[i].gameObject.SetActive(false);
+                continue;
             }
+            Characters[i].gameObject.SetActive(true);
+            name.text = currentParty[i];
         }
         EventSystem.current.SetSelectedGameObject(Characters[0].gameObject);
         currCharacter = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
@@ -106,7 +105,7 @@ public class StatsMenu : MonoBehaviour
                 CharacterImage.sprite = GameManager.Instance.ReySprite;
                 break;
             case "Naoshe":
-                CharacterImage.sprite = GameManager.Instance.NaosheSprite;
+                CharacterImage.sprite = GameManager.Instance.NaoiseSprite;
                 break;
         }
     }

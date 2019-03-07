@@ -312,6 +312,8 @@ public class BattleSystem : MonoBehaviour {
                 damage = Mathf.RoundToInt(damage / 2);
             }
 
+            damage = Math.Max(damage, 1); // always do at least 1 damage
+
             // show damage
             Instantiate(DamageNumber).SetDamage(enemy.transform.position, damage, true);
 

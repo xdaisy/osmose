@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public PartyStats Party;
     public Sprite ArenSprite;
     public Sprite ReySprite;
-    public Sprite NaosheSprite;
+    public Sprite NaoiseSprite;
 
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene;
 

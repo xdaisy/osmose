@@ -116,24 +116,23 @@ public class EquipmentMenu : MonoBehaviour {
     private void updateEquipments() {
         for (int i = 0; i < Equipments.Length; i++) {
             Text equipmentText = Equipments[i];
-            Button equipmentButton = equipmentText.GetComponent<Button>();
             Items item = GameManager.Instance.GetNthEquipment(i + equipmentIndx, equipWeapon);
             if (item == null) {
-                equipmentText.text = "";
-                equipmentButton.interactable = false;
+                equipmentText.gameObject.SetActive(false);
                 continue;
             }
+            equipmentText.gameObject.SetActive(true);
             equipmentText.text = item.ItemName;
-            equipmentButton.interactable = true;
         }
     }
 
     private void updateDescription() {
         Items equipment = GameManager.Instance.GetEquipmentDetails(currEquipment);
-
-        StatText.text = equipment.IsWeapon ? "Attack:" : "Defense:"; // say whether or not it has attack or defense
-        StatAmount.text = equipment.IsWeapon ? "" + equipment.WeaponStr : "" + equipment.ArmorDefn;
-        Description.text = equipment.Description;
+        if (equipment != null) {
+            StatText.text = equipment.IsWeapon ? "Attack:" : "Defense:"; // say whether or not it has attack or defense
+            StatAmount.text = equipment.IsWeapon ? "" + equipment.WeaponStr : "" + equipment.ArmorDefn;
+            Description.text = equipment.Description;
+        }
     }
 
     public void OpenEquipmentMenu() {
@@ -142,12 +141,12 @@ public class EquipmentMenu : MonoBehaviour {
             Text name = Characters[i].GetComponentInChildren<Text>();
             if (i >= currentParty.Count) {
                 // no other party member
-                name.text = "";
-                Characters[i].interactable = false;
-            } else {
-                name.text = currentParty[i];
-                Characters[i].interactable = true;
+                Characters[i].gameObject.SetActive(false);
+                continue;
             }
+            Characters[i].gameObject.SetActive(true);
+            name.text = currentParty[i];
+            Characters[i].interactable = true;
         }
 
         equipWeapon = true;
