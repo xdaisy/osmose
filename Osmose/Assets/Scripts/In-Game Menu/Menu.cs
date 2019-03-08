@@ -66,6 +66,7 @@ public class Menu : MonoBehaviour
     private const string ITEM_DESCRIPTION = "ItemDescriptionPanel";
     private const string SKILLS = "Skills";
     private const string CHAR_SELECT_PANEL = "CharacterSelectPanel";
+    private const string SKILLS_LIST = "SkillsList";
     private const string EQUIPMENT = "Equipment";
     private const string EQUIPPED_PANEL = "CharacterEquipment";
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
@@ -108,6 +109,7 @@ public class Menu : MonoBehaviour
                 }
                 if (currentHud == CHAR_SELECT_PANEL) {
                     currentHud = SKILLS;
+                    SkillMenuUI.CloseSkillMenu();
                 }
 
                 OpenMenu(0);
@@ -130,6 +132,13 @@ public class Menu : MonoBehaviour
                 clickedItem = "";
 
                 ItemMenuUI.ExitDescriptionPanel();
+            }
+            if (currentHud == SKILLS_LIST) {
+                // exit skills panel
+                currentHud = previousHud;
+                previousHud = MAIN;
+
+                SkillMenuUI.CloseSkillsPanel();
             }
             if (currentHud == EQUIPPED_PANEL) {
                 // exit equipped panel
@@ -217,6 +226,7 @@ public class Menu : MonoBehaviour
         // load ui for opened menu
         switch (menu) {
             case 0:
+                // open main menu
                 if (currentHud == MAIN) {
                     EventSystem.current.SetSelectedGameObject(MainButtons[0]);
                 } else {
@@ -230,18 +240,22 @@ public class Menu : MonoBehaviour
                 currentHud = MAIN;
                 break;
             case 1:
+                // open item menu
                 currentHud = ITEM_TYPE;
                 EventSystem.current.SetSelectedGameObject(ItemFirstHighlighted);
                 break;
             case 2:
+                // open skills menu
                 currentHud = CHAR_SELECT_PANEL;
                 SkillMenuUI.OpenSkillMenu();
                 break;
             case 3:
+                // open equipment menu
                 currentHud = EQUIPMENT;
                 EquipmentMenuUI.OpenEquipmentMenu();
                 break;
             case 4:
+                // open stats menu
                 currentHud = STATS;
                 StatsMenuUI.OpenStatsMenu();
                 break;
@@ -374,6 +388,9 @@ public class Menu : MonoBehaviour
     }
 
     public void SelectSkillsChar() {
+        previousHud = currentHud;
+        currentHud = SKILLS_LIST;
+
         SkillMenuUI.OpenSkillsPanel();
     }
 

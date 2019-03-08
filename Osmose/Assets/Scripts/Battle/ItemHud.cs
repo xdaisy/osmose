@@ -65,6 +65,7 @@ public class ItemHud : MonoBehaviour {
     public void OpenItemHud() {
         updateItems();
         EventSystem.current.SetSelectedGameObject(Items[0].gameObject);
+        updateDescription();
     }
 
     // exit the item hud
@@ -109,6 +110,8 @@ public class ItemHud : MonoBehaviour {
     // update the description of the item the cursor is currently on
     private void updateDescription() {
         Items item = GameManager.Instance.GetItemDetails(currItem);
-        Description.text = item.Description;
+        if (item != null) {
+            Description.text = item.Description;
+        }
     }
 }

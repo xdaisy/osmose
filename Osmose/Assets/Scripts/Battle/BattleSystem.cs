@@ -11,6 +11,7 @@ public class BattleSystem : MonoBehaviour {
     public CanvasGroup SkillHud;
     public CanvasGroup ItemHud;
     public CanvasGroup SelectHud;
+    public GameObject TextImage;
     public Text TextHud;
     public GameObject DescriptionPanel;
     public Button[] Commands;
@@ -84,6 +85,7 @@ public class BattleSystem : MonoBehaviour {
         usingItem = false;
         usingSkill = false;
 
+        TextImage.SetActive(true);
         TextHud.gameObject.SetActive(true);
         TextHud.text = "Enemy appeared!";
 
@@ -175,6 +177,7 @@ public class BattleSystem : MonoBehaviour {
             }
         } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per move)
+            TextImage.SetActive(false);
             TextHud.gameObject.SetActive(false);
         } else if (Input.GetButtonDown("Cancel")) {
             // if on a different menu and hit cancel, go back to previous menu
@@ -235,6 +238,7 @@ public class BattleSystem : MonoBehaviour {
     private void showText() {
         MainHud.gameObject.SetActive(false);
 
+        TextImage.SetActive(true);
         TextHud.gameObject.SetActive(true);
         TextHud.text = textToShow;
         textToShow = ""; // reset it to empty string

@@ -23,8 +23,6 @@ public class SkillMenu : MonoBehaviour
 
     // Start is called before the first frame update
     void Start() {
-        currChar = "";
-        skillIndx = 0;
     }
 
     // Update is called once per frame
@@ -55,8 +53,8 @@ public class SkillMenu : MonoBehaviour
     }
 
     public void CloseSkillMenu() {
-        currChar = "";
         skillIndx = 0;
+        currChar = "";
     }
 
     // open skills panel
@@ -72,6 +70,10 @@ public class SkillMenu : MonoBehaviour
     public void CloseSkillsPanel() {
         Description.text = "";
         currSkill = "";
+
+        SkillsPanel.interactable = false;
+        CharSelectPanel.interactable = true;
+
         EventSystem.current.SetSelectedGameObject(null);
         // set pointer to character whose skills was looking at
         for (int i = 0; i < Characters.Length; i++) {

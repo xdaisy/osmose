@@ -55,6 +55,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // return if can open the menu
+    public bool CanOpenMenu() {
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene;
+    }
+
     // get money
     public void GainMoney(int amount) {
         Wallet += amount;
