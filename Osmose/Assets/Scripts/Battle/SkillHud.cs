@@ -85,7 +85,6 @@ public class SkillHud : MonoBehaviour {
 
     private void updateSkills() {
         for (int i = 0; i < Skills.Length; i++) {
-            Button skillButton = Skills[i].GetComponent<Button>();
             Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, i + skillIndx);
             if (skill == null) {
                 Skills[i].gameObject.SetActive(false);

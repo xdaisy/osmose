@@ -17,9 +17,11 @@ public class SkillMenu : MonoBehaviour
     [Header("Description")]
     public Text Description;
 
-    private string currChar;
-    private int skillIndx;
-    private string currSkill;
+    private string currChar; // keep track of the current character whose skill looking at
+    private int skillIndx; // keep track of where in the character's skill list
+
+    private int currSkillIndx; // keep track of which skill was clicked
+    private string currSkill; // keep track of current skill cursor is on
 
     // Start is called before the first frame update
     void Start() {
@@ -82,6 +84,20 @@ public class SkillMenu : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void ExitSelectMenu() {
+        EventSystem.current.SetSelectedGameObject(Skills[currSkillIndx].gameObject);
+    }
+
+    public string GetCurrentCharacter() {
+        return currChar;
+    }
+
+    // get current skill
+    public string GetClickedSkill(int skill) {
+        currSkillIndx = skill;
+        return currSkill;
     }
 
     private void updateSkillList() {

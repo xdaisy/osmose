@@ -28,6 +28,7 @@ public class Menu : MonoBehaviour
 
     [Header("Skills Menu")]
     public SkillMenu SkillMenuUI;
+    public CanvasGroup SkillsPanel;
 
     [Header("Stats Menu")]
     public StatsMenu StatsMenuUI;
@@ -53,9 +54,10 @@ public class Menu : MonoBehaviour
     private string currentHud;
 
     // for using items
-    private string clickedItem;
+    private string itemToUse;
     private bool usingItem;
 
+    private Skill skillToUse;
     private bool usingSkill;
 
     // constants to keep track of hud names
@@ -91,8 +93,9 @@ public class Menu : MonoBehaviour
         currentHud = MAIN;
         equipWeapon = true;
         currCharacter = "";
-        clickedItem = "";
+        itemToUse = "";
         usingItem = false;
+        skillToUse = null;
         usingSkill = false;
 
         updatePartyStats();
@@ -129,7 +132,7 @@ public class Menu : MonoBehaviour
 
                 currentHud = previousHud;
                 previousHud = ITEM_TYPE;
-                clickedItem = "";
+                itemToUse = "";
 
                 ItemMenuUI.ExitDescriptionPanel();
             }
@@ -177,12 +180,30 @@ public class Menu : MonoBehaviour
                 // exit character select panel
                 if (previousHud == ITEM_DESCRIPTION) {
                     // if was on item description
-                    currentHud = ITEM_DESCRIPTION;
+                    currentHud = previousHud;
                     previousHud = ITEM_LIST;
 
-                    DescriptionPanel.interactable = true;
                     usingItem = false;
+                    itemToUse = "";
+
+                    DescriptionPanel.interactable = true;
                     ItemMenuUI.ExitSelectMenu();
+
+                    SelectMenu.SetActive(false);
+                    SelectPanel.interactable = false;
+                }
+
+                if (previousHud == SKILLS_LIST) {
+                    // if was on skills list
+                    currentHud = previousHud;
+                    previousHud = CHAR_SELECT_PANEL;
+
+                    usingSkill = false;
+                    skillToUse = null;
+
+                    SkillsPanel.interactable = true;
+                    usingSkill = false;
+                    SkillMenuUI.ExitSelectMenu();
 
                     SelectMenu.SetActive(false);
                     SelectPanel.interactable = false;
@@ -305,7 +326,7 @@ public class Menu : MonoBehaviour
 
     // go to character select panel
     public void UseItem() {
-        clickedItem = ItemMenuUI.GetClickedItem();
+        itemToUse = ItemMenuUI.GetClickedItem();
         usingItem = true;
 
         previousHud = currentHud;
@@ -325,7 +346,7 @@ public class Menu : MonoBehaviour
         
         if (usingItem) {
             // using item
-            Items item = GameManager.Instance.GetItemDetails(clickedItem);
+            Items item = GameManager.Instance.GetItemDetails(itemToUse);
 
             if (item.AffectHP) {
                 // heal hp
@@ -361,19 +382,30 @@ public class Menu : MonoBehaviour
                 currentHud = ITEM_LIST;
 
                 usingItem = false;
-                clickedItem = "";
+                itemToUse = "";
             }
             // else, stay on this panel
         }
         if (usingSkill) {
             // using skill
+            string charWithSkill = SkillMenuUI.GetCurrentCharacter();
+            int currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charWithSkill);
+            if (currSp > skillToUse.Cost) {
+                // can only use skill if have enough sp
+                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+
+                if (currHP < maxHP) {
+                    skillToUse.UseSkill(charWithSkill, charName);
+                }
+            }
         }
     }
 
     public void Discard() {
-        clickedItem = ItemMenuUI.GetClickedItem();
-        GameManager.Instance.RemoveItem(clickedItem, 1);
-        int itemAmt = GameManager.Instance.GetAmountOfItem(clickedItem);
+        itemToUse = ItemMenuUI.GetClickedItem();
+        GameManager.Instance.RemoveItem(itemToUse, 1);
+        int itemAmt = GameManager.Instance.GetAmountOfItem(itemToUse);
         if (itemAmt == 0) {
             // if used last of this item, go back to item list
             DescriptionPanel.interactable = false;
@@ -383,15 +415,39 @@ public class Menu : MonoBehaviour
 
             previousHud = ITEM_TYPE;
             currentHud = ITEM_LIST;
-            clickedItem = "";
+            itemToUse = "";
         }
     }
 
+    // select which character to look at skills
     public void SelectSkillsChar() {
         previousHud = currentHud;
         currentHud = SKILLS_LIST;
 
         SkillMenuUI.OpenSkillsPanel();
+    }
+
+    public void UseSkill(int choice) {
+        string currSkill = SkillMenuUI.GetClickedSkill(choice);
+        string currChar = SkillMenuUI.GetCurrentCharacter();
+        skillToUse = GameManager.Instance.Party.GetCharSkill(currChar, currSkill);
+
+        if (skillToUse.IsHeal) {
+            // only go to select screen if skill is healing skill
+            usingSkill = true;
+
+            previousHud = currentHud;
+            currentHud = SELECT;
+
+            // set skills panel to not interactable
+            SkillsPanel.interactable = false;
+
+            SelectMenu.SetActive(true);
+            SelectPanel.interactable = true;
+            EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
+        } else {
+            skillToUse = null;
+        }
     }
 
     // open up equipped panel
@@ -441,7 +497,7 @@ public class Menu : MonoBehaviour
         currentHud = MAIN;
         equipWeapon = true;
         currCharacter = "";
-        clickedItem = "";
+        itemToUse = "";
         usingItem = false;
         usingSkill = false;
         GameManager.Instance.GameMenuOpen = false;

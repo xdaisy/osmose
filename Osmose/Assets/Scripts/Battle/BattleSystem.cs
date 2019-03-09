@@ -253,10 +253,6 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void enemyMove(Enemy enemy) {
-        // TODO: remove
-        if (enemy.CurrentHP <= 0) {
-            return;
-        }
         enemy.IsDefending = false;
 
         int move = UnityEngine.Random.Range(0, 5);
@@ -291,6 +287,7 @@ public class BattleSystem : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         enemies.RemoveAt(choice);
         turnOrder.RemoveFromQueue(enemy.EnemyName);
+        playerTurn = false;
     }
 
     // select attack and show the selection of enemies to attack
@@ -318,22 +315,23 @@ public class BattleSystem : MonoBehaviour {
 
             damage = Math.Max(damage, 1); // always do at least 1 damage
 
-            // show damage
-            Instantiate(DamageNumber).SetDamage(enemy.transform.position, damage, true);
-
             // reduce enemy's hp
             enemy.CurrentHP -= damage;
             enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
 
-            MainHud.gameObject.SetActive(false); // set main hud invisible
-
-            // activate enemy death animation
-            if (enemy.CurrentHP <=0 ) {
+            // show damage
+            if (enemy.CurrentHP > 0) {
+                // if enemy didn't die
+                StartCoroutine(showDamage(enemy.transform.position, damage, true));
+            } else {
                 // enemy died
+                StartCoroutine(showDamage(enemy.transform.position, damage));
                 earnedExp += enemy.Exp;
                 earnedMoney += enemy.Money;
                 StartCoroutine(enemyDied(enemy, choice));
             }
+
+            MainHud.gameObject.SetActive(false); // set main hud invisible
 
             enemy.Highlight(false);
 
@@ -342,7 +340,6 @@ public class BattleSystem : MonoBehaviour {
             SelectHudUI.ExitSelectHud();
 
             attacking = false;
-            playerTurn = false;
         } else if (usingItem) {
             Items item = GameManager.Instance.GetItemDetails(itemToUse);
             string charName = party[choice];
@@ -368,7 +365,7 @@ public class BattleSystem : MonoBehaviour {
                 }
 
                 // show amount healed
-                Instantiate(DamageNumber).SetDamage(CharPos[choice].position, amountHealed, false);
+                StartCoroutine(showDamage(CharPos[choice].position, amountHealed, false));
 
                 // close select hud
                 SelectHud.interactable = false;
@@ -380,7 +377,6 @@ public class BattleSystem : MonoBehaviour {
                 // reset
                 usingItem = false;
                 itemToUse = "";
-                playerTurn = false;
             }
         } else if (usingSkill) {
             if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
@@ -402,21 +398,22 @@ public class BattleSystem : MonoBehaviour {
                 enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
 
                 // show damage
-                Instantiate(DamageNumber).SetDamage(enemy.transform.position, damage, true);
+                if (enemy.CurrentHP > 0) {
+                    // if enemy didn't die
+                    StartCoroutine(showDamage(enemy.transform.position, damage, true));
+                } else {
+                    // enemy died
+                    StartCoroutine(showDamage(enemy.transform.position, damage));
+                    earnedExp += enemy.Exp;
+                    earnedMoney += enemy.Money;
+                    StartCoroutine(enemyDied(enemy, choice));
+                }
 
                 // close skill hud
                 SkillHud.gameObject.SetActive(false);
                 SkillHud.interactable = false;
                 DescriptionPanel.SetActive(false);
                 SkillHudUI.ExitSkillHud();
-
-                // activate enemy death animation
-                if (enemy.CurrentHP <= 0) {
-                    // enemy died
-                    earnedExp += enemy.Exp;
-                    earnedMoney += enemy.Money;
-                    StartCoroutine(enemyDied(enemy, choice));
-                }
 
                 // close select hud
                 SelectHud.interactable = false;
@@ -425,7 +422,6 @@ public class BattleSystem : MonoBehaviour {
 
                 usingSkill = false;
                 skillToUse = null;
-                playerTurn = false;
             } else if (skillToUse.IsHeal) {
                 // heal
                 string charName = party[choice];
@@ -436,7 +432,7 @@ public class BattleSystem : MonoBehaviour {
                     // only use if can recover hp
 
                     // heal
-                    skillToUse.UseSkill(charName);
+                    skillToUse.UseSkill(charTurn, charName);
 
                     // close skill hud
                     SkillHud.gameObject.SetActive(false);
@@ -448,7 +444,7 @@ public class BattleSystem : MonoBehaviour {
                     int amountHealed = GameManager.Instance.Party.GetCharacterCurrentHP(charName) - currHP;
 
                     // show amount healed
-                    Instantiate(DamageNumber).SetDamage(CharPos[choice].position, amountHealed, false);
+                    StartCoroutine(showDamage(CharPos[choice].position, amountHealed, false));
 
                     // close select hud
                     SelectHud.interactable = false;
@@ -460,10 +456,22 @@ public class BattleSystem : MonoBehaviour {
                     // reset
                     usingSkill = false;
                     skillToUse = null;
-                    playerTurn = false;
                 }
             }
         }
+    }
+
+    // show amount damaged/recovered if enemy didn't die
+    private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
+        Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
+        yield return new WaitForSeconds(DamageNumber.Duration);
+        playerTurn = false;
+    }
+
+    // show damage when and enemy dies
+    private IEnumerator showDamage(Vector3 pos, int amount) {
+        Instantiate(DamageNumber).SetDamage(pos, amount, true);
+        yield return new WaitForSeconds(DamageNumber.Duration);
     }
 
     public void SelectSkills() {

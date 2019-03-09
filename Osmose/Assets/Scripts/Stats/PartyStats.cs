@@ -31,6 +31,7 @@ public class PartyStats {
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add("Aren");
         currentPartyMembers.Add("Rey");
+        party["Aren"].CurrHP = 20;
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;
