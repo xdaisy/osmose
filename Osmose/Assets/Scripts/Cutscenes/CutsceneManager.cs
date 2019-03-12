@@ -40,7 +40,7 @@ public class CutsceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown("Interact")) {
+		if (Input.GetButtonDown("Interact") && !shouldLoadAfterFade) {
             string line = reader.ReadLine();
             if (line == null) {
                 // if reader is at the end of the file, don't do anything
@@ -51,6 +51,13 @@ public class CutsceneManager : MonoBehaviour {
 
             ChangeText(line);
         }
+
+        if (Input.GetButtonDown("Skip") && !shouldLoadAfterFade) {
+            EventManager.AddEvent(CutsceneName); // add the event to cutscene handler
+            changeScene(); // fade to next scene
+            return; // don't change the text bc at end of file
+        }
+
         if (shouldLoadAfterFade) {
             WaitToLoad -= Time.deltaTime;
             if (WaitToLoad <= 0f) {
