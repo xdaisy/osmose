@@ -9,6 +9,7 @@ public class SkillHud : MonoBehaviour {
 
     [Header("Skill UI")]
     public Text[] Skills;
+    public Text[] SkillCost;
 
     [Header("Description")]
     public Text Description;
@@ -92,6 +93,7 @@ public class SkillHud : MonoBehaviour {
             }
             Skills[i].gameObject.SetActive(true);
             Skills[i].text = skill.SkillName;
+            SkillCost[i].text = "" + skill.Cost;
         }
     }
 
