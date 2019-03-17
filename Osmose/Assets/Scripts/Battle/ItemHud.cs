@@ -65,6 +65,7 @@ public class ItemHud : MonoBehaviour {
     public void OpenItemHud() {
         updateItems();
         EventSystem.current.SetSelectedGameObject(Items[0].gameObject);
+        currItem = Items[0].text;
         updateDescription();
     }
 
