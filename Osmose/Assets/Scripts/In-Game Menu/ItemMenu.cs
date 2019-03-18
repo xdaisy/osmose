@@ -232,20 +232,26 @@ public class ItemMenu : MonoBehaviour {
     }
 
     public void ExitItemList() {
-        if (Items[0].text != "") {
-            EventSystem.current.currentSelectedGameObject.GetComponent<Button>().interactable = false;
-        }
-
         UseButton.gameObject.SetActive(false);
         DiscardButton.gameObject.SetActive(false);
         ItemAmount.text = "";
         Description.text = "";
 
+        EventSystem.current.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
+
+        // make sure button is deselected
+        for (int i = 0; i < Items.Length; i++) {
+            if (Items[i].text == currentItem) {
+                Button button = Items[i].GetComponent<Button>();
+                button.interactable = false;
+                button.interactable = true;
+                break;
+            }
+        }
+
         itemIndx = 0;
         currentItem = "";
         currItemIndx = 0;
-
-        EventSystem.current.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
     }
 
     public void ExitDescriptionPanel() {

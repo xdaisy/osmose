@@ -198,11 +198,8 @@ public class PartyStats {
         }
     }
     
-    public void ChangeMembers(string[] party) {
-        currentPartyMembers.Clear();
-        foreach (string name in party) {
-            currentPartyMembers.Add(name);
-        }
+    public void ChangeMembers(List<string> party) {
+        currentPartyMembers = party;
     }
     
     public List<string> GetCurrentParty() {

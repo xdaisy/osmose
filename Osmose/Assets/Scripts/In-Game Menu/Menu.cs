@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour
     public static Menu Instance;
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
+    public CanvasGroup MainButtonsHud;
 
     [Header("Party stats")]
     public GameObject[] PartyStatHud;
@@ -53,15 +54,20 @@ public class Menu : MonoBehaviour
     private string previousHud;
     private string currentHud;
 
+    // for switching characters
+    private int charToSwitch;
+
     // for using items
     private string itemToUse;
     private bool usingItem;
 
+    // for using skills
     private Skill skillToUse;
     private bool usingSkill;
 
     // constants to keep track of hud names
     private const string MAIN = "Main";
+    private const string PARTY = "PartyHud";
     private const string ITEMS = "Items";
     private const string ITEM_TYPE = "ItemType";
     private const string ITEM_LIST = "ItemList";
@@ -91,6 +97,7 @@ public class Menu : MonoBehaviour
     {
         previousHud = MAIN;
         currentHud = MAIN;
+        charToSwitch = -1;
         equipWeapon = true;
         currCharacter = "";
         itemToUse = "";
@@ -105,7 +112,7 @@ public class Menu : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("Cancel")) {
-            if (previousHud == MAIN && currentHud != MAIN) {
+            if (previousHud == MAIN && currentHud != MAIN && currentHud != PARTY) {
                 // go back to main menu
                 if (currentHud == ITEM_TYPE) {
                     currentHud = ITEMS;
@@ -116,6 +123,11 @@ public class Menu : MonoBehaviour
                 }
 
                 OpenMenu(0);
+            }
+            if (currentHud == PARTY) {
+                currentHud = previousHud;
+                MainButtonsHud.interactable = true;
+                charToSwitch = -1;
             }
             if (currentHud == ITEM_LIST) {
                 // exit item list panel
@@ -287,6 +299,25 @@ public class Menu : MonoBehaviour
     public void closeAllMenu() {
         foreach (GameObject menu in MenuHud) {
             menu.SetActive(false);
+        }
+    }
+
+    public void SwitchCharacters(int character) {
+        if (charToSwitch == -1) {
+            charToSwitch = character;
+            previousHud = currentHud;
+            currentHud = PARTY;
+            MainButtonsHud.interactable = false;
+        } else {
+            List<string> party = GameManager.Instance.Party.GetCurrentParty();
+            string temp = party[charToSwitch];
+            party[charToSwitch] = party[character];
+            party[character] = temp;
+            GameManager.Instance.Party.ChangeMembers(party);
+            charToSwitch = -1;
+            MainButtonsHud.interactable = true;
+            currentHud = previousHud;
+            updatePartyStats();
         }
     }
 
