@@ -100,10 +100,7 @@ public class SkillHud : MonoBehaviour {
     private void updateDescription() {
         Skill skill = GameManager.Instance.Party.GetCharSkill(currChar, currSkill);
         if (skill != null) {
-            int currSP = GameManager.Instance.Party.GetCharacterCurrentSP(currChar);
-            int maxSP = GameManager.Instance.Party.GetCharacterMaxSP(currChar);
-
-            Description.text = "SP: " + currSP + "/" + maxSP + "\n" + skill.Description;
+            Description.text = skill.Description;
         }
     }
 }

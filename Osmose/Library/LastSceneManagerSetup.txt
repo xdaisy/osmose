@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Aren_Prologue/Town_Meeting_Hall.unity
+- path: Assets/Scenes/Battle.unity
   isLoaded: 1
   isActive: 1

@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class EssentialsLoader : MonoBehaviour
 {
-    public GameObject UiFader;
     public GameObject PlayerLoader;
     public GameObject GameMang;
-    public GameObject DialogueCanvas;
-    public GameObject MenuCanvas;
+    public GameObject UICanvas;
 
     private void Awake() {
-        if (UIFade.Instance == null) {
-            Instantiate(UiFader);
-        }
-
         if (PlayerControls.Instance == null) {
             Instantiate(PlayerLoader);
         }
@@ -23,24 +17,6 @@ public class EssentialsLoader : MonoBehaviour
             Instantiate(GameMang);
         }
 
-        if (Dialogue.Instance == null) {
-            Instantiate(DialogueCanvas);
-        }
-
-        if (Menu.Instance == null) {
-            Instantiate(MenuCanvas);
-        }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Instantiate(UICanvas);
     }
 }

@@ -12,6 +12,7 @@ public class Skill : MonoBehaviour {
     public bool IsPhyAttk;
     public bool IsMagAttk;
     public bool IsHeal;
+    public bool HealSelf;
 
     [Header("Skill Info")]
     public float PercentValue;

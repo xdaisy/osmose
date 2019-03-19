@@ -91,7 +91,7 @@ public class BattleSystem : MonoBehaviour {
 
         endedBattle = false;
 
-        spawnEnemies(new Dictionary<string, int> { { "Squirrel", 2 } });
+        spawnEnemies(new Dictionary<string, int> { { "Squirrel", 1 } });
         determineTurnOrder();
 	}
 	
@@ -116,7 +116,7 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         } else if (enemies.Count < 1) {
             // all enemies defeated, battle won!
-            textToShow = "You won! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
+            textToShow = "The monsters ran away! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
             showText();
 
             if (endedBattle && Input.GetButtonDown("Interact")) {
@@ -425,6 +425,10 @@ public class BattleSystem : MonoBehaviour {
             } else if (skillToUse.IsHeal) {
                 // heal
                 string charName = party[choice];
+                if (skillToUse.HealSelf) {
+                    // if use on self, don't get from party
+                    charName = charTurn;
+                }
                 int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
                 int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
 
@@ -500,6 +504,19 @@ public class BattleSystem : MonoBehaviour {
             if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
                 // use on enemy
                 SelectHudUI.OpenSelectHud(enemies.ToArray());
+            } else if (skillToUse.HealSelf) {
+                // only use skill on user
+                PartyUI[] activeParty = new PartyUI[1];
+                List<string> healingParty = new List<string>();
+                for (int i = 0; i < party.Count; i++) {
+                    if (party[i] == charTurn) {
+                        activeParty[0] = PartyMemUI[i];
+                        healingParty.Add(party[i]);
+                        break;
+                    }
+                }
+
+                SelectHudUI.OpenSelectHud(activeParty, healingParty.ToArray());
             } else {
                 // use on party
                 int numActPartyUI = PartyHudUI.GetNumActiveUI();
