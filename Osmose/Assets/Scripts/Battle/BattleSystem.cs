@@ -267,7 +267,7 @@ public class BattleSystem : MonoBehaviour {
                 int target = UnityEngine.Random.Range(0, numAliveChar);
                 string partyMember = party[target];
 
-                int damage = enemy.Attack - GameManager.Instance.Party.GetCharacterDefense(partyMember);
+                int damage = enemy.Attack - GameManager.Instance.Party.GetCharDef(partyMember);
                 if (GameManager.Instance.Party.IsDefending(partyMember)) {
                     damage /= 2;
                 }
@@ -306,7 +306,7 @@ public class BattleSystem : MonoBehaviour {
             Enemy enemy = enemies[choice];
 
             // calculate the damage
-            int damage = GameManager.Instance.Party.GetCharacterAttack(charTurn) - enemy.Defense;
+            int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
 
             // if enemy is defending, reduce damage
             if (enemy.IsDefending) {
@@ -343,10 +343,10 @@ public class BattleSystem : MonoBehaviour {
         } else if (usingItem) {
             Items item = GameManager.Instance.GetItemDetails(itemToUse);
             string charName = party[choice];
-            int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
-            int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
-            int currSP = GameManager.Instance.Party.GetCharacterCurrentSP(charName);
-            int maxSP = GameManager.Instance.Party.GetCharacterMaxSP(charName);
+            int currHP = GameManager.Instance.Party.GetCharCurrHP(charName);
+            int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
+            int currSP = GameManager.Instance.Party.GetCharCurrSP(charName);
+            int maxSP = GameManager.Instance.Party.GetCharMaxSP(charName);
 
             if ((item.AffectHP && currHP != maxHP) || (item.AffectSP && currSP != maxSP)) {
                 // only use if can recover
@@ -359,9 +359,9 @@ public class BattleSystem : MonoBehaviour {
                 // set the text to show
                 int amountHealed = 0;
                 if (item.AffectHP) {
-                    amountHealed = GameManager.Instance.Party.GetCharacterCurrentHP(charName) - currHP;
+                    amountHealed = GameManager.Instance.Party.GetCharCurrHP(charName) - currHP;
                 } else if (item.AffectSP) {
-                    amountHealed = GameManager.Instance.Party.GetCharacterCurrentSP(charName) - currSP;
+                    amountHealed = GameManager.Instance.Party.GetCharCurrSP(charName) - currSP;
                 }
 
                 // show amount healed
@@ -429,8 +429,8 @@ public class BattleSystem : MonoBehaviour {
                     // if use on self, don't get from party
                     charName = charTurn;
                 }
-                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
-                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+                int currHP = GameManager.Instance.Party.GetCharCurrHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
 
                 if (currHP < maxHP) {
                     // only use if can recover hp
@@ -445,7 +445,7 @@ public class BattleSystem : MonoBehaviour {
                     SkillHudUI.ExitSkillHud();
 
                     // set the text to show
-                    int amountHealed = GameManager.Instance.Party.GetCharacterCurrentHP(charName) - currHP;
+                    int amountHealed = GameManager.Instance.Party.GetCharCurrHP(charName) - currHP;
 
                     // show amount healed
                     StartCoroutine(showDamage(CharPos[choice].position, amountHealed, false));
@@ -493,7 +493,7 @@ public class BattleSystem : MonoBehaviour {
 
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
-        if (GameManager.Instance.Party.GetCharacterCurrentSP(charTurn) > skillToUse.Cost) {
+        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost) {
             // can only use if have enough sp to use
             SkillHud.interactable = false;
             SelectHud.gameObject.SetActive(true);
@@ -599,7 +599,7 @@ public class BattleSystem : MonoBehaviour {
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
 
         foreach(string name in party) {
-            float speed = GameManager.Instance.Party.GetCharacterSpeed(name);
+            float speed = GameManager.Instance.Party.GetCharSpd(name);
             int idx = (int) speed;
             if (turn[idx] != null) {
                 // put character in the next available index if speed match

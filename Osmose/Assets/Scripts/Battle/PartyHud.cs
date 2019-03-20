@@ -24,8 +24,8 @@ public class PartyHud : MonoBehaviour{
             } else {
                 // party member active
                 PartyNames[i].text = currParty[i];
-                PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currParty[i]);
-                PartySP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentSP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxSP(currParty[i]);
+                PartyHP[i].text = "" + GameManager.Instance.Party.GetCharCurrHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharMaxHP(currParty[i]);
+                PartySP[i].text = "" + GameManager.Instance.Party.GetCharCurrSP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharMaxSP(currParty[i]);
                 PartyImages[i].gameObject.SetActive(true);
                 numActiveUI++;
             }
@@ -38,8 +38,8 @@ public class PartyHud : MonoBehaviour{
             if (i >= currParty.Count) {
                 continue;
             } else {
-                PartyHP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currParty[i]);
-                PartySP[i].text = "" + GameManager.Instance.Party.GetCharacterCurrentSP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharacterMaxSP(currParty[i]);
+                PartyHP[i].text = "" + GameManager.Instance.Party.GetCharCurrHP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharMaxHP(currParty[i]);
+                PartySP[i].text = "" + GameManager.Instance.Party.GetCharCurrSP(currParty[i]) + "/" + GameManager.Instance.Party.GetCharMaxSP(currParty[i]);
             }
         }
     }

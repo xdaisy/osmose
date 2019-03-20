@@ -22,7 +22,7 @@ public class Skill : MonoBehaviour {
         // reduce character's sp for using the skill
         GameManager.Instance.Party.CharUseSkill(charName, Cost);
         if (IsPhyAttk || IsMagAttk) {
-            return GameManager.Instance.Party.GetCharacterAttack(charName) * PercentValue;
+            return GameManager.Instance.Party.GetCharAttk(charName) * PercentValue;
         }
 
         return 0f;

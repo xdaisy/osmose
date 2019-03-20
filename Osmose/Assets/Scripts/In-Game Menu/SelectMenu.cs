@@ -43,10 +43,10 @@ public class SelectMenu : MonoBehaviour
             }
             CharSelection[i].SetActive(true);
             string charName = party[i];
-            int currHp = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
-            int maxHp = GameManager.Instance.Party.GetCharacterMaxHP(charName);
-            int currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charName);
-            int maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charName);
+            int currHp = GameManager.Instance.Party.GetCharCurrHP(charName);
+            int maxHp = GameManager.Instance.Party.GetCharMaxHP(charName);
+            int currSp = GameManager.Instance.Party.GetCharCurrSP(charName);
+            int maxSp = GameManager.Instance.Party.GetCharMaxSP(charName);
 
             switch (charName) {
                 case "Aren":

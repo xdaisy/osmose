@@ -31,6 +31,7 @@ public class PartyStats {
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add("Aren");
         currentPartyMembers.Add("Rey");
+        party["Aren"].CurrHP = 100;
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;
@@ -65,54 +66,54 @@ public class PartyStats {
         party[name].IsDefending = isDefending;
     }
     
-    public int GetCharacterCurrentHP(string name) {
+    public int GetCharCurrHP(string name) {
         return party[name].CurrHP;
     }
     
-    public int GetCharacterMaxHP(string name) {
+    public int GetCharMaxHP(string name) {
         return party[name].MaxHP;
     }
     
-    public int GetCharacterCurrentSP(string name) {
+    public int GetCharCurrSP(string name) {
         return party[name].CurrSP;
     }
     
-    public int GetCharacterMaxSP(string name) {
+    public int GetCharMaxSP(string name) {
         return party[name].MaxSP;
     }
     
-    public int GetCharacterAttack(string name) {
+    public int GetCharAttk(string name) {
         // get total attack
         return party[name].Attack + party[name].WeaponAttack;
     }
     
-    public int GetCharacterDefense(string name) {
+    public int GetCharDef(string name) {
         // get total defense
         return party[name].Defense + party[name].ArmorDefense;
     }
     
-    public int GetCharacterMagicDefense(string name) {
+    public int GetCharMagDef(string name) {
         // get magic defense
         return party[name].MagicDefense;
     }
     
-    public int GetCharacterSpeed(string name) {
+    public int GetCharSpd(string name) {
         return party[name].Speed;
     }
     
-    public int GetCharacterLuck(string name) {
+    public int GetCharLck(string name) {
         return party[name].Luck;
     }
 
-    public int GetCharacterLevel(string name) {
+    public int GetCharLvl(string name) {
         return party[name].Level;
     }
 
-    public int GetCharacterCurrentEXP(string name) {
+    public int GetCharCurrEXP(string name) {
         return party[name].CurrExp;
     }
     
-    public int GetCharacterEXPtoNextLvl(string name) {
+    public int GetCharEXPtoNextLvl(string name) {
         return party[name].NextExp;
     }
     
@@ -211,7 +212,7 @@ public class PartyStats {
     }
 
     public void DealtDamage(string name, int damage) {
-        int currentHP = GetCharacterCurrentHP(name) - damage;
+        int currentHP = GetCharCurrHP(name) - damage;
         currentHP = Math.Max(currentHP, 0); // hp can't go below 0
         party[name].CurrHP = currentHP;
     }

@@ -72,23 +72,23 @@ public class StatsMenu : MonoBehaviour
     private void updateStats() {
         Name.text = currCharacter;
         updateImage();
-        Level.text = "" + GameManager.Instance.Party.GetCharacterLevel(currCharacter);
+        Level.text = "" + GameManager.Instance.Party.GetCharLvl(currCharacter);
 
-        HP.text = "" + GameManager.Instance.Party.GetCharacterCurrentHP(currCharacter) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(currCharacter);
-        SP.text = "" + GameManager.Instance.Party.GetCharacterCurrentSP(currCharacter) + "/" + GameManager.Instance.Party.GetCharacterCurrentSP(currCharacter);
+        HP.text = "" + GameManager.Instance.Party.GetCharCurrHP(currCharacter) + "/" + GameManager.Instance.Party.GetCharMaxHP(currCharacter);
+        SP.text = "" + GameManager.Instance.Party.GetCharCurrSP(currCharacter) + "/" + GameManager.Instance.Party.GetCharCurrSP(currCharacter);
 
-        int currExp = GameManager.Instance.Party.GetCharacterCurrentEXP(currCharacter);
-        int expToNextLvl = GameManager.Instance.Party.GetCharacterEXPtoNextLvl(currCharacter);
+        int currExp = GameManager.Instance.Party.GetCharCurrEXP(currCharacter);
+        int expToNextLvl = GameManager.Instance.Party.GetCharEXPtoNextLvl(currCharacter);
 
         TotalEXP.text = "" + currExp;
         EXPSlider.value = ((float)currExp) / expToNextLvl;
         EXPToNextLevel.text = "" + (expToNextLvl - currExp);
 
-        Attack.text = "" + GameManager.Instance.Party.GetCharacterAttack(currCharacter);
-        Defense.text = "" + GameManager.Instance.Party.GetCharacterDefense(currCharacter);
-        MagicDefense.text = "" + GameManager.Instance.Party.GetCharacterMagicDefense(currCharacter);
-        Speed.text = "" + GameManager.Instance.Party.GetCharacterSpeed(currCharacter);
-        Luck.text = "" + GameManager.Instance.Party.GetCharacterLuck(currCharacter);
+        Attack.text = "" + GameManager.Instance.Party.GetCharAttk(currCharacter);
+        Defense.text = "" + GameManager.Instance.Party.GetCharDef(currCharacter);
+        MagicDefense.text = "" + GameManager.Instance.Party.GetCharMagDef(currCharacter);
+        Speed.text = "" + GameManager.Instance.Party.GetCharSpd(currCharacter);
+        Luck.text = "" + GameManager.Instance.Party.GetCharLck(currCharacter);
 
         string eqpWeapon = "" + GameManager.Instance.Party.GetWeapon(currCharacter);
         Weapon.text = eqpWeapon != "" ? eqpWeapon : "<No Weapon>";

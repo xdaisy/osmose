@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Battle.unity
+- path: Assets/Scenes/Aren_Prologue/Moons_Hallow.unity
   isLoaded: 1
   isActive: 1

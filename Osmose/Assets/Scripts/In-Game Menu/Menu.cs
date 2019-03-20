@@ -235,12 +235,12 @@ public class Menu : MonoBehaviour
 
             string partyMember = currentParty[i];
             PartyName[i].text = partyMember;
-            PartyLevel[i].text = "Level: " + GameManager.Instance.Party.GetCharacterLevel(partyMember);
-            PartyHP[i].text = "HP: " + GameManager.Instance.Party.GetCharacterCurrentHP(partyMember) + "/" + GameManager.Instance.Party.GetCharacterMaxHP(partyMember);
-            PartySP[i].text = "SP: " + GameManager.Instance.Party.GetCharacterCurrentSP(partyMember) + "/" + GameManager.Instance.Party.GetCharacterMaxSP(partyMember);
+            PartyLevel[i].text = "Level: " + GameManager.Instance.Party.GetCharLvl(partyMember);
+            PartyHP[i].text = "HP: " + GameManager.Instance.Party.GetCharCurrHP(partyMember) + "/" + GameManager.Instance.Party.GetCharMaxHP(partyMember);
+            PartySP[i].text = "SP: " + GameManager.Instance.Party.GetCharCurrSP(partyMember) + "/" + GameManager.Instance.Party.GetCharMaxSP(partyMember);
 
-            int currExp = GameManager.Instance.Party.GetCharacterCurrentEXP(partyMember);
-            int expToNextLvl = GameManager.Instance.Party.GetCharacterEXPtoNextLvl(partyMember);
+            int currExp = GameManager.Instance.Party.GetCharCurrEXP(partyMember);
+            int expToNextLvl = GameManager.Instance.Party.GetCharEXPtoNextLvl(partyMember);
 
             PartyExpToNextLvl[i].value = ((float) currExp) / expToNextLvl;
             PartyEXP[i].text = "" + (expToNextLvl - currExp);
@@ -381,8 +381,8 @@ public class Menu : MonoBehaviour
 
             if (item.AffectHP) {
                 // heal hp
-                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
-                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+                int currHP = GameManager.Instance.Party.GetCharCurrHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
 
                 if (currHP < maxHP) {
                     // if not at max hp, can heal hp
@@ -391,8 +391,8 @@ public class Menu : MonoBehaviour
             }
             if (item.AffectSP) {
                 // heal sp
-                int currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charName);
-                int maxSp = GameManager.Instance.Party.GetCharacterMaxSP(charName);
+                int currSp = GameManager.Instance.Party.GetCharCurrSP(charName);
+                int maxSp = GameManager.Instance.Party.GetCharMaxSP(charName);
 
                 if (currSp < maxSp) {
                     // if not at max sp, can heal sp
@@ -420,11 +420,11 @@ public class Menu : MonoBehaviour
         if (usingSkill) {
             // using skill
             string charWithSkill = SkillMenuUI.GetCurrentCharacter();
-            int currSp = GameManager.Instance.Party.GetCharacterCurrentSP(charWithSkill);
+            int currSp = GameManager.Instance.Party.GetCharCurrSP(charWithSkill);
             if (currSp > skillToUse.Cost) {
                 // can only use skill if have enough sp
-                int currHP = GameManager.Instance.Party.GetCharacterCurrentHP(charName);
-                int maxHP = GameManager.Instance.Party.GetCharacterMaxHP(charName);
+                int currHP = GameManager.Instance.Party.GetCharCurrHP(charName);
+                int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
 
                 if (currHP < maxHP) {
                     skillToUse.UseSkill(charWithSkill, charName);
