@@ -34,10 +34,10 @@ public class DialogueActivator : MonoBehaviour
         if (canActivate && !GameManager.Instance.GameMenuOpen && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
             if (!this.specificEvent.Equals("") && EventManager.DidEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
-                Dialogue.Instance.ShowDialogue(this.postEventDialogue);
+                Dialogue.Instance.ShowDialogue(this.postEventDialogue, false);
             } else {
                 // event did not happened or there is no specified event
-                Dialogue.Instance.ShowDialogue(this.preEventDialogue);
+                Dialogue.Instance.ShowDialogue(this.preEventDialogue, false);
             }
         }
     }

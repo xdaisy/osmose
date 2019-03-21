@@ -25,10 +25,6 @@ public class Dialogue : MonoBehaviour {
         }
         DontDestroyOnLoad(ParentObject);
     }
-
-    // Use this for initialization
-    void Start () {
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,13 +46,15 @@ public class Dialogue : MonoBehaviour {
 	}
 
     // start the dialogue
-    public void ShowDialogue(string[] lines) {
+    public void ShowDialogue(string[] lines, bool triggered) {
         dBox.SetActive(true);
         dialogueLines = lines;
         currentLine = 0;
         showText();
         GameManager.Instance.DialogActive = true;
-        justStarted = true;
+        // if triggered bc cutscene, want to set to false
+        // if triggered by interacting, want to set to true
+        justStarted = !triggered;
     }
 
     private void showText() {

@@ -50,7 +50,7 @@ public class OpenChest : MonoBehaviour
             string text = "You got " + Amount + " " + Item.ItemName + "!";
             string[] dialogToShow = { text };
 
-            Dialogue.Instance.ShowDialogue(dialogToShow);
+            Dialogue.Instance.ShowDialogue(dialogToShow, false);
         }
     }
 
