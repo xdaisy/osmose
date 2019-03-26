@@ -15,6 +15,7 @@ public class SkillHud : MonoBehaviour {
     public Text Description;
 
     private string currChar; // character whose turn it is
+    private bool arenShifted; // keep track if Aren is shifted
 
     private string currSkill; // current highlighted skill
     private int skillIndx; // for scrolling through skills
@@ -63,6 +64,19 @@ public class SkillHud : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(Skills[0].gameObject);
     }
 
+    // open skill hud
+    public void OpenSkillsHud(string charName, bool isShifted) {
+        currChar = charName;
+        arenShifted = isShifted;
+        updateSkills();
+        for (int i = 0; i < Skills.Length; i++) {
+            if (Skills[i].GetComponent<Button>().interactable) {
+                EventSystem.current.SetSelectedGameObject(Skills[i].gameObject);
+                break;
+            }
+        }
+    }
+
     // exit skill hud
     // reset some fields back to default
     public void ExitSkillHud() {
@@ -86,6 +100,8 @@ public class SkillHud : MonoBehaviour {
 
     private void updateSkills() {
         for (int i = 0; i < Skills.Length; i++) {
+            Button button = Skills[i].GetComponent<Button>();
+            button.interactable = true;
             Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, i + skillIndx);
             if (skill == null) {
                 Skills[i].gameObject.SetActive(false);
@@ -94,6 +110,9 @@ public class SkillHud : MonoBehaviour {
             Skills[i].gameObject.SetActive(true);
             Skills[i].text = skill.SkillName;
             SkillCost[i].text = "" + skill.Cost;
+            if (currChar == "Aren") {
+                button.interactable = arenShifted == skill.UseInShift;
+            }
         }
     }
 

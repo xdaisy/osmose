@@ -58,9 +58,14 @@ public class CharStats {
 
         Skills = new List<Skill>();
         skillsToLearn = skills;
-        // if have skill at level 1, put in learned skill list
-        if (skills[Level] != null) {
-            Skills.Add(skillsToLearn[Level]);
+        // if have skill at level 1 or level 0, put in learned skill list
+        //if (skills[Level] != null) {
+        //    Skills.Add(skillsToLearn[Level]);
+        //}
+        for (int i = 0; i <= Level; i++) {
+            if (skills[i] != null) {
+                Skills.Add(skillsToLearn[i]);
+            }
         }
     }
 

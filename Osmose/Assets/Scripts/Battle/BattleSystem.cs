@@ -48,6 +48,8 @@ public class BattleSystem : MonoBehaviour {
     private List<string> party;
     private int numAliveChar; // keep track of how many members of the party are alive
 
+    private bool arenShifted; // keep track if Aren is shifted or not
+
     private bool escaped; // keeps track if the player escaped
 
     private bool attacking, usingItem, usingSkill; // boolean for keeping track of what the player is doing
@@ -425,7 +427,7 @@ public class BattleSystem : MonoBehaviour {
             } else if (skillToUse.IsHeal) {
                 // heal
                 string charName = party[choice];
-                if (skillToUse.HealSelf) {
+                if (skillToUse.UseOnSelf) {
                     // if use on self, don't get from party
                     charName = charTurn;
                 }
@@ -488,7 +490,11 @@ public class BattleSystem : MonoBehaviour {
         SkillHud.interactable = true;
         DescriptionPanel.SetActive(true);
 
-        SkillHudUI.OpenSkillsHud(charTurn);
+        if (charTurn == "Aren") {
+            SkillHudUI.OpenSkillsHud(charTurn, arenShifted);
+        } else {
+            SkillHudUI.OpenSkillsHud(charTurn);
+        }
     }
 
     public void UseSkill(int skill) {
@@ -504,7 +510,7 @@ public class BattleSystem : MonoBehaviour {
             if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
                 // use on enemy
                 SelectHudUI.OpenSelectHud(enemies.ToArray());
-            } else if (skillToUse.HealSelf) {
+            } else if (skillToUse.UseOnSelf) {
                 // only use skill on user
                 PartyUI[] activeParty = new PartyUI[1];
                 List<string> healingParty = new List<string>();
@@ -517,8 +523,8 @@ public class BattleSystem : MonoBehaviour {
                 }
 
                 SelectHudUI.OpenSelectHud(activeParty, healingParty.ToArray());
-            } else {
-                // use on party
+            } else if (skillToUse.IsHeal) {
+                // use healing skill on party
                 int numActPartyUI = PartyHudUI.GetNumActiveUI();
 
                 PartyUI[] activeParty = new PartyUI[numActPartyUI];

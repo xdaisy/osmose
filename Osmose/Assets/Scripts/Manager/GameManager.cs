@@ -13,11 +13,12 @@ public class GameManager : MonoBehaviour
     public Sprite ReySprite;
     public Sprite NaoiseSprite;
 
+    [Header("Game Status")]
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene;
-
     public string CurrentScene;
     public bool IsBattleMap;
 
+    [Header("Currency")]
     public int Wallet;
 
     [Header("Items Held")]
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Items[] ReferenceItems; // reference to prefab of the items
     public Items[] ReferenceEquipment; // refernce to prefab of equipment
     public Items[] ReferenceKeyItems; // reference to prefab of key items
+
+    private float magicMeter = 1.0f;
 
     private void Awake() {
         if (Instance == null) {
@@ -318,5 +321,19 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    // get current magic amount
+    public float GetMagicMeter() {
+        return magicMeter;
+    }
+
+    // set current magic amount
+    public void SetMagicMeter(float magic) {
+        magicMeter = magic;
+        // cannot be under 0f
+        magicMeter = Mathf.Max(magicMeter, 0f);
+        // cannot be over 1f
+        magicMeter = Mathf.Min(magicMeter, 1f);
     }
 }

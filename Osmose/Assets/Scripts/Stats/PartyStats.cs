@@ -169,27 +169,71 @@ public class PartyStats {
         party[name].ArmorDefense = armorDefn;
     }
 
-    public void IncreaseStat(string name, StatType statType, int amountToIncrease) {
+    // permanently increase stat
+    public void IncreaseStat(string name, StatType statType, int amtToIncrease) {
         switch(statType) {
             case StatType.ATTACK:
-                party[name].Attack += amountToIncrease;
+                party[name].Attack += amtToIncrease;
                 break;
             case StatType.DEFENSE:
-                party[name].Defense += amountToIncrease;
+                party[name].Defense += amtToIncrease;
                 break;
             case StatType.MAGICDEFENSE:
-                party[name].MagicDefense += amountToIncrease;
+                party[name].MagicDefense += amtToIncrease;
                 break;
             case StatType.SPEED:
-                party[name].Speed += amountToIncrease;
+                party[name].Speed += amtToIncrease;
                 break;
             case StatType.LUCK:
-                party[name].Luck += amountToIncrease;
+                party[name].Luck += amtToIncrease;
                 break;
         }
     }
 
-    public void ClearStatsModifier() {
+    // increase stat modifier
+    public void BuffStats(string name, StatType statType, float amtToIncrease) {
+        switch(statType) {
+            case StatType.ATTACK:
+                party[name].AttkMod += amtToIncrease;
+                break;
+            case StatType.DEFENSE:
+                party[name].DefMod += amtToIncrease;
+                break;
+            case StatType.MAGICDEFENSE:
+                party[name].MDefMod += amtToIncrease;
+                break;
+            case StatType.SPEED:
+                party[name].SpdMod += amtToIncrease;
+                break;
+            case StatType.LUCK:
+                party[name].LckMod += amtToIncrease;
+                break;
+        }
+    }
+
+    // decrease stat modifier
+    public void DebuffStats(string name, StatType statType, float amtToDecrease) {
+        switch(statType) {
+            case StatType.ATTACK:
+                party[name].AttkMod -= amtToDecrease;
+                break;
+            case StatType.DEFENSE:
+                party[name].DefMod -= amtToDecrease;
+                break;
+            case StatType.MAGICDEFENSE:
+                party[name].MDefMod -= amtToDecrease;
+                break;
+            case StatType.SPEED:
+                party[name].SpdMod -= amtToDecrease;
+                break;
+            case StatType.LUCK:
+                party[name].LckMod -= amtToDecrease;
+                break;
+        }
+    }
+
+    // reset all modifiers
+    public void ResetStatsModifier() {
         foreach (string name in currentPartyMembers) {
             party[name].AttkMod = 1f;
             party[name].DefMod = 1f;
