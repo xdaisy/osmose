@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Sprite NaoiseSprite;
 
     [Header("Game Status")]
-    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene;
+    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene, InShop;
     public string CurrentScene;
     public bool IsBattleMap;
 
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);
@@ -60,7 +60,16 @@ public class GameManager : MonoBehaviour
 
     // return if can open the menu
     public bool CanOpenMenu() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene;
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop;
+    }
+
+    // return if can open shop menu
+    public bool CanOpenShop() {
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen;
+    }
+
+    public bool CanStartDialogue() {
+        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen;
     }
 
     // get money

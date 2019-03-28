@@ -31,7 +31,7 @@ public class DialogueActivator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canActivate && !GameManager.Instance.GameMenuOpen && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
+        if (canActivate && GameManager.Instance.CanStartDialogue() && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
             if (!this.specificEvent.Equals("") && EventManager.DidEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
                 Dialogue.Instance.ShowDialogue(this.postEventDialogue, false);
