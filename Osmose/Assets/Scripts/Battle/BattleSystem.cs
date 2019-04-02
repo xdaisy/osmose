@@ -17,6 +17,7 @@ public class BattleSystem : MonoBehaviour {
     public Button[] Commands;
 
     [Header("Hud UI Objects")]
+    public MainHud MainHudUI;
     public SelectHud SelectHudUI;
     public PartyHud PartyHudUI;
     public ItemHud ItemHudUI;
@@ -25,6 +26,8 @@ public class BattleSystem : MonoBehaviour {
 
     [Header("Character Pos")]
     public Transform[] CharPos;
+    public Image CharTurnImage;
+    public Image ShiftImage;
 
     [Header("Enemy Spawning")]
     public Transform[] EnemyPos;
@@ -49,6 +52,7 @@ public class BattleSystem : MonoBehaviour {
     private int numAliveChar; // keep track of how many members of the party are alive
 
     private bool arenShifted; // keep track if Aren is shifted or not
+    private bool arenShiftOnce; // keep track of if decided to unshift so restore sp
 
     private bool escaped; // keeps track if the player escaped
 
@@ -70,7 +74,7 @@ public class BattleSystem : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         GameManager.Instance.InBattle = true;
 
         // set up ui
@@ -95,15 +99,15 @@ public class BattleSystem : MonoBehaviour {
 
         spawnEnemies(new Dictionary<string, int> { { "Squirrel", 1 } });
         determineTurnOrder();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         // if the battle is still going on and the round is over, determine next turn order
         if (turnOrder.Count < 1) {
             determineTurnOrder();
         }
-        
+
         if (escaped) {
             // escaped!
             textToShow = "You escaped!";
@@ -143,23 +147,36 @@ public class BattleSystem : MonoBehaviour {
             nextTurn();
 
             if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
-                // if the next to go is a party member and character is alive, is player's turn
-                MainHud.gameObject.SetActive(true);
-                MainHud.interactable = true;
-
-                // set the initial selected button
-                Button[] battleCommands = MainHud.GetComponentsInChildren<Button>();
-                Button attackButton = null;
-                foreach (Button command in battleCommands) {
-                    if (command.name == ATTACK_BUTTON) {
-                        attackButton = command;
-                    }
-                }
-                EventSystem.current.SetSelectedGameObject(null);
-                EventSystem.current.SetSelectedGameObject(attackButton.gameObject);
-
-                GameManager.Instance.Party.SetDefending(charTurn, false); // character not defending at start of turn
+                setCurrTurnImage();
                 playerTurn = true;
+                // if curr character's turn is aren && is shifted && magic < 25%, attack
+                if (charTurn == "Aren" && arenShifted && GameManager.Instance.GetMagicMeter() < 0.25) {
+                    int choice = UnityEngine.Random.Range(0, enemies.Count); // randomly attack an enemy
+                    regularAttack(choice);
+                } else {
+
+                    // if the next to go is a party member and character is alive, is player's turn
+                    MainHud.gameObject.SetActive(true);
+                    MainHud.interactable = true;
+
+                    if (charTurn == "Aren") {
+                        MainHudUI.ArenShifted(arenShifted);
+                    } else {
+                        MainHudUI.SetItemsActive();
+                    }
+
+                    // set the initial selected button
+                    Button attackButton = null;
+                    foreach (Button command in Commands) {
+                        if (command.name == ATTACK_BUTTON) {
+                            attackButton = command;
+                        }
+                    }
+                    EventSystem.current.SetSelectedGameObject(null);
+                    EventSystem.current.SetSelectedGameObject(attackButton.gameObject);
+
+                    GameManager.Instance.Party.SetDefending(charTurn, false); // character not defending at start of turn
+                }
             } else if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
                 // if character is in party but is dead, do nothing
             } else {
@@ -235,7 +252,7 @@ public class BattleSystem : MonoBehaviour {
                 }
             }
         }
-	}
+    }
 
     private void showText() {
         MainHud.gameObject.SetActive(false);
@@ -259,7 +276,7 @@ public class BattleSystem : MonoBehaviour {
 
         int move = UnityEngine.Random.Range(0, 5);
 
-        switch(move) {
+        switch (move) {
             case 0:
                 // enemy attack
                 enemy.IsDefending = true;
@@ -279,7 +296,7 @@ public class BattleSystem : MonoBehaviour {
                 Instantiate(DamageNumber).SetDamage(CharPos[target].transform.position, damage, true);
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
-                
+
                 break;
         }
     }
@@ -297,9 +314,9 @@ public class BattleSystem : MonoBehaviour {
         MainHud.interactable = false;
         SelectHud.gameObject.SetActive(true);
         SelectHud.interactable = true;
-        
+
         attacking = true;
-        
+
         SelectHudUI.OpenSelectHud(enemies.ToArray());
     }
 
@@ -307,31 +324,7 @@ public class BattleSystem : MonoBehaviour {
         if (attacking) {
             Enemy enemy = enemies[choice];
 
-            // calculate the damage
-            int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
-
-            // if enemy is defending, reduce damage
-            if (enemy.IsDefending) {
-                damage = Mathf.RoundToInt(damage / 2);
-            }
-
-            damage = Math.Max(damage, 1); // always do at least 1 damage
-
-            // reduce enemy's hp
-            enemy.CurrentHP -= damage;
-            enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
-
-            // show damage
-            if (enemy.CurrentHP > 0) {
-                // if enemy didn't die
-                StartCoroutine(showDamage(enemy.transform.position, damage, true));
-            } else {
-                // enemy died
-                StartCoroutine(showDamage(enemy.transform.position, damage));
-                earnedExp += enemy.Exp;
-                earnedMoney += enemy.Money;
-                StartCoroutine(enemyDied(enemy, choice));
-            }
+            regularAttack(choice); // inflict damage
 
             MainHud.gameObject.SetActive(false); // set main hud invisible
 
@@ -467,10 +460,41 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
+    // regular attack
+    private void regularAttack(int choice) {
+        Enemy enemy = enemies[choice];
+        // calculate the damage
+        int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
+
+        // if enemy is defending, reduce damage
+        if (enemy.IsDefending) {
+            damage = Mathf.RoundToInt(damage / 2);
+        }
+
+        damage = Math.Max(damage, 1); // always do at least 1 damage
+
+        // reduce enemy's hp
+        enemy.CurrentHP -= damage;
+        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
+
+        // show damage
+        if (enemy.CurrentHP > 0) {
+            // if enemy didn't die
+            StartCoroutine(showDamage(enemy.transform.position, damage, true));
+        } else {
+            // enemy died
+            StartCoroutine(showDamage(enemy.transform.position, damage));
+            earnedExp += enemy.Exp;
+            earnedMoney += enemy.Money;
+            StartCoroutine(enemyDied(enemy, choice));
+        }
+    }
+
     // show amount damaged/recovered if enemy didn't die
     private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
         Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
         yield return new WaitForSeconds(DamageNumber.Duration);
+        CharTurnImage.gameObject.SetActive(false);
         playerTurn = false;
     }
 
@@ -499,7 +523,7 @@ public class BattleSystem : MonoBehaviour {
 
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
-        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost) {
+        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse.SkillName != "Shift" && skillToUse.SkillName != "Unshift") {
             // can only use if have enough sp to use
             SkillHud.interactable = false;
             SelectHud.gameObject.SetActive(true);
@@ -534,6 +558,23 @@ public class BattleSystem : MonoBehaviour {
 
                 SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
             }
+        } else if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && (skillToUse.SkillName == "Shift" || skillToUse.SkillName == "Unshift")) {
+            ShiftImage.gameObject.SetActive(skillToUse.SkillName == "Shift");
+            arenShifted = skillToUse.SkillName == "Shift";
+            float magicMeter = GameManager.Instance.GetMagicMeter();
+            skillToUse.UseSkill(charTurn);
+            SkillHudUI.OpenSkillsHud(charTurn, arenShifted);
+            MainHudUI.ArenShifted(arenShifted);
+            if (magicMeter < 0.75) {
+                // if magic meter < 75%, player must end turn
+                SkillHud.gameObject.SetActive(false);
+                SkillHud.interactable = false;
+                DescriptionPanel.SetActive(false);
+                SkillHudUI.ExitSkillHud();
+                CharTurnImage.gameObject.SetActive(false);
+                playerTurn = false;
+            }
+            skillToUse = null;
         } else {
             skillToUse = null;
         }
@@ -579,6 +620,7 @@ public class BattleSystem : MonoBehaviour {
 
         GameManager.Instance.Party.SetDefending(charTurn, true);
 
+        CharTurnImage.gameObject.SetActive(false);
         playerTurn = false;
     }
 
@@ -699,5 +741,15 @@ public class BattleSystem : MonoBehaviour {
     // return whether or not all the party members are dead
     private bool isPartyDead() {
         return numAliveChar < 1;
+    }
+
+    private void setCurrTurnImage() {
+        for (int i = 0; i < party.Count; i++) {
+            if (party[i] == charTurn) {
+                CharTurnImage.gameObject.SetActive(true);
+                CharTurnImage.transform.position = new Vector3(CharTurnImage.rectTransform.position.x, CharPos[i].position.y, CharTurnImage.rectTransform.position.z);
+                break;
+            }
+        }
     }
 }

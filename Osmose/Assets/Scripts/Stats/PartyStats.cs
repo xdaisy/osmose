@@ -84,25 +84,27 @@ public class PartyStats {
     
     public int GetCharAttk(string name) {
         // get total attack
-        return party[name].Attack + party[name].WeaponAttack;
+        return Mathf.RoundToInt((party[name].Attack + party[name].WeaponAttack) * party[name].AttkMod);
     }
     
     public int GetCharDef(string name) {
         // get total defense
-        return party[name].Defense + party[name].ArmorDefense;
+        return Mathf.RoundToInt((party[name].Defense + party[name].ArmorDefense) * party[name].DefMod);
     }
     
     public int GetCharMagDef(string name) {
         // get magic defense
-        return party[name].MagicDefense;
+        return Mathf.RoundToInt(party[name].MagicDefense * party[name].MDefMod);
     }
     
     public int GetCharSpd(string name) {
-        return party[name].Speed;
+        // get speed
+        return Mathf.RoundToInt(party[name].Speed * party[name].SpdMod);
     }
     
     public int GetCharLck(string name) {
-        return party[name].Luck;
+        // get luck
+        return Mathf.RoundToInt(party[name].Luck * party[name].LckMod);
     }
 
     public int GetCharLvl(string name) {

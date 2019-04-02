@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     public Items[] ReferenceEquipment; // refernce to prefab of equipment
     public Items[] ReferenceKeyItems; // reference to prefab of key items
 
-    private float magicMeter = 1.0f;
+    private float magicMeter = 1f;
 
     private void Awake() {
         if (Instance == null) {
