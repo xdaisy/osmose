@@ -149,6 +149,10 @@ public class Shop : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Open up the Amount Panel to choose how many to buy/sell
+    /// </summary>
+    /// <param name="itemChoice">Index of the item that was selected</param>
     public void SelectItem(int itemChoice) {
         ShopPanels[ITEM_LIST_PANEL].interactable = false;
         Items item = ItemsPanelUI.GetItem(itemChoice);
@@ -161,5 +165,14 @@ public class Shop : MonoBehaviour {
         } else {
             Description.text = "How many would you like to sell?";
         }
+    }
+
+    public void SelectAmount() {
+        AmountPanelUI.BuySell();
+
+        AmountPanel.SetActive(false);
+        AmountPanelUI.CloseAmountPanel();
+        ShopPanels[ITEM_LIST_PANEL].interactable = true;
+        ItemsPanelUI.SetItem();
     }
 }

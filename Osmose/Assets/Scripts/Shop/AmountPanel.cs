@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
 public class AmountPanel : MonoBehaviour {
     public Text Amount;
@@ -53,6 +55,7 @@ public class AmountPanel : MonoBehaviour {
         currItem = item;
         this.isBuying = isBuying;
         updateAmount();
+        EventSystem.current.SetSelectedGameObject(Amount.gameObject);
     }
 
     public void CloseAmountPanel() {
@@ -60,6 +63,25 @@ public class AmountPanel : MonoBehaviour {
         TotalAmount.text = "0";
         currItem = null;
         isBuying = true;
+    }
+
+    public void BuySell() {
+        int totalAmount = Int32.Parse(TotalAmount.text);
+
+        if (isBuying) {
+            GameManager.Instance.AddItem(currItem.ItemName, amount);
+            GameManager.Instance.Wallet -= totalAmount;
+        } else {
+            if (currItem.IsItem) {
+                GameManager.Instance.RemoveItem(currItem.ItemName, amount);
+            } else {
+                GameManager.Instance.RemoveEquipment(currItem.ItemName, amount);
+            }
+            GameManager.Instance.Wallet += totalAmount;
+        }
+        amount = 0;
+
+        updateAmount();
     }
 
     private void updateAmount() {

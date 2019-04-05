@@ -104,6 +104,7 @@ public class ItemsPanel : MonoBehaviour {
     /// </summary>
     public void SetItem() {
         EventSystem.current.SetSelectedGameObject(ItemsButton[currItemIndx].gameObject);
+        updateItemsList();
         updateDescription();
     }
 
