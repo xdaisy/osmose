@@ -17,6 +17,7 @@ public class ItemsPanel : MonoBehaviour {
 
     private Items[] itemsList;
     private string currItem;
+    private int currItemIndx;
     private int itemIndx;
     private bool isBuying;
     private bool sellingItem;
@@ -24,6 +25,7 @@ public class ItemsPanel : MonoBehaviour {
     private void Awake() {
         itemsList = null;
         currItem = "";
+        currItemIndx = 0;
         itemIndx = 0;
         isBuying = true;
         sellingItem = true;
@@ -88,12 +90,20 @@ public class ItemsPanel : MonoBehaviour {
     }
 
     /// <summary>
-    /// Set the current selected buttom to the top item
+    /// Set up when first go to Item List
     /// </summary>
-    public void SetItemsButton() {
+    public void OpenItemList() {
         EventSystem.current.SetSelectedGameObject(ItemsButton[0].gameObject);
         updateItemsList();
         currItem = ItemsName[0].text;
+        updateDescription();
+    }
+
+    /// <summary>
+    /// Set the last clicked button as the current selected
+    /// </summary>
+    public void SetItem() {
+        EventSystem.current.SetSelectedGameObject(ItemsButton[currItemIndx].gameObject);
         updateDescription();
     }
 
@@ -103,6 +113,26 @@ public class ItemsPanel : MonoBehaviour {
     /// <param name="sellingItem">Flag for whether player is selling items or equipments</param>
     public void SetSellingItem(bool sellingItem) {
         this.sellingItem = sellingItem;
+    }
+
+    /// <summary>
+    /// Get the item at the index passed in
+    /// </summary>
+    /// <param name="itemChoice">Index of which button was clicked</param>
+    /// <returns></returns>
+    public Items GetItem(int itemChoice) {
+        currItemIndx = itemChoice;
+        if (isBuying) {
+            return itemsList[itemChoice + itemIndx];
+        } else if (sellingItem) {
+            return GameManager.Instance.GetItemDetails(ItemsName[itemChoice].text);
+        } else {
+            return GameManager.Instance.GetEquipmentDetails(ItemsName[itemChoice].text);
+        }
+    }
+
+    public float GetYPosOfButton(int index) {
+        return ItemsName[index].transform.position.y;
     }
 
     /// <summary>

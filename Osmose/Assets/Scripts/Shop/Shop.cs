@@ -19,8 +19,12 @@ public class Shop : MonoBehaviour {
     public GameObject ItemType;
     public Button[] ItemTypes;
 
+    [Header("Amount Panel")]
+    public GameObject AmountPanel;
+
     [Header("Panel UI")]
     public ItemsPanel ItemsPanelUI;
+    public AmountPanel AmountPanelUI;
 
     [Header("Shop's Items")]
     public Items[] ItemsForSell;
@@ -44,24 +48,42 @@ public class Shop : MonoBehaviour {
     {
         if (Input.GetButtonDown("Cancel")) {
             if (ShopPanels[BUY_SELL_PANEL].interactable) {
+                // close shop menu
                 ExitShop();
             } else if (ShopPanels[ITEM_TYPE_PANEL].interactable) {
+                // close item type panel
                 ShopPanels[ITEM_TYPE_PANEL].interactable = false;
                 ShopPanels[BUY_SELL_PANEL].interactable = true;
+                Button currSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
                 EventSystem.current.SetSelectedGameObject(SellButton.gameObject);
+                currSelected.interactable = false;
+                currSelected.interactable = true;
                 Description.text = "How may I help you?";
             } else if (ShopPanels[ITEM_LIST_PANEL].interactable) {
+                // close item list panel
                 if (ItemsPanelUI.GetIsBuying()) {
                     ShopPanels[ITEM_LIST_PANEL].interactable = false;
                     ShopPanels[BUY_SELL_PANEL].interactable = true;
+                    Button currSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
                     EventSystem.current.SetSelectedGameObject(BuyButton.gameObject);
+                    currSelected.interactable = false;
+                    currSelected.interactable = true;
                     Description.text = "How may I help you?";
                 } else {
                     ShopPanels[ITEM_LIST_PANEL].interactable = false;
                     ShopPanels[ITEM_TYPE_PANEL].interactable = true;
+                    Button currSelected = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
                     EventSystem.current.SetSelectedGameObject(ItemTypes[currItemType].gameObject);
+                    currSelected.interactable = false;
+                    currSelected.interactable = true;
                     Description.text = "What would you like to sell?";
                 }
+            } else if (AmountPanel.activeSelf) {
+                // close amount panel
+                AmountPanel.SetActive(false);
+                AmountPanelUI.CloseAmountPanel();
+                ShopPanels[ITEM_LIST_PANEL].interactable = true;
+                ItemsPanelUI.SetItem();
             }
         }
     }
@@ -96,7 +118,7 @@ public class Shop : MonoBehaviour {
         ShopPanels[ITEM_LIST_PANEL].interactable = true;
         ItemType.SetActive(false);
         ItemsPanelUI.SetIsBuying(true);
-        ItemsPanelUI.SetItemsButton();
+        ItemsPanelUI.OpenItemList();
     }
 
     /// <summary>
@@ -119,11 +141,25 @@ public class Shop : MonoBehaviour {
         ShopPanels[ITEM_LIST_PANEL].interactable = true;
         ItemsPanelUI.SetIsBuying(false);
         ItemsPanelUI.SetSellingItem(sellingItem);
-        ItemsPanelUI.SetItemsButton();
+        ItemsPanelUI.OpenItemList();
         if (sellingItem) {
             currItemType = 1;
         } else {
             currItemType = 2;
+        }
+    }
+
+    public void SelectItem(int itemChoice) {
+        ShopPanels[ITEM_LIST_PANEL].interactable = false;
+        Items item = ItemsPanelUI.GetItem(itemChoice);
+        bool isBuying = ItemsPanelUI.GetIsBuying();
+        AmountPanel.transform.position = new Vector3(AmountPanel.transform.position.x, ItemsPanelUI.GetYPosOfButton(itemChoice), AmountPanel.transform.position.z);
+        AmountPanelUI.OpenAmountPanel(item, isBuying);
+        AmountPanel.SetActive(true);
+        if (isBuying) {
+            Description.text = "How many would you like to buy?";
+        } else {
+            Description.text = "How many would you like to sell?";
         }
     }
 }
