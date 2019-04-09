@@ -117,8 +117,7 @@ public class Shop : MonoBehaviour {
         ShopPanels[BUY_SELL_PANEL].interactable = false;
         ShopPanels[ITEM_LIST_PANEL].interactable = true;
         ItemType.SetActive(false);
-        ItemsPanelUI.SetIsBuying(true);
-        ItemsPanelUI.OpenItemList();
+        ItemsPanelUI.OpenItemList(true, false);
     }
 
     /// <summary>
@@ -139,14 +138,22 @@ public class Shop : MonoBehaviour {
     public void SelectItemType(bool sellingItem) {
         ShopPanels[ITEM_TYPE_PANEL].interactable = false;
         ShopPanels[ITEM_LIST_PANEL].interactable = true;
-        ItemsPanelUI.SetIsBuying(false);
-        ItemsPanelUI.SetSellingItem(sellingItem);
-        ItemsPanelUI.OpenItemList();
+        ItemsPanelUI.OpenItemList(false, sellingItem);
         if (sellingItem) {
             currItemType = 1;
         } else {
             currItemType = 2;
         }
+    }
+
+    /// <summary>
+    /// Choose selling all items in inventory
+    /// </summary>
+    public void SelectAllItems() {
+        ShopPanels[ITEM_TYPE_PANEL].interactable = false;
+        ShopPanels[ITEM_LIST_PANEL].interactable = true;
+        ItemsPanelUI.OpenAllList();
+        currItemType = 0;
     }
 
     /// <summary>

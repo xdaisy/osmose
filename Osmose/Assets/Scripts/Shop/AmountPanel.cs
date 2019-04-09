@@ -48,7 +48,7 @@ public class AmountPanel : MonoBehaviour {
                         amount++;
                         updateAmount();
                     }
-                    if (!isBuying && currItem.IsItem && owned > amount) {
+                    if (!isBuying && amount < owned) {
                         amount++;
                         updateAmount();
                     }

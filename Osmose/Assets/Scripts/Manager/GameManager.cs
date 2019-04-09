@@ -177,6 +177,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // return the number of items in inventory
+    public int GetNumItems() {
+        return ItemsHeld.Count;
+    }
+
     // Equipment Methods
 
     public Items GetEquipmentAt(int index) {
@@ -288,6 +293,11 @@ public class GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    // retun the number of equipment in inventory
+    public int GetNumEquipment() {
+        return EquipmentHeld.Count;
     }
 
     // Key Items Methods

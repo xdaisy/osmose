@@ -21,6 +21,7 @@ public class ItemsPanel : MonoBehaviour {
     private int itemIndx;
     private bool isBuying;
     private bool sellingItem;
+    private bool allItems;
 
     private void Awake() {
         itemsList = null;
@@ -41,14 +42,21 @@ public class ItemsPanel : MonoBehaviour {
                 if (buttonInput < -0.5f) {
                     // scroll down
                     if (isBuying && itemIndx + ItemsButton.Length < itemsList.Length - 1) {
+                        // is buying
                         itemIndx++;
                         updateItemsList();
                     }
-                    if (!isBuying && sellingItem && GameManager.Instance.GetItemAt(itemIndx + ItemsButton.Length) != null) {
+                    if (!isBuying && allItems && itemIndx + ItemsName.Length < GameManager.Instance.GetNumItems() + GameManager.Instance.GetNumEquipment()) {
+                        itemIndx++;
+                        updateAllList();
+                    }
+                    if (!isBuying && !allItems && sellingItem && GameManager.Instance.GetItemAt(itemIndx + ItemsButton.Length) != null) {
+                        // is selling items
                         itemIndx++;
                         updateItemsList();
                     }
-                    if (!isBuying && !sellingItem && GameManager.Instance.GetEquipmentAt(itemIndx + ItemsButton.Length) != null) {
+                    if (!isBuying && !allItems && !sellingItem && GameManager.Instance.GetEquipmentAt(itemIndx + ItemsButton.Length) != null) {
+                        // is selling equipments
                         itemIndx++;
                         updateItemsList();
                     }
@@ -74,14 +82,6 @@ public class ItemsPanel : MonoBehaviour {
     }
 
     /// <summary>
-    /// Set whether or not the player is buying or selling
-    /// </summary>
-    /// <param name="isBuying">Flag for if the player is buying</param>
-    public void SetIsBuying(bool isBuying) {
-        this.isBuying = isBuying;
-    }
-
-    /// <summary>
     /// Get whether or not the player is buying
     /// </summary>
     /// <returns>Whether or not the player is buying</returns>
@@ -92,9 +92,25 @@ public class ItemsPanel : MonoBehaviour {
     /// <summary>
     /// Set up when first go to Item List
     /// </summary>
-    public void OpenItemList() {
+    public void OpenItemList(bool buying, bool items) {
+        isBuying = buying;
+        sellingItem = items;
+        allItems = false;
         EventSystem.current.SetSelectedGameObject(ItemsButton[0].gameObject);
         updateItemsList();
+        currItem = ItemsName[0].text;
+        updateDescription();
+    }
+
+    /// <summary>
+    /// Set up when selling all items in inventory
+    /// </summary>
+    public void OpenAllList() {
+        isBuying = false;
+        sellingItem = false;
+        allItems = true;
+        EventSystem.current.SetSelectedGameObject(ItemsButton[0].gameObject);
+        updateAllList();
         currItem = ItemsName[0].text;
         updateDescription();
     }
@@ -104,16 +120,12 @@ public class ItemsPanel : MonoBehaviour {
     /// </summary>
     public void SetItem() {
         EventSystem.current.SetSelectedGameObject(ItemsButton[currItemIndx].gameObject);
-        updateItemsList();
+        if (allItems) {
+            updateAllList();
+        } else {
+            updateItemsList();
+        }
         updateDescription();
-    }
-
-    /// <summary>
-    /// Set whether the player is selling items or equipment
-    /// </summary>
-    /// <param name="sellingItem">Flag for whether player is selling items or equipments</param>
-    public void SetSellingItem(bool sellingItem) {
-        this.sellingItem = sellingItem;
     }
 
     /// <summary>
@@ -125,13 +137,21 @@ public class ItemsPanel : MonoBehaviour {
         currItemIndx = itemChoice;
         if (isBuying) {
             return itemsList[itemChoice + itemIndx];
-        } else if (sellingItem) {
-            return GameManager.Instance.GetItemDetails(ItemsName[itemChoice].text);
         } else {
-            return GameManager.Instance.GetEquipmentDetails(ItemsName[itemChoice].text);
+            Items item = GameManager.Instance.GetItemDetails(ItemsName[itemChoice].text);
+            if (item == null) {
+                // if not item, is equipment
+                item = GameManager.Instance.GetEquipmentDetails(ItemsName[itemChoice].text);
+            }
+            return item;
         }
     }
 
+    /// <summary>
+    /// Get the Y position of the button
+    /// </summary>
+    /// <param name="index">Index of the button</param>
+    /// <returns>Y postiion of the button</returns>
     public float GetYPosOfButton(int index) {
         return ItemsName[index].transform.position.y;
     }
@@ -190,14 +210,42 @@ public class ItemsPanel : MonoBehaviour {
         }
     }
 
+    // update the list for selling all things in inventory
+    private void updateAllList() {
+        for (int i = 0; i < ItemsName.Length; i++) {
+            Items item = null;
+            if (i + itemIndx < GameManager.Instance.GetNumItems()) {
+                item = GameManager.Instance.GetItemAt(i + itemIndx);
+            } else {
+                item = GameManager.Instance.GetEquipmentAt(i + itemIndx - GameManager.Instance.GetNumItems());
+            }
+            if (item == null) {
+                // if there aren't enough items in inventory to fill list, set text inactive
+                ItemsButton[i].gameObject.SetActive(false);
+                ItemsCost[i].gameObject.SetActive(false);
+                ItemsOwned[i].gameObject.SetActive(false);
+                continue;
+            }
+            ItemsButton[i].gameObject.SetActive(true);
+            ItemsCost[i].gameObject.SetActive(true);
+            ItemsOwned[i].gameObject.SetActive(true);
+            ItemsName[i].text = item.ItemName;
+            ItemsCost[i].text = "" + Mathf.Max(Mathf.RoundToInt(item.Value * 0.5f), 1);
+            if (item.IsItem) {
+                ItemsOwned[i].text = "" + GameManager.Instance.GetAmountOfItem(item.ItemName);
+            } else {
+                ItemsOwned[i].text = "" + GameManager.Instance.GetAmountOfEquipment(item.ItemName);
+            }
+        }
+    }
+
     /// <summary>
     /// Update the description
     /// </summary>
     private void updateDescription() {
-        Items item = null;
-        if (isBuying || sellingItem) {
-            item = GameManager.Instance.GetItemDetails(currItem);
-        } else {
+        Items item = GameManager.Instance.GetItemDetails(currItem);
+        if (item == null) {
+            // if not item, is equipment
             item = GameManager.Instance.GetEquipmentDetails(currItem);
         }
         Description.text = item.Description;
