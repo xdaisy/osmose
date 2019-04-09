@@ -15,6 +15,13 @@ public class ItemsPanel : MonoBehaviour {
     public Text[] ItemsOwned;
     public Text Description;
 
+    [Header("Party Panel")]
+    public GameObject[] Party;
+    public Image[] CharImages;
+    public Image[] IncreaseArrows;
+    public Image[] DecreaseArrows;
+    public Text[] StatTexts;
+
     private Items[] itemsList;
     private string currItem;
     private int currItemIndx;
@@ -100,6 +107,7 @@ public class ItemsPanel : MonoBehaviour {
         updateItemsList();
         currItem = ItemsName[0].text;
         updateDescription();
+        updatePartyPanel();
     }
 
     /// <summary>
@@ -113,6 +121,7 @@ public class ItemsPanel : MonoBehaviour {
         updateAllList();
         currItem = ItemsName[0].text;
         updateDescription();
+        updatePartyPanel();
     }
 
     /// <summary>
@@ -154,6 +163,28 @@ public class ItemsPanel : MonoBehaviour {
     /// <returns>Y postiion of the button</returns>
     public float GetYPosOfButton(int index) {
         return ItemsName[index].transform.position.y;
+    }
+
+    /// <summary>
+    /// Set up Party Panel when first open shop
+    /// </summary>
+    public void UpdateCharSprites() {
+        updatePartyPanel();
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+        for (int i = 0; i < CharImages.Length; i++) {
+            if (i >= party.Count) {
+                continue;
+            }
+            if (party[i] == "Aren") {
+                CharImages[i].sprite = GameManager.Instance.ArenSprite;
+            }
+            if (party[i] == "Rey") {
+                CharImages[i].sprite = GameManager.Instance.ReySprite;
+            }
+            if (party[i] == "Naoise") {
+                CharImages[i].sprite = GameManager.Instance.NaoiseSprite;
+            }
+        }
     }
 
     /// <summary>
@@ -249,5 +280,23 @@ public class ItemsPanel : MonoBehaviour {
             item = GameManager.Instance.GetEquipmentDetails(currItem);
         }
         Description.text = item.Description;
+    }
+
+    /// <summary>
+    /// Update the Party panel
+    /// </summary>
+    private void updatePartyPanel() {
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+        Items item = GameManager.Instance.GetEquipmentDetails(currItem);
+        for (int i = 0; i < Party.Length; i++) {
+            if (i >= party.Count) {
+                Party[i].SetActive(false);
+            }
+            if (item == null) {
+                IncreaseArrows[i].gameObject.SetActive(false);
+                DecreaseArrows[i].gameObject.SetActive(false);
+                StatTexts[i].gameObject.SetActive(false);
+            }
+        }
     }
 }

@@ -98,6 +98,8 @@ public class Shop : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(BuyButton.gameObject);
 
+        ItemsPanelUI.UpdateCharSprites();
+
         Description.text = "Hi, how may I help you?";
     }
 
