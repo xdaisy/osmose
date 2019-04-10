@@ -23,8 +23,10 @@ public class Items : MonoBehaviour
 
     [Header("Weapon/Armor Details")]
     public int WeaponStr; // attack power for weapon
-
     public int ArmorDefn; // defense for armor
+    public bool ForAren;
+    public bool ForRey;
+    public bool ForNaoise;
 
     /// <summary>
     /// Use the item

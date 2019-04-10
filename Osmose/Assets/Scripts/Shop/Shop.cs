@@ -176,6 +176,9 @@ public class Shop : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Buy/Sell the amount chosen
+    /// </summary>
     public void SelectAmount() {
         AmountPanelUI.BuySell();
 

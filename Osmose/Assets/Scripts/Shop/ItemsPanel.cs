@@ -76,6 +76,7 @@ public class ItemsPanel : MonoBehaviour {
 
             currItem = currSelectedItem.text;
             updateDescription();
+            updatePartyPanel();
         }
     }
 
@@ -291,8 +292,38 @@ public class ItemsPanel : MonoBehaviour {
         for (int i = 0; i < Party.Length; i++) {
             if (i >= party.Count) {
                 Party[i].SetActive(false);
+                continue;
             }
             if (item == null) {
+                IncreaseArrows[i].gameObject.SetActive(false);
+                DecreaseArrows[i].gameObject.SetActive(false);
+                StatTexts[i].gameObject.SetActive(false);
+                continue;
+            }
+            int currEquipmentStat = 0;
+            int equipmentStat = 0;
+            if (item.IsWeapon) {
+                currEquipmentStat = GameManager.Instance.Party.GetWeaponStat(party[i]);
+                equipmentStat = item.WeaponStr;
+            } else {
+                currEquipmentStat = GameManager.Instance.Party.GetArmorStat(party[i]);
+                equipmentStat = item.ArmorDefn;
+            }
+
+            if (currEquipmentStat < equipmentStat) {
+                // equipment increase stat
+                IncreaseArrows[i].gameObject.SetActive(true);
+                DecreaseArrows[i].gameObject.SetActive(false);
+                StatTexts[i].gameObject.SetActive(true);
+                StatTexts[i].text = "" + Mathf.Abs(equipmentStat - currEquipmentStat);
+            } else if (currEquipmentStat > equipmentStat) {
+                // equipment decrease stat
+                IncreaseArrows[i].gameObject.SetActive(false);
+                DecreaseArrows[i].gameObject.SetActive(true);
+                StatTexts[i].gameObject.SetActive(true);
+                StatTexts[i].text = "" + Mathf.Abs(equipmentStat - currEquipmentStat);
+            } else {
+                // equipment does nether 
                 IncreaseArrows[i].gameObject.SetActive(false);
                 DecreaseArrows[i].gameObject.SetActive(false);
                 StatTexts[i].gameObject.SetActive(false);

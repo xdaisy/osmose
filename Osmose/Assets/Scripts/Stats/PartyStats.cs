@@ -157,6 +157,10 @@ public class PartyStats {
         return party[name].Weapon;
     }
 
+    public int GetWeaponStat(string name) {
+        return party[name].WeaponAttack;
+    }
+
     public void EquipWeapon(string name, string weapon, int weaponStr) {
         party[name].Weapon = weapon;
         party[name].WeaponAttack = weaponStr;
@@ -164,6 +168,10 @@ public class PartyStats {
 
     public string GetArmor(string name) {
         return party[name].Armor;
+    }
+
+    public int GetArmorStat(string name) {
+        return party[name].ArmorDefense;
     }
 
     public void EquipArmor(string name, string armor, int armorDefn) {
