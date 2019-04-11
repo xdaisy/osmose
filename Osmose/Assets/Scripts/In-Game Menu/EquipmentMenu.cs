@@ -83,7 +83,7 @@ public class EquipmentMenu : MonoBehaviour {
                 } else if (buttonInput < 0.5f) {
                     // scroll down
                     if (currEquipment == EventSystem.current.currentSelectedGameObject.GetComponent<Text>().text) {
-                        Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon);
+                        Items item = GameManager.Instance.GetNthEquipment(equipmentIndx + Equipments.Length, equipWeapon, currCharacter);
                         if (item != null) {
                             equipmentIndx++;
                             updateEquipments();
@@ -116,7 +116,7 @@ public class EquipmentMenu : MonoBehaviour {
     private void updateEquipments() {
         for (int i = 0; i < Equipments.Length; i++) {
             Text equipmentText = Equipments[i];
-            Items item = GameManager.Instance.GetNthEquipment(i + equipmentIndx, equipWeapon);
+            Items item = GameManager.Instance.GetNthEquipment(i + equipmentIndx, equipWeapon, currCharacter);
             if (item == null) {
                 equipmentText.gameObject.SetActive(false);
                 continue;

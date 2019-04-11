@@ -191,13 +191,13 @@ public class GameManager : MonoBehaviour
         return GetEquipmentDetails(EquipmentHeld[index]);
     }
 
-    public Items GetNthEquipment(int n, bool isWeapon) {
+    public Items GetNthEquipment(int n, bool isWeapon, string charName) {
         int count = 0;
         for (int i = 0; i < EquipmentHeld.Count; i++) {
             Items item = GetEquipmentAt(i);
             if (isWeapon && item.IsWeapon) {
                 // if look for weapon and found weapon, increment count
-                count++;
+                count = (charName == "Aren" && item.ArenEquipment) || (charName == "Rey" && item.ReyEquipment) || (charName == "Naoise" && item.NaoiseEquipment) ? count + 1 : count;
             } else if (!isWeapon && item.IsArmor) {
                 // if look for armor and found armor, increment count
                 count++;

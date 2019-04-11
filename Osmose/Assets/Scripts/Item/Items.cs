@@ -24,9 +24,9 @@ public class Items : MonoBehaviour
     [Header("Weapon/Armor Details")]
     public int WeaponStr; // attack power for weapon
     public int ArmorDefn; // defense for armor
-    public bool ForAren;
-    public bool ForRey;
-    public bool ForNaoise;
+    public bool ArenEquipment;
+    public bool ReyEquipment;
+    public bool NaoiseEquipment;
 
     /// <summary>
     /// Use the item

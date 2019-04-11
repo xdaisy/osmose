@@ -294,7 +294,7 @@ public class ItemsPanel : MonoBehaviour {
                 Party[i].SetActive(false);
                 continue;
             }
-            if (item == null) {
+            if (item == null || (party[i] == "Aren" && !item.ArenEquipment) || (party[i] == "Rey" && !item.ReyEquipment) || (party[i] == "Naoise" && !item.NaoiseEquipment)) {
                 IncreaseArrows[i].gameObject.SetActive(false);
                 DecreaseArrows[i].gameObject.SetActive(false);
                 StatTexts[i].gameObject.SetActive(false);
