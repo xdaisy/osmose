@@ -16,21 +16,10 @@ public class DialogueActivator : MonoBehaviour
     private bool canActivate = false;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        if (this.CompareTag("NPC")) {
-            // if this is an npc, npc is talking
-            personTalking = this.name;
-        } else {
-            // else this the player's thoughts/observation
-            GameObject player = GameObject.FindWithTag("Player");
-            personTalking = player.name;
-        }
-    }
+    void Start() {}
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (canActivate && GameManager.Instance.CanStartDialogue() && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
             if (!this.specificEvent.Equals("") && EventManager.DidEventHappened(specificEvent)) {
                 // there is a specified event AND event happened

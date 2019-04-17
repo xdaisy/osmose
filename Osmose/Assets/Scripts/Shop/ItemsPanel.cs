@@ -189,6 +189,24 @@ public class ItemsPanel : MonoBehaviour {
     }
 
     /// <summary>
+    /// Update the Items list when not in the Items Panel
+    /// </summary>
+    /// <param name="buying">Flag for whether the player is buying or selling</param>
+    /// <param name="all">Flag for whether the player is selling all items</param>
+    /// <param name="items">Flag for whether the player is selling items or equipment</param>
+    public void UpdateList(bool buying, bool all, bool items) {
+        isBuying = buying;
+        sellingItem = items;
+        allItems = all;
+
+        if (allItems) {
+            updateAllList();
+        } else {
+            updateItemsList();
+        }
+    }
+
+    /// <summary>
     /// Update the Items list
     /// </summary>
     private void updateItemsList() {

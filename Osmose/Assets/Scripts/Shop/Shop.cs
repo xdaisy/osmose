@@ -30,6 +30,7 @@ public class Shop : MonoBehaviour {
     public Items[] ItemsForSell;
 
     private int currItemType;
+    private string command;
 
     private const int BUY_SELL_PANEL = 0;
     private const int ITEM_TYPE_PANEL = 1;
@@ -41,6 +42,7 @@ public class Shop : MonoBehaviour {
         ItemsPanelUI.SetItemsList(ItemsForSell);
         MoneyOwned.text = "" + GameManager.Instance.Wallet;
         currItemType = 0;
+        command = "";
     }
 
     // Update is called once per frame
