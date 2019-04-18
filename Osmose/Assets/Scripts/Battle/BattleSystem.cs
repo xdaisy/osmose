@@ -43,6 +43,8 @@ public class BattleSystem : MonoBehaviour {
     private string charTurn; // keep track of whose turn is it
     private string textToShow; // shows player's action
 
+    private List<int> hostilityMeter; // array of which character for enemy to attack
+
     private List<Enemy> enemies;
     private int earnedExp;
     private int earnedMoney;
@@ -71,6 +73,7 @@ public class BattleSystem : MonoBehaviour {
     private void Awake() {
         turnOrder = new TurnQueue();
         itemToUse = null;
+        hostilityMeter = new List<int>();
     }
 
     // Use this for initialization
@@ -79,6 +82,9 @@ public class BattleSystem : MonoBehaviour {
 
         // set up ui
         party = GameManager.Instance.Party.GetCurrentParty();
+        for (int i = 0; i < party.Count; i++) {
+            hostilityMeter.Add(i);
+        }
         numAliveChar = party.Count;
 
         playerTurn = false;
@@ -278,13 +284,14 @@ public class BattleSystem : MonoBehaviour {
 
         switch (move) {
             case 0:
-                // enemy attack
+                // enemy defend
                 enemy.IsDefending = true;
                 textToShow = enemy.EnemyName + " defended";
                 break;
             default:
-                int target = UnityEngine.Random.Range(0, numAliveChar);
-                string partyMember = party[target];
+                // enemy attack
+                int target = UnityEngine.Random.Range(0, hostilityMeter.Count);
+                string partyMember = party[hostilityMeter[target]];
 
                 int damage = enemy.Attack - GameManager.Instance.Party.GetCharDef(partyMember);
                 if (GameManager.Instance.Party.IsDefending(partyMember)) {
@@ -293,7 +300,7 @@ public class BattleSystem : MonoBehaviour {
                 damage = Math.Max(damage, 1); // at least do 1 damage
 
                 // show damage
-                Instantiate(DamageNumber).SetDamage(CharPos[target].transform.position, damage, true);
+                Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[target]].transform.position, damage, true);
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
 
@@ -523,7 +530,8 @@ public class BattleSystem : MonoBehaviour {
 
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
-        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse.SkillName != "Shift" && skillToUse.SkillName != "Unshift") {
+        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse.SkillName != "Shift" && skillToUse.SkillName != "Unshift" && skillToUse.SkillName != "Taunt") {
+            // regular skill
             // can only use if have enough sp to use
             SkillHud.interactable = false;
             SelectHud.gameObject.SetActive(true);
@@ -531,7 +539,7 @@ public class BattleSystem : MonoBehaviour {
 
             usingSkill = true;
 
-            if (skillToUse.IsPhyAttk || skillToUse.IsPhyAttk) {
+            if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
                 // use on enemy
                 SelectHudUI.OpenSelectHud(enemies.ToArray());
             } else if (skillToUse.UseOnSelf) {
@@ -559,6 +567,7 @@ public class BattleSystem : MonoBehaviour {
                 SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
             }
         } else if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && (skillToUse.SkillName == "Shift" || skillToUse.SkillName == "Unshift")) {
+            // aren shifting
             ShiftImage.gameObject.SetActive(skillToUse.SkillName == "Shift");
             arenShifted = skillToUse.SkillName == "Shift";
             float magicMeter = GameManager.Instance.GetMagicMeter();
@@ -575,6 +584,20 @@ public class BattleSystem : MonoBehaviour {
                 playerTurn = false;
             }
             skillToUse = null;
+        } else if (skillToUse.SkillName == "Taunt") {
+            for (int i = 0; i < party.Count; i++) {
+                if (party[i] == "Naoise") {
+                    hostilityMeter.Add(i);
+                    hostilityMeter.Add(i);
+                    break;
+                }
+            }
+            SkillHud.gameObject.SetActive(false);
+            SkillHud.interactable = false;
+            DescriptionPanel.SetActive(false);
+            SkillHudUI.ExitSkillHud();
+            CharTurnImage.gameObject.SetActive(false);
+            playerTurn = false;
         } else {
             skillToUse = null;
         }
