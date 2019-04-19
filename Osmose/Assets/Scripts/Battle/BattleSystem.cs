@@ -41,7 +41,7 @@ public class BattleSystem : MonoBehaviour {
     private bool playerTurn; // whether or not the it is the player's turn
     private bool enemyTurn;
     private string charTurn; // keep track of whose turn is it
-    private string textToShow; // shows player's action
+    private Queue<string> textToShow; // shows player's action
 
     private List<int> hostilityMeter; // array of which character for enemy to attack
 
@@ -89,7 +89,7 @@ public class BattleSystem : MonoBehaviour {
 
         playerTurn = false;
         enemyTurn = false;
-        textToShow = "";
+        textToShow = new Queue<string>();
         earnedExp = 0;
         earnedMoney = 0;
         escaped = false;
@@ -116,7 +116,7 @@ public class BattleSystem : MonoBehaviour {
 
         if (escaped) {
             // escaped!
-            textToShow = "You escaped!";
+            textToShow.Enqueue("You escaped!");
             showText();
 
             if (endedBattle && Input.GetButtonDown("Interact")) {
@@ -128,12 +128,15 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         } else if (enemies.Count < 1) {
             // all enemies defeated, battle won!
-            textToShow = "The monsters ran away! You earned " + earnedExp + " exp and " + earnedMoney + " money!";
-            showText();
-
-            if (endedBattle && Input.GetButtonDown("Interact")) {
+            textToShow.Enqueue("The monsters ran away! You earned " + earnedExp + " exp and " + earnedMoney + " money!");
+            if (!endedBattle) {
+                GameManager.Instance.Party.ResetStatsModifier();
                 GameManager.Instance.Party.GainExperience(earnedExp);
                 GameManager.Instance.GainMoney(earnedMoney);
+            }
+            showText();
+
+            if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
                 GameManager.Instance.InBattle = false;
                 // need to load back into scene
@@ -145,7 +148,7 @@ public class BattleSystem : MonoBehaviour {
             // all characters dead, battle is over
         }
 
-        if (textToShow.Length > 0) {
+        if (textToShow.Count > 0) {
             // if player have finished their command, show text
             showText();
         } else if (!playerTurn && !enemyTurn && !TextHud.IsActive()) {
@@ -200,7 +203,7 @@ public class BattleSystem : MonoBehaviour {
                 StartCoroutine(enemyTurnCo(enemy));
                 enemyTurn = true;
             }
-        } else if (TextHud.IsActive() && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
+        } else if (TextHud.IsActive() && enemies.Count >= 1 && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per move)
             TextImage.SetActive(false);
             TextHud.gameObject.SetActive(false);
@@ -265,8 +268,7 @@ public class BattleSystem : MonoBehaviour {
 
         TextImage.SetActive(true);
         TextHud.gameObject.SetActive(true);
-        TextHud.text = textToShow;
-        textToShow = ""; // reset it to empty string
+        TextHud.text = textToShow.Dequeue();
     }
 
     private IEnumerator enemyTurnCo(Enemy enemy) {
@@ -286,7 +288,7 @@ public class BattleSystem : MonoBehaviour {
             case 0:
                 // enemy defend
                 enemy.IsDefending = true;
-                textToShow = enemy.EnemyName + " defended";
+                textToShow.Enqueue(enemy.EnemyName + " defended");
                 break;
             default:
                 // enemy attack
