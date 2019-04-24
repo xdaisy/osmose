@@ -32,7 +32,6 @@ public class PartyStats {
         currentPartyMembers.Add("Aren");
         currentPartyMembers.Add("Rey");
         currentPartyMembers.Add("Naoise");
-        party["Aren"].CurrHP = 100;
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;
@@ -270,5 +269,9 @@ public class PartyStats {
         int currentHP = GetCharCurrHP(name) - damage;
         currentHP = Math.Max(currentHP, 0); // hp can't go below 0
         party[name].CurrHP = currentHP;
+    }
+
+    public CharStats GetCharacterStats(string name) {
+        return party[name];
     }
 }

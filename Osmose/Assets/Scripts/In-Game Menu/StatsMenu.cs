@@ -104,7 +104,7 @@ public class StatsMenu : MonoBehaviour
             case "Rey":
                 CharacterImage.sprite = GameManager.Instance.ReySprite;
                 break;
-            case "Naoshe":
+            case "Naoise":
                 CharacterImage.sprite = GameManager.Instance.NaoiseSprite;
                 break;
         }

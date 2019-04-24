@@ -46,6 +46,11 @@ public class PlayerControls : MonoBehaviour {
 	void Update () {}
 
     void FixedUpdate() {
+        if (Input.GetKeyDown(KeyCode.P)) {
+            // testing save
+            SaveFileManager.Save();
+        }
+
         if (GameManager.Instance.CanOpenMenu() && Input.GetButtonDown("OpenMenu")) {
             // if click m, do open/close menu
             if (menuOpen) {
@@ -94,6 +99,11 @@ public class PlayerControls : MonoBehaviour {
     public void SetPlayerForward() {
         anim.SetFloat("LastMoveX", 0);
         anim.SetFloat("LastMoveY", -1f);
+    }
+
+    // return the values for LastMoveX and LastMoveY
+    public Vector2 GetLastMove() {
+        return new Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY"));
     }
 
     public void SetPosition(Vector3 newPos) {
