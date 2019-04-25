@@ -271,7 +271,13 @@ public class PartyStats {
         party[name].CurrHP = currentHP;
     }
 
+    // get a specific character's stats
     public CharStats GetCharacterStats(string name) {
         return party[name];
+    }
+
+    // load a specific character's stats
+    public void LoadCharStats(string name, CharStats stats) {
+        party[name].LoadStats(stats);
     }
 }

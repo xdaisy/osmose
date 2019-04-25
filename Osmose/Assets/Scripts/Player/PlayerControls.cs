@@ -50,6 +50,10 @@ public class PlayerControls : MonoBehaviour {
             // testing save
             SaveFileManager.Save();
         }
+        if (Input.GetKeyDown(KeyCode.O)) {
+            // loading save
+            SaveFileManager.Load();
+        }
 
         if (GameManager.Instance.CanOpenMenu() && Input.GetButtonDown("OpenMenu")) {
             // if click m, do open/close menu
@@ -104,6 +108,11 @@ public class PlayerControls : MonoBehaviour {
     // return the values for LastMoveX and LastMoveY
     public Vector2 GetLastMove() {
         return new Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY"));
+    }
+
+    public void SetLastMove(Vector2 lastMove) {
+        anim.SetFloat("LastMoveX", lastMove.x);
+        anim.SetFloat("LastMoveY", lastMove.y);
     }
 
     public void SetPosition(Vector3 newPos) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class SaveFileManager {
     [Serializable]
@@ -69,5 +70,35 @@ public class SaveFileManager {
         StreamWriter writer = new StreamWriter(path, false);
         writer.WriteLine(json);
         writer.Close();
+    }
+
+    public static void Load() {
+        string path = "Assets/Resources/save.txt";
+
+        StreamReader reader = new StreamReader(path);
+        string json = reader.ReadToEnd();
+
+        SaveData save = JsonUtility.FromJson<SaveData>(json);
+
+        GameManager.Instance.CurrentScene = save.CurrentScene;
+        GameManager.Instance.IsBattleMap = save.IsBattleMap;
+        GameManager.Instance.SetMagicMeter(save.MagicMeter);
+        Vector2 lastMove = new Vector2(save.LastMoveX, save.LastMoveY);
+        PlayerControls.Instance.SetLastMove(lastMove);
+        Vector3 playerPos = new Vector3(save.XPosition, save.YPosition, save.ZPosition);
+        PlayerControls.Instance.SetPosition(playerPos);
+        GameManager.Instance.Wallet = save.Wallet;
+        GameManager.Instance.ItemsHeld = new List<string>(save.ItemsHeld);
+        GameManager.Instance.NumOfItems = new List<int>(save.NumOfItems);
+        GameManager.Instance.EquipmentHeld = new List<string>(save.EquipmentHeld);
+        GameManager.Instance.NumOfEquipment = new List<int>(save.NumOfEquipment);
+        GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
+        GameManager.Instance.Party.LoadCharStats("Aren", save.Aren);
+        GameManager.Instance.Party.LoadCharStats("Rey", save.Rey);
+        GameManager.Instance.Party.LoadCharStats("Naoise", save.Naoise);
+        save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
+        save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
+
+        SceneManager.LoadScene(GameManager.Instance.CurrentScene);
     }
 }

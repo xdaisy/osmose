@@ -65,7 +65,35 @@ public class CharStats {
         //    Skills.Add(skillsToLearn[Level]);
         //}
         for (int i = 0; i <= Level; i++) {
-            if (skills[i] != null) {
+            if (skillsToLearn[i] != null) {
+                Skills.Add(skillsToLearn[i]);
+            }
+        }
+    }
+
+    // load the character's stats
+    public void LoadStats(CharStats stats) {
+        this.Level = stats.Level;
+        this.CurrExp = stats.CurrExp;
+        this.NextExp = stats.NextExp;
+
+        this.CurrHP = stats.CurrHP;
+        this.MaxHP = stats.MaxHP;
+        this.CurrSP = stats.CurrSP;
+        this.MaxSP = stats.MaxSP;
+        this.Attack = stats.Attack;
+        this.Defense = stats.Defense;
+        this.MagicDefense = stats.MagicDefense;
+        this.Speed = stats.Speed;
+        this.Luck = stats.Luck;
+
+        this.Weapon = stats.Weapon;
+        this.WeaponAttack = stats.WeaponAttack;
+        this.Armor = stats.Armor;
+        this.ArmorDefense = stats.ArmorDefense;
+
+        for (int i = 2; i <= this.Level; i++) {
+            if (skillsToLearn[i] != null) {
                 Skills.Add(skillsToLearn[i]);
             }
         }
