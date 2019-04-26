@@ -99,7 +99,7 @@ public class PlayerControls : MonoBehaviour {
     }
 
     // set the player to face forward
-    // use for after the cutscene
+    // use for after the cutscene or loading into scene when defeated in battle
     public void SetPlayerForward() {
         anim.SetFloat("LastMoveX", 0);
         anim.SetFloat("LastMoveY", -1f);

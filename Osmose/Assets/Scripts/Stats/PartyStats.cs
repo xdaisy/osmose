@@ -29,9 +29,9 @@ public class PartyStats {
         party["Rey"] = rey;
         party["Naoise"] = naoise;
         currentPartyMembers = new List<string>();
-        currentPartyMembers.Add("Aren");
+        //currentPartyMembers.Add("Aren");
         currentPartyMembers.Add("Rey");
-        currentPartyMembers.Add("Naoise");
+        //currentPartyMembers.Add("Naoise");
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;
@@ -255,6 +255,15 @@ public class PartyStats {
     
     public void ChangeMembers(List<string> party) {
         currentPartyMembers = party;
+    }
+
+    // fully recover the current party
+    // use when party is defeated and is teleported back to town
+    public void RecoverParty() {
+        foreach (string member in currentPartyMembers) {
+            party[member].CurrHP = party[member].MaxHP;
+            party[member].CurrSP = party[member].MaxSP;
+        }
     }
     
     public List<string> GetCurrentParty() {

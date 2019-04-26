@@ -7,6 +7,7 @@ public class ExitBattle : MonoBehaviour {
     public float WaitToLoad = 1f;
 
     private bool shouldLoadAfterFade;
+    private string sceneToLoad;
 
     // Update is called once per frame
     void Update()
@@ -15,15 +16,31 @@ public class ExitBattle : MonoBehaviour {
             WaitToLoad -= Time.deltaTime;
             if (WaitToLoad <= 0f) {
                 shouldLoadAfterFade = false;
-                SceneManager.LoadScene(GameManager.Instance.CurrentScene);
+                SceneManager.LoadScene(sceneToLoad);
             }
         }
     }
 
+    // party won so go back to current scene
     public void EndBattle() {
-        shouldLoadAfterFade = true;
-        UIFade.Instance.FadeToBlack();
+        sceneToLoad = GameManager.Instance.CurrentScene;
         PlayerControls.Instance.PreviousAreaName = "Battle";
+        loadScene();
+    }
+
+    // party was defeated so go back to town
+    public void DefeatedInBattle() {
+        sceneToLoad = GameManager.Instance.LastTown;
+        GameManager.Instance.CurrentScene = GameManager.Instance.LastTown;
+        GameManager.Instance.Party.RecoverParty();
+        PlayerControls.Instance.PreviousAreaName = "Defeated";
+        PlayerControls.Instance.SetPlayerForward();
+        loadScene();
+    }
+
+    private void loadScene() {
+        UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
+        shouldLoadAfterFade = true;
     }
 }

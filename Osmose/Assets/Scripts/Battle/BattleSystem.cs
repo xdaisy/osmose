@@ -146,6 +146,15 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         } else if (isPartyDead()) {
             // all characters dead, battle is over
+            textToShow.Enqueue("You were defeated...");
+            showText();
+            if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
+                GameManager.Instance.InBattle = false;
+                // load back to last town
+                ExitBattle battleExit = FindObjectOfType<ExitBattle>();
+                battleExit.DefeatedInBattle();
+            }
+            endedBattle = true;
         }
 
         if (textToShow.Count > 0) {
@@ -305,6 +314,9 @@ public class BattleSystem : MonoBehaviour {
                 Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[target]].transform.position, damage, true);
 
                 GameManager.Instance.Party.DealtDamage(partyMember, damage);
+                if (!GameManager.Instance.Party.IsAlive(partyMember)) {
+                    numAliveChar--;
+                }
 
                 break;
         }

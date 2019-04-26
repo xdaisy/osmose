@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Game Status")]
     public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene, InShop;
     public string CurrentScene;
+    public string LastTown; // last town/non-battle area player was last in
     public bool IsBattleMap;
 
     [Header("Currency")]
