@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using System.IO;
 
 public class LoadGame : MonoBehaviour {
 
     public string loadArea;
 
-    public Image fadeScreen;
-    public Animator fadeAnim;
+    public float WaitToLoad = 1f;
+
+    private bool shouldLoadAfterFade;
+    private bool isContinue;
 
     // Use this for initialization
     void Start () {
@@ -17,19 +19,36 @@ public class LoadGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if (shouldLoadAfterFade) {
+            WaitToLoad -= Time.deltaTime;
+            if (WaitToLoad <= 0f) {
+                shouldLoadAfterFade = false;
+                if (isContinue) {
+                    SaveFileManager.Load();
+                } else {
+                    SceneManager.LoadScene(loadArea);
+                }
+            }
+        }
     }
 
-    // load the game
-    public void StartGame() {
-        StartCoroutine(Fade()); // fade to next screen
+    // start a new game
+    public void StartNewGame() {
+        shouldLoadAfterFade = true;
+        isContinue = false;
+        UIFade.Instance.FadeToBlack();
+        GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.CurrentScene = loadArea;
     }
 
-    IEnumerator Fade() {
-        fadeAnim.SetBool("Fade", true);
-        yield return new WaitUntil(() => fadeScreen.color.a == 1); // wait until alpha value is one
-        SceneManager.LoadScene(loadArea);
+    // continue a gameplay
+    public void ContinueGame() {
+        if (File.Exists("Assets/Resources/save.txt")) {
+            // can continue if save file exists
+            shouldLoadAfterFade = true;
+            isContinue = true;
+            UIFade.Instance.FadeToBlack();
+            GameManager.Instance.FadingBetweenAreas = true;
+        }
     }
-
-
 }

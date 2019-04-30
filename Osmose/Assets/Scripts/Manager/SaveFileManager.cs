@@ -10,6 +10,7 @@ public class SaveFileManager {
     private class SaveData {
         // game information
         public string CurrentScene;
+        public string LastTown;
         public bool IsBattleMap;
         public float MagicMeter;
         public float LastMoveX;
@@ -29,6 +30,9 @@ public class SaveFileManager {
 
         public List<string> KeyItemsHeld;
 
+        // current party
+        public List<string> CurrentParty;
+
         // character stats
         public CharStats Aren;
         public CharStats Rey;
@@ -42,6 +46,7 @@ public class SaveFileManager {
     public static void Save() {
         SaveData save = new SaveData {
             CurrentScene = GameManager.Instance.CurrentScene,
+            LastTown = GameManager.Instance.LastTown,
             IsBattleMap = GameManager.Instance.IsBattleMap,
             MagicMeter = GameManager.Instance.GetMagicMeter(),
             XPosition = PlayerControls.Instance.transform.position.x,
@@ -53,6 +58,7 @@ public class SaveFileManager {
             EquipmentHeld = GameManager.Instance.EquipmentHeld,
             NumOfEquipment = GameManager.Instance.NumOfEquipment,
             KeyItemsHeld = GameManager.Instance.KeyItemsHeld,
+            CurrentParty = GameManager.Instance.Party.GetCurrentParty(),
             Aren = GameManager.Instance.Party.GetCharacterStats("Aren"),
             Rey = GameManager.Instance.Party.GetCharacterStats("Rey"),
             Naoise = GameManager.Instance.Party.GetCharacterStats("Naoise"),
@@ -81,23 +87,30 @@ public class SaveFileManager {
         SaveData save = JsonUtility.FromJson<SaveData>(json);
 
         GameManager.Instance.CurrentScene = save.CurrentScene;
+        GameManager.Instance.LastTown = save.LastTown;
         GameManager.Instance.IsBattleMap = save.IsBattleMap;
         GameManager.Instance.SetMagicMeter(save.MagicMeter);
         Vector2 lastMove = new Vector2(save.LastMoveX, save.LastMoveY);
         PlayerControls.Instance.SetLastMove(lastMove);
         Vector3 playerPos = new Vector3(save.XPosition, save.YPosition, save.ZPosition);
         PlayerControls.Instance.SetPosition(playerPos);
+
         GameManager.Instance.Wallet = save.Wallet;
         GameManager.Instance.ItemsHeld = new List<string>(save.ItemsHeld);
         GameManager.Instance.NumOfItems = new List<int>(save.NumOfItems);
         GameManager.Instance.EquipmentHeld = new List<string>(save.EquipmentHeld);
         GameManager.Instance.NumOfEquipment = new List<int>(save.NumOfEquipment);
         GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
+
+        GameManager.Instance.Party.ChangeMembers(save.CurrentParty);
         GameManager.Instance.Party.LoadCharStats("Aren", save.Aren);
         GameManager.Instance.Party.LoadCharStats("Rey", save.Rey);
         GameManager.Instance.Party.LoadCharStats("Naoise", save.Naoise);
+
         save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
         save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
+
+        PlayerControls.Instance.PreviousAreaName = "Continue";
 
         SceneManager.LoadScene(GameManager.Instance.CurrentScene);
     }

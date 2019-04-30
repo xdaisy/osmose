@@ -513,6 +513,18 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.UpdateAfterEquip();
     }
 
+    // save the game
+    public void Save() {
+        StartCoroutine(SaveCo());
+    }
+
+    private IEnumerator SaveCo() {
+        // save
+        SaveFileManager.Save();
+        // wait 1 sec
+        yield return new WaitForSeconds(1f);
+    }
+
     // open the game menu
     public void OpenGameMenu() {
         OpenMenu(0);
