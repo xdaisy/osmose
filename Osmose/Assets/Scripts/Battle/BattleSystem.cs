@@ -157,7 +157,7 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         }
 
-        if (textToShow.Count > 0) {
+        if (textToShow.Count > 0 && !TextHud.gameObject.activeSelf) {
             // if player have finished their command, show text
             showText();
         } else if (!playerTurn && !enemyTurn && !TextHud.IsActive()) {
@@ -208,11 +208,10 @@ public class BattleSystem : MonoBehaviour {
                         enemy = enemies[i];
                     }
                 }
-                //enemyMove(enemy);
                 StartCoroutine(enemyTurnCo(enemy));
                 enemyTurn = true;
             }
-        } else if (TextHud.IsActive() && enemies.Count >= 1 && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
+        } else if (TextHud.IsActive() && !endedBattle && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per move)
             TextImage.SetActive(false);
             TextHud.gameObject.SetActive(false);
@@ -272,64 +271,6 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    private void showText() {
-        MainHud.gameObject.SetActive(false);
-
-        TextImage.SetActive(true);
-        TextHud.gameObject.SetActive(true);
-        TextHud.text = textToShow.Dequeue();
-    }
-
-    private IEnumerator enemyTurnCo(Enemy enemy) {
-        enemy.DoMove();
-        yield return new WaitForSeconds(0.5f);
-        enemyMove(enemy);
-        yield return new WaitForSeconds(0.5f);
-        enemyTurn = false;
-    }
-
-    private void enemyMove(Enemy enemy) {
-        enemy.IsDefending = false;
-
-        int move = UnityEngine.Random.Range(0, 5);
-
-        switch (move) {
-            case 0:
-                // enemy defend
-                enemy.IsDefending = true;
-                textToShow.Enqueue(enemy.EnemyName + " defended");
-                break;
-            default:
-                // enemy attack
-                int target = UnityEngine.Random.Range(0, hostilityMeter.Count);
-                string partyMember = party[hostilityMeter[target]];
-
-                int damage = enemy.Attack - GameManager.Instance.Party.GetCharDef(partyMember);
-                if (GameManager.Instance.Party.IsDefending(partyMember)) {
-                    damage /= 2;
-                }
-                damage = Math.Max(damage, 1); // at least do 1 damage
-
-                // show damage
-                Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[target]].transform.position, damage, true);
-
-                GameManager.Instance.Party.DealtDamage(partyMember, damage);
-                if (!GameManager.Instance.Party.IsAlive(partyMember)) {
-                    numAliveChar--;
-                }
-
-                break;
-        }
-    }
-
-    // wait 1 sec when enemy die
-    public IEnumerator enemyDied(Enemy enemy, int choice) {
-        yield return new WaitForSeconds(1f);
-        enemies.RemoveAt(choice);
-        turnOrder.RemoveFromQueue(enemy.EnemyName);
-        playerTurn = false;
-    }
-
     // select attack and show the selection of enemies to attack
     public void SelectAttack() {
         MainHud.interactable = false;
@@ -339,6 +280,36 @@ public class BattleSystem : MonoBehaviour {
         attacking = true;
 
         SelectHudUI.OpenSelectHud(enemies.ToArray());
+    }
+
+    // regular attack
+    private void regularAttack(int choice) {
+        Enemy enemy = enemies[choice];
+        // calculate the damage
+        int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
+
+        // if enemy is defending, reduce damage
+        if (enemy.IsDefending) {
+            damage = Mathf.RoundToInt(damage / 2);
+        }
+
+        damage = Math.Max(damage, 1); // always do at least 1 damage
+
+        // reduce enemy's hp
+        enemy.CurrentHP -= damage;
+        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
+
+        // show damage
+        if (enemy.CurrentHP > 0) {
+            // if enemy didn't die
+            StartCoroutine(showDamage(enemy.transform.position, damage, true));
+        } else {
+            // enemy died
+            StartCoroutine(showDamage(enemy.transform.position, damage));
+            earnedExp += enemy.Exp;
+            earnedMoney += enemy.Money;
+            StartCoroutine(enemyDied(enemy, choice));
+        }
     }
 
     public void Select(int choice) {
@@ -479,50 +450,6 @@ public class BattleSystem : MonoBehaviour {
                 }
             }
         }
-    }
-
-    // regular attack
-    private void regularAttack(int choice) {
-        Enemy enemy = enemies[choice];
-        // calculate the damage
-        int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
-
-        // if enemy is defending, reduce damage
-        if (enemy.IsDefending) {
-            damage = Mathf.RoundToInt(damage / 2);
-        }
-
-        damage = Math.Max(damage, 1); // always do at least 1 damage
-
-        // reduce enemy's hp
-        enemy.CurrentHP -= damage;
-        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
-
-        // show damage
-        if (enemy.CurrentHP > 0) {
-            // if enemy didn't die
-            StartCoroutine(showDamage(enemy.transform.position, damage, true));
-        } else {
-            // enemy died
-            StartCoroutine(showDamage(enemy.transform.position, damage));
-            earnedExp += enemy.Exp;
-            earnedMoney += enemy.Money;
-            StartCoroutine(enemyDied(enemy, choice));
-        }
-    }
-
-    // show amount damaged/recovered if enemy didn't die
-    private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
-        Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
-        yield return new WaitForSeconds(DamageNumber.Duration);
-        CharTurnImage.gameObject.SetActive(false);
-        playerTurn = false;
-    }
-
-    // show damage when and enemy dies
-    private IEnumerator showDamage(Vector3 pos, int amount) {
-        Instantiate(DamageNumber).SetDamage(pos, amount, true);
-        yield return new WaitForSeconds(DamageNumber.Duration);
     }
 
     public void SelectSkills() {
@@ -679,6 +606,28 @@ public class BattleSystem : MonoBehaviour {
         playerTurn = false;
     }
 
+    private void showText() {
+        MainHud.gameObject.SetActive(false);
+
+        TextImage.SetActive(true);
+        TextHud.gameObject.SetActive(true);
+        TextHud.text = textToShow.Dequeue();
+    }
+
+    // show amount damaged/recovered if enemy didn't die
+    private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
+        Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
+        yield return new WaitForSeconds(DamageNumber.Duration);
+        CharTurnImage.gameObject.SetActive(false);
+        playerTurn = false;
+    }
+
+    // show damage when an enemy dies
+    private IEnumerator showDamage(Vector3 pos, int amount) {
+        Instantiate(DamageNumber).SetDamage(pos, amount, true);
+        yield return new WaitForSeconds(DamageNumber.Duration);
+    }
+
     private void determineTurnOrder() {
         string[] turn = new string[200];
         List<string> party = GameManager.Instance.Party.GetCurrentParty();
@@ -753,6 +702,56 @@ public class BattleSystem : MonoBehaviour {
                 posIndx++;
             }
         }
+    }
+
+    private IEnumerator enemyTurnCo(Enemy enemy) {
+        enemy.DoMove();
+        yield return new WaitForSeconds(0.5f);
+        enemyMove(enemy);
+        yield return new WaitForSeconds(0.5f);
+        enemyTurn = false;
+    }
+
+    private void enemyMove(Enemy enemy) {
+        enemy.IsDefending = false;
+
+        int move = UnityEngine.Random.Range(0, 5);
+
+        switch (move) {
+            case 0:
+                // enemy defend
+                enemy.IsDefending = true;
+                textToShow.Enqueue(enemy.EnemyName + " defended");
+                break;
+            default:
+                // enemy attack
+                int target = UnityEngine.Random.Range(0, hostilityMeter.Count);
+                string partyMember = party[hostilityMeter[target]];
+
+                int damage = enemy.Attack - GameManager.Instance.Party.GetCharDef(partyMember);
+                if (GameManager.Instance.Party.IsDefending(partyMember)) {
+                    damage /= 2;
+                }
+                damage = Math.Max(damage, 1); // at least do 1 damage
+
+                // show damage
+                Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[target]].transform.position, damage, true);
+
+                GameManager.Instance.Party.DealtDamage(partyMember, damage);
+                if (!GameManager.Instance.Party.IsAlive(partyMember)) {
+                    numAliveChar--;
+                }
+
+                break;
+        }
+    }
+
+    // wait 1 sec when enemy die
+    private IEnumerator enemyDied(Enemy enemy, int choice) {
+        yield return new WaitForSeconds(1f);
+        enemies.RemoveAt(choice);
+        turnOrder.RemoveFromQueue(enemy.EnemyName);
+        playerTurn = false;
     }
 
     // find the position of the enemy with the enemyName
