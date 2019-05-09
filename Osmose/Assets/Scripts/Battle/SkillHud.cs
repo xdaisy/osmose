@@ -110,7 +110,7 @@ public class SkillHud : MonoBehaviour {
             Skills[i].gameObject.SetActive(true);
             Skills[i].text = skill.SkillName;
             SkillCost[i].text = "" + skill.Cost;
-            if (currChar == "Aren") {
+            if (currChar == Constants.AREN) {
                 button.interactable = arenShifted == skill.UseInShift;
             }
         }

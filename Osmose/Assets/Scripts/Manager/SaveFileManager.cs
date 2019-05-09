@@ -59,9 +59,9 @@ public class SaveFileManager {
             NumOfEquipment = GameManager.Instance.NumOfEquipment,
             KeyItemsHeld = GameManager.Instance.KeyItemsHeld,
             CurrentParty = GameManager.Instance.Party.GetCurrentParty(),
-            Aren = GameManager.Instance.Party.GetCharacterStats("Aren"),
-            Rey = GameManager.Instance.Party.GetCharacterStats("Rey"),
-            Naoise = GameManager.Instance.Party.GetCharacterStats("Naoise"),
+            Aren = GameManager.Instance.Party.GetCharacterStats(Constants.AREN),
+            Rey = GameManager.Instance.Party.GetCharacterStats(Constants.REY),
+            Naoise = GameManager.Instance.Party.GetCharacterStats(Constants.NAOISE),
             OpenedChest = ObtainItemManager.Instance.OpenedChest,
             PickedUpItem = ObtainItemManager.Instance.PickedUpItem
         };
@@ -103,9 +103,9 @@ public class SaveFileManager {
         GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
 
         GameManager.Instance.Party.ChangeMembers(save.CurrentParty);
-        GameManager.Instance.Party.LoadCharStats("Aren", save.Aren);
-        GameManager.Instance.Party.LoadCharStats("Rey", save.Rey);
-        GameManager.Instance.Party.LoadCharStats("Naoise", save.Naoise);
+        GameManager.Instance.Party.LoadCharStats(Constants.AREN, save.Aren);
+        GameManager.Instance.Party.LoadCharStats(Constants.REY, save.Rey);
+        GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, save.Naoise);
 
         save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
         save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);

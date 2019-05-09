@@ -176,13 +176,13 @@ public class ItemsPanel : MonoBehaviour {
             if (i >= party.Count) {
                 continue;
             }
-            if (party[i] == "Aren") {
+            if (party[i] == Constants.AREN) {
                 CharImages[i].sprite = GameManager.Instance.ArenSprite;
             }
-            if (party[i] == "Rey") {
+            if (party[i] == Constants.REY) {
                 CharImages[i].sprite = GameManager.Instance.ReySprite;
             }
-            if (party[i] == "Naoise") {
+            if (party[i] == Constants.NAOISE) {
                 CharImages[i].sprite = GameManager.Instance.NaoiseSprite;
             }
         }

@@ -49,13 +49,13 @@ public class SelectMenu : MonoBehaviour
             int maxSp = GameManager.Instance.Party.GetCharMaxSP(charName);
 
             switch (charName) {
-                case "Aren":
+                case Constants.AREN:
                     CharImages[i].sprite = GameManager.Instance.ArenSprite;
                     break;
-                case "Rey":
+                case Constants.REY:
                     CharImages[i].sprite = GameManager.Instance.ReySprite;
                     break;
-                case "Naoise":
+                case Constants.NAOISE:
                     CharImages[i].sprite = GameManager.Instance.NaoiseSprite;
                     break;
             }

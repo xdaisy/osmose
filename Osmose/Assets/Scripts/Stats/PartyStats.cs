@@ -22,16 +22,16 @@ public class PartyStats {
 
     public PartyStats() {
         party = new Dictionary<string, CharStats>();
-        CharStats aren = CharStatsFactory.GeneratorChar(protags.AREN);
-        CharStats rey = CharStatsFactory.GeneratorChar(protags.REY);
-        CharStats naoise = CharStatsFactory.GeneratorChar(protags.NAOISE);
-        party["Aren"] = aren;
-        party["Rey"] = rey;
-        party["Naoise"] = naoise;
+        CharStats aren = CharStatsFactory.GeneratorChar(Constants.AREN);
+        CharStats rey = CharStatsFactory.GeneratorChar(Constants.REY);
+        CharStats naoise = CharStatsFactory.GeneratorChar(Constants.NAOISE);
+        party[Constants.AREN] = aren;
+        party[Constants.REY] = rey;
+        party[Constants.NAOISE] = naoise;
         currentPartyMembers = new List<string>();
-        currentPartyMembers.Add("Aren");
-        currentPartyMembers.Add("Rey");
-        currentPartyMembers.Add("Naoise");
+        currentPartyMembers.Add(Constants.AREN);
+        currentPartyMembers.Add(Constants.REY);
+        currentPartyMembers.Add(Constants.NAOISE);
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;

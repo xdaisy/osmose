@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkillsManager : MonoBehaviour {
     public static SkillsManager Instance;
@@ -18,16 +16,16 @@ public class SkillsManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    public Skill[] GetCharSkills(protags name) {
+    public Skill[] GetCharSkills(string name) {
         Skill[] skills = new Skill[ArenSkills.Length];
         switch(name) {
-            case protags.AREN:
+            case Constants.AREN:
                 ArenSkills.CopyTo(skills, 0);
                 break;
-            case protags.REY:
+            case Constants.REY:
                 ReySkills.CopyTo(skills, 0);
                 break;
-            case protags.NAOISE:
+            case Constants.NAOISE:
                 NaoiseSkills.CopyTo(skills, 0);
                 break;
         }

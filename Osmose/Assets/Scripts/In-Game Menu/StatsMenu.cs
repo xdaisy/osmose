@@ -98,13 +98,13 @@ public class StatsMenu : MonoBehaviour
 
     private void updateImage() {
         switch (currCharacter) {
-            case "Aren":
+            case Constants.AREN:
                 CharacterImage.sprite = GameManager.Instance.ArenSprite;
                 break;
-            case "Rey":
+            case Constants.REY:
                 CharacterImage.sprite = GameManager.Instance.ReySprite;
                 break;
-            case "Naoise":
+            case Constants.NAOISE:
                 CharacterImage.sprite = GameManager.Instance.NaoiseSprite;
                 break;
         }

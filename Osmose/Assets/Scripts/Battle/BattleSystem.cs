@@ -168,7 +168,7 @@ public class BattleSystem : MonoBehaviour {
                 setCurrTurnImage();
                 playerTurn = true;
                 // if curr character's turn is aren && is shifted && magic < 25%, attack
-                if (charTurn == "Aren" && arenShifted && GameManager.Instance.GetMagicMeter() < 0.25) {
+                if (charTurn == Constants.AREN && arenShifted && GameManager.Instance.GetMagicMeter() < 0.25) {
                     int choice = UnityEngine.Random.Range(0, enemies.Count); // randomly attack an enemy
                     regularAttack(choice);
                 } else {
@@ -177,7 +177,7 @@ public class BattleSystem : MonoBehaviour {
                     MainHud.gameObject.SetActive(true);
                     MainHud.interactable = true;
 
-                    if (charTurn == "Aren") {
+                    if (charTurn == Constants.AREN) {
                         MainHudUI.ArenShifted(arenShifted);
                     } else {
                         MainHudUI.SetItemsActive();
@@ -462,7 +462,7 @@ public class BattleSystem : MonoBehaviour {
         SkillHud.interactable = true;
         DescriptionPanel.SetActive(true);
 
-        if (charTurn == "Aren") {
+        if (charTurn == Constants.AREN) {
             SkillHudUI.OpenSkillsHud(charTurn, arenShifted);
         } else {
             SkillHudUI.OpenSkillsHud(charTurn);
@@ -527,7 +527,7 @@ public class BattleSystem : MonoBehaviour {
             skillToUse = null;
         } else if (skillToUse.SkillName == "Taunt") {
             for (int i = 0; i < party.Count; i++) {
-                if (party[i] == "Naoise") {
+                if (party[i] == Constants.NAOISE) {
                     hostilityMeter.Add(i);
                     hostilityMeter.Add(i);
                     break;
