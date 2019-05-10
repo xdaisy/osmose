@@ -21,7 +21,7 @@ public class Skill : MonoBehaviour {
     [Header("Skill Info")]
     public float PercentValue;
 
-    // for attacking
+    // for attacking or using skill on self
     public float UseSkill(string charName) {
         // reduce character's sp for using the skill
         GameManager.Instance.Party.CharUseSkill(charName, Cost);
@@ -29,6 +29,12 @@ public class Skill : MonoBehaviour {
             return GameManager.Instance.Party.GetCharAttk(charName) * PercentValue;
         }
 
+        // heal char
+        if (IsHeal) {
+            GameManager.Instance.Party.RecoverPctHP(charName, PercentValue);
+        }
+
+        // buff char
         if (BuffAttk) {
             GameManager.Instance.Party.BuffStats(charName, StatType.ATTACK, PercentValue);
         }
@@ -45,6 +51,7 @@ public class Skill : MonoBehaviour {
             GameManager.Instance.Party.BuffStats(charName, StatType.LUCK, PercentValue);
         }
 
+        // debuff char
         if (DebuffAttk) {
             GameManager.Instance.Party.DebuffStats(charName, StatType.ATTACK, PercentValue);
         }

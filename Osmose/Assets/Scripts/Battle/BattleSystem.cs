@@ -471,33 +471,67 @@ public class BattleSystem : MonoBehaviour {
 
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
-        if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse.SkillName != "Shift" && skillToUse.SkillName != "Unshift" && skillToUse.SkillName != "Taunt") {
+        bool endTurn = false;
+
+        if (skillToUse is TauntSkill) {
+            for (int i = 0; i < party.Count; i++) {
+                if (party[i] == Constants.NAOISE) {
+                    hostilityMeter.Add(i);
+                    hostilityMeter.Add(i);
+                    break;
+                }
+            }
+            endTurn = true;
+            playerTurn = false;
+        } else if ((GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse is ShiftSkill) || skillToUse is UnshiftSkill) {
+            // aren shifting
+            ShiftImage.gameObject.SetActive(skillToUse is ShiftSkill);
+            arenShifted = skillToUse is ShiftSkill;
+            float magicMeter = GameManager.Instance.GetMagicMeter();
+            skillToUse.UseSkill(charTurn);
+            SkillHudUI.OpenSkillsHud(charTurn, arenShifted);
+            MainHudUI.ArenShifted(arenShifted);
+            if (magicMeter < 0.75) {
+                // if magic meter < 75%, player must end turn
+                endTurn = true;
+                playerTurn = false;
+            }
+            skillToUse = null;
+        } else if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost) {
             // regular skill
             // can only use if have enough sp to use
-            SkillHud.interactable = false;
-            SelectHud.gameObject.SetActive(true);
-            SelectHud.interactable = true;
 
             usingSkill = true;
 
             if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
                 // use on enemy
+                SkillHud.interactable = false;
+                SelectHud.gameObject.SetActive(true);
+                SelectHud.interactable = true;
+
                 SelectHudUI.OpenSelectHud(enemies.ToArray());
             } else if (skillToUse.UseOnSelf) {
-                // only use skill on user
-                PartyUI[] activeParty = new PartyUI[1];
-                List<string> healingParty = new List<string>();
-                for (int i = 0; i < party.Count; i++) {
-                    if (party[i] == charTurn) {
-                        activeParty[0] = PartyMemUI[i];
-                        healingParty.Add(party[i]);
-                        break;
+                // use skill on self
+                int currHP = GameManager.Instance.Party.GetCharCurrHP(charTurn);
+                int maxHP = GameManager.Instance.Party.GetCharMaxHP(charTurn);
+                if (skillToUse.IsHeal && currHP < maxHP) {
+                    skillToUse.UseSkill(charTurn);
+                    int amountHealed = GameManager.Instance.Party.GetCharCurrHP(charTurn) - currHP;
+                    int pos = 0;
+                    for (int i = 0; i < party.Count; i++) {
+                        if (party[i] == charTurn) {
+                            pos = i;
+                        }
                     }
+                    StartCoroutine(showDamage(CharPos[pos].position, amountHealed, false));
+                    endTurn = true;
                 }
-
-                SelectHudUI.OpenSelectHud(activeParty, healingParty.ToArray());
             } else if (skillToUse.IsHeal) {
-                // use healing skill on party
+                // use healing skill on party if not use on self
+                SkillHud.interactable = false;
+                SelectHud.gameObject.SetActive(true);
+                SelectHud.interactable = true;
+
                 int numActPartyUI = PartyHudUI.GetNumActiveUI();
 
                 PartyUI[] activeParty = new PartyUI[numActPartyUI];
@@ -507,40 +541,15 @@ public class BattleSystem : MonoBehaviour {
 
                 SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
             }
-        } else if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && (skillToUse.SkillName == "Shift" || skillToUse.SkillName == "Unshift")) {
-            // aren shifting
-            ShiftImage.gameObject.SetActive(skillToUse.SkillName == "Shift");
-            arenShifted = skillToUse.SkillName == "Shift";
-            float magicMeter = GameManager.Instance.GetMagicMeter();
-            skillToUse.UseSkill(charTurn);
-            SkillHudUI.OpenSkillsHud(charTurn, arenShifted);
-            MainHudUI.ArenShifted(arenShifted);
-            if (magicMeter < 0.75) {
-                // if magic meter < 75%, player must end turn
-                SkillHud.gameObject.SetActive(false);
-                SkillHud.interactable = false;
-                DescriptionPanel.SetActive(false);
-                SkillHudUI.ExitSkillHud();
-                CharTurnImage.gameObject.SetActive(false);
-                playerTurn = false;
-            }
+        } else {
             skillToUse = null;
-        } else if (skillToUse.SkillName == "Taunt") {
-            for (int i = 0; i < party.Count; i++) {
-                if (party[i] == Constants.NAOISE) {
-                    hostilityMeter.Add(i);
-                    hostilityMeter.Add(i);
-                    break;
-                }
-            }
+        }
+        if (endTurn) {
             SkillHud.gameObject.SetActive(false);
             SkillHud.interactable = false;
             DescriptionPanel.SetActive(false);
             SkillHudUI.ExitSkillHud();
             CharTurnImage.gameObject.SetActive(false);
-            playerTurn = false;
-        } else {
-            skillToUse = null;
         }
     }
 
