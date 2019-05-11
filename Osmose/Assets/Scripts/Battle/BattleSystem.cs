@@ -724,34 +724,18 @@ public class BattleSystem : MonoBehaviour {
     private void enemyMove(Enemy enemy) {
         enemy.IsDefending = false;
 
-        int move = UnityEngine.Random.Range(0, 5);
+        EnemyTurn enemyTurn = enemy.EnemyDecide(hostilityMeter);
 
-        switch (move) {
-            case 0:
-                // enemy defend
-                enemy.IsDefending = true;
-                textToShow.Enqueue(enemy.EnemyName + " defended");
-                break;
-            default:
-                // enemy attack
-                int target = UnityEngine.Random.Range(0, hostilityMeter.Count);
-                string partyMember = party[hostilityMeter[target]];
+        if (enemyTurn.Defend) {
+            textToShow.Enqueue(enemy.EnemyName + " defended");
+        }
+        if (enemyTurn.Attack) {
+            Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[enemyTurn.Target]].transform.position, enemyTurn.Amount, true);
+            string partyMember = party[hostilityMeter[enemyTurn.Target]];
 
-                int damage = enemy.Attack - GameManager.Instance.Party.GetCharDef(partyMember);
-                if (GameManager.Instance.Party.IsDefending(partyMember)) {
-                    damage /= 2;
-                }
-                damage = Math.Max(damage, 1); // at least do 1 damage
-
-                // show damage
-                Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[target]].transform.position, damage, true);
-
-                GameManager.Instance.Party.DealtDamage(partyMember, damage);
-                if (!GameManager.Instance.Party.IsAlive(partyMember)) {
-                    numAliveChar--;
-                }
-
-                break;
+            if (!GameManager.Instance.Party.IsAlive(partyMember)) {
+                numAliveChar--;
+            }
         }
     }
 
