@@ -47,6 +47,9 @@ public class Menu : MonoBehaviour
     public CanvasGroup SelectPanel;
     public Button[] SelectCharacters;
 
+    [Header("Save Menu")]
+    public SaveMenu SaveMenuUI;
+
     private bool equipWeapon;
 
     private string currCharacter;
@@ -80,6 +83,7 @@ public class Menu : MonoBehaviour
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
     private const string STATS = "Stats";
     private const string SELECT = "SelectMenu";
+    private const string SAVE = "SaveMenu";
 
     private void Awake() {
         // don't destroy object on load if menu don't exist
@@ -291,6 +295,11 @@ public class Menu : MonoBehaviour
                 // open stats menu
                 currentHud = STATS;
                 StatsMenuUI.OpenStatsMenu();
+                break;
+            case 5:
+                // open save menu
+                currentHud = SAVE;
+                SaveMenuUI.OpenSaveMenu();
                 break;
         }
     }
@@ -520,7 +529,7 @@ public class Menu : MonoBehaviour
 
     private IEnumerator SaveCo() {
         // save
-        SaveFileManager.Save();
+        SaveFileManager.Save(0);
         // wait 1 sec
         yield return new WaitForSeconds(1f);
     }

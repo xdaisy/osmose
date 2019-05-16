@@ -9,6 +9,7 @@ public class SaveFileManager {
     [Serializable]
     private class SaveData {
         // game information
+        public float PlayTime;
         public string CurrentScene;
         public string LastTown;
         public bool IsBattleMap;
@@ -43,8 +44,11 @@ public class SaveFileManager {
         public bool[] PickedUpItem;
     }
 
-    public static void Save() {
+    private static string path = "Assets/Resources/save";
+
+    public static void Save(int file) {
         SaveData save = new SaveData {
+            PlayTime = GameManager.Instance.GetPlayTime(),
             CurrentScene = GameManager.Instance.CurrentScene,
             LastTown = GameManager.Instance.LastTown,
             IsBattleMap = GameManager.Instance.IsBattleMap,
@@ -71,20 +75,22 @@ public class SaveFileManager {
 
         string json = JsonUtility.ToJson(save);
 
-        string path = "Assets/Resources/save.txt";
+        string savePath = path + file + ".txt";
 
-        StreamWriter writer = new StreamWriter(path, false);
+        StreamWriter writer = new StreamWriter(savePath, false);
         writer.WriteLine(json);
         writer.Close();
     }
 
-    public static void Load() {
-        string path = "Assets/Resources/save.txt";
+    public static void Load(int file) {
+        string savePath = path + file + ".txt";
 
-        StreamReader reader = new StreamReader(path);
+        StreamReader reader = new StreamReader(savePath);
         string json = reader.ReadToEnd();
 
         SaveData save = JsonUtility.FromJson<SaveData>(json);
+
+        GameManager.Instance.SetPlayTIme(save.PlayTime);
 
         GameManager.Instance.CurrentScene = save.CurrentScene;
         GameManager.Instance.LastTown = save.LastTown;
@@ -111,7 +117,49 @@ public class SaveFileManager {
         save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
 
         PlayerControls.Instance.PreviousAreaName = "Continue";
-
+        
         SceneManager.LoadScene(GameManager.Instance.CurrentScene);
     }
+
+    /// <summary>
+    /// Return whether or not the save file exists
+    /// </summary>
+    /// <param name="file">Which save file</param>
+    /// <returns>true if file exists, false otherwise</returns>
+    public static bool SaveExists(int file) {
+        string savePath = path + file + ".txt";
+        return File.Exists(savePath);
+    }
+
+    /// <summary>
+    /// Get the data needed for the save menu
+    /// </summary>
+    /// <param name="file">Save File</param>
+    /// <returns></returns>
+    public static SaveMenuData GetSaveData(int file) {
+        SaveMenuData saveData = new SaveMenuData();
+        saveData.Exists = SaveExists(file);
+        if (saveData.Exists) {
+            string savePath = path + file + ".txt";
+
+            StreamReader reader = new StreamReader(savePath);
+            string json = reader.ReadToEnd();
+
+            SaveData save = JsonUtility.FromJson<SaveData>(json);
+            saveData.PlayTime = save.PlayTime;
+            saveData.Location = save.CurrentScene;
+            saveData.CurrentParty = save.CurrentParty;
+        }
+        return saveData;
+    }
+}
+
+/// <summary>
+/// Struct of the data of which the Save Menu to display the save files
+/// </summary>
+public struct SaveMenuData {
+    public bool Exists;
+    public float PlayTime;
+    public string Location;
+    public List<string> CurrentParty;
 }

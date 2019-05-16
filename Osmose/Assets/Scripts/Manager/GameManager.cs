@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public Items[] ReferenceKeyItems; // reference to prefab of key items
 
     private float magicMeter = 1f;
+    private float playTime = 0f;
 
     private void Awake() {
         if (Instance == null) {
@@ -343,17 +344,55 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    // get current magic amount
+    /// <summary>
+    /// Get the character's sprite
+    /// </summary>
+    /// <param name="name">Name of the character</param>
+    /// <returns>Sprite of the character, null if the character is not one of the three main characters</returns>
+    public Sprite GetCharSprite(string name) {
+        if (name == Constants.AREN) {
+            return this.ArenSprite;
+        } else if (name == Constants.REY) {
+            return this.ReySprite;
+        } else if (name == Constants.NAOISE) {
+            return this.NaoiseSprite;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Get the magic meter
+    /// </summary>
+    /// <returns>Magic meter</returns>
     public float GetMagicMeter() {
         return magicMeter;
     }
 
-    // set current magic amount
+    /// <summary>
+    /// Set the magic meter
+    /// </summary>
+    /// <param name="magic">Current amount of the magic meter</param>
     public void SetMagicMeter(float magic) {
         magicMeter = magic;
         // cannot be under 0f
         magicMeter = Mathf.Max(magicMeter, 0f);
         // cannot be over 1f
         magicMeter = Mathf.Min(magicMeter, 1f);
+    }
+
+    /// <summary>
+    /// Get the total play time
+    /// </summary>
+    /// <returns>The total play time</returns>
+    public float GetPlayTime() {
+        return playTime;
+    }
+
+    /// <summary>
+    /// Set the play time when loading save
+    /// </summary>
+    /// <param name="time">Play time of the save file</param>
+    public void SetPlayTIme(float time) {
+        this.playTime = time;
     }
 }

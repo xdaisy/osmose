@@ -24,7 +24,7 @@ public class LoadGame : MonoBehaviour {
             if (WaitToLoad <= 0f) {
                 shouldLoadAfterFade = false;
                 if (isContinue) {
-                    SaveFileManager.Load();
+                    SaveFileManager.Load(0);
                 } else {
                     SceneManager.LoadScene(loadArea);
                 }
@@ -43,7 +43,7 @@ public class LoadGame : MonoBehaviour {
 
     // continue a gameplay
     public void ContinueGame() {
-        if (File.Exists("Assets/Resources/save.txt")) {
+        if (SaveFileManager.SaveExists(0)) {
             // can continue if save file exists
             shouldLoadAfterFade = true;
             isContinue = true;
