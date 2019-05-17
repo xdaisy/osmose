@@ -83,7 +83,7 @@ public class Menu : MonoBehaviour
     private const string EQUIPMENT_PANEL = "EquipmentPanel";
     private const string STATS = "Stats";
     private const string SELECT = "SelectMenu";
-    private const string SAVE = "SaveMenu";
+    private const string SAVE = "Save";
 
     private void Awake() {
         // don't destroy object on load if menu don't exist
@@ -523,15 +523,16 @@ public class Menu : MonoBehaviour
     }
 
     // save the game
-    public void Save() {
-        StartCoroutine(SaveCo());
+    public void Save(int file) {
+        StartCoroutine(SaveCo(file));
     }
 
-    private IEnumerator SaveCo() {
+    private IEnumerator SaveCo(int file) {
         // save
-        SaveFileManager.Save(0);
+        SaveFileManager.Save(file);
         // wait 1 sec
         yield return new WaitForSeconds(1f);
+        SaveMenuUI.UpdateSaveMenu();
     }
 
     // open the game menu

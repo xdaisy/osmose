@@ -27,7 +27,18 @@ public class SaveMenu : MonoBehaviour {
         
     }
 
+    /// <summary>
+    /// Open the save menu
+    /// </summary>
     public void OpenSaveMenu() {
+        UpdateSaveMenu();
+        EventSystem.current.SetSelectedGameObject(SaveFiles[0].gameObject);
+    }
+
+    /// <summary>
+    /// Update the save menu
+    /// </summary>
+    public void UpdateSaveMenu() {
         for (int i = 0; i < SaveFiles.Length; i++) {
             SaveMenuData saveData = SaveFileManager.GetSaveData(i);
             if (!saveData.Exists) {
@@ -57,8 +68,6 @@ public class SaveMenu : MonoBehaviour {
                 PartyMember3[i].sprite = GameManager.Instance.GetCharSprite(saveData.CurrentParty[2]);
             }
         }
-
-        EventSystem.current.SetSelectedGameObject(SaveFiles[0].gameObject);
     }
 
     /// <summary>

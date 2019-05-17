@@ -77,6 +77,10 @@ public class SaveFileManager {
 
         string savePath = path + file + ".txt";
 
+        if (SaveExists(file)) {
+            File.Delete(savePath);
+        }
+
         StreamWriter writer = new StreamWriter(savePath, false);
         writer.WriteLine(json);
         writer.Close();
