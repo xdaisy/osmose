@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ExitBattle : MonoBehaviour {
+    public string SceneName;
     public float WaitToLoad = 1f;
 
     private bool shouldLoadAfterFade;
@@ -24,7 +25,7 @@ public class ExitBattle : MonoBehaviour {
     // party won so go back to current scene
     public void EndBattle() {
         sceneToLoad = GameManager.Instance.CurrentScene;
-        PlayerControls.Instance.PreviousAreaName = "Battle";
+        PlayerControls.Instance.PreviousAreaName = SceneName;
         loadScene();
     }
 
