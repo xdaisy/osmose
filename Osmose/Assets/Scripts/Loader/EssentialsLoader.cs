@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EssentialsLoader : MonoBehaviour
-{
+public class EssentialsLoader : MonoBehaviour {
     public GameObject PlayerLoader;
     public GameObject GameMang;
     public GameObject UICanvas;

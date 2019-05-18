@@ -87,42 +87,45 @@ public class SaveFileManager {
     }
 
     public static void Load(int file) {
-        string savePath = path + file + ".txt";
+        if (SaveExists(file)) {
+            // only load if file exists
+            string savePath = path + file + ".txt";
 
-        StreamReader reader = new StreamReader(savePath);
-        string json = reader.ReadToEnd();
+            StreamReader reader = new StreamReader(savePath);
+            string json = reader.ReadToEnd();
 
-        SaveData save = JsonUtility.FromJson<SaveData>(json);
+            SaveData save = JsonUtility.FromJson<SaveData>(json);
 
-        GameManager.Instance.SetPlayTIme(save.PlayTime);
+            GameManager.Instance.SetPlayTIme(save.PlayTime);
 
-        GameManager.Instance.CurrentScene = save.CurrentScene;
-        GameManager.Instance.LastTown = save.LastTown;
-        GameManager.Instance.IsBattleMap = save.IsBattleMap;
-        GameManager.Instance.SetMagicMeter(save.MagicMeter);
-        Vector2 lastMove = new Vector2(save.LastMoveX, save.LastMoveY);
-        PlayerControls.Instance.SetLastMove(lastMove);
-        Vector3 playerPos = new Vector3(save.XPosition, save.YPosition, save.ZPosition);
-        PlayerControls.Instance.SetPosition(playerPos);
+            GameManager.Instance.CurrentScene = save.CurrentScene;
+            GameManager.Instance.LastTown = save.LastTown;
+            GameManager.Instance.IsBattleMap = save.IsBattleMap;
+            GameManager.Instance.SetMagicMeter(save.MagicMeter);
+            Vector2 lastMove = new Vector2(save.LastMoveX, save.LastMoveY);
+            PlayerControls.Instance.SetLastMove(lastMove);
+            Vector3 playerPos = new Vector3(save.XPosition, save.YPosition, save.ZPosition);
+            PlayerControls.Instance.SetPosition(playerPos);
 
-        GameManager.Instance.Wallet = save.Wallet;
-        GameManager.Instance.ItemsHeld = new List<string>(save.ItemsHeld);
-        GameManager.Instance.NumOfItems = new List<int>(save.NumOfItems);
-        GameManager.Instance.EquipmentHeld = new List<string>(save.EquipmentHeld);
-        GameManager.Instance.NumOfEquipment = new List<int>(save.NumOfEquipment);
-        GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
+            GameManager.Instance.Wallet = save.Wallet;
+            GameManager.Instance.ItemsHeld = new List<string>(save.ItemsHeld);
+            GameManager.Instance.NumOfItems = new List<int>(save.NumOfItems);
+            GameManager.Instance.EquipmentHeld = new List<string>(save.EquipmentHeld);
+            GameManager.Instance.NumOfEquipment = new List<int>(save.NumOfEquipment);
+            GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
 
-        GameManager.Instance.Party.ChangeMembers(save.CurrentParty);
-        GameManager.Instance.Party.LoadCharStats(Constants.AREN, save.Aren);
-        GameManager.Instance.Party.LoadCharStats(Constants.REY, save.Rey);
-        GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, save.Naoise);
+            GameManager.Instance.Party.ChangeMembers(save.CurrentParty);
+            GameManager.Instance.Party.LoadCharStats(Constants.AREN, save.Aren);
+            GameManager.Instance.Party.LoadCharStats(Constants.REY, save.Rey);
+            GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, save.Naoise);
 
-        save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
-        save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
+            save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
+            save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
 
-        PlayerControls.Instance.PreviousAreaName = "Continue";
-        
-        SceneManager.LoadScene(GameManager.Instance.CurrentScene);
+            PlayerControls.Instance.PreviousAreaName = "Continue";
+
+            SceneManager.LoadScene(GameManager.Instance.CurrentScene);
+        }
     }
 
     /// <summary>
