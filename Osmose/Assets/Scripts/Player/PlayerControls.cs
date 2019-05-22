@@ -47,7 +47,7 @@ public class PlayerControls : MonoBehaviour {
 
     void FixedUpdate() {
         if (GameManager.Instance.CanOpenMenu() && Input.GetButtonDown("OpenMenu")) {
-            // if click m, do open/close menu
+            // if click open menu button, open/close menu
             if (menuOpen) {
                 // close menu
                 Menu.Instance.CloseGameMenu();

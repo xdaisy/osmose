@@ -44,7 +44,7 @@ public class SaveFileManager {
         public bool[] PickedUpItem;
     }
 
-    private static string path = "Assets/Resources/save";
+    private static string path = Path.Combine(Application.dataPath, "Resources/save");
 
     public static void Save(int file) {
         SaveData save = new SaveData {

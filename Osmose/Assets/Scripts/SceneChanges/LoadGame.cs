@@ -18,7 +18,8 @@ public class LoadGame : MonoBehaviour {
 
     private bool shouldLoadAfterFade;
     private bool isContinue;
-    private int fileToLoad = -1;	
+    private int fileToLoad = -1;
+    private bool onContinueScreen;
 	// Update is called once per frame
 	void Update () {
         if (shouldLoadAfterFade) {
@@ -32,9 +33,10 @@ public class LoadGame : MonoBehaviour {
                 }
             }
         }
-        if (Input.GetButtonDown("Cancel") && !MainGroup.interactable) {
+        if (Input.GetButtonDown("Cancel") && onContinueScreen) {
             // if exiting continue screen
             ContinueScreen.SetActive(false);
+            onContinueScreen = false;
             MainGroup.interactable = true;
             EventSystem.current.SetSelectedGameObject(ContinueButton.gameObject);
         }
@@ -53,6 +55,7 @@ public class LoadGame : MonoBehaviour {
     public void ContinueGame() {
         MainGroup.interactable = false;
         ContinueScreen.SetActive(true);
+        onContinueScreen = true;
         SaveMenuUI.OpenSaveMenu();
     }
 
