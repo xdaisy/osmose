@@ -119,10 +119,15 @@ public class PartyStats {
         return party[name].NextExp;
     }
     
-    public void GainExperience(int expPoints) {
+    public List<string> GainExperience(int expPoints) {
+        List<string> leveledUp = new List<string>();
         foreach (string name in currentPartyMembers) {
-            party[name].GainExp(expPoints);
+            if (party[name].GainExp(expPoints)) {
+                // if leveled up, add to list
+                leveledUp.Add(name);
+            }
         }
+        return leveledUp;
     }
     
     public int GetExpToNextLvl(int level) {

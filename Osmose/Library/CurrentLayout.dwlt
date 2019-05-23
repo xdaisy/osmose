@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 2979
+  controlID: 4577
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 2992
+  controlID: 4578
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -562,7 +562,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 33298
+  m_LastSelectedObjectID: -3448
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -620,7 +620,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: aa41ffffc041ffff2043ffff5243ffff7e43ffffd043ffff1c44ffff9044ffff5045ffffec4dffffa850ffffac50ffff0a65ffff9494ffff3895ffff4e95ffffb296ffffe896ffff1897ffff6e97ffffbe97ffff3698fffffa98ffff9aa1ffff5aa4ffff62a4ffff16c0ffff2cc0ffff8cc1ffffbec1ffffeac1ffff3cc2ffff88c2fffffcc2ffffbcc3ffff58ccffff14cfffff18cfffff34ebffff82ebffff9aebffffd8ecffff0aedffff36edffff88edffffd4edffff48eeffff08efffff9ef7ffff5afaffff7afaffffd6fbffff2250000012820000f2970000
+      m_ExpandedIDs: c64afeff5aefffffd0f2ffffdef2ffff62fbffffd6fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -712,20 +712,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/SceneChanges
+    - Assets/Prefabs/Enemies
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Scripts/SceneChanges
+  - Assets/Prefabs/Enemies
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: a2110000
-    m_LastClickedID: 4514
-    m_ExpandedIDs: 00000000300a00007e0a0000c40a0000c60d00009c1300007c14000000ca9a3b
+    m_SelectedIDs: 000d0000
+    m_LastClickedID: 3328
+    m_ExpandedIDs: 00000000320a0000800a0000c60a0000c80d00009e1300007e14000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -753,7 +753,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000300a00007e0a0000c40a0000c60d00009c1300007c14000000ca9a3b
+    m_ExpandedIDs: 00000000320a0000800a0000c60a0000c80d00009e1300007e14000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

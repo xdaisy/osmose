@@ -113,14 +113,16 @@ public class CharStats {
         return this.NextExp - this.CurrExp;
     }
     
-    public void GainExp(int exp) {
+    public bool GainExp(int exp) {
         this.CurrExp += exp;
 
         if (this.CurrExp >= this.NextExp) {
             // if current amount of exp surpass amount of exp needed to next level, level up
             levelUp();
             this.NextExp += GameManager.Instance.Party.GetExpToNextLvl(Level); // increase how much total exp needed to go next level
+            return true;
         }
+        return false;
     }
 
     private void levelUp() {

@@ -128,13 +128,21 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         } else if (enemies.Count < 1) {
             // all enemies defeated, battle won!
-            textToShow.Enqueue("The monsters ran away! You earned " + earnedExp + " exp and " + earnedMoney + " money!");
+            
             if (!endedBattle) {
+                textToShow.Enqueue("The monsters ran away! You earned " + earnedExp + " exp and " + earnedMoney + " money!");
                 GameManager.Instance.Party.ResetStatsModifier();
-                GameManager.Instance.Party.GainExperience(earnedExp);
+                List<string> leveledUpChar = GameManager.Instance.Party.GainExperience(earnedExp);
+                string levelUp = "";
+                foreach (string name in leveledUpChar) {
+                    levelUp += name + " leveled up!\n";
+                }
+                if (levelUp.Length > 0) {
+                    textToShow.Enqueue(levelUp);
+                }
                 GameManager.Instance.GainMoney(earnedMoney);
             }
-            showText();
+            //showText();
 
             if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
@@ -157,7 +165,7 @@ public class BattleSystem : MonoBehaviour {
             endedBattle = true;
         }
 
-        if (textToShow.Count > 0 && !TextHud.gameObject.activeSelf) {
+        if (textToShow.Count > 0 && (!TextHud.IsActive() || Input.GetButtonDown("Interact"))) {
             // if player have finished their command, show text
             showText();
         } else if (!playerTurn && !enemyTurn && !TextHud.IsActive()) {
@@ -211,7 +219,7 @@ public class BattleSystem : MonoBehaviour {
                 StartCoroutine(enemyTurnCo(enemy));
                 enemyTurn = true;
             }
-        } else if (TextHud.IsActive() && !endedBattle && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
+        } else if (TextHud.IsActive() && textToShow.Count < 1 && !endedBattle && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per move)
             TextImage.SetActive(false);
             TextHud.gameObject.SetActive(false);
