@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerControls : MonoBehaviour {
 
@@ -46,7 +43,7 @@ public class PlayerControls : MonoBehaviour {
 	void Update () {}
 
     void FixedUpdate() {
-        if (GameManager.Instance.CanOpenMenu() && Input.GetButtonDown("OpenMenu")) {
+        if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
             // if click open menu button, open/close menu
             if (menuOpen) {
                 // close menu

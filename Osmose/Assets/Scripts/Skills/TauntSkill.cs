@@ -1,6 +1,2 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class TauntSkill : Skill {
+﻿public class TauntSkill : Skill {
 }
