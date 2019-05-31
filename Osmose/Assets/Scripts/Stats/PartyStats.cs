@@ -285,12 +285,12 @@ public class PartyStats {
     }
 
     // get a specific character's stats
-    public CharStats GetCharacterStats(string name) {
-        return party[name];
+    public SaveStats GetCharacterStats(string name) {
+        return party[name].GetStats();
     }
 
     // load a specific character's stats
-    public void LoadCharStats(string name, CharStats stats) {
+    public void LoadCharStats(string name, SaveStats stats) {
         party[name].LoadStats(stats);
     }
 }

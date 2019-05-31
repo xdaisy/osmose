@@ -37,55 +37,18 @@ public class SaveFileManager {
         public List<string> CurrentParty;
 
         // character stats
-        public CharStats Aren;
-        public CharStats Rey;
-        public CharStats Naoise;
+        public SaveStats Aren;
+        public SaveStats Rey;
+        public SaveStats Naoise;
 
         // opened chests
         public bool[] OpenedChest;
         public bool[] PickedUpItem;
     }
 
-    private static string path = Application.persistentDataPath + "/saveFiles.gd";
+    private static string path = Application.dataPath + "/Resources/saveFiles.gd";
 
     public static void Save(int file) {
-        //SaveData save = new SaveData {
-        //    PlayTime = GameManager.Instance.GetPlayTime(),
-        //    CurrentScene = GameManager.Instance.CurrentScene,
-        //    LastTown = GameManager.Instance.LastTown,
-        //    IsBattleMap = GameManager.Instance.IsBattleMap,
-        //    MagicMeter = GameManager.Instance.GetMagicMeter(),
-        //    XPosition = PlayerControls.Instance.transform.position.x,
-        //    YPosition = PlayerControls.Instance.transform.position.y,
-        //    ZPosition = PlayerControls.Instance.transform.position.z,
-        //    Wallet = GameManager.Instance.Wallet,
-        //    ItemsHeld = GameManager.Instance.ItemsHeld,
-        //    NumOfItems = GameManager.Instance.NumOfItems,
-        //    EquipmentHeld = GameManager.Instance.EquipmentHeld,
-        //    NumOfEquipment = GameManager.Instance.NumOfEquipment,
-        //    KeyItemsHeld = GameManager.Instance.KeyItemsHeld,
-        //    CurrentParty = GameManager.Instance.Party.GetCurrentParty(),
-        //    Aren = GameManager.Instance.Party.GetCharacterStats(Constants.AREN),
-        //    Rey = GameManager.Instance.Party.GetCharacterStats(Constants.REY),
-        //    Naoise = GameManager.Instance.Party.GetCharacterStats(Constants.NAOISE),
-        //    OpenedChest = ObtainItemManager.Instance.OpenedChest,
-        //    PickedUpItem = ObtainItemManager.Instance.PickedUpItem
-        //};
-        //Vector2 lastMove = PlayerControls.Instance.GetLastMove();
-        //save.LastMoveX = lastMove.x;
-        //save.LastMoveY = lastMove.y;
-
-        //string json = JsonUtility.ToJson(save);
-
-        //string savePath = path + file + ".txt";
-
-        //if (SaveExists(file)) {
-        //    File.Delete(savePath);
-        //}
-
-        //StreamWriter writer = new StreamWriter(savePath, false);
-        //writer.WriteLine(json);
-        //writer.Close();
         saveFiles[file] = new SaveData {
             PlayTime = GameManager.Instance.GetPlayTime(),
             CurrentScene = GameManager.Instance.CurrentScene,
@@ -111,53 +74,14 @@ public class SaveFileManager {
         Vector2 lastMove = PlayerControls.Instance.GetLastMove();
         saveFiles[file].LastMoveX = lastMove.x;
         saveFiles[file].LastMoveY = lastMove.y;
-        Debug.Log(path);
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Create(path);
         bf.Serialize(fs, saveFiles);
         fs.Close();
     }
 
-    public static void Load(int file) {
-        //if (SaveExists(file)) {
-        //    // only load if file exists
-        //    string savePath = path + file + ".txt";
-
-        //    StreamReader reader = new StreamReader(savePath);
-        //    string json = reader.ReadToEnd();
-
-        //    SaveData save = JsonUtility.FromJson<SaveData>(json);
-
-        //    GameManager.Instance.SetPlayTIme(save.PlayTime);
-
-        //    GameManager.Instance.CurrentScene = save.CurrentScene;
-        //    GameManager.Instance.LastTown = save.LastTown;
-        //    GameManager.Instance.IsBattleMap = save.IsBattleMap;
-        //    GameManager.Instance.SetMagicMeter(save.MagicMeter);
-        //    Vector2 lastMove = new Vector2(save.LastMoveX, save.LastMoveY);
-        //    PlayerControls.Instance.SetLastMove(lastMove);
-        //    Vector3 playerPos = new Vector3(save.XPosition, save.YPosition, save.ZPosition);
-        //    PlayerControls.Instance.SetPosition(playerPos);
-
-        //    GameManager.Instance.Wallet = save.Wallet;
-        //    GameManager.Instance.ItemsHeld = new List<string>(save.ItemsHeld);
-        //    GameManager.Instance.NumOfItems = new List<int>(save.NumOfItems);
-        //    GameManager.Instance.EquipmentHeld = new List<string>(save.EquipmentHeld);
-        //    GameManager.Instance.NumOfEquipment = new List<int>(save.NumOfEquipment);
-        //    GameManager.Instance.EquipmentHeld = new List<string>(save.KeyItemsHeld);
-
-        //    GameManager.Instance.Party.ChangeMembers(save.CurrentParty);
-        //    GameManager.Instance.Party.LoadCharStats(Constants.AREN, save.Aren);
-        //    GameManager.Instance.Party.LoadCharStats(Constants.REY, save.Rey);
-        //    GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, save.Naoise);
-
-        //    save.OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
-        //    save.PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
-
-        //    PlayerControls.Instance.PreviousAreaName = "Continue";
-
-        //    SceneManager.LoadScene(GameManager.Instance.CurrentScene);
-        //}
+    // load the save files
+    public static void LoadSaves() {
         if (File.Exists(path)) {
             // if file exists load files
             BinaryFormatter bf = new BinaryFormatter();
@@ -165,6 +89,10 @@ public class SaveFileManager {
             saveFiles = (SaveData[])bf.Deserialize(fs);
             fs.Close();
         }
+    }
+
+    // load the file
+    public static void Load(int file) {
         if (saveFiles[file] != null) {
             GameManager.Instance.SetPlayTIme(saveFiles[file].PlayTime);
 
@@ -204,8 +132,6 @@ public class SaveFileManager {
     /// <param name="file">Which save file</param>
     /// <returns>true if file exists, false otherwise</returns>
     public static bool SaveExists(int file) {
-        //string savePath = path + file + ".txt";
-        //return File.Exists(savePath);
         return saveFiles[file] != null;
     }
 
@@ -218,15 +144,9 @@ public class SaveFileManager {
         SaveMenuData saveData = new SaveMenuData();
         saveData.Exists = SaveExists(file);
         if (saveData.Exists) {
-            string savePath = path + file + ".txt";
-
-            StreamReader reader = new StreamReader(savePath);
-            string json = reader.ReadToEnd();
-
-            SaveData save = JsonUtility.FromJson<SaveData>(json);
-            saveData.PlayTime = save.PlayTime;
-            saveData.Location = save.CurrentScene;
-            saveData.CurrentParty = save.CurrentParty;
+            saveData.PlayTime = saveFiles[file].PlayTime;
+            saveData.Location = saveFiles[file].CurrentScene;
+            saveData.CurrentParty = saveFiles[file].CurrentParty;
         }
         return saveData;
     }

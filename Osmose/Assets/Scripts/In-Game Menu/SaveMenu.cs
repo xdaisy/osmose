@@ -47,6 +47,8 @@ public class SaveMenu : MonoBehaviour {
                 NoData[i].gameObject.SetActive(true); // show no data text
                 continue;
             }
+            Data[i].SetActive(true);
+            NoData[i].gameObject.SetActive(false);
             PlayTime[i].text = parsePlayTime(saveData.PlayTime);
             Location[i].text = saveData.Location;
             for (int j = saveData.CurrentParty.Count; j < 3; j++) {

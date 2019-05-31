@@ -56,6 +56,7 @@ public class LoadGame : MonoBehaviour {
         MainGroup.interactable = false;
         ContinueScreen.SetActive(true);
         onContinueScreen = true;
+        SaveFileManager.LoadSaves();
         SaveMenuUI.OpenSaveMenu();
     }
 

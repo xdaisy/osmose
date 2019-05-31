@@ -71,7 +71,7 @@ public class CharStats {
     }
 
     // load the character's stats
-    public void LoadStats(CharStats stats) {
+    public void LoadStats(SaveStats stats) {
         this.Level = stats.Level;
         this.CurrExp = stats.CurrExp;
         this.NextExp = stats.NextExp;
@@ -96,6 +96,31 @@ public class CharStats {
                 Skills.Add(skillsToLearn[i]);
             }
         }
+    }
+
+    // get the stats of the character
+    public SaveStats GetStats() {
+        SaveStats stats = new SaveStats {
+            Level = this.Level,
+            CurrExp = this.CurrExp,
+            NextExp = this.NextExp,
+
+            CurrHP = this.CurrHP,
+            MaxHP = this.MaxHP,
+            CurrSP = this.CurrSP,
+            MaxSP = this.MaxSP,
+            Attack = this.Attack,
+            Defense = this.Defense,
+            MagicDefense = this.MagicDefense,
+            Speed = this.Speed,
+            Luck = this.Luck,
+
+            Weapon = this.Weapon,
+            WeaponAttack = this.WeaponAttack,
+            Armor = this.Armor,
+            ArmorDefense = this.ArmorDefense
+        };
+        return stats;
     }
 
     // get the skill with the skillName
@@ -148,4 +173,27 @@ public class CharStats {
             Skills.Add(skillsToLearn[Level]);
         }
     }
+}
+
+[Serializable]
+public class SaveStats {
+    public int Level;
+    public int CurrExp;
+    public int NextExp;
+
+    public int CurrHP;
+    public int CurrSP;
+    public int MaxHP;
+    public int MaxSP;
+    public int Attack;
+    public int Defense;
+    public int MagicDefense;
+    public int Speed;
+    public int Luck;
+
+    public string Weapon;
+    public string Armor;
+
+    public int WeaponAttack;
+    public int ArmorDefense;
 }
