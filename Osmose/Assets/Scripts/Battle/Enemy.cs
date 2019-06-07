@@ -11,6 +11,8 @@ public struct EnemyTurn {
     public int Target;
     public int Amount;
 }
+
+[Serializable]
 public class Enemy : MonoBehaviour {
     public string EnemyName;
 

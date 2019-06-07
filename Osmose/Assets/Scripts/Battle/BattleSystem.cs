@@ -30,8 +30,8 @@ public class BattleSystem : MonoBehaviour {
     public Image ShiftImage;
 
     [Header("Enemy Spawning")]
-    public Transform[] EnemyPos;
-    public Enemy[] ForestEnemyPrefabs;
+    public GameObject EnemySpawner;
+    public EnemyHandler EnemiesHandler;
 
     [Header("Effects")]
     public DamageEffect DamageNumber;
@@ -103,7 +103,8 @@ public class BattleSystem : MonoBehaviour {
 
         endedBattle = false;
 
-        spawnEnemies(new Dictionary<string, int> { { "Squirrel", 1 } });
+        Instantiate(EnemySpawner);
+        enemies = EnemiesHandler.GetEnemies();
         determineTurnOrder();
     }
 
@@ -695,32 +696,6 @@ public class BattleSystem : MonoBehaviour {
         charTurn = turnOrder.Dequeue();
     }
 
-    // called in beginning of battle to spawn enemies
-    private void spawnEnemies(Dictionary<string, int> enemyNames) {
-        enemies = new List<Enemy>();
-
-        int posIndx = 0;
-        foreach(string enemyName in enemyNames.Keys) {
-            int enemyPos = getEnemyIndx(enemyName);
-            if (enemyNames[enemyName] > 1) {
-                // if spawn more than 1 of the enemy
-                for (int i = 0; i < enemyNames[enemyName]; i++) {
-                    Enemy enemy = Instantiate(ForestEnemyPrefabs[enemyPos], EnemyPos[posIndx].position, EnemyPos[posIndx].rotation);
-                    enemy.EnemyName = enemyName + " " + (i + 1);
-                    enemy.transform.SetParent(EnemyPos[posIndx]);
-                    enemies.Add(enemy);
-                    posIndx++;
-                }
-            } else {
-                // spawn only 1 of the enemy
-                Enemy enemy = Instantiate(ForestEnemyPrefabs[enemyPos], EnemyPos[posIndx].position, EnemyPos[posIndx].rotation);
-                enemy.transform.SetParent(EnemyPos[posIndx]);
-                enemies.Add(enemy);
-                posIndx++;
-            }
-        }
-    }
-
     private IEnumerator enemyTurnCo(Enemy enemy) {
         enemy.DoMove();
         yield return new WaitForSeconds(0.5f);
@@ -753,16 +728,6 @@ public class BattleSystem : MonoBehaviour {
         enemies.RemoveAt(choice);
         turnOrder.RemoveFromQueue(enemy.EnemyName);
         playerTurn = false;
-    }
-
-    // find the position of the enemy with the enemyName
-    private int getEnemyIndx(string enemyName) {
-        for (int i = 0; i < ForestEnemyPrefabs.Length; i++) {
-            if (ForestEnemyPrefabs[i].EnemyName == enemyName) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private void setSelectedButton(string name) {
