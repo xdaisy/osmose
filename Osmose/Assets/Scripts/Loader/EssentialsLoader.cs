@@ -7,6 +7,7 @@ public class EssentialsLoader : MonoBehaviour {
     public GameObject GameMang;
     public GameObject UICanvas;
     public GameObject LoadEntrance;
+    public GameObject StatsMang;
 
     private void Awake() {
         if (PlayerControls.Instance == null) {
@@ -15,6 +16,10 @@ public class EssentialsLoader : MonoBehaviour {
 
         if (GameManager.Instance == null) {
             Instantiate(GameMang);
+        }
+
+        if (StatsManager.Instance == null) {
+            Instantiate(StatsMang);
         }
 
         Instantiate(LoadEntrance);

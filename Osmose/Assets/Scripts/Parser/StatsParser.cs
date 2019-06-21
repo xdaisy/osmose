@@ -4,11 +4,6 @@ using UnityEngine;
 public class StatsParser : MonoBehaviour {
     public TextAsset ArenStats;
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
     public Dictionary<string, int[]> GetProtagStats(string name) {
         Dictionary<string, int[]> stats = new Dictionary<string, int[]> {
             { Constants.HP, new int[101] },
