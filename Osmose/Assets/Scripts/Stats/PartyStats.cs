@@ -291,6 +291,6 @@ public class PartyStats {
 
     // load a specific character's stats
     public void LoadCharStats(string name, SaveStats stats) {
-        party[name].LoadStats(stats);
+        party[name].LoadStats(name, stats);
     }
 }

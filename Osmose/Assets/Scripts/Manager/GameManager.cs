@@ -43,11 +43,15 @@ public class GameManager : MonoBehaviour
     private void Awake() {
         if (Instance == null) {
             Instance = this;
-            Party = new PartyStats();
         } else {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+    }
+
+    // Start is called before the first frame update
+    void Start() {
+        Party = new PartyStats();
     }
 
     // Update is called once per frame

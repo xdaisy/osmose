@@ -1,19 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public struct Stats {
+    public int HP, SP, Attack, Defense, MagicDefense, Speed, Luck;
+}
+
 public class StatsParser : MonoBehaviour {
     public TextAsset ArenStats;
+    public TextAsset ReyStats;
+    public TextAsset NaoiseStats;
 
-    public Dictionary<string, int[]> GetProtagStats(string name) {
-        Dictionary<string, int[]> stats = new Dictionary<string, int[]> {
-            { Constants.HP, new int[101] },
-            { Constants.SP, new int[101] },
-            { Constants.ATTACK, new int[101] },
-            { Constants.DEFENSE, new int[101] },
-            { Constants.MAGIC_DEFENSE, new int[101] },
-            { Constants.SPEED, new int[101] },
-            { Constants.LUCK, new int[101] }
-        };
+    public Stats[] GetProtagStats(string name) {
+        Stats[] stats = new Stats[101];
 
         string[] charStats = null;
 
@@ -22,8 +20,10 @@ public class StatsParser : MonoBehaviour {
                 charStats = ArenStats.text.Split('\n');
                 break;
             case Constants.REY:
+                charStats = ReyStats.text.Split('\n');
                 break;
             case Constants.NAOISE:
+                charStats = NaoiseStats.text.Split('\n');
                 break;
         }
 
@@ -33,13 +33,15 @@ public class StatsParser : MonoBehaviour {
 
             int level = int.Parse(levelStats[0]);
 
-            stats[Constants.HP][level] = int.Parse(levelStats[1]);
-            stats[Constants.SP][level] = int.Parse(levelStats[2]);
-            stats[Constants.ATTACK][level] = int.Parse(levelStats[3]);
-            stats[Constants.DEFENSE][level] = int.Parse(levelStats[4]);
-            stats[Constants.MAGIC_DEFENSE][level] = int.Parse(levelStats[5]);
-            stats[Constants.SPEED][level] = int.Parse(levelStats[6]);
-            stats[Constants.LUCK][level] = int.Parse(levelStats[7]);
+            stats[level] = new Stats {
+                HP = int.Parse(levelStats[1]),
+                SP = int.Parse(levelStats[2]),
+                Attack = int.Parse(levelStats[3]),
+                Defense = int.Parse(levelStats[4]),
+                MagicDefense = int.Parse(levelStats[5]),
+                Speed = int.Parse(levelStats[6]),
+                Luck = int.Parse(levelStats[7])
+            };
         }
         return stats;
     }

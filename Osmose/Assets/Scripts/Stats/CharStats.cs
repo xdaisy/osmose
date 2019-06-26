@@ -4,6 +4,7 @@ using System;
 
 [Serializable]
 public class CharStats {
+    public string Name;
     public int Level;
     public int CurrExp;
     public int NextExp;
@@ -36,7 +37,8 @@ public class CharStats {
     public float LckMod = 1f;
 
     // constructor for creating character stats when start new game
-    public CharStats(int hp, int sp, int attack, int defense, int magicDefense, int speed, int luck, Skill[] skills) {
+    public CharStats(string name, int hp, int sp, int attack, int defense, int magicDefense, int speed, int luck, Skill[] skills) {
+        this.Name = name;
         this.Level = 1;
         this.CurrExp = 0;
         this.NextExp = 10;
@@ -71,7 +73,8 @@ public class CharStats {
     }
 
     // load the character's stats
-    public void LoadStats(SaveStats stats) {
+    public void LoadStats(string name, SaveStats stats) {
+        this.Name = name;
         this.Level = stats.Level;
         this.CurrExp = stats.CurrExp;
         this.NextExp = stats.NextExp;
@@ -151,22 +154,19 @@ public class CharStats {
 
     private void levelUp() {
         Level++;
+        Stats stats = StatsManager.Instance.GetCharStatsAt(Name, Level);
 
-        MaxHP += Mathf.RoundToInt(Mathf.Min(MaxHP * 1.025f, 500));
+        MaxHP = stats.HP;
         CurrHP = MaxHP;
 
-        MaxSP += Mathf.RoundToInt(Mathf.Min(MaxSP * 1.025f, 300f));
+        MaxSP = stats.SP;
         CurrSP = MaxSP;
 
-        Attack += Mathf.RoundToInt(Mathf.Min(Attack * 1.025f, 200));
-
-        Defense += Mathf.RoundToInt(Defense * 1.025f);
-
-        MagicDefense += Mathf.RoundToInt(Mathf.Min(MagicDefense * 1.025f, 200f));
-
-        Speed += Mathf.RoundToInt(Mathf.Min(Speed * 1.025f, 200f));
-
-        Luck += Mathf.RoundToInt(Mathf.Min(Luck * 1.025f, 200f));
+        Attack = stats.Attack;
+        Defense = stats.Defense;
+        MagicDefense = stats.MagicDefense;
+        Speed = stats.Speed;
+        Luck = stats.Luck;
 
         if (skillsToLearn[Level] != null) {
             // learn skill
