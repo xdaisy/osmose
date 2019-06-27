@@ -109,7 +109,6 @@ public class Menu : MonoBehaviour
         skillToUse = null;
         usingSkill = false;
 
-        updatePartyStats();
     }
 
     // Update is called once per frame
@@ -538,6 +537,7 @@ public class Menu : MonoBehaviour
     // open the game menu
     public void OpenGameMenu() {
         OpenMenu(0);
+        updatePartyStats();
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;

@@ -37,6 +37,19 @@ public class Enemy : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         anim = this.GetComponent<Animator>();
+
+        EnemyStats stats = StatsManager.Instance.GetEnemyStats(EnemyName);
+        CurrentHP = stats.HP;
+        MaxHP = stats.HP;
+        CurrentSP = stats.SP;
+        MaxSP = stats.SP;
+        Attack = stats.Attack;
+        Defense = stats.Defense;
+        MagicDefense = stats.MagicDefense;
+        Speed = stats.Speed;
+        Luck = stats.Luck;
+        Exp = stats.EXP;
+        Money = stats.Money;
 	}
 	
 	// Update is called once per frame
