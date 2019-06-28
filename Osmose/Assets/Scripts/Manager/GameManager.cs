@@ -40,18 +40,15 @@ public class GameManager : MonoBehaviour
     private float magicMeter = 1f;
     private float playTime = 0f;
 
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         if (Instance == null) {
             Instance = this;
+            Party = new PartyStats();
         } else {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start() {
-        Party = new PartyStats();
     }
 
     // Update is called once per frame

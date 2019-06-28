@@ -17,7 +17,8 @@ public class Dialogue : MonoBehaviour {
 
     private bool justStarted; // keep track if the dialogue just got started
 
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         if (Instance == null) {
             Instance = this;
         } else {
@@ -25,9 +26,9 @@ public class Dialogue : MonoBehaviour {
         }
         DontDestroyOnLoad(ParentObject);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         if (dBox.activeSelf && Input.GetButtonUp("Interact")) {
             if (!justStarted) {
                 currentLine++;

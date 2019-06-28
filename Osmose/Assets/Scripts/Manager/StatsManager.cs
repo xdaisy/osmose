@@ -10,7 +10,8 @@ public class StatsManager : MonoBehaviour {
 
     private Dictionary<string, EnemyStats> enemyStats;
 
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         if (Instance == null) {
             Instance = this;
             protagStats = new Dictionary<string, Stats[]>();

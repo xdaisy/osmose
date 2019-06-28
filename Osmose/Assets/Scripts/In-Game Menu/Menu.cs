@@ -85,7 +85,8 @@ public class Menu : MonoBehaviour
     private const string SELECT = "SelectMenu";
     private const string SAVE = "Save";
 
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         // don't destroy object on load if menu don't exist
         if (Instance == null) {
             Instance = this;
@@ -94,11 +95,6 @@ public class Menu : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         previousHud = MAIN;
         currentHud = MAIN;
         charToSwitch = -1;
@@ -108,7 +104,6 @@ public class Menu : MonoBehaviour
         usingItem = false;
         skillToUse = null;
         usingSkill = false;
-
     }
 
     // Update is called once per frame

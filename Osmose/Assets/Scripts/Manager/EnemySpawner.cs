@@ -15,11 +15,12 @@ public class EnemySpawner : MonoBehaviour {
 
     public static EnemySpawner Instance;
 
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         if (Instance == null) {
             Instance = this;
         } else {
-            // if another player exists, destroy game object
+            // if another enemy spawner exists, destroy game object
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);

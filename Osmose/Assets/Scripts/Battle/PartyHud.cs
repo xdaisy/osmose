@@ -13,8 +13,7 @@ public class PartyHud : MonoBehaviour{
     private int numActiveUI;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         numActiveUI = 0;
         currParty = GameManager.Instance.Party.GetCurrentParty();
         for (int i = 0; i < PartyNames.Length; i++) {

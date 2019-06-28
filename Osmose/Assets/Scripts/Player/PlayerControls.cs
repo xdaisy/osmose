@@ -18,7 +18,8 @@ public class PlayerControls : MonoBehaviour {
 
     private EnterBattle enterBattle;
 
-    private void Awake() {
+    // Use this for initialization
+    void Start () {
         // don't destroy object on load if player don't exist
         if (Instance == null) {
             Instance = this;
@@ -27,10 +28,6 @@ public class PlayerControls : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
-    }
-
-    // Use this for initialization
-    void Start () {
         anim = GetComponent<Animator>(); // get animator for player
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
         enterBattle = GetComponent<EnterBattle>();

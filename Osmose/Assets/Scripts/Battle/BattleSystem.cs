@@ -30,7 +30,6 @@ public class BattleSystem : MonoBehaviour {
     public Image ShiftImage;
 
     [Header("Enemy Spawning")]
-    public GameObject EnemySpawner;
     public EnemyHandler EnemiesHandler;
 
     [Header("Effects")]
@@ -102,8 +101,7 @@ public class BattleSystem : MonoBehaviour {
         TextHud.text = "Enemy appeared!";
 
         endedBattle = false;
-
-        Instantiate(EnemySpawner);
+        
         enemies = EnemiesHandler.GetEnemies();
         determineTurnOrder();
     }

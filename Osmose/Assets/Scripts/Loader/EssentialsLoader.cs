@@ -5,25 +5,30 @@ using UnityEngine;
 public class EssentialsLoader : MonoBehaviour {
     public GameObject PlayerLoader;
     public GameObject GameMang;
-    public GameObject UICanvas;
-    public GameObject LoadEntrance;
     public GameObject StatsMang;
+    public GameObject UICanvas;
+    public GameObject EnemySpawn;
+    public GameObject LoadEntrance;
 
     private void Awake() {
         if (PlayerControls.Instance == null) {
             Instantiate(PlayerLoader);
         }
 
-        if (GameManager.Instance == null) {
-            Instantiate(GameMang);
-        }
-
         if (StatsManager.Instance == null) {
             Instantiate(StatsMang);
         }
 
-        Instantiate(LoadEntrance);
+        if (GameManager.Instance == null) {
+            Instantiate(GameMang);
+        }
+
+        if (EnemySpawner.Instance == null) {
+            Instantiate(EnemySpawn);
+        }
 
         Instantiate(UICanvas);
+
+        Instantiate(LoadEntrance);
     }
 }
