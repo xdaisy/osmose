@@ -103,14 +103,14 @@ public class BattleSystem : MonoBehaviour {
         endedBattle = false;
         
         enemies = EnemiesHandler.GetEnemies();
-        determineTurnOrder();
+        turnOrder = BattleLogic.DetermineTurnOrder(enemies);
     }
 
     // Update is called once per frame
     void Update() {
         // if the battle is still going on and the round is over, determine next turn order
         if (turnOrder.Count < 1) {
-            determineTurnOrder();
+            turnOrder = BattleLogic.DetermineTurnOrder(enemies);
         }
 
         if (escaped) {
@@ -177,7 +177,9 @@ public class BattleSystem : MonoBehaviour {
                 // if curr character's turn is aren && is shifted && magic < 25%, attack
                 if (charTurn == Constants.AREN && arenShifted && GameManager.Instance.GetMagicMeter() < 0.25) {
                     int choice = UnityEngine.Random.Range(0, enemies.Count); // randomly attack an enemy
-                    regularAttack(choice);
+                    int damage = BattleLogic.RegularAttack(charTurn, enemies[choice]);
+                    displayDamageToEnemies(damage, choice);
+
                 } else {
 
                     // if the next to go is a party member and character is alive, is player's turn
@@ -289,41 +291,14 @@ public class BattleSystem : MonoBehaviour {
         SelectHudUI.OpenSelectHud(enemies.ToArray());
     }
 
-    // regular attack
-    private void regularAttack(int choice) {
-        Enemy enemy = enemies[choice];
-        // calculate the damage
-        int damage = GameManager.Instance.Party.GetCharAttk(charTurn) - enemy.Defense;
-
-        // if enemy is defending, reduce damage
-        if (enemy.IsDefending) {
-            damage = Mathf.RoundToInt(damage / 2);
-        }
-
-        damage = Math.Max(damage, 1); // always do at least 1 damage
-
-        // reduce enemy's hp
-        enemy.CurrentHP -= damage;
-        enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
-
-        // show damage
-        if (enemy.CurrentHP > 0) {
-            // if enemy didn't die
-            StartCoroutine(showDamage(enemy.transform.position, damage, true));
-        } else {
-            // enemy died
-            StartCoroutine(showDamage(enemy.transform.position, damage));
-            earnedExp += enemy.Exp;
-            earnedMoney += enemy.Money;
-            StartCoroutine(enemyDied(enemy, choice));
-        }
-    }
-
     public void Select(int choice) {
         if (attacking) {
             Enemy enemy = enemies[choice];
 
-            regularAttack(choice); // inflict damage
+            int damage = BattleLogic.RegularAttack(charTurn, enemy);
+
+            // show damage
+            displayDamageToEnemies(damage, choice);
 
             MainHud.gameObject.SetActive(false); // set main hud invisible
 
@@ -344,19 +319,10 @@ public class BattleSystem : MonoBehaviour {
 
             if ((item.AffectHP && currHP != maxHP) || (item.AffectSP && currSP != maxSP)) {
                 // only use if can recover
-
-                // heal
-                item.Use(charName);
+                int amountHealed = BattleLogic.UseHealingItem(charName, item);
 
                 ItemHud.gameObject.SetActive(false);
                 ItemHudUI.ExitItemHud();
-                // set the text to show
-                int amountHealed = 0;
-                if (item.AffectHP) {
-                    amountHealed = GameManager.Instance.Party.GetCharCurrHP(charName) - currHP;
-                } else if (item.AffectSP) {
-                    amountHealed = GameManager.Instance.Party.GetCharCurrSP(charName) - currSP;
-                }
 
                 // show amount healed
                 StartCoroutine(showDamage(CharPos[choice].position, amountHealed, false));
@@ -377,31 +343,9 @@ public class BattleSystem : MonoBehaviour {
                 // if attacking enemy
                 Enemy enemy = enemies[choice];
 
-                int damage = Mathf.RoundToInt(skillToUse.UseSkill(charTurn));
+                int damage = BattleLogic.UseAttackSkill(charTurn, enemy, skillToUse);
 
-                if (skillToUse.IsPhyAttk) {
-                    // reduce by defense
-                    damage -= enemy.Defense;
-                } else {
-                    // reduce by magic defense
-                    damage -= enemy.MagicDefense;
-                }
-
-                // reduce enemy's hp
-                enemy.CurrentHP -= damage;
-                enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go
-
-                // show damage
-                if (enemy.CurrentHP > 0) {
-                    // if enemy didn't die
-                    StartCoroutine(showDamage(enemy.transform.position, damage, true));
-                } else {
-                    // enemy died
-                    StartCoroutine(showDamage(enemy.transform.position, damage));
-                    earnedExp += enemy.Exp;
-                    earnedMoney += enemy.Money;
-                    StartCoroutine(enemyDied(enemy, choice));
-                }
+                displayDamageToEnemies(damage, choice);
 
                 // close skill hud
                 SkillHud.gameObject.SetActive(false);
@@ -428,18 +372,13 @@ public class BattleSystem : MonoBehaviour {
 
                 if (currHP < maxHP) {
                     // only use if can recover hp
-
-                    // heal
-                    skillToUse.UseSkill(charTurn, charName);
+                    int amountHealed = BattleLogic.UseHealingSkill(charTurn, charName, skillToUse);
 
                     // close skill hud
                     SkillHud.gameObject.SetActive(false);
                     SkillHud.interactable = false;
                     DescriptionPanel.SetActive(false);
                     SkillHudUI.ExitSkillHud();
-
-                    // set the text to show
-                    int amountHealed = GameManager.Instance.Party.GetCharCurrHP(charName) - currHP;
 
                     // show amount healed
                     StartCoroutine(showDamage(CharPos[choice].position, amountHealed, false));
@@ -522,8 +461,7 @@ public class BattleSystem : MonoBehaviour {
                 int currHP = GameManager.Instance.Party.GetCharCurrHP(charTurn);
                 int maxHP = GameManager.Instance.Party.GetCharMaxHP(charTurn);
                 if (skillToUse.IsHeal && currHP < maxHP) {
-                    skillToUse.UseSkill(charTurn);
-                    int amountHealed = GameManager.Instance.Party.GetCharCurrHP(charTurn) - currHP;
+                    int amountHealed = BattleLogic.UseHealingSkill(charTurn, skillToUse);
                     int pos = 0;
                     for (int i = 0; i < party.Count; i++) {
                         if (party[i] == charTurn) {
@@ -630,6 +568,22 @@ public class BattleSystem : MonoBehaviour {
         TextHud.text = textToShow.Dequeue();
     }
 
+    private void displayDamageToEnemies(int damage, int choice) {
+        Enemy enemy = enemies[choice];
+
+        // show damage
+        if (enemy.CurrentHP > 0) {
+            // if enemy didn't die
+            StartCoroutine(showDamage(enemy.transform.position, damage, true));
+        } else {
+            // enemy died
+            StartCoroutine(showDamage(enemy.transform.position, damage));
+            earnedExp += enemy.Exp;
+            earnedMoney += enemy.Money;
+            StartCoroutine(enemyDied(enemy, choice));
+        }
+    }
+
     // show amount damaged/recovered if enemy didn't die
     private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
         Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
@@ -642,52 +596,6 @@ public class BattleSystem : MonoBehaviour {
     private IEnumerator showDamage(Vector3 pos, int amount) {
         Instantiate(DamageNumber).SetDamage(pos, amount, true);
         yield return new WaitForSeconds(DamageNumber.Duration);
-    }
-
-    private void determineTurnOrder() {
-        string[] turn = new string[200];
-        List<string> party = GameManager.Instance.Party.GetCurrentParty();
-
-        foreach(string name in party) {
-            float speed = GameManager.Instance.Party.GetCharSpd(name);
-            int idx = (int) speed;
-            if (turn[idx] != null) {
-                // put character in the next available index if speed match
-                for (int i = idx - 1; i >= 0; i--) {
-                    if (turn[i] == null) {
-                        turn[i] = name;
-                        break;
-                    }
-                }
-            } else {
-                turn[idx] = name;
-            }
-        }
-        
-        foreach(Enemy enemy in enemies) {
-            string name = enemy.EnemyName;
-
-            int idx = enemy.Speed;
-
-            if (turn[idx] != null) {
-                // put character in the next available index if speed match
-                for (int i = idx - 1; i >= 0; i--) {
-                    if (turn[i] == null) {
-                        turn[i] = name;
-                        break;
-                    }
-                }
-            } else {
-                turn[idx] = name;
-            }
-        }
-
-        // put the one with the higher speed in the queue first
-        for (int i = turn.Length - 1; i >= 0; i--) {
-            if (turn[i] != null) {
-                turnOrder.Enqueue(turn[i]);
-            }
-        }
     }
 
     private void nextTurn() {
@@ -703,9 +611,7 @@ public class BattleSystem : MonoBehaviour {
     }
 
     private void enemyMove(Enemy enemy) {
-        enemy.IsDefending = false;
-
-        EnemyTurn enemyTurn = enemy.EnemyDecide(hostilityMeter);
+        EnemyTurn enemyTurn = BattleLogic.EnemyTurn(enemy, hostilityMeter);
 
         if (enemyTurn.Defend) {
             textToShow.Enqueue(enemy.EnemyName + " defended");
