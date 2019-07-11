@@ -128,15 +128,9 @@ public class AmountPanel : MonoBehaviour {
         int totalAmount = Int32.Parse(TotalAmount.text);
 
         if (isBuying) {
-            GameManager.Instance.AddItem(currItem.ItemName, amount);
-            GameManager.Instance.Wallet -= totalAmount;
+            ShopLogic.BuyItem(currItem, amount, totalAmount);
         } else {
-            if (currItem.IsItem) {
-                GameManager.Instance.RemoveItem(currItem.ItemName, amount);
-            } else {
-                GameManager.Instance.RemoveEquipment(currItem.ItemName, amount);
-            }
-            GameManager.Instance.Wallet += totalAmount;
+            ShopLogic.SellItem(currItem, amount, totalAmount);
         }
         amount = 0;
 

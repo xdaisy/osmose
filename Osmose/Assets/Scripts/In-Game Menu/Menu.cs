@@ -299,7 +299,7 @@ public class Menu : MonoBehaviour
     }
 
     // close all the menus
-    public void closeAllMenu() {
+    private void closeAllMenu() {
         foreach (GameObject menu in MenuHud) {
             menu.SetActive(false);
         }
