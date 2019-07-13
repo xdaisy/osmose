@@ -27,8 +27,11 @@ public class EnemySpawner : MonoBehaviour {
 
     public List<Enemy> SpawnEnemies(string area) {
         List<Enemy> enemies = new List<Enemy>();
-        enemies.Add(Enemies[area][0]);
-
+        // get a random number
+        System.Random rnd = new System.Random();
+        int i = rnd.Next(Enemies[area].Keys.Count);
+        // add the dictionary of enemies to the enemies list
+        enemies.Add(Enemies[area][i]);
         return enemies;
     }
 }
