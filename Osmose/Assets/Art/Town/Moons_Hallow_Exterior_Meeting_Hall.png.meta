@@ -1,0 +1,638 @@
+fileFormatVersion: 2
+guid: f5e995f9815d81f4bae6ae5326c27fe6
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Moons_Hallow_Exterior_Meeting_Hall_0
+    21300002: Moons_Hallow_Exterior_Meeting_Hall_1
+    21300004: Moons_Hallow_Exterior_Meeting_Hall_2
+    21300006: Moons_Hallow_Exterior_Meeting_Hall_3
+    21300008: Moons_Hallow_Exterior_Meeting_Hall_4
+    21300010: Moons_Hallow_Exterior_Meeting_Hall_5
+    21300012: Moons_Hallow_Exterior_Meeting_Hall_6
+    21300014: Moons_Hallow_Exterior_Meeting_Hall_7
+    21300016: Moons_Hallow_Exterior_Meeting_Hall_8
+    21300018: Moons_Hallow_Exterior_Meeting_Hall_9
+    21300020: Moons_Hallow_Exterior_Meeting_Hall_10
+    21300022: Moons_Hallow_Exterior_Meeting_Hall_11
+    21300024: Moons_Hallow_Exterior_Meeting_Hall_12
+    21300026: Moons_Hallow_Exterior_Meeting_Hall_13
+    21300028: Moons_Hallow_Exterior_Meeting_Hall_14
+    21300030: Moons_Hallow_Exterior_Meeting_Hall_15
+    21300032: Moons_Hallow_Exterior_Meeting_Hall_16
+    21300034: Moons_Hallow_Exterior_Meeting_Hall_17
+    21300036: Moons_Hallow_Exterior_Meeting_Hall_18
+    21300038: Moons_Hallow_Exterior_Meeting_Hall_19
+    21300040: Moons_Hallow_Exterior_Meeting_Hall_20
+    21300042: Moons_Hallow_Exterior_Meeting_Hall_21
+    21300044: Moons_Hallow_Exterior_Meeting_Hall_22
+    21300046: Moons_Hallow_Exterior_Meeting_Hall_23
+    21300048: Moons_Hallow_Exterior_Meeting_Hall_24
+    21300050: Moons_Hallow_Exterior_Meeting_Hall_25
+    21300052: Moons_Hallow_Exterior_Meeting_Hall_26
+    21300054: Moons_Hallow_Exterior_Meeting_Hall_27
+    21300056: Moons_Hallow_Exterior_Meeting_Hall_28
+    21300058: Moons_Hallow_Exterior_Meeting_Hall_29
+    21300060: Moons_Hallow_Exterior_Meeting_Hall_30
+    21300062: Moons_Hallow_Exterior_Meeting_Hall_31
+    21300064: Moons_Hallow_Exterior_Meeting_Hall_32
+    21300066: Moons_Hallow_Exterior_Meeting_Hall_33
+    21300068: Moons_Hallow_Exterior_Meeting_Hall_34
+    21300070: Moons_Hallow_Exterior_Meeting_Hall_35
+    21300072: Moons_Hallow_Exterior_Meeting_Hall_36
+    21300074: Moons_Hallow_Exterior_Meeting_Hall_37
+    21300076: Moons_Hallow_Exterior_Meeting_Hall_38
+    21300078: Moons_Hallow_Exterior_Meeting_Hall_39
+    21300080: Moons_Hallow_Exterior_Meeting_Hall_40
+    21300082: Moons_Hallow_Exterior_Meeting_Hall_41
+    21300084: Moons_Hallow_Exterior_Meeting_Hall_42
+    21300086: Moons_Hallow_Exterior_Meeting_Hall_43
+    21300088: Moons_Hallow_Exterior_Meeting_Hall_44
+    21300090: Moons_Hallow_Exterior_Meeting_Hall_45
+    21300092: Moons_Hallow_Exterior_Meeting_Hall_46
+    21300094: Moons_Hallow_Exterior_Meeting_Hall_47
+    21300096: Moons_Hallow_Exterior_Meeting_Hall_48
+    21300098: Moons_Hallow_Exterior_Meeting_Hall_49
+    21300100: Moons_Hallow_Exterior_Meeting_Hall_50
+    21300102: Moons_Hallow_Exterior_Meeting_Hall_51
+    21300104: Moons_Hallow_Exterior_Meeting_Hall_52
+    21300106: Moons_Hallow_Exterior_Meeting_Hall_53
+    21300108: Moons_Hallow_Exterior_Meeting_Hall_54
+    21300110: Moons_Hallow_Exterior_Meeting_Hall_55
+    21300112: Moons_Hallow_Exterior_Meeting_Hall_56
+    21300114: Moons_Hallow_Exterior_Meeting_Hall_57
+    21300116: Moons_Hallow_Exterior_Meeting_Hall_58
+    21300118: Moons_Hallow_Exterior_Meeting_Hall_59
+    21300120: Moons_Hallow_Exterior_Meeting_Hall_60
+    21300122: Moons_Hallow_Exterior_Meeting_Hall_61
+    21300124: Moons_Hallow_Exterior_Meeting_Hall_62
+    21300126: Moons_Hallow_Exterior_Meeting_Hall_63
+    21300128: Moons_Hallow_Exterior_Meeting_Hall_64
+    21300130: Moons_Hallow_Exterior_Meeting_Hall_65
+    21300132: Moons_Hallow_Exterior_Meeting_Hall_66
+    21300134: Moons_Hallow_Exterior_Meeting_Hall_67
+    21300136: Moons_Hallow_Exterior_Meeting_Hall_68
+    21300138: Moons_Hallow_Exterior_Meeting_Hall_69
+    21300140: Moons_Hallow_Exterior_Meeting_Hall_70
+    21300142: Moons_Hallow_Exterior_Meeting_Hall_71
+    21300144: Moons_Hallow_Exterior_Meeting_Hall_72
+    21300146: Moons_Hallow_Exterior_Meeting_Hall_73
+    21300148: Moons_Hallow_Exterior_Meeting_Hall_74
+    21300150: Moons_Hallow_Exterior_Meeting_Hall_75
+    21300152: Moons_Hallow_Exterior_Meeting_Hall_76
+    21300154: Moons_Hallow_Exterior_Meeting_Hall_77
+    21300156: Moons_Hallow_Exterior_Meeting_Hall_78
+    21300158: Moons_Hallow_Exterior_Meeting_Hall_79
+    21300160: Moons_Hallow_Exterior_Meeting_Hall_80
+    21300162: Moons_Hallow_Exterior_Meeting_Hall_81
+    21300164: Moons_Hallow_Exterior_Meeting_Hall_82
+    21300166: Moons_Hallow_Exterior_Meeting_Hall_83
+    21300168: Moons_Hallow_Exterior_Meeting_Hall_84
+    21300170: Moons_Hallow_Exterior_Meeting_Hall_85
+    21300172: Moons_Hallow_Exterior_Meeting_Hall_86
+    21300174: Moons_Hallow_Exterior_Meeting_Hall_87
+    21300176: Moons_Hallow_Exterior_Meeting_Hall_88
+    21300178: Moons_Hallow_Exterior_Meeting_Hall_89
+    21300180: Moons_Hallow_Exterior_Meeting_Hall_90
+    21300182: Moons_Hallow_Exterior_Meeting_Hall_91
+    21300184: Moons_Hallow_Exterior_Meeting_Hall_92
+    21300186: Moons_Hallow_Exterior_Meeting_Hall_93
+    21300188: Moons_Hallow_Exterior_Meeting_Hall_94
+    21300190: Moons_Hallow_Exterior_Meeting_Hall_95
+    21300192: Moons_Hallow_Exterior_Meeting_Hall_96
+    21300194: Moons_Hallow_Exterior_Meeting_Hall_97
+    21300196: Moons_Hallow_Exterior_Meeting_Hall_98
+  externalObjects: {}
+  serializedVersion: 9
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 128
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 1152
+        height: 768
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d723589a89ea6947a201785c6cbfe6f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c3b85094bddd684eaa246a71eff017a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_53
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcf80de8580220a45b23e5e782c48c51
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_54
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ceb91e458264c34e8a158f04ecf76a7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_55
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f3b1d424f7fcb946a61048508aedecb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_56
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e2a410b2018eac47954e5191b00058e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_57
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 896
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43e44eedb0f1626498871bf281bb1231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_58
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 633a1bae146dc6442bef6e81ada21e8b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_59
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e10711c2703147f40b6c89f962082f01
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_60
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 768
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f31f49393e87934408dd9758f8b71deb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_61
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 640
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24f729191e390554d8b1f49752c4becb
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_62
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 640
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02324df8d1ef8e44c95e1719157c4265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_63
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 640
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8078520daf23a6d41b3c3b87e18f9f7b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 539eb1ae5d30f3c4189720bc73b5b1e8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_65
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 512
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3adc6ac5a689b3240ac8d35b4aaac51e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_66
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 512
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d41e4fc7920846489b036edb0134da8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_67
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e863f546557bf4b8592140816a6cfe
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_68
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 512
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3204809305bb5946adf79fd11628fd3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_69
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16800b055da369d45a0c55803d873528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_70
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 326c7e36b0556444ea8a2e3e1cd2f92d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_71
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 384
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3336e04549896d542907ecc99bfb6d7e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Moons_Hallow_Exterior_Meeting_Hall_72
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1152
+        height: 384
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bfcdc56ff9fd7344bc36baa4920d890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 72c440a835cd9734184b83721f858856
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
