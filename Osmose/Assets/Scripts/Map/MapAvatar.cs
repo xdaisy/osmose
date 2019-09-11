@@ -17,17 +17,19 @@ public class MapAvatar : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Vector3 nodePos = eventSystem.currentSelectedGameObject.transform.position + offset;
-        if (this.transform.position != nodePos) {
-            // move if avatar is not on top of current node
-            this.transform.position = Vector3.MoveTowards(
-                this.transform.position,
-                nodePos,
-                MoveSpeed + Time.deltaTime
-            );
-            isMoving = true;
-        } else {
-            isMoving = false;
+        if (eventSystem.currentSelectedGameObject.GetComponent<Node>() != null) {
+            Vector3 nodePos = eventSystem.currentSelectedGameObject.transform.position + offset;
+            if (this.transform.position != nodePos) {
+                // move if avatar is not on top of current node
+                this.transform.position = Vector3.MoveTowards(
+                    this.transform.position,
+                    nodePos,
+                    MoveSpeed + Time.deltaTime
+                );
+                isMoving = true;
+            } else {
+                isMoving = false;
+            }
         }
     }
 }
