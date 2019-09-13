@@ -9,4 +9,6 @@
     public const string MAGIC_DEFENSE = "magic defense";
     public const string SPEED = "speed";
     public const string LUCK = "luck";
+
+    public const string MAP = "map";
 }
