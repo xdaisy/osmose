@@ -100,8 +100,16 @@ public class BattleSystem : MonoBehaviour {
         TextHud.text = "Enemy appeared!";
 
         endedBattle = false;
+
+        Enemy[] en = GameObject.FindObjectsOfType<Enemy>();
         
-        enemies = EnemiesHandler.GetEnemies();
+        if (en.Length > 0) {
+            // if there are enemies on the scene, don't spawn enemies
+            enemies = new List<Enemy>(en);
+        } else {
+            // if there are not enemies on the scene, spawn enemies
+            enemies = EnemiesHandler.GetEnemies();
+        }
         turnOrder = BattleLogic.DetermineTurnOrder(enemies);
     }
 
