@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that handles when a cutscene gets triggered
+/// </summary>
 public class CutsceneTrigger : MonoBehaviour
 {
     public string CutsceneName;
@@ -18,7 +19,7 @@ public class CutsceneTrigger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (EventManager.DidEventHappened(CutsceneName)) {
+        if (EventManager.Instance.DidEventHappened(CutsceneName)) {
             // if cutscene already happen
             Destroy(this.gameObject);
         }

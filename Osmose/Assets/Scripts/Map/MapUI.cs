@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that handles all the map UI
+/// </summary>
 public class MapUI : MonoBehaviour {
     [Header("Groups")]
     public CanvasGroup NodeGroup;
@@ -53,6 +55,10 @@ public class MapUI : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Select the Region the player wants to go to
+    /// </summary>
+    /// <param name="node">Region's node which the player selected</param>
     public void SelectRegion(Node node) {
         if (node.GetCanGo()) {
             // map avatar stopped moving and can go to select area
@@ -68,6 +74,10 @@ public class MapUI : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Select the area where the player wants to go to
+    /// </summary>
+    /// <param name="index">Index that indicates when area the players want to go to</param>
     public void SelectArea(int index) {
         List<string> areas = getAreasInRegion(region);
 
@@ -81,6 +91,11 @@ public class MapUI : MonoBehaviour {
         area = areas[index];
     }
 
+    /// <summary>
+    /// Get the list of areas in the region
+    /// </summary>
+    /// <param name="region">Name of the region that want the list of areas of</param>
+    /// <returns>List of area names that are in the region</returns>
     private List<string> getAreasInRegion(string region) {
         if (region.Equals(FOREST)) {
             return new List<string>(forestRegion);

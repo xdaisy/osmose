@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Class that handles how the map avatar move on the map
+/// </summary>
 public class MapAvatar : MonoBehaviour {
     public float MoveSpeed;
 

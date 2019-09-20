@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Class that handles when player is talking to an NPC
+/// </summary>
 public class DialogueActivator : MonoBehaviour
 {
 
@@ -21,7 +22,7 @@ public class DialogueActivator : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (canActivate && GameManager.Instance.CanStartDialogue() && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
-            if (!this.specificEvent.Equals("") && EventManager.DidEventHappened(specificEvent)) {
+            if (!this.specificEvent.Equals("") && EventManager.Instance.DidEventHappened(specificEvent)) {
                 // there is a specified event AND event happened
                 Dialogue.Instance.ShowDialogue(this.postEventDialogue, false);
             } else {

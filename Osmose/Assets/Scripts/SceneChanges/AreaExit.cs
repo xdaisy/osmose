@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that handles when the player exits an area
+/// </summary>
 public class AreaExit : MonoBehaviour {
 
     public string SceneToLoad;
@@ -29,6 +32,8 @@ public class AreaExit : MonoBehaviour {
             PlayerControls.Instance.PreviousAreaName = AreaName;
             GameManager.Instance.FadingBetweenAreas = true;
             GameManager.Instance.CurrentScene = SceneToLoad;
+
+            EventManager.Instance.AddEvent(SceneToLoad);
         }
     }
 }

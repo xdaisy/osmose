@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
+/// <summary>
+/// Class that handles how the cutscenes are played out
+/// </summary>
 public class CutsceneManager : MonoBehaviour {
     [Header("Cutscene Info")]
     public string CutsceneName;
@@ -44,7 +45,7 @@ public class CutsceneManager : MonoBehaviour {
             string line = reader.ReadLine();
             if (line == null) {
                 // if reader is at the end of the file, don't do anything
-                EventManager.AddEvent(CutsceneName); // add the event to cutscene handler
+                EventManager.Instance.AddEvent(CutsceneName); // add the event to cutscene handler
                 changeScene(); // fade to next scene
                 return; // don't change the text bc at end of file
             }
@@ -53,7 +54,7 @@ public class CutsceneManager : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("Skip") && !shouldLoadAfterFade) {
-            EventManager.AddEvent(CutsceneName); // add the event to cutscene handler
+            EventManager.Instance.AddEvent(CutsceneName); // add the event to cutscene handler
             changeScene(); // fade to next scene
             return; // don't change the text bc at end of file
         }
@@ -67,6 +68,10 @@ public class CutsceneManager : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Change the text to the line passed in
+    /// </summary>
+    /// <param name="line">Line that the text is being changed to</param>
     private void ChangeText(string line) {
         while (line.Length == 0) {
             // don't show empty strings
@@ -96,7 +101,11 @@ public class CutsceneManager : MonoBehaviour {
         dText.text = line;
     }
 
-    // changes the portrait of the person talking
+    /// <summary>
+    /// Change the portrait of the person talking
+    /// </summary>
+    /// <param name="line">Line from the script</param>
+    /// <returns>Name of the person talking</returns>
     private string ChangeSprite(string line) {
         string[] person = line.Split('-'); // split name from expression
         string name = person[0];
@@ -110,6 +119,9 @@ public class CutsceneManager : MonoBehaviour {
         return name;
     }
 
+    /// <summary>
+    /// Change the scene
+    /// </summary>
     private void changeScene() {
         UIFade.Instance.FadeToBlack();
         shouldLoadAfterFade = true;

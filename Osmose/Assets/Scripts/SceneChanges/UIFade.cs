@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Class that fades the screen to black and back
+/// </summary>
 public class UIFade : MonoBehaviour
 {
     public static UIFade Instance;
@@ -52,11 +53,17 @@ public class UIFade : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Trigger to fade to black
+    /// </summary>
     public void FadeToBlack() {
         shouldFadeToBlack = true;
         shouldFadeFromBlack = false;
     }
 
+    /// <summary>
+    /// Trigger to fade from black
+    /// </summary>
     public void FadeFromBlack() {
         shouldFadeFromBlack = true;
         shouldFadeToBlack = false;

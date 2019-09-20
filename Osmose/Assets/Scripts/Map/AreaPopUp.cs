@@ -3,6 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Class that handles the Area Popup UI changes
+/// </summary>
 public class AreaPopUp : MonoBehaviour {
     public Text[] Areas;
 
@@ -23,7 +26,8 @@ public class AreaPopUp : MonoBehaviour {
     /// <param name="areas">List of areas within a region</param>
     public void OpenPopUp(List<string> areas) {
         for (int i = 0; i < Areas.Length; i++) {
-            if (i >= areas.Count) {
+            if (i >= areas.Count || !EventManager.Instance.DidEventHappened(areas[i])) {
+                // if there is no more areas or if the player hasn't gone to the area yet
                 // set area button inactive
                 Areas[i].gameObject.SetActive(false);
                 continue;

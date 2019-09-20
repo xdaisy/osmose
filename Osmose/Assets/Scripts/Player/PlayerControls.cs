@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Class that handles the player's movement on the map
+/// </summary>
 public class PlayerControls : MonoBehaviour {
 
     public float MoveSpeed; // move speed for the character
@@ -75,31 +78,53 @@ public class PlayerControls : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Set whether or not the player can move
+    /// </summary>
+    /// <param name="canMove">Flag that indicates whether or not player can move</param>
     public void SetCanMove(bool canMove) {
         this.canMove = canMove;
     }
 
+    /// <summary>
+    /// Return a flag of whether or not the player can move
+    /// </summary>
+    /// <returns>true if the player can move, false otherwise</returns>
     public bool GetCanMove() {
         return this.canMove;
     }
 
-    // set the player to face forward
-    // use for after the cutscene or loading into scene when defeated in battle
+    /// <summary>
+    /// Set the player to face forward
+    /// </summary>
     public void SetPlayerForward() {
+        // set the player to face forward
+        // use for after the cutscene or loading into scene when defeated in battle
         anim.SetFloat("LastMoveX", 0);
         anim.SetFloat("LastMoveY", -1f);
     }
 
-    // return the values for LastMoveX and LastMoveY
+    /// <summary>
+    /// Returns the x and y values for the player's last movement
+    /// </summary>
+    /// <returns>Vector2 with values of the player's last movement</returns>
     public Vector2 GetLastMove() {
         return new Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY"));
     }
 
+    /// <summary>
+    /// Set the player to face a direction
+    /// </summary>
+    /// <param name="lastMove">Vector2 that indicates when direction the player is facing</param>
     public void SetLastMove(Vector2 lastMove) {
         anim.SetFloat("LastMoveX", lastMove.x);
         anim.SetFloat("LastMoveY", lastMove.y);
     }
 
+    /// <summary>
+    /// Set the position of the player
+    /// </summary>
+    /// <param name="newPos">Position where want to place the player</param>
     public void SetPosition(Vector3 newPos) {
         transform.position = newPos;
         enterBattle.UpdatePos();

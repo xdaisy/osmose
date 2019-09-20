@@ -5,6 +5,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that handles the save and load system
+/// </summary>
 public class SaveFileManager {
     private static SaveData[] saveFiles = new SaveData[3];
 
@@ -44,10 +47,19 @@ public class SaveFileManager {
         // opened chests
         public bool[] OpenedChest;
         public bool[] PickedUpItem;
+
+        // events
+        public HashSet<string> Events;
+
+        // unlocked regions
     }
 
     private static string path = Application.dataPath + "/Resources/saveFiles.gd";
 
+    /// <summary>
+    /// Save the file data
+    /// </summary>
+    /// <param name="file">File being saved to</param>
     public static void Save(int file) {
         saveFiles[file] = new SaveData {
             PlayTime = GameManager.Instance.GetPlayTime(),
@@ -69,7 +81,8 @@ public class SaveFileManager {
             Rey = GameManager.Instance.Party.GetCharacterStats(Constants.REY),
             Naoise = GameManager.Instance.Party.GetCharacterStats(Constants.NAOISE),
             OpenedChest = ObtainItemManager.Instance.OpenedChest,
-            PickedUpItem = ObtainItemManager.Instance.PickedUpItem
+            PickedUpItem = ObtainItemManager.Instance.PickedUpItem,
+            Events = EventManager.Instance.GetEvents()
         };
         Vector2 lastMove = PlayerControls.Instance.GetLastMove();
         saveFiles[file].LastMoveX = lastMove.x;
@@ -80,7 +93,9 @@ public class SaveFileManager {
         fs.Close();
     }
 
-    // load the save files
+    /// <summary>
+    /// Get the save files
+    /// </summary>
     public static void LoadSaves() {
         if (File.Exists(path)) {
             // if file exists load files
@@ -91,11 +106,16 @@ public class SaveFileManager {
         }
     }
 
-    // load the file
+    /// <summary>
+    /// Load the save file
+    /// </summary>
+    /// <param name="file">The file that is being loaded</param>
     public static void Load(int file) {
         if (saveFiles[file] != null) {
+            // set play time
             GameManager.Instance.SetPlayTIme(saveFiles[file].PlayTime);
 
+            // load current location information
             GameManager.Instance.CurrentScene = saveFiles[file].CurrentScene;
             GameManager.Instance.LastTown = saveFiles[file].LastTown;
             GameManager.Instance.IsBattleMap = saveFiles[file].IsBattleMap;
@@ -105,6 +125,7 @@ public class SaveFileManager {
             Vector3 playerPos = new Vector3(saveFiles[file].XPosition, saveFiles[file].YPosition, saveFiles[file].ZPosition);
             PlayerControls.Instance.SetPosition(playerPos);
 
+            // load items
             GameManager.Instance.Wallet = saveFiles[file].Wallet;
             GameManager.Instance.ItemsHeld = new List<string>(saveFiles[file].ItemsHeld);
             GameManager.Instance.NumOfItems = new List<int>(saveFiles[file].NumOfItems);
@@ -112,13 +133,18 @@ public class SaveFileManager {
             GameManager.Instance.NumOfEquipment = new List<int>(saveFiles[file].NumOfEquipment);
             GameManager.Instance.EquipmentHeld = new List<string>(saveFiles[file].KeyItemsHeld);
 
+            // load stats
             GameManager.Instance.Party.ChangeMembers(saveFiles[file].CurrentParty);
             GameManager.Instance.Party.LoadCharStats(Constants.AREN, saveFiles[file].Aren);
             GameManager.Instance.Party.LoadCharStats(Constants.REY, saveFiles[file].Rey);
             GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, saveFiles[file].Naoise);
 
+            // load chests and picked up items
             saveFiles[file].OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
             saveFiles[file].PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
+
+            // load events
+            EventManager.Instance.LoadEvents(saveFiles[file].Events);
 
             PlayerControls.Instance.PreviousAreaName = "Continue";
 
