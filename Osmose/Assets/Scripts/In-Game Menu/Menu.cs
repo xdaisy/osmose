@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
@@ -68,6 +69,11 @@ public class Menu : MonoBehaviour
     private Skill skillToUse;
     private bool usingSkill;
 
+    // wait for loading
+    [SerializeField]
+    private float waitToLoad = Constants.WAIT_TIME;
+    private bool shouldLoadAfterFade;
+
     // constants to keep track of hud names
     private const string MAIN = "Main";
     private const string PARTY = "PartyHud";
@@ -104,6 +110,7 @@ public class Menu : MonoBehaviour
         usingItem = false;
         skillToUse = null;
         usingSkill = false;
+        shouldLoadAfterFade = false;
     }
 
     // Update is called once per frame
@@ -219,9 +226,20 @@ public class Menu : MonoBehaviour
                     SelectPanel.interactable = false;
                 }
             }
+            updatePartyStats();
+        }
+        if (shouldLoadAfterFade) {
+            waitToLoad -= Time.deltaTime;
+            if (waitToLoad <= 0f) {
+                CloseGameMenu();
+                SceneManager.LoadScene("Map");
+            }
         }
     }
-
+    
+    /// <summary>
+    /// Update the party's stats
+    /// </summary>
     private void updatePartyStats() {
         List<string> currentParty = GameManager.Instance.Party.GetCurrentParty();
 
@@ -245,7 +263,10 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // click on button to open menu
+    /// <summary>
+    /// Open up the specific menu
+    /// </summary>
+    /// <param name="menu">Index of the menu</param>
     public void OpenMenu(int menu) {
         previousHud = currentHud;
         // close all menus
@@ -298,20 +319,29 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // close all the menus
+    /// <summary>
+    /// Close all the menus
+    /// </summary>
     private void closeAllMenu() {
         foreach (GameObject menu in MenuHud) {
             menu.SetActive(false);
         }
     }
 
+    /// <summary>
+    /// Switch the position of 2 characters
+    /// </summary>
+    /// <param name="character">Index of the character</param>
     public void SwitchCharacters(int character) {
         if (charToSwitch == -1) {
+            // select first character
             charToSwitch = character;
             previousHud = currentHud;
             currentHud = PARTY;
             MainButtonsHud.interactable = false;
         } else {
+            // select second character
+            // switch the two characters
             List<string> party = GameManager.Instance.Party.GetCurrentParty();
             string temp = party[charToSwitch];
             party[charToSwitch] = party[character];
@@ -324,7 +354,10 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // select which type of item to go look at
+    /// <summary>
+    /// Select which type of item to display
+    /// </summary>
+    /// <param name="itemType">Index of the item type</param>
     public void ChooseWhichItem(int itemType) {
         ItemType.interactable = false;
         ItemList.interactable = true;
@@ -347,7 +380,10 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // open panel to either use or discard item
+    /// <summary>
+    /// Open the description panel
+    /// </summary>
+    /// <param name="item">Index of the item</param>
     public void OpenDescriptionPanel(int item) {
         ItemList.interactable = false;
         DescriptionPanel.interactable = true;
@@ -358,7 +394,9 @@ public class Menu : MonoBehaviour
         ItemMenuUI.OpenDescriptionPanel(item);
     }
 
-    // go to character select panel
+    /// <summary>
+    /// Go to Character Select panel to select which character to use item on
+    /// </summary>
     public void UseItem() {
         itemToUse = ItemMenuUI.GetClickedItem();
         usingItem = true;
@@ -374,7 +412,10 @@ public class Menu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
     }
 
-    // choose which character to heal
+    /// <summary>
+    /// Use item on the character selected
+    /// </summary>
+    /// <param name="indx">The index of the character chosen to use item on</param>
     public void SelectCharacter(int indx) {
         string charName = PartyName[indx].text;
         
@@ -436,6 +477,9 @@ public class Menu : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Discard an item
+    /// </summary>
     public void Discard() {
         itemToUse = ItemMenuUI.GetClickedItem();
         GameManager.Instance.RemoveItem(itemToUse, 1);
@@ -453,7 +497,9 @@ public class Menu : MonoBehaviour
         }
     }
 
-    // select which character to look at skills
+    /// <summary>
+    /// Look at character's skill
+    /// </summary>
     public void SelectSkillsChar() {
         previousHud = currentHud;
         currentHud = SKILLS_LIST;
@@ -461,6 +507,10 @@ public class Menu : MonoBehaviour
         SkillMenuUI.OpenSkillsPanel();
     }
 
+    /// <summary>
+    /// Use a skill
+    /// </summary>
+    /// <param name="choice">Index of the skill</param>
     public void UseSkill(int choice) {
         string currSkill = SkillMenuUI.GetClickedSkill(choice);
         string currChar = SkillMenuUI.GetCurrentCharacter();
@@ -485,6 +535,10 @@ public class Menu : MonoBehaviour
     }
 
     // open up equipped panel
+    /// <summary>
+    /// Go to Character's equipment panel
+    /// </summary>
+    /// <param name="character"></param>
     public void SelectWhichCharacterEqpmt(int character) {
         previousHud = currentHud;
         currentHud = EQUIPPED_PANEL;
@@ -496,7 +550,10 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.ShowCharacterEquipment(character);
     }
 
-    // open up the equipment panel
+    /// <summary>
+    /// Go to Equipment Selection panel
+    /// </summary>
+    /// <param name="equipWeapon">Flag indicating whether or not showing weapons</param>
     public void SelectWhichEquipment(bool equipWeapon) {
         previousHud = currentHud;
         currentHud = EQUIPMENT_PANEL;
@@ -506,7 +563,10 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.ShowEquipments(equipWeapon);
     }
 
-    // equip equipment
+    /// <summary>
+    /// Equip selected equipment
+    /// </summary>
+    /// <param name="indx">Index of the equipment</param>
     public void Equip(int indx) {
         string eqmtName = EquipmentMenuUI.GetEquipment(indx);
         string charName = EquipmentMenuUI.GetCurrentCharacter();
@@ -516,11 +576,18 @@ public class Menu : MonoBehaviour
         EquipmentMenuUI.UpdateAfterEquip();
     }
 
-    // save the game
+    /// <summary>
+    /// Save the game
+    /// </summary>
+    /// <param name="file">Index of the file</param>
     public void Save(int file) {
         StartCoroutine(SaveCo(file));
     }
 
+    /// <summary>
+    /// Coroutine to save the game
+    /// </summary>
+    /// <param name="file">Index of the file</param>
     private IEnumerator SaveCo(int file) {
         // save
         SaveFileManager.Save(file);
@@ -529,7 +596,9 @@ public class Menu : MonoBehaviour
         SaveMenuUI.UpdateSaveMenu();
     }
 
-    // open the game menu
+    /// <summary>
+    /// Open the game menu
+    /// </summary>
     public void OpenGameMenu() {
         OpenMenu(0);
         updatePartyStats();
@@ -538,7 +607,9 @@ public class Menu : MonoBehaviour
         GameManager.Instance.GameMenuOpen = true;
     }
 
-    // close the game menu
+    /// <summary>
+    /// Close the game menu
+    /// </summary>
     public void CloseGameMenu() {
         closeAllMenu();
         previousHud = MAIN;
@@ -549,5 +620,14 @@ public class Menu : MonoBehaviour
         usingItem = false;
         usingSkill = false;
         GameManager.Instance.GameMenuOpen = false;
+    }
+
+    /// <summary>
+    /// Go to the overworld map
+    /// </summary>
+    public void SelectMap() {
+        shouldLoadAfterFade = true;
+        UIFade.Instance.FadeToBlack();
+        GameManager.Instance.FadingBetweenAreas = true;
     }
 }

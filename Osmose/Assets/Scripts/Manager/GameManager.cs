@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Sprite NaoiseSprite;
 
     [Header("Game Status")]
-    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene, InShop;
+    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene, InShop, OnMap;
     public string CurrentScene;
     public string LastTown; // last town/non-battle area player was last in
     public bool IsBattleMap;
@@ -53,25 +53,35 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop || OnMap) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);
         }
     }
 
-    // return if can open the menu
+    /// <summary>
+    /// Get flag on if can open menu
+    /// </summary>
+    /// <returns>True if can open menu, false otherwise</returns>
     public bool CanOpenMenu() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop;
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop && !OnMap;
     }
 
-    // return if can open shop menu
+    /// <summary>
+    /// Get flag on if can open shop menu
+    /// </summary>
+    /// <returns>True if can open shop menu, false otherwise</returns>
     public bool CanOpenShop() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen;
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap;
     }
 
+    /// <summary>
+    /// Get flag on if can show dialogue
+    /// </summary>
+    /// <returns>True if can show dialogue, false otherwise</returns>
     public bool CanStartDialogue() {
-        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen;
+        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap;
     }
 
     // get money

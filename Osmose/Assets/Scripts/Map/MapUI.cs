@@ -20,7 +20,7 @@ public class MapUI : MonoBehaviour {
 
     [Header("Load Fields")]
     [SerializeField]
-    private float waitToLoad = 1f;
+    private float waitToLoad = Constants.WAIT_TIME;
 
     private EventSystem eventSystem;
     private const string FOREST = "forest";
@@ -33,6 +33,9 @@ public class MapUI : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        GameManager.Instance.FadingBetweenAreas = false;
+        UIFade.Instance.FadeFromBlack();
+        GameManager.Instance.OnMap = true;
         eventSystem = EventSystem.current;
     }
 
@@ -67,8 +70,7 @@ public class MapUI : MonoBehaviour {
 
             currentNode = node;
 
-            string region = node.name.Split(' ')[0].ToLower();
-            this.region = region;
+            this.region = node.GetRegionName();
 
             AreaPopUpUi.OpenPopUp(getAreasInRegion(region));
         }
@@ -85,6 +87,7 @@ public class MapUI : MonoBehaviour {
         UIFade.Instance.FadeToBlack();
         PlayerControls.Instance.PreviousAreaName = Constants.MAP;
         GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.OnMap = false;
         GameManager.Instance.CurrentScene = areas[index];
         PlayerControls.Instance.SetLastMove(Vector2.down);
 

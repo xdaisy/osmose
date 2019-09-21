@@ -12,7 +12,7 @@ public class CutsceneTrigger : MonoBehaviour
     public bool HaveDialogue;
     public string[] PreDialogue;
 
-    public float WaitToLoad = 1f;
+    public float WaitToLoad = Constants.WAIT_TIME;
 
     private bool showingDialogue;
     private bool shouldLoadAfterFade;

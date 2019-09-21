@@ -40,9 +40,7 @@ public class PlayerControls : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {}
-
-    void FixedUpdate() {
+	void Update () {
         if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
             // if click open menu button, open/close menu
             if (menuOpen) {
@@ -55,7 +53,10 @@ public class PlayerControls : MonoBehaviour {
                 menuOpen = true;
             }
         }
+    }
 
+    void FixedUpdate() {
+        // move
         float xInput = Input.GetAxisRaw("Horizontal");
         float yInput = Input.GetAxisRaw("Vertical");
 

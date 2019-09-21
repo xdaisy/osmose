@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoadAfterBattle : MonoBehaviour {
     void Update() {
-        if (PlayerControls.Instance.PreviousAreaName == "Battle") {
+        if (PlayerControls.Instance.PreviousAreaName == Constants.BATTLE) {
             GameManager.Instance.FadingBetweenAreas = false;
             PlayerControls.Instance.PreviousAreaName = "";
         }

@@ -15,11 +15,6 @@ public class AreaPopUp : MonoBehaviour {
         eventSystem = EventSystem.current;
     }
 
-    // Update is called once per frame
-    void Update() {
-        //eventSystem = EventSystem.current;
-    }
-
     /// <summary>
     /// Open up Select Area pop up
     /// </summary>

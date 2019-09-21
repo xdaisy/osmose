@@ -1,4 +1,5 @@
 ﻿public static class Constants {
+    // names
     public const string AREN = "Aren";
     public const string REY = "Rey";
     public const string NAOISE = "Naoise";
@@ -10,5 +11,9 @@
     public const string SPEED = "speed";
     public const string LUCK = "luck";
 
+    // scenes
     public const string MAP = "map";
+    public const string BATTLE = "Battle";
+
+    public const float WAIT_TIME = 1f;
 }
