@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Map.unity
+- path: Assets/Scenes/Aren_Prologue/Town_Meeting_Cutscene.unity
   isLoaded: 1
   isActive: 1
