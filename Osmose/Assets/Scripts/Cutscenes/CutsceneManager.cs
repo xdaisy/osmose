@@ -20,6 +20,7 @@ public class CutsceneManager : MonoBehaviour {
     [Header("Scene Load")]
     public string sceneToLoad;
     public float WaitToLoad = 1f;
+    public string RegionUnlock;
 
     private StringReader reader;
 
@@ -129,5 +130,9 @@ public class CutsceneManager : MonoBehaviour {
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
         GameManager.Instance.FadingBetweenAreas = true;
+        if (RegionUnlock.Length > 0) {
+            // if there's a region to be unlocked this cutscene, unlock it
+            EventManager.Instance.AddEvent(RegionUnlock);
+        }
     }
 }
