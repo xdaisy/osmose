@@ -89,7 +89,7 @@ public class MapUI : MonoBehaviour {
         GameManager.Instance.FadingBetweenAreas = true;
         GameManager.Instance.OnMap = false;
         GameManager.Instance.CurrentScene = areas[index];
-        PlayerControls.Instance.SetLastMove(Vector2.down);
+        PlayerControls.Instance.SetLastMove(Vector2.up);
 
         area = areas[index];
     }

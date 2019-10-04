@@ -12,7 +12,7 @@
     public const string LUCK = "luck";
 
     // scenes
-    public const string MAP = "map";
+    public const string MAP = "Map";
     public const string BATTLE = "Battle";
 
     public const float WAIT_TIME = 1f;

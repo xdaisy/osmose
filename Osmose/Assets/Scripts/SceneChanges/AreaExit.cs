@@ -33,7 +33,10 @@ public class AreaExit : MonoBehaviour {
             GameManager.Instance.FadingBetweenAreas = true;
             GameManager.Instance.CurrentScene = SceneToLoad;
 
-            EventManager.Instance.AddEvent(SceneToLoad);
+            if (!SceneToLoad.Equals(Constants.MAP)) {
+                // only add scene if not going to map
+                EventManager.Instance.AddEvent(SceneToLoad);
+            }
         }
     }
 }

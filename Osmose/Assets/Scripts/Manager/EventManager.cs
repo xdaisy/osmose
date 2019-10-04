@@ -18,6 +18,7 @@ public class EventManager : MonoBehaviour {
 
         // this is for debugging purposes
         // TODO: remove in production
+        AddEvent("forest");
         AddEvent("Aren_House");
     }
 
