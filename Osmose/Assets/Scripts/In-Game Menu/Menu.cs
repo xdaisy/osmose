@@ -23,7 +23,8 @@ public class Menu : MonoBehaviour
 
     [Header("Items Menu")]
     public ItemMenu ItemMenuUI;
-    public GameObject ItemFirstHighlighted;
+    public GameObject FirstItemType;
+    public GameObject FirstItem;
     public CanvasGroup ItemType;
     public CanvasGroup ItemList;
     public CanvasGroup DescriptionPanel;
@@ -294,7 +295,7 @@ public class Menu : MonoBehaviour
             case 1:
                 // open item menu
                 currentHud = ITEM_TYPE;
-                EventSystem.current.SetSelectedGameObject(ItemFirstHighlighted);
+                EventSystem.current.SetSelectedGameObject(FirstItemType);
                 break;
             case 2:
                 // open skills menu
@@ -361,7 +362,7 @@ public class Menu : MonoBehaviour
     public void ChooseWhichItem(int itemType) {
         ItemType.interactable = false;
         ItemList.interactable = true;
-        EventSystem.current.SetSelectedGameObject(ItemList.GetComponentInChildren<Button>().gameObject);
+        EventSystem.current.SetSelectedGameObject(FirstItem);
         previousHud = currentHud;
         currentHud = ITEM_LIST;
         switch (itemType) {
