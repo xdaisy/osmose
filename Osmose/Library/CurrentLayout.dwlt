@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 22242
+  controlID: 917
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 22146
+  controlID: 930
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -800,7 +800,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 689ef9ff76a9f9ff86a9f9ffbc01fafffc01faff4063faff8063faff8cfafffff4ffffffd446030082490300904903009a490300a4490300b8490300ec490300f8490300024a03000a4a03001c4a03002a4a03000a4b03003c4b0300e64b0300
+      m_ExpandedIDs: d6fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -892,20 +892,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Prefabs/Armor
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Prefabs/Armor
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c8280000
-    m_LastClickedID: 10440
-    m_ExpandedIDs: 00000000102800006c280000c828000080290000522c0000302d0000fa320000703400005a4800005c48000000ca9a3b
+    m_SelectedIDs: 4e130000
+    m_LastClickedID: 4942
+    m_ExpandedIDs: 00000000a40a0000040b0000620b00001e0c0000f20e0000d00f0000b8150000601700005e4a0000604a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -933,7 +933,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000102800006c280000c828000080290000522c0000302d0000fa320000703400005a4800005c48000000ca9a3b
+    m_ExpandedIDs: 00000000a40a0000040b0000620b00001e0c0000f20e0000d00f0000b8150000601700005e4a0000604a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -985,7 +985,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 180}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 58
   m_DirectoriesAreaWidth: 172
 --- !u!114 &21
