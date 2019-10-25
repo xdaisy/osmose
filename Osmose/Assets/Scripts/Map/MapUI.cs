@@ -42,19 +42,29 @@ public class MapUI : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (shouldLoadAfterFade) {
+            // loading
             waitToLoad -= Time.deltaTime;
             if (waitToLoad <= 0f) {
                 shouldLoadAfterFade = false;
                 SceneManager.LoadScene(area);
             }
-        }
+        } else {
+            // not loading
+            if (AreaGroup.gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
+                // if on area pop up and press cancel, go back to being on map
+                AreaGroup.gameObject.SetActive(false);
+                NodeGroup.interactable = true;
 
-        if (AreaGroup.interactable && Input.GetButtonDown("Cancel")) {
-            // if on area pop up and press cancel, go back to being on map
-            AreaGroup.gameObject.SetActive(false);
-            NodeGroup.interactable = true;
+                eventSystem.SetSelectedGameObject(currentNode.gameObject);
+            } else if (Input.GetButtonDown("Cancel")) {
+                shouldLoadAfterFade = true;
+                UIFade.Instance.FadeToBlack();
+                PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+                GameManager.Instance.FadingBetweenAreas = true;
+                GameManager.Instance.OnMap = false;
 
-            eventSystem.SetSelectedGameObject(currentNode.gameObject);
+                area = GameManager.Instance.CurrentScene;
+            }
         }
     }
 

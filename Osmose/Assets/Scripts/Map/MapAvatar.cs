@@ -10,11 +10,9 @@ public class MapAvatar : MonoBehaviour {
     private EventSystem eventSystem;
 
     private Vector3 offset;
-    private bool isMoving;
 
     private void Awake() {
         eventSystem = EventSystem.current;
-        isMoving = false;
         offset = new Vector3(2, 59, 0);
     }
 
@@ -29,9 +27,6 @@ public class MapAvatar : MonoBehaviour {
                     nodePos,
                     MoveSpeed + Time.deltaTime
                 );
-                isMoving = true;
-            } else {
-                isMoving = false;
             }
         }
     }

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Aren_Prologue/Trail_to_Town.unity
+- path: Assets/Scenes/Map.unity
   isLoaded: 1
   isActive: 1
