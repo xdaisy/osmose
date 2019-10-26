@@ -1,9 +1,9 @@
 Name,HP,SP,Attack,Defense,Magic Defense,Speed,Luck,EXP,Money
-Rasq,1,1,1,1,1,1,1,1,1
-Syini,1,1,1,1,1,1,1,1,1
-Pyramph,1,1,1,1,1,1,1,1,1
-Kelpus,1,1,1,1,1,1,1,1,1
-Zentak & Calf,1,1,1,1,1,1,1,1,1
-Sabyr,1,1,1,1,1,1,1,1,1
+Rasq,18,15,10,10,10,22,2,1,1
+Syini,25,25,24,24,24,30,3,1,5
+Pyramph,15,10,25,17,17,14,2,1,3
+Kelpus,33,30,20,31,31,25,7,1,7
+Zentak & Calf,22,20,26,25,25,14,3,1,4
+Sabyr,36,10,34,28,28,23,4,1,10
 Feral Werewolf,1,1,1,1,1,1,1,1,1
 Corrupted Werewolf,1,1,1,1,1,1,1,1,1
