@@ -13,6 +13,11 @@ public class ItemsPanel : MonoBehaviour {
     public Text[] ItemsName;
     public Text[] ItemsCost;
     public Text[] ItemsOwned;
+
+    [Header("Item Description")]
+    public Text GreetingText;
+    public GameObject ItemDescription;
+    public Image ItemSprite;
     public Text Description;
 
     [Header("Party Panel")]
@@ -105,6 +110,7 @@ public class ItemsPanel : MonoBehaviour {
         sellingItem = items;
         allItems = false;
         EventSystem.current.SetSelectedGameObject(ItemsName[0].gameObject);
+        openDescription();
         updateItemsList();
         currItem = ItemsName[0].text;
         updateDescription();
@@ -119,10 +125,19 @@ public class ItemsPanel : MonoBehaviour {
         sellingItem = false;
         allItems = true;
         EventSystem.current.SetSelectedGameObject(ItemsName[0].gameObject);
+        openDescription();
         updateAllList();
         currItem = ItemsName[0].text;
         updateDescription();
         updatePartyPanel();
+    }
+
+    /// <summary>
+    /// Close the Item List
+    /// </summary>
+    public void CloseItemList() {
+        GreetingText.gameObject.SetActive(true);
+        ItemDescription.SetActive(false);
     }
 
     /// <summary>
@@ -286,6 +301,11 @@ public class ItemsPanel : MonoBehaviour {
             // if not item, is equipment
             item = GameManager.Instance.GetEquipmentDetails(currItem);
         }
+
+        if (item.ItemSprite != null) {
+            // set the item image if there is one
+            ItemSprite.sprite = item.ItemSprite;
+        }
         Description.text = item.Description;
     }
 
@@ -335,5 +355,13 @@ public class ItemsPanel : MonoBehaviour {
                 StatTexts[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Closes the greeting text and open item description text
+    /// </summary>
+    private void openDescription() {
+        GreetingText.gameObject.SetActive(false);
+        ItemDescription.SetActive(true);
     }
 }

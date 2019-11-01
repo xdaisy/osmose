@@ -61,6 +61,7 @@ public class Shop : MonoBehaviour {
                 Description.text = "How may I help you?";
             } else if (ShopPanels[ITEM_LIST_PANEL].interactable) {
                 // close item list panel
+                ItemsPanelUI.CloseItemList();
                 if (ItemsPanelUI.GetIsBuying()) {
                     ShopPanels[ITEM_LIST_PANEL].interactable = false;
                     ShopPanels[BUY_SELL_PANEL].interactable = true;
