@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 5983
+  controlID: 4401
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 5951
+  controlID: 4402
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -41342
+  m_LastSelectedObjectID: 24336
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -798,9 +798,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 825effff
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 4456ffffc45effff9e8bffff1494ffffe4c2ffffd6fbfffff4ffffff
+      m_ExpandedIDs: d8f3fffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -892,20 +892,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Manager
+    - Assets/Prefabs/Items
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Scripts/Manager
+  - Assets/Prefabs/Items
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 22}
-    m_SelectedIDs: f60b0000
-    m_LastClickedID: 3062
-    m_ExpandedIDs: 00000000a40a0000040b0000620b00001e0c0000f60e0000d40f000040130000ce150000e8480000ea48000000ca9a3b
+    m_SelectedIDs: a6420000
+    m_LastClickedID: 17062
+    m_ExpandedIDs: 00000000b836000014370000723700002e380000043b0000e03b0000483f0000d24100007c5000007e50000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -933,7 +933,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a40a0000040b0000620b00001e0c0000f60e0000d40f000040130000ce150000e8480000ea48000000ca9a3b
+    m_ExpandedIDs: 00000000b836000014370000723700002e380000043b0000e03b0000483f0000d24100007c5000007e50000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
