@@ -101,7 +101,7 @@ public class Menu : MonoBehaviour
             // if another menu exists, destroy game object
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+
         previousHud = MAIN;
         currentHud = MAIN;
         charToSwitch = -1;

@@ -22,7 +22,6 @@ public class UIFade : MonoBehaviour
         } else {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     // Update is called once per frame

@@ -27,7 +27,9 @@ public class EssentialsLoader : MonoBehaviour {
             Instantiate(EnemySpawn);
         }
 
-        Instantiate(UICanvas);
+        if (UIFade.Instance == null) {
+            Instantiate(UICanvas);
+        }
 
         Instantiate(LoadEntrance);
     }

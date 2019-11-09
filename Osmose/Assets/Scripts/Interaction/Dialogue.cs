@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour {
@@ -24,7 +22,6 @@ public class Dialogue : MonoBehaviour {
         } else {
             Destroy(ParentObject);
         }
-        DontDestroyOnLoad(ParentObject);
     }
 
     // Update is called once per frame
