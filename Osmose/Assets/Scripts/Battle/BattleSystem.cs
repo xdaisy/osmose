@@ -147,6 +147,7 @@ public class BattleSystem : MonoBehaviour {
                     textToShow.Enqueue(levelUp);
                 }
                 GameManager.Instance.GainMoney(earnedMoney);
+                CharTurnImage.gameObject.SetActive(false);
             }
             //showText();
 

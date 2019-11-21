@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 35838
+  controlID: 10495
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 36002
+  controlID: 10406
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -389,9 +389,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1030.8722, y: 503.7303, z: 23.792484}
+    m_Target: {x: 936.741, y: 515.4969, z: 23.75}
     speed: 2
-    m_Value: {x: 1030.8722, y: 503.7303, z: 23.792484}
+    m_Value: {x: 936.741, y: 515.4969, z: 23.75}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 408450
+  m_LastSelectedObjectID: -1358
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -798,9 +798,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 823b0600
-      m_LastClickedID: 408450
-      m_ExpandedIDs: 7880f3ffd004f4ffe404f4fffe04f4ff2005f4ff7a05f4ff8205f4ffe408f4ff8004ffff8604ffff9004ffff9604ffffb2faffffd6fbfffff4fffffff4d5050014d60500623a0600843a0600ae3a0600cc3a0600e63a0600ea3a0600123b0600723b0600823b0600b43b0600bc3b0600c23b0600c63b0600ce3b0600da3b0600ec3b0600083c0600143c06001e3c0600a23c0600
+      m_SelectedIDs: 52c6feff
+      m_LastClickedID: 0
+      m_ExpandedIDs: 7afaffff96faffffaefaffff1efbffff26fbffffb0fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -892,20 +892,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes/Aren_Prologue
+    - Assets/Scripts/Battle
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Scenes/Aren_Prologue
+  - Assets/Scripts/Battle
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 3a170000
-    m_LastClickedID: 5946
-    m_ExpandedIDs: 00000000a60a0000060b00006a0b0000300c0000160f0000001000000a1600002e4700003047000000ca9a3b
+    m_SelectedIDs: d02c0000
+    m_LastClickedID: 11472
+    m_ExpandedIDs: 00000000dc2700003c2800009e2800005c2900003e2c0000202d000018330000644900006649000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -933,7 +933,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a60a0000060b00006a0b0000300c0000160f0000001000000a1600002e4700003047000000ca9a3b
+    m_ExpandedIDs: 00000000dc2700003c2800009e2800005c2900003e2c0000202d000018330000644900006649000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
