@@ -70,6 +70,8 @@ public static class BattleLogic {
             damage -= enemy.MagicDefense;
         }
 
+        damage = Math.Max(damage, 1); // always do 1 damage
+
         // reduce enemy's hp
         enemy.CurrentHP -= damage;
         enemy.CurrentHP = Math.Max(enemy.CurrentHP, 0); // set so that 0 is the lowest amount it can go

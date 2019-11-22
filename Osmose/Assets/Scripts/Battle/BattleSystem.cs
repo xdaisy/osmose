@@ -406,6 +406,9 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Open the skills menu in battle
+    /// </summary>
     public void SelectSkills() {
         // turn off main hud
         MainHud.interactable = false;
@@ -423,6 +426,10 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Use use a skill skill
+    /// </summary>
+    /// <param name="skill">Index of the skill to use</param>
     public void UseSkill(int skill) {
         skillToUse = SkillHudUI.GetClickedSkill(skill);
         bool endTurn = false;
