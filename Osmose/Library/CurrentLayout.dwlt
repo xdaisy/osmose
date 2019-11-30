@@ -116,7 +116,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 12307
+  controlID: 19025
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 12290
+  controlID: 19146
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -384,14 +384,14 @@ MonoBehaviour:
     height: 569
   m_PersistentViewDataDictionary: {fileID: 0}
   m_WindowGUID: e8f65c3bdbe35f14abbe1775c481ec48
-  m_SceneLighting: 1
+  m_SceneLighting: 0
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.219649, y: -0.4437364, z: -0.21484375}
+    m_Target: {x: 838.6254, y: 202.74748, z: 2.6875}
     speed: 2
-    m_Value: {x: 8.219649, y: -0.4437364, z: -0.21484375}
+    m_Value: {x: 838.6254, y: 202.74748, z: 2.6875}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -423,9 +423,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 23.578218
+    m_Target: 397.02213
     speed: 2
-    m_Value: 23.578218
+    m_Value: 397.02213
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -742,7 +742,7 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 545084
+  m_LastSelectedObjectID: 27854
 --- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -798,9 +798,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 10340000
-      m_LastClickedID: 0
-      m_ExpandedIDs: d23ce2ff8e81efffbcdefffface6ffff88faffff78360000
+      m_SelectedIDs: ce6c0000
+      m_LastClickedID: 27854
+      m_ExpandedIDs: e686fdffe089fdffc08cfdff8a8ffdff0612feff9237feff9837feff9e37feffa437feffaa37feff866afeff686dfeff3670feffec72feff381bfffff06a0000fa6a00002e6b0000c66b0000d46b0000066c00002c6c0000ce6c0000086d0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -893,20 +893,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts/Battle
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts/Battle
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 06280000
-    m_LastClickedID: 10246
-    m_ExpandedIDs: 00000000a6270000062800006a2800002a290000122c0000f62c0000fe320000904800009248000000ca9a3b
+    m_SelectedIDs: ca0f0000
+    m_LastClickedID: 4042
+    m_ExpandedIDs: 00000000a60a00000c0b0000720b00003a0c0000340f00001a10000088160000c0480000c248000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -934,7 +934,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a6270000062800006a2800002a290000122c0000f62c0000fe320000904800009248000000ca9a3b
+    m_ExpandedIDs: 00000000a60a00000c0b0000720b00003a0c0000340f00001a10000088160000c0480000c248000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -961,7 +961,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: fc2c0000c42b0000142c00004a2f0000c42f0000aa2c000050300000d429000012100000dc0500001a100000d42f0000923200007c0b0000a83100005e60000066600000ca6f0000765a00001e120000e8110000b60b0000d2130000dc1300000e2e0000d415000058350000f82c000036100000b20c0000ec0f0000ae0a00004815000002320000ac1600000000000026590000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
