@@ -50,11 +50,10 @@ public class SaveFileManager {
 
         // events
         public HashSet<string> Events;
-
-        // unlocked regions
     }
 
     private static string path = Application.dataPath + "/Resources/saveFiles.gd";
+    //private static string path = Application.persistentDataPath + "/Resources/saveFiles.gd";
 
     /// <summary>
     /// Save the file data
