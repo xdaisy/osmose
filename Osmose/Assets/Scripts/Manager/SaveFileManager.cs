@@ -49,7 +49,7 @@ public class SaveFileManager {
         public bool[] PickedUpItem;
 
         // events
-        public HashSet<string> Events;
+        public List<string> Events;
     }
 
     private static string path = Application.dataPath + "/Resources/saveFiles.gd";

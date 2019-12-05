@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Class that display the save menu
+/// </summary>
 public class SaveMenu : MonoBehaviour {
     [Header("General")]
     public Button[] SaveFiles;
@@ -16,16 +17,6 @@ public class SaveMenu : MonoBehaviour {
     public Image[] PartyMember1;
     public Image[] PartyMember2;
     public Image[] PartyMember3;
-
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-    }
 
     /// <summary>
     /// Open the save menu

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -20,6 +18,7 @@ public class LoadGame : MonoBehaviour {
     private bool isContinue;
     private int fileToLoad = -1;
     private bool onContinueScreen;
+
 	// Update is called once per frame
 	void Update () {
         if (shouldLoadAfterFade) {
@@ -42,7 +41,9 @@ public class LoadGame : MonoBehaviour {
         }
     }
 
-    // start a new game
+    /// <summary>
+    /// Start a new game
+    /// </summary>
     public void StartNewGame() {
         shouldLoadAfterFade = true;
         isContinue = false;
@@ -51,7 +52,9 @@ public class LoadGame : MonoBehaviour {
         GameManager.Instance.CurrentScene = loadArea;
     }
 
-    // go to choose while file to continue
+    /// <summary>
+    /// Open continue menu to choose a file to continue
+    /// </summary>
     public void ContinueGame() {
         MainGroup.interactable = false;
         ContinueScreen.SetActive(true);
@@ -60,6 +63,10 @@ public class LoadGame : MonoBehaviour {
         SaveMenuUI.OpenSaveMenu();
     }
 
+    /// <summary>
+    /// Continue the file
+    /// </summary>
+    /// <param name="file">Index of the file want to continue</param>
     public void ContinueFile(int file) {
         if (SaveFileManager.SaveExists(file)) {
             // can continue if save file exists
