@@ -13,7 +13,14 @@ public class GameManager : MonoBehaviour
     public Sprite NaoiseSprite;
 
     [Header("Game Status")]
-    public bool GameMenuOpen, DialogActive, FadingBetweenAreas, InBattle, InCutscene, InShop, OnMap;
+    public bool GameMenuOpen;
+    public bool DialogActive;
+    public bool FadingBetweenAreas;
+    public bool InBattle;
+    public bool InCutscene;
+    public bool InShop;
+    public bool OnMap;
+    public bool OnMainMenu;
     public string CurrentScene;
     public string LastTown; // last town/non-battle area player was last in
     public bool IsBattleMap;
@@ -53,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop || OnMap) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop || OnMap || OnMainMenu) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);
@@ -65,7 +72,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <returns>True if can open menu, false otherwise</returns>
     public bool CanOpenMenu() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop && !OnMap;
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop && !OnMap && !OnMainMenu;
     }
 
     /// <summary>
@@ -73,7 +80,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <returns>True if can open shop menu, false otherwise</returns>
     public bool CanOpenShop() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap;
+        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
     }
 
     /// <summary>
@@ -81,7 +88,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <returns>True if can show dialogue, false otherwise</returns>
     public bool CanStartDialogue() {
-        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap;
+        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
     }
 
     // get money

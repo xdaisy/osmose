@@ -52,7 +52,10 @@ public class SaveFileManager {
         public List<string> Events;
     }
 
+    // path for unity editor
     private static string path = Application.dataPath + "/Resources/saveFiles.gd";
+
+    // path for build
     //private static string path = Application.persistentDataPath + "/Resources/saveFiles.gd";
 
     /// <summary>

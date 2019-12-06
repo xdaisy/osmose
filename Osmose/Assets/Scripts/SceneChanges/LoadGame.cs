@@ -19,12 +19,17 @@ public class LoadGame : MonoBehaviour {
     private int fileToLoad = -1;
     private bool onContinueScreen;
 
-	// Update is called once per frame
-	void Update () {
+    void Start() {
+        GameManager.Instance.OnMainMenu = true;
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (shouldLoadAfterFade) {
             WaitToLoad -= Time.deltaTime;
             if (WaitToLoad <= 0f) {
                 shouldLoadAfterFade = false;
+                GameManager.Instance.OnMainMenu = false;
                 if (isContinue) {
                     SaveFileManager.Load(fileToLoad);
                 } else {
