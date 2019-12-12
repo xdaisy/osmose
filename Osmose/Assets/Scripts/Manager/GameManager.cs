@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
-{
+/// <summary>
+/// A manager that handles game related data
+/// </summary>
+public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
     [Header("Party")]
