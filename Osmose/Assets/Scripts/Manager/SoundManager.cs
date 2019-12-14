@@ -14,8 +14,8 @@ public class SoundManager : MonoBehaviour {
     public AudioSource BGMAudio;
     public AudioSource SFXAudio;
 
-    private float bgmVolume = 0.5f;
-    private float sfxVolume = 0.5f;
+    private float bgmVolume = 0.4f;
+    private float sfxVolume = 1f;
 
     // Start is called before the first frame update
     void Start() {

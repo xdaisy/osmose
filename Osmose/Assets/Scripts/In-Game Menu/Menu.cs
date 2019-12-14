@@ -92,6 +92,8 @@ public class Menu : MonoBehaviour
     private const string SELECT = "SelectMenu";
     private const string SAVE = "Save";
 
+    private bool canPlaySFX;
+
     // Start is called before the first frame update
     void Start() {
         // don't destroy object on load if menu don't exist
@@ -112,12 +114,19 @@ public class Menu : MonoBehaviour
         skillToUse = null;
         usingSkill = false;
         shouldLoadAfterFade = false;
+
+        canPlaySFX = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical") || Input.GetButtonDown("Interact")) {
+            // play the click when player is moving in menu and clicking pressing confirm
+            playClick();
+        }
         if (Input.GetButtonDown("Cancel")) {
+            playClick();
             if (previousHud == MAIN && currentHud != MAIN && currentHud != PARTY) {
                 // go back to main menu
                 if (currentHud == ITEM_TYPE) {
@@ -606,6 +615,7 @@ public class Menu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;
+        canPlaySFX = true;
     }
 
     /// <summary>
@@ -621,6 +631,7 @@ public class Menu : MonoBehaviour
         usingItem = false;
         usingSkill = false;
         GameManager.Instance.GameMenuOpen = false;
+        canPlaySFX = false;
     }
 
     /// <summary>
@@ -630,5 +641,16 @@ public class Menu : MonoBehaviour
         shouldLoadAfterFade = true;
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
+        canPlaySFX = false;
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        if (canPlaySFX) {
+            // only play sound effect if can
+            SoundManager.Instance.PlaySFX(0);
+        }
     }
 }

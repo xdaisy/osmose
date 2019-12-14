@@ -287,8 +287,10 @@ public class BattleSystem : MonoBehaviour {
             }
         }
     }
-
-    // select attack and show the selection of enemies to attack
+    
+    /// <summary>
+    /// Choose to attack
+    /// </summary>
     public void SelectAttack() {
         MainHud.interactable = false;
         SelectHud.gameObject.SetActive(true);
@@ -299,6 +301,10 @@ public class BattleSystem : MonoBehaviour {
         SelectHudUI.OpenSelectHud(enemies.ToArray());
     }
 
+    /// <summary>
+    /// Select a character or enemy
+    /// </summary>
+    /// <param name="choice">Index of the selected character/enemy</param>
     public void Select(int choice) {
         if (attacking) {
             Enemy enemy = enemies[choice];
@@ -513,7 +519,9 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    // going to item hud
+    /// <summary>
+    /// Go to item selection
+    /// </summary>
     public void SelectItems() {
         // turn off main hud
         MainHud.interactable = false;
@@ -527,7 +535,10 @@ public class BattleSystem : MonoBehaviour {
         ItemHudUI.OpenItemHud();
     }
 
-    // get name of clicked item
+    /// <summary>
+    /// Select which itemt to use
+    /// </summary>
+    /// <param name="item">Index of the item on the item selection</param>
     public void UseItem(int item) {
         itemToUse = ItemHudUI.GetClickedItem(item);
         ItemHud.interactable = false;
@@ -546,6 +557,9 @@ public class BattleSystem : MonoBehaviour {
         SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
     }
 
+    /// <summary>
+    /// Player choose to defend
+    /// </summary>
     public void SelectDefend() {
         // turn off main hud
         MainHud.interactable = false;
@@ -557,6 +571,9 @@ public class BattleSystem : MonoBehaviour {
         playerTurn = false;
     }
 
+    /// <summary>
+    /// Player choose to escape
+    /// </summary>
     public void SelectEscape() {
         // turn off main hud
         MainHud.interactable = false;
@@ -575,6 +592,9 @@ public class BattleSystem : MonoBehaviour {
         playerTurn = false;
     }
 
+    /// <summary>
+    /// Show text
+    /// </summary>
     private void showText() {
         MainHud.gameObject.SetActive(false);
 
@@ -583,6 +603,11 @@ public class BattleSystem : MonoBehaviour {
         TextHud.text = textToShow.Dequeue();
     }
 
+    /// <summary>
+    /// Display the damage dealt to enemy
+    /// </summary>
+    /// <param name="damage">Amount of damage done to enemy</param>
+    /// <param name="choice">Index of enemy in the enemy list</param>
     private void displayDamageToEnemies(int damage, int choice) {
         Enemy enemy = enemies[choice];
 
@@ -598,8 +623,14 @@ public class BattleSystem : MonoBehaviour {
             StartCoroutine(enemyDied(enemy, choice));
         }
     }
-
-    // show amount damaged/recovered if enemy didn't die
+    
+    /// <summary>
+    /// Show the damage amount for player and enemy if enemy didn't die or recovery amount
+    /// </summary>
+    /// <param name="pos">Position of the character getting attacked/healed</param>
+    /// <param name="amount">Amount of damage or hit point healed</param>
+    /// <param name="isAttack">Flag whether or not this is an attack</param>
+    /// <returns></returns>
     private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
         Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
         yield return new WaitForSeconds(DamageNumber.Duration);
@@ -607,7 +638,12 @@ public class BattleSystem : MonoBehaviour {
         playerTurn = false;
     }
 
-    // show damage when an enemy dies
+    /// <summary>
+    /// Show damage when enemy dies
+    /// </summary>
+    /// <param name="pos">Position of the enemy on the canvas</param>
+    /// <param name="amount">Amount of damage</param>
+    /// <returns></returns>
     private IEnumerator showDamage(Vector3 pos, int amount) {
         Instantiate(DamageNumber).SetDamage(pos, amount, true);
         yield return new WaitForSeconds(DamageNumber.Duration);
@@ -617,6 +653,11 @@ public class BattleSystem : MonoBehaviour {
         charTurn = turnOrder.Dequeue();
     }
 
+    /// <summary>
+    /// Play animation for enemy's turn
+    /// </summary>
+    /// <param name="enemy">Enemy whose turn it is</param>
+    /// <returns></returns>
     private IEnumerator enemyTurnCo(Enemy enemy) {
         enemy.DoMove();
         yield return new WaitForSeconds(0.5f);
@@ -625,6 +666,10 @@ public class BattleSystem : MonoBehaviour {
         enemyTurn = false;
     }
 
+    /// <summary>
+    /// Determine what the enemy does during its turn
+    /// </summary>
+    /// <param name="enemy">Enemy whose turn it is</param>
     private void enemyMove(Enemy enemy) {
         EnemyTurn enemyTurn = BattleLogic.EnemyTurn(enemy, hostilityMeter);
 
@@ -641,7 +686,12 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    // wait 1 sec when enemy die
+    /// <summary>
+    /// Wait for enemy to die and then remove the enemy
+    /// </summary>
+    /// <param name="enemy">Enemy who died</param>
+    /// <param name="choice">THe index of the enemy in the enemy list</param>
+    /// <returns></returns>
     private IEnumerator enemyDied(Enemy enemy, int choice) {
         yield return new WaitForSeconds(1f);
         enemies.RemoveAt(choice);
@@ -649,6 +699,10 @@ public class BattleSystem : MonoBehaviour {
         playerTurn = false;
     }
 
+    /// <summary>
+    /// Set the selected button to the button with name
+    /// </summary>
+    /// <param name="name">Name of the button</param>
     private void setSelectedButton(string name) {
         EventSystem.current.SetSelectedGameObject(null);
         foreach (Button command in Commands) {
@@ -659,11 +713,17 @@ public class BattleSystem : MonoBehaviour {
         }
     }
 
-    // return whether or not all the party members are dead
+    /// <summary>
+    /// Return whether or not the party is dead
+    /// </summary>
+    /// <returns></returns>
     private bool isPartyDead() {
         return numAliveChar < 1;
     }
 
+    /// <summary>
+    /// Set the current turn image to the position of current character's turn
+    /// </summary>
     private void setCurrTurnImage() {
         for (int i = 0; i < party.Count; i++) {
             if (party[i] == charTurn) {
