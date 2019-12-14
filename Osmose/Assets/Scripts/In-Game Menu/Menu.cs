@@ -600,10 +600,12 @@ public class Menu : MonoBehaviour
     /// <param name="file">Index of the file</param>
     private IEnumerator SaveCo(int file) {
         // save
+        SaveMenuUI.PlaySaveAnimation();
         SaveFileManager.Save(file);
         // wait 1 sec
         yield return new WaitForSeconds(1f);
         SaveMenuUI.UpdateSaveMenu();
+        SaveMenuUI.StopSaveAnimation();
     }
 
     /// <summary>

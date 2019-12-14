@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
@@ -17,6 +19,10 @@ public class SaveMenu : MonoBehaviour {
     public Image[] PartyMember1;
     public Image[] PartyMember2;
     public Image[] PartyMember3;
+
+    [Header("Save Animation")]
+    public GameObject SaveAnimScreen;
+    public Animator SaveAnim;
 
     /// <summary>
     /// Open the save menu
@@ -61,6 +67,33 @@ public class SaveMenu : MonoBehaviour {
                 PartyMember3[i].sprite = GameManager.Instance.GetCharSprite(saveData.CurrentParty[2]);
             }
         }
+    }
+
+    /// <summary>
+    /// Play the save animation
+    /// </summary>
+    public void PlaySaveAnimation() {
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+
+        SaveAnimScreen.SetActive(true);
+        if (party[0] == Constants.REY) {
+            // first character is rey
+            SaveAnim.SetBool("ArenSave", true);
+        } else if (party[0] == Constants.NAOISE) {
+            // first character is naoise
+            SaveAnim.SetBool("ArenSave", true);
+        } else {
+            // first character is aren
+            SaveAnim.SetBool("ArenSave", true);
+        }
+    }
+
+    /// <summary>
+    /// Stop the save animation
+    /// </summary>
+    public void StopSaveAnimation() {
+        SaveAnim.SetBool("ArenSave", false);
+        SaveAnimScreen.SetActive(false);
     }
 
     /// <summary>
