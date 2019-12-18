@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Class that handles battles
+/// </summary>
 public class BattleSystem : MonoBehaviour {
     [Header("HUDs")]
     public CanvasGroup MainHud;
@@ -66,6 +69,10 @@ public class BattleSystem : MonoBehaviour {
 
     private bool endedBattle;
 
+    // fields for playing sound effects
+    private bool canPlaySFX;
+    private GameObject prevButton;
+
     // for loading back to previous scene
 
     private void Awake() {
@@ -101,6 +108,9 @@ public class BattleSystem : MonoBehaviour {
 
         endedBattle = false;
 
+        canPlaySFX = true;
+        prevButton = Commands[0].gameObject;
+
         Enemy[] en = GameObject.FindObjectsOfType<Enemy>();
         
         if (en.Length > 0) {
@@ -115,6 +125,15 @@ public class BattleSystem : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")) {
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+            if (prevButton != currButton) {
+                // navigated to new button, play sound
+                playClick();
+                prevButton = currButton;
+            }
+        }
+
         // if the battle is still going on and the round is over, determine next turn order
         if (turnOrder.Count < 1) {
             turnOrder = BattleLogic.DetermineTurnOrder(enemies);
@@ -127,6 +146,8 @@ public class BattleSystem : MonoBehaviour {
 
             if (endedBattle && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
+                playClick();
+
                 GameManager.Instance.InBattle = false;
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
                 battleExit.EndBattle();
@@ -153,6 +174,8 @@ public class BattleSystem : MonoBehaviour {
 
             if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
+                playClick();
+
                 GameManager.Instance.InBattle = false;
                 // need to load back into scene
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
@@ -164,6 +187,8 @@ public class BattleSystem : MonoBehaviour {
             textToShow.Enqueue("You were defeated...");
             showText();
             if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
+                playClick();
+
                 GameManager.Instance.InBattle = false;
                 // load back to last town
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
@@ -174,9 +199,14 @@ public class BattleSystem : MonoBehaviour {
 
         if (textToShow.Count > 0 && (!TextHud.IsActive() || Input.GetButtonDown("Interact"))) {
             // if player have finished their command, show text
+            if (TextHud.IsActive()) {
+                // if displaying next text, play sound effect
+                playClick();
+            }
             showText();
         } else if (!playerTurn && !enemyTurn && !TextHud.IsActive()) {
             // next turn
+
             nextTurn();
 
             if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
@@ -189,7 +219,6 @@ public class BattleSystem : MonoBehaviour {
                     displayDamageToEnemies(damage, choice);
 
                 } else {
-
                     // if the next to go is a party member and character is alive, is player's turn
                     MainHud.gameObject.SetActive(true);
                     MainHud.interactable = true;
@@ -216,6 +245,7 @@ public class BattleSystem : MonoBehaviour {
                 // if character is in party but is dead, do nothing
             } else {
                 // enemy's turn
+
                 MainHud.gameObject.SetActive(false);
                 MainHud.interactable = false;
 
@@ -230,13 +260,15 @@ public class BattleSystem : MonoBehaviour {
             }
         } else if (TextHud.IsActive() && textToShow.Count < 1 && !endedBattle && (Input.GetButtonDown("Interact") || Input.GetButtonDown("Cancel"))) {
             // stop displaying text (one one screen of text per move)
+            playClick();
             TextImage.SetActive(false);
             TextHud.gameObject.SetActive(false);
         } else if (Input.GetButtonDown("Cancel")) {
             // if on a different menu and hit cancel, go back to previous menu
-
             if (SkillHud.interactable) {
                 // selecting skill and cancel, go back to main menu on the skill button
+                playClick();
+
                 SkillHud.interactable = false;
                 SkillHud.gameObject.SetActive(false);
                 DescriptionPanel.SetActive(false);
@@ -250,6 +282,8 @@ public class BattleSystem : MonoBehaviour {
 
             if (ItemHud.interactable) {
                 // selecting item and cancel, go back to main menu on item button
+                playClick();
+
                 ItemHud.interactable = false;
                 ItemHud.gameObject.SetActive(false);
                 DescriptionPanel.gameObject.SetActive(false);
@@ -263,6 +297,8 @@ public class BattleSystem : MonoBehaviour {
 
             if (SelectHud.interactable) {
                 // close select hud
+                playClick();
+
                 SelectHud.interactable = false;
                 SelectHud.gameObject.SetActive(false);
 
@@ -292,6 +328,8 @@ public class BattleSystem : MonoBehaviour {
     /// Choose to attack
     /// </summary>
     public void SelectAttack() {
+        playClick();
+
         MainHud.interactable = false;
         SelectHud.gameObject.SetActive(true);
         SelectHud.interactable = true;
@@ -299,6 +337,8 @@ public class BattleSystem : MonoBehaviour {
         attacking = true;
 
         SelectHudUI.OpenSelectHud(enemies.ToArray());
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -307,6 +347,8 @@ public class BattleSystem : MonoBehaviour {
     /// <param name="choice">Index of the selected character/enemy</param>
     public void Select(int choice) {
         if (attacking) {
+            playClick();
+
             Enemy enemy = enemies[choice];
 
             int damage = BattleLogic.RegularAttack(charTurn, enemy);
@@ -324,6 +366,8 @@ public class BattleSystem : MonoBehaviour {
 
             attacking = false;
         } else if (usingItem) {
+            playClick();
+
             Items item = GameManager.Instance.GetItemDetails(itemToUse);
             string charName = party[choice];
             int currHP = GameManager.Instance.Party.GetCharCurrHP(charName);
@@ -351,10 +395,14 @@ public class BattleSystem : MonoBehaviour {
                 // reset
                 usingItem = false;
                 itemToUse = "";
+            } else {
+                playNotAllowed();
             }
         } else if (usingSkill) {
             if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
                 // if attacking enemy
+                playClick();
+
                 Enemy enemy = enemies[choice];
 
                 int damage = BattleLogic.UseAttackSkill(charTurn, enemy, skillToUse);
@@ -386,6 +434,8 @@ public class BattleSystem : MonoBehaviour {
 
                 if (currHP < maxHP) {
                     // only use if can recover hp
+                    playClick();
+
                     int amountHealed = BattleLogic.UseHealingSkill(charTurn, charName, skillToUse);
 
                     // close skill hud
@@ -407,6 +457,8 @@ public class BattleSystem : MonoBehaviour {
                     // reset
                     usingSkill = false;
                     skillToUse = null;
+                } else {
+                    playNotAllowed();
                 }
             }
         }
@@ -416,6 +468,8 @@ public class BattleSystem : MonoBehaviour {
     /// Open the skills menu in battle
     /// </summary>
     public void SelectSkills() {
+        playClick();
+
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
@@ -430,6 +484,8 @@ public class BattleSystem : MonoBehaviour {
         } else {
             SkillHudUI.OpenSkillsHud(charTurn);
         }
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -441,6 +497,8 @@ public class BattleSystem : MonoBehaviour {
         bool endTurn = false;
 
         if (skillToUse is TauntSkill) {
+            playClick();
+
             for (int i = 0; i < party.Count; i++) {
                 if (party[i] == Constants.NAOISE) {
                     hostilityMeter.Add(i);
@@ -452,6 +510,8 @@ public class BattleSystem : MonoBehaviour {
             playerTurn = false;
         } else if ((GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost && skillToUse is ShiftSkill) || skillToUse is UnshiftSkill) {
             // aren shifting
+            playClick();
+
             ShiftImage.gameObject.SetActive(skillToUse is ShiftSkill);
             arenShifted = skillToUse is ShiftSkill;
             float magicMeter = GameManager.Instance.GetMagicMeter();
@@ -467,6 +527,7 @@ public class BattleSystem : MonoBehaviour {
         } else if (GameManager.Instance.Party.GetCharCurrSP(charTurn) > skillToUse.Cost) {
             // regular skill
             // can only use if have enough sp to use
+            playClick();
 
             usingSkill = true;
 
@@ -508,6 +569,8 @@ public class BattleSystem : MonoBehaviour {
                 SelectHudUI.OpenSelectHud(activeParty, party.ToArray());
             }
         } else {
+            playNotAllowed();
+
             skillToUse = null;
         }
         if (endTurn) {
@@ -523,6 +586,8 @@ public class BattleSystem : MonoBehaviour {
     /// Go to item selection
     /// </summary>
     public void SelectItems() {
+        playClick();
+
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
@@ -533,6 +598,8 @@ public class BattleSystem : MonoBehaviour {
         DescriptionPanel.gameObject.SetActive(true);
 
         ItemHudUI.OpenItemHud();
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -540,6 +607,8 @@ public class BattleSystem : MonoBehaviour {
     /// </summary>
     /// <param name="item">Index of the item on the item selection</param>
     public void UseItem(int item) {
+        playClick();
+
         itemToUse = ItemHudUI.GetClickedItem(item);
         ItemHud.interactable = false;
         SelectHud.gameObject.SetActive(true);
@@ -561,6 +630,8 @@ public class BattleSystem : MonoBehaviour {
     /// Player choose to defend
     /// </summary>
     public void SelectDefend() {
+        playClick();
+
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
@@ -575,6 +646,8 @@ public class BattleSystem : MonoBehaviour {
     /// Player choose to escape
     /// </summary>
     public void SelectEscape() {
+        playClick();
+
         // turn off main hud
         MainHud.interactable = false;
         MainHud.gameObject.SetActive(false);
@@ -632,6 +705,8 @@ public class BattleSystem : MonoBehaviour {
     /// <param name="isAttack">Flag whether or not this is an attack</param>
     /// <returns></returns>
     private IEnumerator showDamage(Vector3 pos, int amount, bool isAttack) {
+        playDamageSound();
+
         Instantiate(DamageNumber).SetDamage(pos, amount, isAttack);
         yield return new WaitForSeconds(DamageNumber.Duration);
         CharTurnImage.gameObject.SetActive(false);
@@ -645,6 +720,8 @@ public class BattleSystem : MonoBehaviour {
     /// <param name="amount">Amount of damage</param>
     /// <returns></returns>
     private IEnumerator showDamage(Vector3 pos, int amount) {
+        playDamageSound();
+
         Instantiate(DamageNumber).SetDamage(pos, amount, true);
         yield return new WaitForSeconds(DamageNumber.Duration);
     }
@@ -677,6 +754,7 @@ public class BattleSystem : MonoBehaviour {
             textToShow.Enqueue(enemy.EnemyName + " defended");
         }
         if (enemyTurn.Attack) {
+            playDamageSound();
             Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[enemyTurn.Target]].transform.position, enemyTurn.Amount, true);
             string partyMember = party[hostilityMeter[enemyTurn.Target]];
 
@@ -732,5 +810,37 @@ public class BattleSystem : MonoBehaviour {
                 break;
             }
         }
+    }
+    
+    /// <summary>
+    /// Play click sound effect
+    /// </summary>
+    private void playClick() {
+        if (canPlaySFX) {
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play not allowed sound effect
+    /// </summary>
+    private void playNotAllowed() {
+        if (canPlaySFX) {
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play damaged sound effect
+    /// </summary>
+    private void playDamageSound() {
+        SoundManager.Instance.PlaySFX(0);
+    }
+
+    /// <summary>
+    /// Play sound effects for battling
+    /// </summary>
+    private void playBattleSound() {
+        SoundManager.Instance.PlaySFX(0);
     }
 }
