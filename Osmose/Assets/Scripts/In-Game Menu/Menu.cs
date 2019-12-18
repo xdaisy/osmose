@@ -93,6 +93,7 @@ public class Menu : MonoBehaviour
     private const string SAVE = "Save";
 
     private bool canPlaySFX;
+    private GameObject prevButton;
 
     // Start is called before the first frame update
     void Start() {
@@ -116,14 +117,19 @@ public class Menu : MonoBehaviour
         shouldLoadAfterFade = false;
 
         canPlaySFX = false;
+        prevButton = null;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical") || Input.GetButtonDown("Interact")) {
+    void Update() {
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")) {
             // play the click when player is moving in menu and clicking pressing confirm
-            playClick();
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+            if (currButton != prevButton) {
+                // play click when not same button
+                playClick();
+                prevButton = currButton;
+            }
         }
         if (Input.GetButtonDown("Cancel")) {
             playClick();
@@ -278,6 +284,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="menu">Index of the menu</param>
     public void OpenMenu(int menu) {
+        playClick();
+
         previousHud = currentHud;
         // close all menus
         closeAllMenu();
@@ -343,6 +351,7 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="character">Index of the character</param>
     public void SwitchCharacters(int character) {
+        playClick();
         if (charToSwitch == -1) {
             // select first character
             charToSwitch = character;
@@ -369,6 +378,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="itemType">Index of the item type</param>
     public void ChooseWhichItem(int itemType) {
+        playClick();
+
         ItemType.interactable = false;
         ItemList.interactable = true;
         EventSystem.current.SetSelectedGameObject(FirstItem);
@@ -395,6 +406,7 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="item">Index of the item</param>
     public void OpenDescriptionPanel(int item) {
+        playClick();
         ItemList.interactable = false;
         DescriptionPanel.interactable = true;
 
@@ -408,6 +420,8 @@ public class Menu : MonoBehaviour
     /// Go to Character Select panel to select which character to use item on
     /// </summary>
     public void UseItem() {
+        playClick();
+
         itemToUse = ItemMenuUI.GetClickedItem();
         usingItem = true;
 
@@ -440,7 +454,12 @@ public class Menu : MonoBehaviour
 
                 if (currHP < maxHP) {
                     // if not at max hp, can heal hp
+                    playClick();
+
                     item.Use(charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
             if (item.AffectSP) {
@@ -450,7 +469,12 @@ public class Menu : MonoBehaviour
 
                 if (currSp < maxSp) {
                     // if not at max sp, can heal sp
+                    playClick();
+
                     item.Use(charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
 
@@ -481,7 +505,12 @@ public class Menu : MonoBehaviour
                 int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
 
                 if (currHP < maxHP) {
+                    playClick();
+
                     skillToUse.UseSkill(charWithSkill, charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
         }
@@ -491,6 +520,8 @@ public class Menu : MonoBehaviour
     /// Discard an item
     /// </summary>
     public void Discard() {
+        playClick();
+
         itemToUse = ItemMenuUI.GetClickedItem();
         GameManager.Instance.RemoveItem(itemToUse, 1);
         int itemAmt = GameManager.Instance.GetAmountOfItem(itemToUse);
@@ -511,6 +542,8 @@ public class Menu : MonoBehaviour
     /// Look at character's skill
     /// </summary>
     public void SelectSkillsChar() {
+        playClick();
+
         previousHud = currentHud;
         currentHud = SKILLS_LIST;
 
@@ -528,6 +561,8 @@ public class Menu : MonoBehaviour
 
         if (skillToUse.IsHeal) {
             // only go to select screen if skill is healing skill
+            playClick();
+
             usingSkill = true;
 
             previousHud = currentHud;
@@ -540,6 +575,7 @@ public class Menu : MonoBehaviour
             SelectPanel.interactable = true;
             EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
         } else {
+            playNotAllowed(); // play sound effect for not able to do
             skillToUse = null;
         }
     }
@@ -550,6 +586,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     public void SelectWhichCharacterEqpmt(int character) {
+        playClick();
+
         previousHud = currentHud;
         currentHud = EQUIPPED_PANEL;
         currCharacter = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
@@ -565,6 +603,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="equipWeapon">Flag indicating whether or not showing weapons</param>
     public void SelectWhichEquipment(bool equipWeapon) {
+        playClick();
+
         previousHud = currentHud;
         currentHud = EQUIPMENT_PANEL;
         this.equipWeapon = equipWeapon;
@@ -578,6 +618,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="indx">Index of the equipment</param>
     public void Equip(int indx) {
+        playClick();
+
         string eqmtName = EquipmentMenuUI.GetEquipment(indx);
         string charName = EquipmentMenuUI.GetCurrentCharacter();
         Items equipment = GameManager.Instance.GetEquipmentDetails(eqmtName);
@@ -591,6 +633,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="file">Index of the file</param>
     public void Save(int file) {
+        playClick();
+
         StartCoroutine(SaveCo(file));
     }
 
@@ -612,6 +656,8 @@ public class Menu : MonoBehaviour
     /// Open the game menu
     /// </summary>
     public void OpenGameMenu() {
+        playMenuSound();
+
         OpenMenu(0);
         updatePartyStats();
         EventSystem.current.SetSelectedGameObject(null);
@@ -624,6 +670,8 @@ public class Menu : MonoBehaviour
     /// Close the game menu
     /// </summary>
     public void CloseGameMenu() {
+        playMenuSound();
+
         closeAllMenu();
         previousHud = MAIN;
         currentHud = MAIN;
@@ -640,6 +688,8 @@ public class Menu : MonoBehaviour
     /// Go to the overworld map
     /// </summary>
     public void SelectMap() {
+        playClick();
+
         shouldLoadAfterFade = true;
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
@@ -652,6 +702,24 @@ public class Menu : MonoBehaviour
     private void playClick() {
         if (canPlaySFX) {
             // only play sound effect if can
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play the not allow sound effect
+    /// </summary>
+    private void playNotAllowed() {
+        if (canPlaySFX) {
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play sound effect for opening/closing menu
+    /// </summary>
+    private void playMenuSound() {
+        if (canPlaySFX) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
