@@ -70,7 +70,6 @@ public class BattleSystem : MonoBehaviour {
     private bool endedBattle;
 
     // fields for playing sound effects
-    private bool canPlaySFX;
     private GameObject prevButton;
 
     // for loading back to previous scene
@@ -108,7 +107,6 @@ public class BattleSystem : MonoBehaviour {
 
         endedBattle = false;
 
-        canPlaySFX = true;
         prevButton = Commands[0].gameObject;
 
         Enemy[] en = GameObject.FindObjectsOfType<Enemy>();
@@ -321,6 +319,8 @@ public class BattleSystem : MonoBehaviour {
                     SkillHudUI.SetLastClickedSkill();
                 }
             }
+
+            prevButton = EventSystem.current.currentSelectedGameObject;
         }
     }
     
@@ -816,18 +816,14 @@ public class BattleSystem : MonoBehaviour {
     /// Play click sound effect
     /// </summary>
     private void playClick() {
-        if (canPlaySFX) {
-            SoundManager.Instance.PlaySFX(0);
-        }
+        SoundManager.Instance.PlaySFX(0);
     }
 
     /// <summary>
     /// Play not allowed sound effect
     /// </summary>
     private void playNotAllowed() {
-        if (canPlaySFX) {
-            SoundManager.Instance.PlaySFX(0);
-        }
+        SoundManager.Instance.PlaySFX(0);
     }
 
     /// <summary>

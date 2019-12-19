@@ -5,8 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class Menu : MonoBehaviour
-{
+/// <summary>
+/// Class that handles the UI of the In Game Menu
+/// </summary>
+public class Menu : MonoBehaviour {
     public static Menu Instance;
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
@@ -92,7 +94,6 @@ public class Menu : MonoBehaviour
     private const string SELECT = "SelectMenu";
     private const string SAVE = "Save";
 
-    private bool canPlaySFX;
     private GameObject prevButton;
 
     // Start is called before the first frame update
@@ -116,8 +117,7 @@ public class Menu : MonoBehaviour
         usingSkill = false;
         shouldLoadAfterFade = false;
 
-        canPlaySFX = false;
-        prevButton = null;
+        prevButton = MainButtons[0];
     }
 
     // Update is called once per frame
@@ -132,9 +132,10 @@ public class Menu : MonoBehaviour
             }
         }
         if (Input.GetButtonDown("Cancel")) {
-            playClick();
             if (previousHud == MAIN && currentHud != MAIN && currentHud != PARTY) {
                 // go back to main menu
+                playClick();
+
                 if (currentHud == ITEM_TYPE) {
                     currentHud = ITEMS;
                 }
@@ -146,12 +147,16 @@ public class Menu : MonoBehaviour
                 OpenMenu(0);
             }
             if (currentHud == PARTY) {
+                playClick();
+
                 currentHud = previousHud;
                 MainButtonsHud.interactable = true;
                 charToSwitch = -1;
             }
             if (currentHud == ITEM_LIST) {
                 // exit item list panel
+                playClick();
+
                 ItemList.interactable = false;
                 ItemType.interactable = true;
                 currentHud = previousHud;
@@ -160,6 +165,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == ITEM_DESCRIPTION) {
                 // exit item description panel
+                playClick();
+
                 DescriptionPanel.interactable = false;
                 ItemList.interactable = true;
 
@@ -171,6 +178,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == SKILLS_LIST) {
                 // exit skills panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = MAIN;
 
@@ -178,6 +187,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == EQUIPPED_PANEL) {
                 // exit equipped panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = MAIN;
                 EquippedPanel.interactable = false;
@@ -194,6 +205,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == EQUIPMENT_PANEL) {
                 // exit equipment panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = EQUIPMENT;
 
@@ -211,6 +224,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == SELECT) {
                 // exit character select panel
+                playClick();
+
                 if (previousHud == ITEM_DESCRIPTION) {
                     // if was on item description
                     currentHud = previousHud;
@@ -243,6 +258,7 @@ public class Menu : MonoBehaviour
                 }
             }
             updatePartyStats();
+            prevButton = EventSystem.current.currentSelectedGameObject;
         }
         if (shouldLoadAfterFade) {
             waitToLoad -= Time.deltaTime;
@@ -335,6 +351,7 @@ public class Menu : MonoBehaviour
                 SaveMenuUI.OpenSaveMenu();
                 break;
         }
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -385,6 +402,8 @@ public class Menu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(FirstItem);
         previousHud = currentHud;
         currentHud = ITEM_LIST;
+
+        prevButton = FirstItem;
         switch (itemType) {
             case 0:
                 // items
@@ -414,6 +433,7 @@ public class Menu : MonoBehaviour
         currentHud = ITEM_DESCRIPTION;
 
         ItemMenuUI.OpenDescriptionPanel(item);
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -434,6 +454,7 @@ public class Menu : MonoBehaviour
         SelectMenu.SetActive(true);
         SelectPanel.interactable = true;
         EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -492,6 +513,8 @@ public class Menu : MonoBehaviour
 
                 usingItem = false;
                 itemToUse = "";
+
+                prevButton = EventSystem.current.currentSelectedGameObject;
             }
             // else, stay on this panel
         }
@@ -548,6 +571,7 @@ public class Menu : MonoBehaviour
         currentHud = SKILLS_LIST;
 
         SkillMenuUI.OpenSkillsPanel();
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -596,6 +620,8 @@ public class Menu : MonoBehaviour
         EquippedPanel.interactable = true;
         EventSystem.current.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentMenuUI.ShowCharacterEquipment(character);
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -611,6 +637,8 @@ public class Menu : MonoBehaviour
         EquippedPanel.interactable = false;
         EquipmentPanel.interactable = true;
         EquipmentMenuUI.ShowEquipments(equipWeapon);
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -663,7 +691,6 @@ public class Menu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;
-        canPlaySFX = true;
     }
 
     /// <summary>
@@ -681,7 +708,6 @@ public class Menu : MonoBehaviour
         usingItem = false;
         usingSkill = false;
         GameManager.Instance.GameMenuOpen = false;
-        canPlaySFX = false;
     }
 
     /// <summary>
@@ -693,15 +719,13 @@ public class Menu : MonoBehaviour
         shouldLoadAfterFade = true;
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
-        canPlaySFX = false;
     }
 
     /// <summary>
     /// Play the click sound effect
     /// </summary>
     private void playClick() {
-        if (canPlaySFX) {
-            // only play sound effect if can
+        if (GameManager.Instance.GameMenuOpen) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
@@ -710,7 +734,7 @@ public class Menu : MonoBehaviour
     /// Play the not allow sound effect
     /// </summary>
     private void playNotAllowed() {
-        if (canPlaySFX) {
+        if (GameManager.Instance.GameMenuOpen) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
@@ -719,7 +743,7 @@ public class Menu : MonoBehaviour
     /// Play sound effect for opening/closing menu
     /// </summary>
     private void playMenuSound() {
-        if (canPlaySFX) {
+        if (GameManager.Instance.GameMenuOpen) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
