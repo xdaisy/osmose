@@ -22,6 +22,7 @@ public class Dialogue : MonoBehaviour {
         } else {
             Destroy(ParentObject);
         }
+        DontDestroyOnLoad(ParentObject);
     }
 
     // Update is called once per frame
