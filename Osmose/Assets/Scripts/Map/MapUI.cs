@@ -57,6 +57,7 @@ public class MapUI : MonoBehaviour {
 
                 eventSystem.SetSelectedGameObject(currentNode.gameObject);
             } else if (Input.GetButtonDown("Cancel")) {
+                // go back to previous scene
                 shouldLoadAfterFade = true;
                 UIFade.Instance.FadeToBlack();
                 PlayerControls.Instance.PreviousAreaName = Constants.MAP;
