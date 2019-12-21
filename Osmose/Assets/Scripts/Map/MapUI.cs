@@ -21,8 +21,7 @@ public class MapUI : MonoBehaviour {
     [Header("Load Fields")]
     [SerializeField]
     private float waitToLoad = Constants.WAIT_TIME;
-
-    private EventSystem eventSystem;
+    
     private const string FOREST = "forest";
 
     private Node currentNode;
@@ -31,16 +30,24 @@ public class MapUI : MonoBehaviour {
     private string region;
     private string area;
 
+    private GameObject prevButton;
+
     // Start is called before the first frame update
     void Start() {
         GameManager.Instance.FadingBetweenAreas = false;
         UIFade.Instance.FadeFromBlack();
         GameManager.Instance.OnMap = true;
-        eventSystem = EventSystem.current;
+
+        prevButton = EventSystem.current.firstSelectedGameObject;
     }
 
     // Update is called once per frame
     void Update() {
+        if (prevButton != EventSystem.current.currentSelectedGameObject) {
+            playClick();
+            prevButton = EventSystem.current.currentSelectedGameObject;
+        }
+
         if (shouldLoadAfterFade) {
             // loading
             waitToLoad -= Time.deltaTime;
@@ -52,12 +59,16 @@ public class MapUI : MonoBehaviour {
             // not loading
             if (AreaGroup.gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
                 // if on area pop up and press cancel, go back to being on map
+                playClick();
+
                 AreaGroup.gameObject.SetActive(false);
                 NodeGroup.interactable = true;
 
-                eventSystem.SetSelectedGameObject(currentNode.gameObject);
+                EventSystem.current.SetSelectedGameObject(currentNode.gameObject);
             } else if (Input.GetButtonDown("Cancel")) {
                 // go back to previous scene
+                playClick();
+
                 shouldLoadAfterFade = true;
                 UIFade.Instance.FadeToBlack();
                 PlayerControls.Instance.PreviousAreaName = Constants.MAP;
@@ -76,6 +87,8 @@ public class MapUI : MonoBehaviour {
     public void SelectRegion(Node node) {
         if (node.GetCanGo()) {
             // map avatar stopped moving and can go to select area
+            playClick();
+
             NodeGroup.interactable = false;
             AreaGroup.gameObject.SetActive(true);
 
@@ -84,6 +97,7 @@ public class MapUI : MonoBehaviour {
             this.region = node.GetRegionName();
 
             AreaPopUpUi.OpenPopUp(getAreasInRegion(region));
+            prevButton = EventSystem.current.currentSelectedGameObject;
         }
     }
 
@@ -92,6 +106,7 @@ public class MapUI : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index that indicates when area the players want to go to</param>
     public void SelectArea(int index) {
+        playClick();
         List<string> areas = getAreasInRegion(region);
 
         shouldLoadAfterFade = true;
@@ -115,5 +130,12 @@ public class MapUI : MonoBehaviour {
             return new List<string>(forestRegion);
         }
         return new List<string>();
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        SoundManager.Instance.PlaySFX(0);
     }
 }
