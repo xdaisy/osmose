@@ -10,6 +10,9 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class Menu : MonoBehaviour {
     public static Menu Instance;
+
+    public GameObject ParentObject;
+
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
     public CanvasGroup MainButtonsHud;
@@ -698,7 +701,10 @@ public class Menu : MonoBehaviour {
     /// Close the game menu
     /// </summary>
     public void CloseGameMenu() {
-        playMenuSound();
+        if (!shouldLoadAfterFade) {
+            // if isn't loading into another scene, play sfx
+            playMenuSound();
+        }
 
         closeAllMenu();
         previousHud = MAIN;
