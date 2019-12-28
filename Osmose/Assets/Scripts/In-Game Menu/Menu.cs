@@ -267,7 +267,7 @@ public class Menu : MonoBehaviour {
         if (shouldLoadAfterFade) {
             waitToLoad -= Time.deltaTime;
             if (waitToLoad <= 0f) {
-                CloseGameMenu();
+                //CloseGameMenu();
                 SceneManager.LoadScene("Map");
             }
         }
@@ -726,6 +726,8 @@ public class Menu : MonoBehaviour {
         shouldLoadAfterFade = true;
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
+
+        CloseGameMenu();
     }
 
     /// <summary>
