@@ -105,9 +105,11 @@ public class SkillHud : MonoBehaviour {
             Skill skill = GameManager.Instance.Party.GetCharSkillAt(currChar, i + skillIndx);
             if (skill == null) {
                 Skills[i].gameObject.SetActive(false);
+                SkillCost[i].gameObject.SetActive(false);
                 continue;
             }
             Skills[i].gameObject.SetActive(true);
+            SkillCost[i].gameObject.SetActive(true);
             Skills[i].text = skill.SkillName;
             SkillCost[i].text = "" + skill.Cost;
             if (currChar == Constants.AREN) {

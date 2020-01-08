@@ -1,0 +1,18 @@
+FONTLOG for the Sen fonts
+
+This file provides detailed information on the Sen Font Software.
+This information should be distributed along with the Sen fonts
+and any derivative works.
+
+Basic Font Information
+
+Sen is a Unicode typeface family that supports all languages that
+use the Latin script and its variants, and could be expanded to support other
+scripts.
+ChangeLog
+
+16 Jun 2015 (Kosal Sen, Philatype) v1.0
+- Released
+
+2 Aug 2015 (Jasper, Cannot Into Space Fonts) v1.01
+- Derivative design "Rain" forked from the Extrabold weight of Sen, new number 7, number 1 and uppercase I (and it's relatives), tweaked lowercase I and J (and their relatives), added Russian Ruble Sign, new German double S, new Quotation mark and Apostrophe, new Cent Sign, New weights including Italics and Outline display weights.

@@ -71,7 +71,7 @@ public class SelectHud : MonoBehaviour
             }
             // is seleecting enemy
             Enemy enemy = selection[i].GetComponent<Enemy>();
-            selectText.text = enemy.EnemyName;
+            selectText.text = enemy.GetName();
             selectText.gameObject.SetActive(true);
         }
 

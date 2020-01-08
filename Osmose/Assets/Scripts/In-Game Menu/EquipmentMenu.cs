@@ -132,6 +132,10 @@ public class EquipmentMenu : MonoBehaviour {
             StatText.text = equipment.IsWeapon ? "Attack:" : "Defense:"; // say whether or not it has attack or defense
             StatAmount.text = equipment.IsWeapon ? "" + equipment.WeaponStr : "" + equipment.ArmorDefn;
             Description.text = equipment.Description;
+
+            if (equipment.ItemSprite != null) {
+                EquipmentImage.sprite = equipment.ItemSprite;
+            }
         }
     }
 

@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour {
 
     public bool IsDefending; // whether enemy is defending or not
 
+    private int enemyID = 0; // ID indicating which enemy it is if have multiple of same enemy
     private Animator anim;
 
 	// Use this for initialization
@@ -57,6 +58,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Play or stop selected animation
+    /// </summary>
+    /// <param name="selected">Flag indicating whether or not the enemy is selected</param>
     public void Highlight(bool selected) {
         anim.SetBool("IsSelected", selected);
     }
@@ -67,6 +72,9 @@ public class Enemy : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// Play the enemy's move animation
+    /// </summary>
     public void DoMove() {
         StartCoroutine(playMoveAnimation());
     }
@@ -75,5 +83,21 @@ public class Enemy : MonoBehaviour {
         anim.SetBool("DoMove", true);
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("DoMove", false);
+    }
+
+    /// <summary>
+    /// Set the Enemy's ID
+    /// </summary>
+    /// <param name="id">ID of the enemy</param>
+    public void SetEnemyID(int id) {
+        this.enemyID = id;
+    }
+
+    /// <summary>
+    /// Get the enemy's display name
+    /// </summary>
+    /// <returns>Enemy's display name</returns>
+    public string GetName() {
+        return this.enemyID > 1 ? this.EnemyName + " " + this.enemyID : this.EnemyName;
     }
 }

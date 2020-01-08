@@ -1,0 +1,5 @@
+Changelog:
+
+New name: "Rain", new uppercase I and it's relatives, new number 7, new number 1, tweaked lowercase I and J and their relatives, added Russian Ruble Sign, new German double S, new Apostrophe and Quotation mark, new Cent sign, plus new weights.
+
+Changes made by Jasper @ Cannot Into Space Fonts.

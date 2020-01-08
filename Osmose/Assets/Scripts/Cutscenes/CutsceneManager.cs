@@ -130,6 +130,7 @@ public class CutsceneManager : MonoBehaviour {
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
         GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.CurrentScene = sceneToLoad;
         if (RegionUnlock.Length > 0) {
             // if there's a region to be unlocked this cutscene, unlock it
             EventManager.Instance.AddEvent(RegionUnlock);

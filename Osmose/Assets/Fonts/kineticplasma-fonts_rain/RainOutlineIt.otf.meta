@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: b7041a7e86f2f7c4697cf20b3414c927
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Rain
+  fontNames:
+  - Rain
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6ea4f7e24e1905a44a18ad0330a2f374, type: 3}
+  - {fileID: 12800000, guid: 478b33b6470b22c438fc417ffc554349, type: 3}
+  - {fileID: 12800000, guid: 4daf0b4b0bc000041bee6b21820bc647, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

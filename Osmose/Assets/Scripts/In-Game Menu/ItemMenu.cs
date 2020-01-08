@@ -174,6 +174,12 @@ public class ItemMenu : MonoBehaviour {
 
         if (item != null) {
             Description.text = item.Description;
+
+            if (item.ItemSprite != null) {
+                // set sprite
+                ItemImage.sprite = item.ItemSprite;
+            }
+
             if (item.IsItem) {
                 // if is item, can use
                 UseButton.gameObject.SetActive(true);

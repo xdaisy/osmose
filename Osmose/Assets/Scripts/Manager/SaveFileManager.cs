@@ -49,12 +49,14 @@ public class SaveFileManager {
         public bool[] PickedUpItem;
 
         // events
-        public HashSet<string> Events;
-
-        // unlocked regions
+        public List<string> Events;
     }
 
+    // path for unity editor
     private static string path = Application.dataPath + "/Resources/saveFiles.gd";
+
+    // path for build
+    //private static string path = Application.persistentDataPath + "/Resources/saveFiles.gd";
 
     /// <summary>
     /// Save the file data

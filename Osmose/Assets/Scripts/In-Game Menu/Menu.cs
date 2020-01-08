@@ -5,9 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class Menu : MonoBehaviour
-{
+/// <summary>
+/// Class that handles the UI of the In Game Menu
+/// </summary>
+public class Menu : MonoBehaviour {
     public static Menu Instance;
+
+    public GameObject ParentObject;
+
     public GameObject[] MenuHud;
     public GameObject[] MainButtons;
     public CanvasGroup MainButtonsHud;
@@ -92,6 +97,8 @@ public class Menu : MonoBehaviour
     private const string SELECT = "SelectMenu";
     private const string SAVE = "Save";
 
+    private GameObject prevButton;
+
     // Start is called before the first frame update
     void Start() {
         // don't destroy object on load if menu don't exist
@@ -102,6 +109,7 @@ public class Menu : MonoBehaviour
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+
         previousHud = MAIN;
         currentHud = MAIN;
         charToSwitch = -1;
@@ -112,14 +120,26 @@ public class Menu : MonoBehaviour
         skillToUse = null;
         usingSkill = false;
         shouldLoadAfterFade = false;
+
+        prevButton = MainButtons[0];
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
+        if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical")) {
+            // play the click when player is moving in menu and clicking pressing confirm
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+            if (currButton != prevButton) {
+                // play click when not same button
+                playClick();
+                prevButton = currButton;
+            }
+        }
         if (Input.GetButtonDown("Cancel")) {
             if (previousHud == MAIN && currentHud != MAIN && currentHud != PARTY) {
                 // go back to main menu
+                playClick();
+
                 if (currentHud == ITEM_TYPE) {
                     currentHud = ITEMS;
                 }
@@ -131,12 +151,16 @@ public class Menu : MonoBehaviour
                 OpenMenu(0);
             }
             if (currentHud == PARTY) {
+                playClick();
+
                 currentHud = previousHud;
                 MainButtonsHud.interactable = true;
                 charToSwitch = -1;
             }
             if (currentHud == ITEM_LIST) {
                 // exit item list panel
+                playClick();
+
                 ItemList.interactable = false;
                 ItemType.interactable = true;
                 currentHud = previousHud;
@@ -145,6 +169,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == ITEM_DESCRIPTION) {
                 // exit item description panel
+                playClick();
+
                 DescriptionPanel.interactable = false;
                 ItemList.interactable = true;
 
@@ -156,6 +182,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == SKILLS_LIST) {
                 // exit skills panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = MAIN;
 
@@ -163,6 +191,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == EQUIPPED_PANEL) {
                 // exit equipped panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = MAIN;
                 EquippedPanel.interactable = false;
@@ -179,6 +209,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == EQUIPMENT_PANEL) {
                 // exit equipment panel
+                playClick();
+
                 currentHud = previousHud;
                 previousHud = EQUIPMENT;
 
@@ -196,6 +228,8 @@ public class Menu : MonoBehaviour
             }
             if (currentHud == SELECT) {
                 // exit character select panel
+                playClick();
+
                 if (previousHud == ITEM_DESCRIPTION) {
                     // if was on item description
                     currentHud = previousHud;
@@ -228,11 +262,12 @@ public class Menu : MonoBehaviour
                 }
             }
             updatePartyStats();
+            prevButton = EventSystem.current.currentSelectedGameObject;
         }
         if (shouldLoadAfterFade) {
             waitToLoad -= Time.deltaTime;
             if (waitToLoad <= 0f) {
-                CloseGameMenu();
+                //CloseGameMenu();
                 SceneManager.LoadScene("Map");
             }
         }
@@ -269,6 +304,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="menu">Index of the menu</param>
     public void OpenMenu(int menu) {
+        playClick();
+
         previousHud = currentHud;
         // close all menus
         closeAllMenu();
@@ -318,6 +355,7 @@ public class Menu : MonoBehaviour
                 SaveMenuUI.OpenSaveMenu();
                 break;
         }
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -334,6 +372,7 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="character">Index of the character</param>
     public void SwitchCharacters(int character) {
+        playClick();
         if (charToSwitch == -1) {
             // select first character
             charToSwitch = character;
@@ -360,11 +399,15 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="itemType">Index of the item type</param>
     public void ChooseWhichItem(int itemType) {
+        playClick();
+
         ItemType.interactable = false;
         ItemList.interactable = true;
         EventSystem.current.SetSelectedGameObject(FirstItem);
         previousHud = currentHud;
         currentHud = ITEM_LIST;
+
+        prevButton = FirstItem;
         switch (itemType) {
             case 0:
                 // items
@@ -386,6 +429,7 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="item">Index of the item</param>
     public void OpenDescriptionPanel(int item) {
+        playClick();
         ItemList.interactable = false;
         DescriptionPanel.interactable = true;
 
@@ -393,12 +437,15 @@ public class Menu : MonoBehaviour
         currentHud = ITEM_DESCRIPTION;
 
         ItemMenuUI.OpenDescriptionPanel(item);
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
     /// Go to Character Select panel to select which character to use item on
     /// </summary>
     public void UseItem() {
+        playClick();
+
         itemToUse = ItemMenuUI.GetClickedItem();
         usingItem = true;
 
@@ -411,6 +458,7 @@ public class Menu : MonoBehaviour
         SelectMenu.SetActive(true);
         SelectPanel.interactable = true;
         EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -431,7 +479,12 @@ public class Menu : MonoBehaviour
 
                 if (currHP < maxHP) {
                     // if not at max hp, can heal hp
+                    playClick();
+
                     item.Use(charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
             if (item.AffectSP) {
@@ -441,7 +494,12 @@ public class Menu : MonoBehaviour
 
                 if (currSp < maxSp) {
                     // if not at max sp, can heal sp
+                    playClick();
+
                     item.Use(charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
 
@@ -459,6 +517,8 @@ public class Menu : MonoBehaviour
 
                 usingItem = false;
                 itemToUse = "";
+
+                prevButton = EventSystem.current.currentSelectedGameObject;
             }
             // else, stay on this panel
         }
@@ -472,7 +532,12 @@ public class Menu : MonoBehaviour
                 int maxHP = GameManager.Instance.Party.GetCharMaxHP(charName);
 
                 if (currHP < maxHP) {
+                    playClick();
+
                     skillToUse.UseSkill(charWithSkill, charName);
+                } else {
+                    // cannot heal, so play not allowed sfx
+                    playNotAllowed();
                 }
             }
         }
@@ -482,6 +547,8 @@ public class Menu : MonoBehaviour
     /// Discard an item
     /// </summary>
     public void Discard() {
+        playClick();
+
         itemToUse = ItemMenuUI.GetClickedItem();
         GameManager.Instance.RemoveItem(itemToUse, 1);
         int itemAmt = GameManager.Instance.GetAmountOfItem(itemToUse);
@@ -502,10 +569,13 @@ public class Menu : MonoBehaviour
     /// Look at character's skill
     /// </summary>
     public void SelectSkillsChar() {
+        playClick();
+
         previousHud = currentHud;
         currentHud = SKILLS_LIST;
 
         SkillMenuUI.OpenSkillsPanel();
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -519,6 +589,8 @@ public class Menu : MonoBehaviour
 
         if (skillToUse.IsHeal) {
             // only go to select screen if skill is healing skill
+            playClick();
+
             usingSkill = true;
 
             previousHud = currentHud;
@@ -531,6 +603,7 @@ public class Menu : MonoBehaviour
             SelectPanel.interactable = true;
             EventSystem.current.SetSelectedGameObject(SelectCharacters[0].gameObject);
         } else {
+            playNotAllowed(); // play sound effect for not able to do
             skillToUse = null;
         }
     }
@@ -541,6 +614,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="character"></param>
     public void SelectWhichCharacterEqpmt(int character) {
+        playClick();
+
         previousHud = currentHud;
         currentHud = EQUIPPED_PANEL;
         currCharacter = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
@@ -549,6 +624,8 @@ public class Menu : MonoBehaviour
         EquippedPanel.interactable = true;
         EventSystem.current.SetSelectedGameObject(EquipmentFirstEquipped);
         EquipmentMenuUI.ShowCharacterEquipment(character);
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -556,12 +633,16 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="equipWeapon">Flag indicating whether or not showing weapons</param>
     public void SelectWhichEquipment(bool equipWeapon) {
+        playClick();
+
         previousHud = currentHud;
         currentHud = EQUIPMENT_PANEL;
         this.equipWeapon = equipWeapon;
         EquippedPanel.interactable = false;
         EquipmentPanel.interactable = true;
         EquipmentMenuUI.ShowEquipments(equipWeapon);
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -569,6 +650,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="indx">Index of the equipment</param>
     public void Equip(int indx) {
+        playClick();
+
         string eqmtName = EquipmentMenuUI.GetEquipment(indx);
         string charName = EquipmentMenuUI.GetCurrentCharacter();
         Items equipment = GameManager.Instance.GetEquipmentDetails(eqmtName);
@@ -582,6 +665,8 @@ public class Menu : MonoBehaviour
     /// </summary>
     /// <param name="file">Index of the file</param>
     public void Save(int file) {
+        playClick();
+
         StartCoroutine(SaveCo(file));
     }
 
@@ -591,16 +676,20 @@ public class Menu : MonoBehaviour
     /// <param name="file">Index of the file</param>
     private IEnumerator SaveCo(int file) {
         // save
+        SaveMenuUI.PlaySaveAnimation();
         SaveFileManager.Save(file);
         // wait 1 sec
         yield return new WaitForSeconds(1f);
         SaveMenuUI.UpdateSaveMenu();
+        SaveMenuUI.StopSaveAnimation();
     }
 
     /// <summary>
     /// Open the game menu
     /// </summary>
     public void OpenGameMenu() {
+        playMenuSound();
+
         OpenMenu(0);
         updatePartyStats();
         EventSystem.current.SetSelectedGameObject(null);
@@ -612,6 +701,11 @@ public class Menu : MonoBehaviour
     /// Close the game menu
     /// </summary>
     public void CloseGameMenu() {
+        if (!shouldLoadAfterFade) {
+            // if isn't loading into another scene, play sfx
+            playMenuSound();
+        }
+
         closeAllMenu();
         previousHud = MAIN;
         currentHud = MAIN;
@@ -627,8 +721,39 @@ public class Menu : MonoBehaviour
     /// Go to the overworld map
     /// </summary>
     public void SelectMap() {
+        playClick();
+
         shouldLoadAfterFade = true;
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
+
+        CloseGameMenu();
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        if (GameManager.Instance.GameMenuOpen) {
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play the not allow sound effect
+    /// </summary>
+    private void playNotAllowed() {
+        if (GameManager.Instance.GameMenuOpen) {
+            SoundManager.Instance.PlaySFX(0);
+        }
+    }
+
+    /// <summary>
+    /// Play sound effect for opening/closing menu
+    /// </summary>
+    private void playMenuSound() {
+        if (GameManager.Instance.GameMenuOpen) {
+            SoundManager.Instance.PlaySFX(0);
+        }
     }
 }

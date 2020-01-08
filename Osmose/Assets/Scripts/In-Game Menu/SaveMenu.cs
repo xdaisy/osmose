@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Class that display the save menu
+/// </summary>
 public class SaveMenu : MonoBehaviour {
     [Header("General")]
     public Button[] SaveFiles;
@@ -17,15 +20,9 @@ public class SaveMenu : MonoBehaviour {
     public Image[] PartyMember2;
     public Image[] PartyMember3;
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    // Update is called once per frame
-    void Update() {
-        
-    }
+    [Header("Save Animation")]
+    public GameObject SaveAnimScreen;
+    public Animator SaveAnim;
 
     /// <summary>
     /// Open the save menu
@@ -70,6 +67,33 @@ public class SaveMenu : MonoBehaviour {
                 PartyMember3[i].sprite = GameManager.Instance.GetCharSprite(saveData.CurrentParty[2]);
             }
         }
+    }
+
+    /// <summary>
+    /// Play the save animation
+    /// </summary>
+    public void PlaySaveAnimation() {
+        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+
+        SaveAnimScreen.SetActive(true);
+        if (party[0] == Constants.REY) {
+            // first character is rey
+            SaveAnim.SetBool("ArenSave", true);
+        } else if (party[0] == Constants.NAOISE) {
+            // first character is naoise
+            SaveAnim.SetBool("ArenSave", true);
+        } else {
+            // first character is aren
+            SaveAnim.SetBool("ArenSave", true);
+        }
+    }
+
+    /// <summary>
+    /// Stop the save animation
+    /// </summary>
+    public void StopSaveAnimation() {
+        SaveAnim.SetBool("ArenSave", false);
+        SaveAnimScreen.SetActive(false);
     }
 
     /// <summary>

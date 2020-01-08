@@ -7,7 +7,10 @@ using UnityEngine;
 public class AreaDictionary : SerializableDictionaryBase<string, EnemyDictionary> { }
 
 [Serializable]
-public class EnemyDictionary : SerializableDictionaryBase<int, Enemy> { }
+public class EnemyDictionary : SerializableDictionaryBase<int, EnemySets> { }
+
+[Serializable]
+public class EnemySets : SerializableDictionaryBase<int, Enemy> { }
 
 public class EnemySpawner : MonoBehaviour {
     public AreaDictionary Enemies;
@@ -31,7 +34,10 @@ public class EnemySpawner : MonoBehaviour {
         System.Random rnd = new System.Random();
         int i = rnd.Next(Enemies[area].Keys.Count);
         // add the dictionary of enemies to the enemies list
-        enemies.Add(Enemies[area][i]);
+        EnemySets set = Enemies[area][i];
+        foreach(int key in set.Keys) {
+            enemies.Add(set[key]);
+        }
         return enemies;
     }
 }

@@ -46,15 +46,15 @@ public class EventManager : MonoBehaviour {
     /// Get all the events that has been triggered
     /// </summary>
     /// <returns>Set of all the events that has been triggered</returns>
-    public HashSet<string> GetEvents() {
-        return new HashSet<string>(events);
+    public List<string> GetEvents() {
+        return new List<string>(events);
     }
 
     /// <summary>
     /// Load the events from the save data
     /// </summary>
     /// <param name="events">Set of events in the save data</param>
-    public void LoadEvents(HashSet<string> events) {
+    public void LoadEvents(List<string> events) {
         this.events.UnionWith(events);
     }
 }

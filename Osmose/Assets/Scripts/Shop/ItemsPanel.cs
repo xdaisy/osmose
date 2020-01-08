@@ -9,10 +9,15 @@ public class ItemsPanel : MonoBehaviour {
     public CanvasGroup ItemPanel;
 
     [Header("UI References")]
-    public Button[] ItemsButton;
+    public GameObject[] ItemsObject;
     public Text[] ItemsName;
     public Text[] ItemsCost;
     public Text[] ItemsOwned;
+
+    [Header("Item Description")]
+    public Text GreetingText;
+    public GameObject ItemDescription;
+    public Image ItemSprite;
     public Text Description;
 
     [Header("Party Panel")]
@@ -48,7 +53,7 @@ public class ItemsPanel : MonoBehaviour {
                 float buttonInput = Input.GetAxisRaw("Vertical");
                 if (buttonInput < -0.5f) {
                     // scroll down
-                    if (isBuying && itemIndx + ItemsButton.Length < itemsList.Length - 1) {
+                    if (isBuying && itemIndx + ItemsObject.Length < itemsList.Length - 1) {
                         // is buying
                         itemIndx++;
                         updateItemsList();
@@ -57,12 +62,12 @@ public class ItemsPanel : MonoBehaviour {
                         itemIndx++;
                         updateAllList();
                     }
-                    if (!isBuying && !allItems && sellingItem && GameManager.Instance.GetItemAt(itemIndx + ItemsButton.Length) != null) {
+                    if (!isBuying && !allItems && sellingItem && GameManager.Instance.GetItemAt(itemIndx + ItemsObject.Length) != null) {
                         // is selling items
                         itemIndx++;
                         updateItemsList();
                     }
-                    if (!isBuying && !allItems && !sellingItem && GameManager.Instance.GetEquipmentAt(itemIndx + ItemsButton.Length) != null) {
+                    if (!isBuying && !allItems && !sellingItem && GameManager.Instance.GetEquipmentAt(itemIndx + ItemsObject.Length) != null) {
                         // is selling equipments
                         itemIndx++;
                         updateItemsList();
@@ -104,7 +109,8 @@ public class ItemsPanel : MonoBehaviour {
         isBuying = buying;
         sellingItem = items;
         allItems = false;
-        EventSystem.current.SetSelectedGameObject(ItemsButton[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(ItemsName[0].gameObject);
+        openDescription();
         updateItemsList();
         currItem = ItemsName[0].text;
         updateDescription();
@@ -118,7 +124,8 @@ public class ItemsPanel : MonoBehaviour {
         isBuying = false;
         sellingItem = false;
         allItems = true;
-        EventSystem.current.SetSelectedGameObject(ItemsButton[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(ItemsName[0].gameObject);
+        openDescription();
         updateAllList();
         currItem = ItemsName[0].text;
         updateDescription();
@@ -126,10 +133,18 @@ public class ItemsPanel : MonoBehaviour {
     }
 
     /// <summary>
+    /// Close the Item List
+    /// </summary>
+    public void CloseItemList() {
+        GreetingText.gameObject.SetActive(true);
+        ItemDescription.SetActive(false);
+    }
+
+    /// <summary>
     /// Set the last clicked button as the current selected
     /// </summary>
     public void SetItem() {
-        EventSystem.current.SetSelectedGameObject(ItemsButton[currItemIndx].gameObject);
+        EventSystem.current.SetSelectedGameObject(ItemsName[currItemIndx].gameObject);
         if (allItems) {
             updateAllList();
         } else {
@@ -215,9 +230,7 @@ public class ItemsPanel : MonoBehaviour {
             if (isBuying) {
                 if (i + itemIndx >= itemsList.Length) {
                     // if there aren't enough items to fill the list, set text inactive
-                    ItemsButton[i].gameObject.SetActive(false);
-                    ItemsCost[i].gameObject.SetActive(false);
-                    ItemsOwned[i].gameObject.SetActive(false);
+                    ItemsObject[i].gameObject.SetActive(false);
                     continue;
                 }
                 item = itemsList[i + itemIndx];
@@ -226,9 +239,7 @@ public class ItemsPanel : MonoBehaviour {
                 item = GameManager.Instance.GetItemAt(i + itemIndx);
                 if (item == null) {
                     // if there aren't enough items in inventory to fill list, set text inactive
-                    ItemsButton[i].gameObject.SetActive(false);
-                    ItemsCost[i].gameObject.SetActive(false);
-                    ItemsOwned[i].gameObject.SetActive(false);
+                    ItemsObject[i].gameObject.SetActive(false);
                     continue;
                 }
             } else {
@@ -236,15 +247,11 @@ public class ItemsPanel : MonoBehaviour {
                 item = GameManager.Instance.GetEquipmentAt(i + itemIndx);
                 if (item == null) {
                     // if there aren't enough items in inventory to fill list, set text inactive
-                    ItemsButton[i].gameObject.SetActive(false);
-                    ItemsCost[i].gameObject.SetActive(false);
-                    ItemsOwned[i].gameObject.SetActive(false);
+                    ItemsObject[i].gameObject.SetActive(false);
                     continue;
                 }
             }
-            ItemsButton[i].gameObject.SetActive(true);
-            ItemsCost[i].gameObject.SetActive(true);
-            ItemsOwned[i].gameObject.SetActive(true);
+            ItemsObject[i].gameObject.SetActive(true);
 
             ItemsName[i].text = item.ItemName;
             if (isBuying) {
@@ -271,14 +278,10 @@ public class ItemsPanel : MonoBehaviour {
             }
             if (item == null) {
                 // if there aren't enough items in inventory to fill list, set text inactive
-                ItemsButton[i].gameObject.SetActive(false);
-                ItemsCost[i].gameObject.SetActive(false);
-                ItemsOwned[i].gameObject.SetActive(false);
+                ItemsObject[i].gameObject.SetActive(false);
                 continue;
             }
-            ItemsButton[i].gameObject.SetActive(true);
-            ItemsCost[i].gameObject.SetActive(true);
-            ItemsOwned[i].gameObject.SetActive(true);
+            ItemsObject[i].gameObject.SetActive(true);
             ItemsName[i].text = item.ItemName;
             ItemsCost[i].text = "" + Mathf.Max(Mathf.RoundToInt(item.Value * 0.5f), 1);
             if (item.IsItem) {
@@ -297,6 +300,11 @@ public class ItemsPanel : MonoBehaviour {
         if (item == null) {
             // if not item, is equipment
             item = GameManager.Instance.GetEquipmentDetails(currItem);
+        }
+
+        if (item.ItemSprite != null) {
+            // set the item image if there is one
+            ItemSprite.sprite = item.ItemSprite;
         }
         Description.text = item.Description;
     }
@@ -347,5 +355,13 @@ public class ItemsPanel : MonoBehaviour {
                 StatTexts[i].gameObject.SetActive(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Closes the greeting text and open item description text
+    /// </summary>
+    private void openDescription() {
+        GreetingText.gameObject.SetActive(false);
+        ItemDescription.SetActive(true);
     }
 }

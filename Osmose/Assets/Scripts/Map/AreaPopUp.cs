@@ -9,12 +9,6 @@ using UnityEngine.EventSystems;
 public class AreaPopUp : MonoBehaviour {
     public Text[] Areas;
 
-    private EventSystem eventSystem;
-
-    private void Awake() {
-        eventSystem = EventSystem.current;
-    }
-
     /// <summary>
     /// Open up Select Area pop up
     /// </summary>
@@ -33,6 +27,6 @@ public class AreaPopUp : MonoBehaviour {
             Areas[i].text = area;
         }
 
-        eventSystem.SetSelectedGameObject(Areas[0].gameObject);
+        EventSystem.current.SetSelectedGameObject(Areas[0].gameObject);
     }
 }
