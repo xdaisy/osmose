@@ -36,16 +36,14 @@ public class Shop : MonoBehaviour {
     private const int ITEM_LIST_PANEL = 2;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         ItemsPanelUI.SetItemsList(ItemsForSell);
         MoneyOwned.text = "" + GameManager.Instance.Wallet;
         currItemType = 0;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (Input.GetButtonDown("Cancel")) {
             if (ShopPanels[BUY_SELL_PANEL].interactable) {
                 // close shop menu
