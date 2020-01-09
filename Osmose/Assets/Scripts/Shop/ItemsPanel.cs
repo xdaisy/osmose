@@ -25,6 +25,7 @@ public class ItemsPanel : MonoBehaviour {
     public Image[] CharImages;
     public Image[] IncreaseArrows;
     public Image[] DecreaseArrows;
+    public Image[] EqualIcons;
     public Text[] StatTexts;
 
     private Items[] itemsList;
@@ -323,6 +324,7 @@ public class ItemsPanel : MonoBehaviour {
             if (item == null || (party[i] == "Aren" && !item.ArenEquipment) || (party[i] == "Rey" && !item.ReyEquipment) || (party[i] == "Naoise" && !item.NaoiseEquipment)) {
                 IncreaseArrows[i].gameObject.SetActive(false);
                 DecreaseArrows[i].gameObject.SetActive(false);
+                EqualIcons[i].gameObject.SetActive(false);
                 StatTexts[i].gameObject.SetActive(false);
                 continue;
             }
@@ -340,19 +342,23 @@ public class ItemsPanel : MonoBehaviour {
                 // equipment increase stat
                 IncreaseArrows[i].gameObject.SetActive(true);
                 DecreaseArrows[i].gameObject.SetActive(false);
+                EqualIcons[i].gameObject.SetActive(false);
                 StatTexts[i].gameObject.SetActive(true);
                 StatTexts[i].text = "" + Mathf.Abs(equipmentStat - currEquipmentStat);
             } else if (currEquipmentStat > equipmentStat) {
                 // equipment decrease stat
                 IncreaseArrows[i].gameObject.SetActive(false);
                 DecreaseArrows[i].gameObject.SetActive(true);
+                EqualIcons[i].gameObject.SetActive(false);
                 StatTexts[i].gameObject.SetActive(true);
                 StatTexts[i].text = "" + Mathf.Abs(equipmentStat - currEquipmentStat);
             } else {
                 // equipment does nether 
                 IncreaseArrows[i].gameObject.SetActive(false);
                 DecreaseArrows[i].gameObject.SetActive(false);
-                StatTexts[i].gameObject.SetActive(false);
+                EqualIcons[i].gameObject.SetActive(true);
+                StatTexts[i].gameObject.SetActive(true);
+                StatTexts[i].text = "0";
             }
         }
     }
