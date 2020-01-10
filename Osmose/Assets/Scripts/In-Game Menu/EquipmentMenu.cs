@@ -113,6 +113,9 @@ public class EquipmentMenu : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Update the equipment shown on Equipments panel
+    /// </summary>
     private void updateEquipments() {
         for (int i = 0; i < Equipments.Length; i++) {
             Text equipmentText = Equipments[i];
@@ -122,13 +125,18 @@ public class EquipmentMenu : MonoBehaviour {
                 continue;
             }
             equipmentText.gameObject.SetActive(true);
+            equipmentText.GetComponent<Button>().interactable = true;
             equipmentText.text = item.ItemName;
         }
     }
 
+    /// <summary>
+    /// Update the description
+    /// </summary>
     private void updateDescription() {
+        GameObject currentEquipment = EventSystem.current.currentSelectedGameObject;
         Items equipment = GameManager.Instance.GetEquipmentDetails(currEquipment);
-        if (equipment != null) {
+        if (currentEquipment.activeSelf && equipment != null) {
             StatText.text = equipment.IsWeapon ? "Attack:" : "Defense:"; // say whether or not it has attack or defense
             StatAmount.text = equipment.IsWeapon ? "" + equipment.WeaponStr : "" + equipment.ArmorDefn;
             Description.text = equipment.Description;
@@ -136,9 +144,16 @@ public class EquipmentMenu : MonoBehaviour {
             if (equipment.ItemSprite != null) {
                 EquipmentImage.sprite = equipment.ItemSprite;
             }
+        } else {
+            StatText.text = "";
+            StatAmount.text = "";
+            Description.text = "";
         }
     }
 
+    /// <summary>
+    /// Set up the Equipment Menu when opening it
+    /// </summary>
     public void OpenEquipmentMenu() {
         List<string> currentParty = GameManager.Instance.Party.GetCurrentParty();
         for (int i = 0; i < Characters.Length; i++) {
@@ -150,7 +165,6 @@ public class EquipmentMenu : MonoBehaviour {
             }
             Characters[i].gameObject.SetActive(true);
             name.text = currentParty[i];
-            Characters[i].interactable = true;
         }
 
         equipWeapon = true;
@@ -158,8 +172,14 @@ public class EquipmentMenu : MonoBehaviour {
         Button firstChar = Characters[0];
         EventSystem.current.SetSelectedGameObject(firstChar.gameObject);
         currCharacter = firstChar.GetComponentInChildren<Text>().text;
+
+        updateDescription();
     }
 
+    /// <summary>
+    /// Setup the Equipments Panel when selected a character to equip
+    /// </summary>
+    /// <param name="character">Name of the character who's being equipped</param>
     public void ShowCharacterEquipment(int character) {
         string partyMember = Characters[character].GetComponentInChildren<Text>().text;
         string eqpWeapon = GameManager.Instance.Party.GetWeapon(partyMember);
@@ -175,15 +195,27 @@ public class EquipmentMenu : MonoBehaviour {
         updateEquipments();
     }
 
+    /// <summary>
+    /// Get the name of the current character
+    /// </summary>
+    /// <returns>Name of the current character</returns>
     public string GetCurrentCharacter() {
         return currCharacter;
     }
 
+    /// <summary>
+    /// Get name of the equipment currently clicked on
+    /// </summary>
+    /// <param name="indx">Index of the equipment</param>
+    /// <returns>Name of the equipment</returns>
     public string GetEquipment(int indx) {
         currEqmtIndx = indx;
         return Equipments[indx].text;
     }
 
+    /// <summary>
+    /// Update the equipment panel after equipping
+    /// </summary>
     public void UpdateAfterEquip() {
         string eqpWeapon = GameManager.Instance.Party.GetWeapon(currCharacter);
         string eqpArmor = GameManager.Instance.Party.GetArmor(currCharacter);
@@ -201,6 +233,10 @@ public class EquipmentMenu : MonoBehaviour {
         eventSystem.SetSelectedGameObject(newCurrEqmt.gameObject);
     }
 
+    /// <summary>
+    /// Show either weapons or armor in Equipment Panel
+    /// </summary>
+    /// <param name="equipWeapon">Flag for whether or not is equipping weapons</param>
     public void ShowEquipments(bool equipWeapon) {
         this.equipWeapon = equipWeapon;
         updateEquipments();
@@ -210,11 +246,12 @@ public class EquipmentMenu : MonoBehaviour {
         updateDescription();
     }
 
-    // dehighlight currenty highlighted equipment
+    /// <summary>
+    /// Exit out of the Equipment Panel
+    /// </summary>
     public void ExitEquipments() {
         Button currHighlightedEqmt = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         EventSystem.current.SetSelectedGameObject(null);
-        currHighlightedEqmt.interactable = false;
         equipmentIndx = 1;
 
         StatText.text = "";
