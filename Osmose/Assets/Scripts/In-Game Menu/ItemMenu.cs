@@ -107,6 +107,11 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Get the item
+    /// </summary>
+    /// <param name="indx">Index of the item on the list</param>
+    /// <returns>Item object</returns>
     private Items getItem(int indx) {
         Items item = null;
         switch(itemTypeIndx) {
@@ -126,6 +131,9 @@ public class ItemMenu : MonoBehaviour {
         return item;
     }
 
+    /// <summary>
+    /// Update the items list
+    /// </summary>
     private void updateItems() {
         // update which item is being shown
         for (int i = 0; i < Items.Length; i++) {
@@ -141,6 +149,9 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Update the description panel
+    /// </summary>
     private void updateDescription() {
         // change the description to the current highlighted item
         string itemName = currentItem;
@@ -177,6 +188,7 @@ public class ItemMenu : MonoBehaviour {
 
             if (item.ItemSprite != null) {
                 // set sprite
+                ItemImage.gameObject.SetActive(true);
                 ItemImage.sprite = item.ItemSprite;
             }
 
@@ -190,10 +202,14 @@ public class ItemMenu : MonoBehaviour {
             Description.text = "";
             UseButton.gameObject.SetActive(false);
             DiscardButton.gameObject.SetActive(false);
+            ItemImage.gameObject.SetActive(false);
         }
     }
-
-    // when go to items list
+    
+    /// <summary>
+    /// Select which type of item to look at
+    /// </summary>
+    /// <param name="itemTypeIndx"></param>
     public void SetItemType(int itemTypeIndx) {
         // called when choosing which type of item to view
         // when called, show the items and description of current item
@@ -205,6 +221,10 @@ public class ItemMenu : MonoBehaviour {
         updateDescription();
     }
 
+    /// <summary>
+    /// Open the description panel
+    /// </summary>
+    /// <param name="item">Index of the item</param>
     public void OpenDescriptionPanel(int item) {
         currItemIndx = item;
         if (UseButton.interactable) {
@@ -214,11 +234,17 @@ public class ItemMenu : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Get the item's name that was clicked on
+    /// </summary>
+    /// <returns>Clicked item's name</returns>
     public string GetClickedItem() {
         return Items[currItemIndx].text;
     }
 
-    // set to previous item if use up current item
+    /// <summary>
+    /// Set the current selected item to previous item if all the current items was used up
+    /// </summary>
     public void SetNewItem() {
         updateItems();
         currItemIndx--;
@@ -231,17 +257,23 @@ public class ItemMenu : MonoBehaviour {
         updateDescription();
     }
 
-    // exit select menu to the item menu
+    /// <summary>
+    /// Go to description panel after selecting an item on the items list
+    /// </summary>
     public void ExitSelectMenu() {
         updateDescription();
         EventSystem.current.SetSelectedGameObject(UseButton.gameObject);
     }
 
+    /// <summary>
+    /// Exit the item list
+    /// </summary>
     public void ExitItemList() {
         UseButton.gameObject.SetActive(false);
         DiscardButton.gameObject.SetActive(false);
         ItemAmount.text = "";
         Description.text = "";
+        ItemImage.gameObject.SetActive(false);
 
         itemIndx = 0;
         currentItem = "";
@@ -254,6 +286,9 @@ public class ItemMenu : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(ItemType[itemTypeIndx].gameObject);
     }
 
+    /// <summary>
+    /// Exit the description panel
+    /// </summary>
     public void ExitDescriptionPanel() {
         // set the clicked item as selected item
         EventSystem.current.SetSelectedGameObject(Items[currItemIndx].gameObject);

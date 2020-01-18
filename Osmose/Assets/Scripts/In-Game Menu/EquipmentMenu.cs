@@ -142,12 +142,14 @@ public class EquipmentMenu : MonoBehaviour {
             Description.text = equipment.Description;
 
             if (equipment.ItemSprite != null) {
+                EquipmentImage.gameObject.SetActive(true);
                 EquipmentImage.sprite = equipment.ItemSprite;
             }
         } else {
             StatText.text = "";
             StatAmount.text = "";
             Description.text = "";
+            EquipmentImage.gameObject.SetActive(false);
         }
     }
 
@@ -252,10 +254,13 @@ public class EquipmentMenu : MonoBehaviour {
     public void ExitEquipments() {
         Button currHighlightedEqmt = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         EventSystem.current.SetSelectedGameObject(null);
+        
+        currEquipment = "";
         equipmentIndx = 1;
 
         StatText.text = "";
         StatAmount.text = "";
         Description.text = "";
+        EquipmentImage.gameObject.SetActive(false);
     }
 }
