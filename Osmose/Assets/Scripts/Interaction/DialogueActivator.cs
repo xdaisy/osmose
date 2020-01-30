@@ -3,21 +3,14 @@
 /// <summary>
 /// Class that handles when player is talking to an NPC
 /// </summary>
-public class DialogueActivator : MonoBehaviour
-{
-
+public class DialogueActivator : MonoBehaviour {
     public string specificEvent; // name of specific event for specific dialogue
 
     public string[] preEventDialogue; // lines of generic dialogue
 
     public string[] postEventDialogue; // lines of dialogue for before/after specific event
 
-    private string personTalking; // name of person talking in dialogue
-
     private bool canActivate = false;
-
-    // Start is called before the first frame update
-    void Start() {}
 
     // Update is called once per frame
     void Update() {
