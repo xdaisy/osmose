@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour {
-    public GameObject ParentObject;
-
     public GameObject dBox; // dialogue box
     public Text dText; // dialogue text
     public Text dName; // name of dialogue 
@@ -19,10 +17,7 @@ public class Dialogue : MonoBehaviour {
     void Start() {
         if (Instance == null) {
             Instance = this;
-        } else {
-            Destroy(ParentObject);
         }
-        DontDestroyOnLoad(ParentObject);
     }
 
     // Update is called once per frame

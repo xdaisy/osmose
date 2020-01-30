@@ -6,9 +6,7 @@ public class EssentialsLoader : MonoBehaviour {
     public GameObject PlayerLoader;
     public GameObject GameMang;
     public GameObject StatsMang;
-    public GameObject DialogueCanvas;
-    public GameObject FadeCanvas;
-    public GameObject MenuCanvas;
+    public GameObject UICanvas;
     public GameObject EnemySpawn;
     public GameObject LoadEntrance;
 
@@ -29,16 +27,8 @@ public class EssentialsLoader : MonoBehaviour {
             Instantiate(EnemySpawn);
         }
 
-        if (Dialogue.Instance == null) {
-            Instantiate(DialogueCanvas);
-        }
-
-        if (UIFade.Instance == null) {
-            Instantiate(FadeCanvas);
-        }
-
         if (Menu.Instance == null) {
-            Instantiate(MenuCanvas);
+            Instantiate(UICanvas);
         }
 
         Instantiate(LoadEntrance);

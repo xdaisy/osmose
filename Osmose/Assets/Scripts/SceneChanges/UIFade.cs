@@ -19,9 +19,7 @@ public class UIFade : MonoBehaviour
     void Start() {
         if (Instance == null) {
             Instance = this;
-        } else {
-            Destroy(gameObject);
-        }
+        } 
     }
 
     // Update is called once per frame

@@ -104,11 +104,7 @@ public class Menu : MonoBehaviour {
         // don't destroy object on load if menu don't exist
         if (Instance == null) {
             Instance = this;
-        } else {
-            // if another menu exists, destroy game object
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
+        } 
 
         previousHud = MAIN;
         currentHud = MAIN;
@@ -267,7 +263,7 @@ public class Menu : MonoBehaviour {
         if (shouldLoadAfterFade) {
             waitToLoad -= Time.deltaTime;
             if (waitToLoad <= 0f) {
-                //CloseGameMenu();
+                shouldLoadAfterFade = false;
                 SceneManager.LoadScene("Map");
             }
         }
