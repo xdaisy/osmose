@@ -27,7 +27,7 @@ public class EventManager : MonoBehaviour {
     /// </summary>
     /// <param name="scene">Name of the event</param>
     public void AddEvent(string scene) {
-        if (!events.Contains(scene)) {
+        if (scene.Length > 0 && !events.Contains(scene)) {
             // only adds the event if the player hasn't triggered it
             events.Add(scene);
         }

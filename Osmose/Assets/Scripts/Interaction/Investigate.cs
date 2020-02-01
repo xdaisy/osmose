@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Investigate : MonoBehaviour {
-    public string Eventname; // name of specific event for specific dialogue
+    public string EventName; // name of specific event for specific dialogue
 
     [Header("Dialogue")]
     public string[] preEventDialogue; // lines of generic dialogue
@@ -16,39 +15,28 @@ public class Investigate : MonoBehaviour {
     public int ItemAmount;
     public int PickupNumber;
 
-    private bool investigated;
-
-    // Start is called before the first frame update
-    void Start() {
-        if (
-            ObtainItemManager.Instance.DidPickUpItem(PickupNumber) || EventManager.Instance.DidEventHappened(Eventname)
-            ) {
-            investigated = true;
-        } else {
-            investigated = false;
-        }
-    }
-
     // Update is called once per frame
     void Update() {
         if (canActivate && GameManager.Instance.CanStartDialogue() && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
-            if (!investigated) {
+            string[] dialogue = getDialogue();
+            if (!haveInvestigated()) {
                 // did not investigate yet
-                EventManager.Instance.AddEvent(Eventname);
-                investigated = true;
+                EventManager.Instance.AddEvent(EventName);
 
-                if (Item.IsItem) {
-                    // add item
-                    GameManager.Instance.AddItem(Item.ItemName, ItemAmount);
-                } else if (Item.IsWeapon || Item.IsArmor) {
-                    // add equipment
-                    GameManager.Instance.AddEquipment(Item.ItemName, ItemAmount);
-                } else {
-                    // add key item
-                    GameManager.Instance.AddKeyItem(Item.ItemName);
+                if (Item != null) {
+                    if (Item.IsItem) {
+                        // add item
+                        GameManager.Instance.AddItem(Item.ItemName, ItemAmount);
+                    } else if (Item.IsWeapon || Item.IsArmor) {
+                        // add equipment
+                        GameManager.Instance.AddEquipment(Item.ItemName, ItemAmount);
+                    } else {
+                        // add key item
+                        GameManager.Instance.AddKeyItem(Item.ItemName);
+                    }
                 }
             }
-            Dialogue.Instance.ShowDialogue(getDialogue(), false);
+            Dialogue.Instance.ShowDialogue(dialogue, false);
         }
     }
 
@@ -58,7 +46,7 @@ public class Investigate : MonoBehaviour {
     /// <returns>Correct dialogue to show</returns>
     private string[] getDialogue() {
         List<string> dialogue;
-        if (investigated) {
+        if (haveInvestigated()) {
             dialogue = new List<string>(this.postEventDialogue);
         } else {
             dialogue = new List<string>(this.preEventDialogue);
@@ -69,5 +57,27 @@ public class Investigate : MonoBehaviour {
         }
 
         return dialogue.ToArray();
+    }
+
+    /// <summary>
+    /// Return whether or not have been investigated
+    /// </summary>
+    /// <returns>True if have investigated, false otherwise</returns>
+    private bool haveInvestigated() {
+        bool obtainedItem = Item != null && ObtainItemManager.Instance.DidPickUpItem(PickupNumber);
+        bool eventHappened = EventName.Length > 0 && EventManager.Instance.DidEventHappened(EventName);
+        return obtainedItem || eventHappened;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Player") {
+            canActivate = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.tag == "Player") {
+            canActivate = false;
+        }
     }
 }
