@@ -755,7 +755,11 @@ public class BattleSystem : MonoBehaviour {
         }
         if (enemyTurn.Attack) {
             playDamageSound();
-            Instantiate(DamageNumber).SetDamage(CharPos[hostilityMeter[enemyTurn.Target]].transform.position, enemyTurn.Amount, true);
+            Instantiate(DamageNumber).SetDamage(
+                CharPos[hostilityMeter[enemyTurn.Target]].transform.position, 
+                enemyTurn.Amount, 
+                true
+            );
             string partyMember = party[hostilityMeter[enemyTurn.Target]];
 
             if (!GameManager.Instance.Party.IsAlive(partyMember)) {
