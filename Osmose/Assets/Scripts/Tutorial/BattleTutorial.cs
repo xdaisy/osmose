@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class that handles the battle tutorials
@@ -37,21 +38,30 @@ public class BattleTutorial : MonoBehaviour {
 
     [SerializeField] string charName;
     [SerializeField] private TutorialAction[] tutorialActions;
+    [SerializeField] private string sceneToLoad;
 
     private int currentAction;
     private EventSystem eventSystem;
 
     private GameObject prevButton;
     private bool attacking;
+    private bool usingSkill;
 
+    private bool arenShifted;
     private List<int> hostilityMeter;
+    private Skill skillToUse;
+    
+    [SerializeField] private float waitToLoad = 1f;
 
     // Start is called before the first frame update
     void Start() {
         GameManager.Instance.InBattle = true;
         eventSystem = EventSystem.current;
         attacking = false;
+        usingSkill = false;
+        arenShifted = false;
         hostilityMeter = new List<int> { 0 };
+        skillToUse = null;
 
         currentAction = 0;
         updateAction();
@@ -59,8 +69,28 @@ public class BattleTutorial : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetButtonDown("Interact") && TextHud.IsActive()) {
+        if (!didTutorialEnd() && Input.GetButtonDown("Interact") && TextHud.IsActive()) {
+            // if tutorial hasn't ending and has text displayed
             updateCurrentAction();
+        } else if (didTutorialEnd() && Input.GetButtonDown("Interact")) {
+            // wait to load scene
+            StartCoroutine(loadScene());
+        }
+    }
+
+    /// <summary>
+    /// Select a target
+    /// </summary>
+    public void Select() {
+        playClick();
+        if (attacking) {
+            int damage = BattleLogic.RegularAttack(charName, Enemy);
+
+            // show damage
+            displayDamageToEnemies(damage);
+
+            Enemy.Highlight(false);
+            attacking = false;
         }
     }
 
@@ -81,16 +111,80 @@ public class BattleTutorial : MonoBehaviour {
         prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
-    public void Select() {
+    /// <summary>
+    /// Select the Skills command
+    /// </summary>
+    public void SelectSkills() {
         playClick();
-        if (attacking) {
-            int damage = BattleLogic.RegularAttack(charName, Enemy);
 
-            // show damage
-            displayDamageToEnemies(damage);
+        // turn off main hud
+        MainHud.interactable = false;
+        MainHud.gameObject.SetActive(false);
 
-            Enemy.Highlight(false);
-            attacking = false;
+        // turn on skill hud
+        SkillHud.gameObject.SetActive(true);
+        SkillHud.interactable = true;
+        DescriptionPanel.SetActive(true);
+
+        if (charName == Constants.AREN) {
+            SkillHudUI.OpenSkillsHud(charName, arenShifted);
+        } else {
+            SkillHudUI.OpenSkillsHud(charName);
+        }
+
+        prevButton = EventSystem.current.currentSelectedGameObject;
+    }
+
+    /// <summary>
+    /// Select a skill to sue
+    /// </summary>
+    /// <param name="skill">Skill to use</param>
+    public void UseSkill(int skill) {
+        skillToUse = SkillHudUI.GetClickedSkill(skill);
+        bool endTurn = false;
+
+        if (skillToUse is TauntSkill) {
+            playClick();
+
+            hostilityMeter.Add(0);
+            hostilityMeter.Add(0);
+
+            skillToUse = null;
+            updateCurrentAction();
+        } else if ((GameManager.Instance.Party.GetCharCurrSP(charName) > skillToUse.Cost && skillToUse is ShiftSkill) || skillToUse is UnshiftSkill) {
+            // aren shifting
+            playClick();
+
+            ShiftImage.gameObject.SetActive(skillToUse is ShiftSkill);
+            arenShifted = skillToUse is ShiftSkill;
+            float magicMeter = GameManager.Instance.GetMagicMeter();
+            skillToUse.UseSkill(charName);
+            SkillHudUI.OpenSkillsHud(charName, arenShifted);
+            skillToUse = null;
+            updateCurrentAction();
+        } else if (GameManager.Instance.Party.GetCharCurrSP(charName) > skillToUse.Cost) {
+            // regular skill
+            // can only use if have enough sp to use
+            playClick();
+
+            usingSkill = true;
+
+            if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
+                // use on enemy
+                SkillHud.interactable = false;
+                SelectHud.gameObject.SetActive(true);
+                SelectHud.interactable = true;
+
+                SelectHudUI.OpenSelectHud(new Enemy[] { Enemy });
+            }
+        }
+        if (endTurn) {
+            SkillHud.gameObject.SetActive(false);
+            SkillHud.interactable = false;
+            DescriptionPanel.SetActive(false);
+            SkillHudUI.ExitSkillHud();
+            CharTurnImage.gameObject.SetActive(false);
+            updateCurrentAction();
         }
     }
 
@@ -116,6 +210,9 @@ public class BattleTutorial : MonoBehaviour {
         updateCurrentAction();
     }
 
+    /// <summary>
+    /// Update the current action and call updateAction
+    /// </summary>
     private void updateCurrentAction() {
         currentAction++;
         updateAction();
@@ -125,13 +222,13 @@ public class BattleTutorial : MonoBehaviour {
     /// Update the Battle hud according to the current action
     /// </summary>
     private void updateAction() {
-        if (currentAction >= tutorialActions.Length) {
+        closeEverything();
+        if (didTutorialEnd()) {
             // end of battle because no more actions
             endBattle();
         } else {
             // update for the next action
             TutorialAction currAction = tutorialActions[currentAction];
-            closeEverything();
 
             if (currAction.GetText().Length > 0) {
                 // if text is not empty string, show text
@@ -203,18 +300,52 @@ public class BattleTutorial : MonoBehaviour {
         while (!enemyTurn.Attack) {
             // keep calling until enemy is attacking
             enemyTurn = BattleLogic.EnemyTurn(Enemy, hostilityMeter);
-            Instantiate(DamageNumber).SetDamage(
-                CharPos.transform.position,
-                enemyTurn.Amount, 
-                true
-            );
         }
+        Instantiate(DamageNumber).SetDamage(
+            CharPos.transform.position,
+            enemyTurn.Amount,
+            true
+        );
     }
 
+    /// <summary>
+    /// Get whether or not the tutorial has ended
+    /// </summary>
+    /// <returns>True if the tutorial has ended, false otherwise</returns>
+    private bool didTutorialEnd() {
+        return currentAction >= tutorialActions.Length;
+    }
+
+    /// <summary>
+    /// Handles the end of tutorial battle
+    /// </summary>
     private void endBattle() {
-        Debug.Log("end of battle");
+        GameManager.Instance.Party.ResetStatsModifier();
+        GameManager.Instance.Party.GainExperience(Enemy.Exp);
+        GameManager.Instance.GainMoney(Enemy.Money);
+        GameManager.Instance.Party.RecoverParty();
+
+        ShiftImage.gameObject.SetActive(false);
+        StartCoroutine(enemyDied());
+        showText(
+            "The enemy ran away! You earned " + Enemy.Exp + " exp and " + Enemy.Money + " money!"
+        );
     }
 
+    /// <summary>
+    /// Wait for enemy to die and then remove the enemy
+    /// </summary>
+    /// <param name="enemy">Enemy who died</param>
+    /// <param name="choice">THe index of the enemy in the enemy list</param>
+    /// <returns></returns>
+    private IEnumerator enemyDied() {
+        Enemy.CurrentHP -= 9999;
+        yield return new WaitForSeconds(1f);
+    }
+
+    /// <summary>
+    /// Close all the HUDs
+    /// </summary>
     private void closeEverything() {
         TextImage.SetActive(false);
         TextHud.gameObject.SetActive(false);
@@ -226,6 +357,22 @@ public class BattleTutorial : MonoBehaviour {
 
         SelectHud.gameObject.SetActive(false);
         SelectHud.interactable = false;
+
+        SkillHud.gameObject.SetActive(false);
+        SkillHud.interactable = false;
+        SkillHudUI.ExitSkillHud();
+
+        DescriptionPanel.SetActive(false);
+    }
+
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator loadScene() {
+        UIFade.Instance.FadeToBlack();
+        yield return new WaitForSeconds(waitToLoad);
+        SceneManager.LoadScene(sceneToLoad);
     }
 
     /// <summary>

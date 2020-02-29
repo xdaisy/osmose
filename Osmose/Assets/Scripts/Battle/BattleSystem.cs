@@ -168,7 +168,6 @@ public class BattleSystem : MonoBehaviour {
                 GameManager.Instance.GainMoney(earnedMoney);
                 CharTurnImage.gameObject.SetActive(false);
             }
-            //showText();
 
             if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
                 // load back to previous scene
