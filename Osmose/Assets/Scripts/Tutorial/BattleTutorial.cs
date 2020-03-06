@@ -49,10 +49,12 @@ public class BattleTutorial : MonoBehaviour {
     private EventSystem eventSystem;
 
     private bool attacking;
+    private bool usingSkill;
 
     private bool arenShifted;
     private List<int> hostilityMeter;
     private Skill skillToUse;
+
     private bool useFirstSkill;
     private bool useSecondSkill;
 
@@ -61,9 +63,12 @@ public class BattleTutorial : MonoBehaviour {
         GameManager.Instance.InBattle = true;
         eventSystem = EventSystem.current;
         attacking = false;
+        usingSkill = false;
         arenShifted = false;
         hostilityMeter = new List<int> { 0 };
         skillToUse = null;
+        useFirstSkill = false;
+        useSecondSkill = false;
 
         currentAction = 0;
         updateAction();
@@ -94,7 +99,7 @@ public class BattleTutorial : MonoBehaviour {
 
             Enemy.Highlight(false);
             attacking = false;
-        } else {
+        } else if (usingSkill) {
             // is using skills
             int damage = BattleLogic.UseAttackSkill(charName, Enemy, skillToUse);
 
@@ -103,6 +108,7 @@ public class BattleTutorial : MonoBehaviour {
 
             Enemy.Highlight(false);
 
+            usingSkill = false;
             skillToUse = null;
         }
     }
@@ -193,6 +199,8 @@ public class BattleTutorial : MonoBehaviour {
 
                 SelectHudUI.OpenSelectHud(new Enemy[] { Enemy });
             }
+
+            usingSkill = true;
         }
         if (endTurn) {
             SkillHud.gameObject.SetActive(false);
