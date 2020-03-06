@@ -8,6 +8,8 @@ public class TutorialAction : ScriptableObject {
     [TextArea(10, 14)] [SerializeField] private string text; // if not enemy, show text
     [SerializeField] private bool attackInteractable; // else if true, can attack
     [SerializeField] private bool skillsInteractable; // else if true, can use skills
+    [SerializeField] private bool useFirstSkill; // flag for if can use first skill
+    [SerializeField] private bool useSecondSkill; // flag for if can use second skill
     [SerializeField] private bool enemyAttack; // else if true, enemy's turn
 
     /// <summary>
@@ -32,6 +34,22 @@ public class TutorialAction : ScriptableObject {
     /// <returns>True if can use skills, false otherwise</returns>
     public bool GetSkillsInteractable() {
         return skillsInteractable;
+    }
+
+    /// <summary>
+    /// Get flag on whether can use the first skill
+    /// </summary>
+    /// <returns>True if can use the first skill, false otherwise</returns>
+    public bool GetUseFirstSkill() {
+        return useFirstSkill;
+    }
+
+    /// <summary>
+    /// Get flag on whether can use the second skill
+    /// </summary>
+    /// <returns>True if can use the second skill, false otherwise</returns>
+    public bool GetUseSecondSkill() {
+        return useSecondSkill;
     }
 
     /// <summary>

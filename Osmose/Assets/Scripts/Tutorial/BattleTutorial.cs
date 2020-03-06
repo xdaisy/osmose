@@ -25,6 +25,9 @@ public class BattleTutorial : MonoBehaviour {
     public Button AttackButton;
     public Button SkillsButton;
 
+    [Header("Skill Buttons")]
+    public Button[] SkillButtons;
+
     [Header("Enemy")]
     public Enemy Enemy;
 
@@ -40,25 +43,24 @@ public class BattleTutorial : MonoBehaviour {
     [SerializeField] private TutorialAction[] tutorialActions;
     [SerializeField] private string sceneToLoad;
 
+    [SerializeField] private float waitToLoad = 1f;
+
     private int currentAction;
     private EventSystem eventSystem;
 
-    private GameObject prevButton;
     private bool attacking;
-    private bool usingSkill;
 
     private bool arenShifted;
     private List<int> hostilityMeter;
     private Skill skillToUse;
-    
-    [SerializeField] private float waitToLoad = 1f;
+    private bool useFirstSkill;
+    private bool useSecondSkill;
 
     // Start is called before the first frame update
     void Start() {
         GameManager.Instance.InBattle = true;
         eventSystem = EventSystem.current;
         attacking = false;
-        usingSkill = false;
         arenShifted = false;
         hostilityMeter = new List<int> { 0 };
         skillToUse = null;
@@ -84,6 +86,7 @@ public class BattleTutorial : MonoBehaviour {
     public void Select() {
         playClick();
         if (attacking) {
+            // is attacking
             int damage = BattleLogic.RegularAttack(charName, Enemy);
 
             // show damage
@@ -91,6 +94,16 @@ public class BattleTutorial : MonoBehaviour {
 
             Enemy.Highlight(false);
             attacking = false;
+        } else {
+            // is using skills
+            int damage = BattleLogic.UseAttackSkill(charName, Enemy, skillToUse);
+
+            // show damage
+            displayDamageToEnemies(damage);
+
+            Enemy.Highlight(false);
+
+            skillToUse = null;
         }
     }
 
@@ -107,8 +120,6 @@ public class BattleTutorial : MonoBehaviour {
         SelectHudUI.OpenSelectHud(new Enemy[] { Enemy });
 
         attacking = true;
-
-        prevButton = EventSystem.current.currentSelectedGameObject;
     }
 
     /// <summary>
@@ -132,7 +143,14 @@ public class BattleTutorial : MonoBehaviour {
             SkillHudUI.OpenSkillsHud(charName);
         }
 
-        prevButton = EventSystem.current.currentSelectedGameObject;
+        SkillButtons[0].interactable = useFirstSkill;
+        SkillButtons[1].interactable = useSecondSkill;
+
+        eventSystem.SetSelectedGameObject(
+            SkillButtons[0].interactable ? 
+            SkillButtons[0].gameObject : 
+            SkillButtons[1].gameObject
+        );
     }
 
     /// <summary>
@@ -166,8 +184,6 @@ public class BattleTutorial : MonoBehaviour {
             // regular skill
             // can only use if have enough sp to use
             playClick();
-
-            usingSkill = true;
 
             if (skillToUse.IsPhyAttk || skillToUse.IsMagAttk) {
                 // use on enemy
@@ -236,6 +252,8 @@ public class BattleTutorial : MonoBehaviour {
             } else if (currAction.GetAttackInteractable() || currAction.GetSkillsInteractable()) {
                 // if player is attacking or doing skills
                 setMainCommands(currAction.GetAttackInteractable(), currAction.GetSkillsInteractable());
+                useFirstSkill = currAction.GetUseFirstSkill();
+                useSecondSkill = currAction.GetUseSecondSkill();
             } else {
                 // enemy's turn
                 StartCoroutine(enemyAttackCo());

@@ -29,8 +29,8 @@ public class PartyStats {
         party[Constants.NAOISE] = naoise;
         currentPartyMembers = new List<string>();
         currentPartyMembers.Add(Constants.AREN);
-        //currentPartyMembers.Add(Constants.REY);
-        //currentPartyMembers.Add(Constants.NAOISE);
+        currentPartyMembers.Add(Constants.REY);
+        currentPartyMembers.Add(Constants.NAOISE);
 
         expToNextLvl = new int[maxLevel];
         expToNextLvl[1] = baseExp;
