@@ -78,7 +78,7 @@ public class Menu : MonoBehaviour {
     // wait for loading
     [SerializeField]
     private float waitToLoad = Constants.WAIT_TIME;
-    private bool shouldLoadAfterFade;
+    private bool isLoading = false;
 
     // constants to keep track of hud names
     private const string MAIN = "Main";
@@ -115,7 +115,6 @@ public class Menu : MonoBehaviour {
         usingItem = false;
         skillToUse = null;
         usingSkill = false;
-        shouldLoadAfterFade = false;
 
         prevButton = MainButtons[0];
     }
@@ -259,13 +258,6 @@ public class Menu : MonoBehaviour {
             }
             updatePartyStats();
             prevButton = EventSystem.current.currentSelectedGameObject;
-        }
-        if (shouldLoadAfterFade) {
-            waitToLoad -= Time.deltaTime;
-            if (waitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                SceneManager.LoadScene("Map");
-            }
         }
     }
     
@@ -691,14 +683,16 @@ public class Menu : MonoBehaviour {
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(MainButtons[0]);
         GameManager.Instance.GameMenuOpen = true;
+
+        isLoading = false;
     }
 
     /// <summary>
     /// Close the game menu
     /// </summary>
     public void CloseGameMenu() {
-        if (!shouldLoadAfterFade) {
-            // if isn't loading into another scene, play sfx
+        if (!isLoading) {
+            // if isn't loading, play sound
             playMenuSound();
         }
 
@@ -719,11 +713,11 @@ public class Menu : MonoBehaviour {
     public void SelectMap() {
         playClick();
 
-        shouldLoadAfterFade = true;
-        UIFade.Instance.FadeToBlack();
-        GameManager.Instance.FadingBetweenAreas = true;
+        isLoading = true;
 
         CloseGameMenu();
+
+        StartCoroutine(loadScene());
     }
 
     /// <summary>
@@ -751,5 +745,16 @@ public class Menu : MonoBehaviour {
         if (GameManager.Instance.GameMenuOpen) {
             SoundManager.Instance.PlaySFX(0);
         }
+    }
+
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator loadScene() {
+        UIFade.Instance.FadeToBlack();
+        GameManager.Instance.FadingBetweenAreas = true;
+        yield return new WaitForSeconds(waitToLoad);
+        SceneManager.LoadScene("Map");
     }
 }

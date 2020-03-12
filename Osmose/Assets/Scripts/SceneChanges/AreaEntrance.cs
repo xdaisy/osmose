@@ -17,8 +17,6 @@ public class AreaEntrance : MonoBehaviour {
             if (!IsBattleMap) {
                 GameManager.Instance.LastTown = GameManager.Instance.CurrentScene;
             }
-            GameManager.Instance.FadingBetweenAreas = false;
         }
-        UIFade.Instance.FadeFromBlack();
     }
 }

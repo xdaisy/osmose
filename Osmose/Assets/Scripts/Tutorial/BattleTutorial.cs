@@ -43,7 +43,7 @@ public class BattleTutorial : MonoBehaviour {
     [SerializeField] private TutorialAction[] tutorialActions;
     [SerializeField] private string sceneToLoad;
 
-    [SerializeField] private float waitToLoad = 1f;
+    [SerializeField] private float waitToLoad = Constants.WAIT_TIME;
 
     private int currentAction;
     private EventSystem eventSystem;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -18,15 +19,13 @@ public class CutsceneManager : MonoBehaviour {
     public Image talkingSprite;
 
     [Header("Scene Load")]
-    public string sceneToLoad;
+    public SceneName sceneToLoad;
     public float WaitToLoad = 1f;
     public string RegionUnlock;
 
     private StringReader reader;
 
     private CutsceneSpriteHolder spriteHolder;
-
-    private bool shouldLoadAfterFade = false;
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +41,7 @@ public class CutsceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetButtonDown("Interact") && !shouldLoadAfterFade) {
+		if (Input.GetButtonDown("Interact")) {
             string line = reader.ReadLine();
             if (line == null) {
                 // if reader is at the end of the file, don't do anything
@@ -54,18 +53,10 @@ public class CutsceneManager : MonoBehaviour {
             ChangeText(line);
         }
 
-        if (Input.GetButtonDown("Skip") && !shouldLoadAfterFade) {
+        if (Input.GetButtonDown("Skip")) {
             EventManager.Instance.AddEvent(CutsceneName); // add the event to cutscene handler
             changeScene(); // fade to next scene
             return; // don't change the text bc at end of file
-        }
-
-        if (shouldLoadAfterFade) {
-            WaitToLoad -= Time.deltaTime;
-            if (WaitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                SceneManager.LoadScene(sceneToLoad);
-            }
         }
 	}
 
@@ -124,16 +115,25 @@ public class CutsceneManager : MonoBehaviour {
     /// Change the scene
     /// </summary>
     private void changeScene() {
+        StartCoroutine(loadScene());
+    }
+
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator loadScene() {
         UIFade.Instance.FadeToBlack();
-        shouldLoadAfterFade = true;
         PlayerControls.Instance.PreviousAreaName = CutsceneName;
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
         GameManager.Instance.FadingBetweenAreas = true;
-        GameManager.Instance.CurrentScene = sceneToLoad;
+        GameManager.Instance.CurrentScene = sceneToLoad.GetSceneName();
         if (RegionUnlock.Length > 0) {
             // if there's a region to be unlocked this cutscene, unlock it
             EventManager.Instance.AddEvent(RegionUnlock);
         }
+        yield return new WaitForSeconds(WaitToLoad);
+        SceneManager.LoadScene(sceneToLoad.GetSceneName());
     }
 }

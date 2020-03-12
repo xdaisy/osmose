@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -25,8 +26,7 @@ public class MapUI : MonoBehaviour {
     private const string FOREST = "forest";
 
     private Node currentNode;
-
-    private bool shouldLoadAfterFade;
+    
     private string region;
     private string area;
 
@@ -47,36 +47,20 @@ public class MapUI : MonoBehaviour {
             playClick();
             prevButton = EventSystem.current.currentSelectedGameObject;
         }
+        if (AreaGroup.gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
+            // if on area pop up and press cancel, go back to being on map
+            playClick();
 
-        if (shouldLoadAfterFade) {
-            // loading
-            waitToLoad -= Time.deltaTime;
-            if (waitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                SceneManager.LoadScene(area);
-            }
-        } else {
-            // not loading
-            if (AreaGroup.gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
-                // if on area pop up and press cancel, go back to being on map
-                playClick();
+            AreaGroup.gameObject.SetActive(false);
+            NodeGroup.interactable = true;
 
-                AreaGroup.gameObject.SetActive(false);
-                NodeGroup.interactable = true;
+            EventSystem.current.SetSelectedGameObject(currentNode.gameObject);
+        } else if (Input.GetButtonDown("Cancel")) {
+            // go back to previous scene
+            playClick();
 
-                EventSystem.current.SetSelectedGameObject(currentNode.gameObject);
-            } else if (Input.GetButtonDown("Cancel")) {
-                // go back to previous scene
-                playClick();
-
-                shouldLoadAfterFade = true;
-                UIFade.Instance.FadeToBlack();
-                PlayerControls.Instance.PreviousAreaName = Constants.MAP;
-                GameManager.Instance.FadingBetweenAreas = true;
-                GameManager.Instance.OnMap = false;
-
-                area = GameManager.Instance.CurrentScene;
-            }
+            area = GameManager.Instance.CurrentScene;
+            StartCoroutine(loadScene());
         }
     }
 
@@ -109,15 +93,12 @@ public class MapUI : MonoBehaviour {
         playClick();
         List<string> areas = getAreasInRegion(region);
 
-        shouldLoadAfterFade = true;
-        UIFade.Instance.FadeToBlack();
-        PlayerControls.Instance.PreviousAreaName = Constants.MAP;
-        GameManager.Instance.FadingBetweenAreas = true;
-        GameManager.Instance.OnMap = false;
         GameManager.Instance.CurrentScene = areas[index];
         PlayerControls.Instance.SetLastMove(Vector2.up);
 
         area = areas[index];
+
+        StartCoroutine(loadScene());
     }
 
     /// <summary>
@@ -137,5 +118,18 @@ public class MapUI : MonoBehaviour {
     /// </summary>
     private void playClick() {
         SoundManager.Instance.PlaySFX(0);
+    }
+
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator loadScene() {
+        UIFade.Instance.FadeToBlack();
+        PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+        GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.OnMap = false;
+        yield return new WaitForSeconds(waitToLoad);
+        SceneManager.LoadScene(area);
     }
 }

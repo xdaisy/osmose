@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CutsceneEntrance : MonoBehaviour {
     public string transitionFromCutscene;
@@ -11,7 +9,7 @@ public class CutsceneEntrance : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (transitionFromCutscene == PlayerControls.Instance.PreviousAreaName) {
+        if (transitionFromCutscene.Equals(PlayerControls.Instance.PreviousAreaName)) {
             // set player to entrance's position
             PlayerControls.Instance.SetPosition(transform.position);
             GameManager.Instance.IsBattleMap = IsBattleMap;

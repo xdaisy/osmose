@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class CutsceneTrigger : MonoBehaviour
 {
     public string CutsceneName;
-    public string SceneToLoad;
+    public SceneName SceneToLoad;
 
     public bool HaveDialogue;
     public string[] PreDialogue;
@@ -33,14 +33,14 @@ public class CutsceneTrigger : MonoBehaviour
                 shouldLoadAfterFade = true;
                 UIFade.Instance.FadeToBlack();
                 GameManager.Instance.FadingBetweenAreas = true;
-                GameManager.Instance.CurrentScene = SceneToLoad;
+                GameManager.Instance.CurrentScene = SceneToLoad.GetSceneName();
             }
         }
         if (shouldLoadAfterFade) {
             WaitToLoad -= Time.deltaTime;
             if (WaitToLoad <= 0f) {
                 shouldLoadAfterFade = false;
-                SceneManager.LoadScene(SceneToLoad);
+                SceneManager.LoadScene(SceneToLoad.GetSceneName());
             }
         }
     }
@@ -54,7 +54,7 @@ public class CutsceneTrigger : MonoBehaviour
                 shouldLoadAfterFade = true;
                 UIFade.Instance.FadeToBlack();
                 GameManager.Instance.FadingBetweenAreas = true;
-                GameManager.Instance.CurrentScene = SceneToLoad;
+                GameManager.Instance.CurrentScene = SceneToLoad.GetSceneName();
             }
         }
     }

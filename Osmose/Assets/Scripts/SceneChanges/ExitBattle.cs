@@ -1,8 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Class that handles loading after battle
+/// </summary>
 public class ExitBattle : MonoBehaviour {
     public string SceneName;
     public float WaitToLoad = 1f;
@@ -10,38 +12,36 @@ public class ExitBattle : MonoBehaviour {
     private bool shouldLoadAfterFade;
     private string sceneToLoad;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (shouldLoadAfterFade) {
-            WaitToLoad -= Time.deltaTime;
-            if (WaitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                SceneManager.LoadScene(sceneToLoad);
-            }
-        }
-    }
-
-    // party won so go back to current scene
+    /// <summary>
+    /// Go back to previous scene after battle was won
+    /// </summary>
     public void EndBattle() {
         sceneToLoad = GameManager.Instance.CurrentScene;
         PlayerControls.Instance.PreviousAreaName = SceneName;
-        loadScene();
+        StartCoroutine(loadScene());
     }
 
-    // party was defeated so go back to town
+    /// <summary>
+    /// Go back to town after party was defeated
+    /// </summary>
     public void DefeatedInBattle() {
         sceneToLoad = GameManager.Instance.LastTown;
         GameManager.Instance.CurrentScene = GameManager.Instance.LastTown;
         GameManager.Instance.Party.RecoverParty();
         PlayerControls.Instance.PreviousAreaName = "Defeated";
         PlayerControls.Instance.SetPlayerForward();
-        loadScene();
+        StartCoroutine(loadScene());
     }
 
-    private void loadScene() {
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator loadScene() {
         UIFade.Instance.FadeToBlack();
         GameManager.Instance.FadingBetweenAreas = true;
         shouldLoadAfterFade = true;
+        yield return new WaitForSeconds(WaitToLoad);
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
