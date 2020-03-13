@@ -38,12 +38,16 @@ public class MapUI : MonoBehaviour {
         UIFade.Instance.FadeFromBlack();
         GameManager.Instance.OnMap = true;
 
-        prevButton = EventSystem.current.firstSelectedGameObject;
+        Node firstNode = GameObject.FindObjectsOfType<Node>()[0];
+        EventSystem.current.SetSelectedGameObject(firstNode.gameObject);
+        prevButton = firstNode.gameObject;
     }
 
     // Update is called once per frame
     void Update() {
-        if (prevButton != EventSystem.current.currentSelectedGameObject) {
+        if ((Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
+            && prevButton != EventSystem.current.currentSelectedGameObject
+        ) {
             playClick();
             prevButton = EventSystem.current.currentSelectedGameObject;
         }

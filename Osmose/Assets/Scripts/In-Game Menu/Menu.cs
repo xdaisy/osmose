@@ -691,10 +691,7 @@ public class Menu : MonoBehaviour {
     /// Close the game menu
     /// </summary>
     public void CloseGameMenu() {
-        if (!isLoading) {
-            // if isn't loading, play sound
-            playMenuSound();
-        }
+        playMenuSound();
 
         closeAllMenu();
         previousHud = MAIN;
@@ -724,7 +721,7 @@ public class Menu : MonoBehaviour {
     /// Play the click sound effect
     /// </summary>
     private void playClick() {
-        if (GameManager.Instance.GameMenuOpen) {
+        if (GameManager.Instance.GameMenuOpen && !isLoading) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
@@ -733,7 +730,7 @@ public class Menu : MonoBehaviour {
     /// Play the not allow sound effect
     /// </summary>
     private void playNotAllowed() {
-        if (GameManager.Instance.GameMenuOpen) {
+        if (GameManager.Instance.GameMenuOpen && !isLoading) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
@@ -742,7 +739,7 @@ public class Menu : MonoBehaviour {
     /// Play sound effect for opening/closing menu
     /// </summary>
     private void playMenuSound() {
-        if (GameManager.Instance.GameMenuOpen) {
+        if (GameManager.Instance.GameMenuOpen && !isLoading) {
             SoundManager.Instance.PlaySFX(0);
         }
     }
