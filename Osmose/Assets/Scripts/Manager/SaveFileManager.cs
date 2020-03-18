@@ -150,7 +150,7 @@ public class SaveFileManager {
 
             PlayerControls.Instance.PreviousAreaName = "Continue";
 
-            SceneManager.LoadScene(GameManager.Instance.CurrentScene);
+            LoadSceneLogic.Instance.LoadScene(GameManager.Instance.CurrentScene);
         }
     }
 

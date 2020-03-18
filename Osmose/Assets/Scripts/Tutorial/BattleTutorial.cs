@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class that handles the battle tutorials
@@ -41,9 +40,7 @@ public class BattleTutorial : MonoBehaviour {
 
     [SerializeField] string charName;
     [SerializeField] private TutorialAction[] tutorialActions;
-    [SerializeField] private string sceneToLoad;
-
-    [SerializeField] private float waitToLoad = Constants.WAIT_TIME;
+    [SerializeField] private SceneName sceneToLoad;
 
     private int currentAction;
     private EventSystem eventSystem;
@@ -81,7 +78,8 @@ public class BattleTutorial : MonoBehaviour {
             updateCurrentAction();
         } else if (didTutorialEnd() && Input.GetButtonDown("Interact")) {
             // wait to load scene
-            StartCoroutine(loadScene());
+            GameManager.Instance.InBattle = false;
+            LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
         }
     }
 
@@ -389,16 +387,6 @@ public class BattleTutorial : MonoBehaviour {
         SkillHudUI.ExitSkillHud();
 
         DescriptionPanel.SetActive(false);
-    }
-
-    /// <summary>
-    /// Wait and then load scene
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator loadScene() {
-        UIFade.Instance.FadeToBlack();
-        yield return new WaitForSeconds(waitToLoad);
-        SceneManager.LoadScene(sceneToLoad);
     }
 
     /// <summary>

@@ -3,6 +3,8 @@
     public const string AREN = "Aren";
     public const string REY = "Rey";
     public const string NAOISE = "Naoise";
+
+    // stat names
     public const string HP = "hp";
     public const string SP = "sp";
     public const string ATTACK = "attack";

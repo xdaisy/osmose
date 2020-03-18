@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class that handles when a cutscene gets triggered
@@ -12,10 +11,7 @@ public class CutsceneTrigger : MonoBehaviour
     public bool HaveDialogue;
     public string[] PreDialogue;
 
-    public float WaitToLoad = Constants.WAIT_TIME;
-
     private bool showingDialogue;
-    private bool shouldLoadAfterFade;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,20 +23,10 @@ public class CutsceneTrigger : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (showingDialogue && !shouldLoadAfterFade) {
+        if (showingDialogue) {
             if (!Dialogue.Instance.GetDialogueActive()) {
                 // after triggering dialogue, if dialogue isn't showing anymore, load
-                shouldLoadAfterFade = true;
-                UIFade.Instance.FadeToBlack();
-                GameManager.Instance.FadingBetweenAreas = true;
-                GameManager.Instance.CurrentScene = SceneToLoad.GetSceneName();
-            }
-        }
-        if (shouldLoadAfterFade) {
-            WaitToLoad -= Time.deltaTime;
-            if (WaitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                SceneManager.LoadScene(SceneToLoad.GetSceneName());
+                LoadSceneLogic.Instance.LoadScene(SceneToLoad.GetSceneName());
             }
         }
     }
@@ -51,10 +37,7 @@ public class CutsceneTrigger : MonoBehaviour
                 Dialogue.Instance.ShowDialogue(PreDialogue, true);
                 showingDialogue = true;
             } else {
-                shouldLoadAfterFade = true;
-                UIFade.Instance.FadeToBlack();
-                GameManager.Instance.FadingBetweenAreas = true;
-                GameManager.Instance.CurrentScene = SceneToLoad.GetSceneName();
+                LoadSceneLogic.Instance.LoadScene(SceneToLoad.GetSceneName());
             }
         }
     }

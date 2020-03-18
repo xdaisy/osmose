@@ -20,7 +20,6 @@ public class CutsceneManager : MonoBehaviour {
 
     [Header("Scene Load")]
     public SceneName sceneToLoad;
-    public float WaitToLoad = 1f;
     public string RegionUnlock;
 
     private StringReader reader;
@@ -115,25 +114,13 @@ public class CutsceneManager : MonoBehaviour {
     /// Change the scene
     /// </summary>
     private void changeScene() {
-        StartCoroutine(loadScene());
-    }
-
-    /// <summary>
-    /// Wait and then load scene
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator loadScene() {
-        UIFade.Instance.FadeToBlack();
         PlayerControls.Instance.PreviousAreaName = CutsceneName;
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
-        GameManager.Instance.FadingBetweenAreas = true;
-        GameManager.Instance.CurrentScene = sceneToLoad.GetSceneName();
         if (RegionUnlock.Length > 0) {
             // if there's a region to be unlocked this cutscene, unlock it
             EventManager.Instance.AddEvent(RegionUnlock);
         }
-        yield return new WaitForSeconds(WaitToLoad);
-        SceneManager.LoadScene(sceneToLoad.GetSceneName());
+        LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
     }
 }

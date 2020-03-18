@@ -1,25 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
-public class EnterBattle : MonoBehaviour
-{
-    public float WaitToLoad = 1f;
-    public float waitTimer;
+public class EnterBattle : MonoBehaviour {
 
     private Vector2 prevPos; // keep track of previous pos
 
     private float amountPlayerMoved; // keep track how much the player has moved
     private float movementTilEncounter; // amount of movement before player launch into battles
 
-    private bool shouldLoadAfterFade;
-
     // Start is called before the first frame update
     void Start()
     {
         amountPlayerMoved = 0f;
-        waitTimer = WaitToLoad;
         movementTilEncounter = Random.Range(10f, 25f);
         prevPos = new Vector2(transform.position.x, transform.position.y);
     }
@@ -28,13 +19,7 @@ public class EnterBattle : MonoBehaviour
     void Update()
     {
         if (GameManager.Instance.IsBattleMap) {
-            if (shouldLoadAfterFade) {
-                waitTimer -= Time.deltaTime;
-                if (waitTimer <= 0f) {
-                    shouldLoadAfterFade = false;
-                    SceneManager.LoadScene("Battle");
-                }
-            } else if (!shouldLoadAfterFade && amountPlayerMoved >= movementTilEncounter) {
+            if (amountPlayerMoved >= movementTilEncounter) {
                 amountPlayerMoved = 0f; // reset the amount that the player has moved
                 goIntoBattle();
                 movementTilEncounter = Random.Range(10f, 25f); // new amount of movement until random encounter
@@ -47,13 +32,16 @@ public class EnterBattle : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Go into battle
+    /// </summary>
     public void goIntoBattle() {
-        shouldLoadAfterFade = true;
-        UIFade.Instance.FadeToBlack();
-        GameManager.Instance.FadingBetweenAreas = true;
-        waitTimer = WaitToLoad;
+        LoadSceneLogic.Instance.LoadScene(Constants.BATTLE);
     }
 
+    /// <summary>
+    /// Update the new position
+    /// </summary>
     public void UpdatePos() {
         prevPos = new Vector2(transform.position.x, transform.position.y);
     }

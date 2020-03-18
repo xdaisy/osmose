@@ -63,8 +63,12 @@ public class MapUI : MonoBehaviour {
             // go back to previous scene
             playClick();
 
-            area = GameManager.Instance.CurrentScene;
-            StartCoroutine(loadScene());
+            string sceneName = PlayerControls.Instance.PreviousAreaName;
+
+            PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+            GameManager.Instance.OnMap = false;
+            
+            LoadSceneLogic.Instance.LoadScene(sceneName);
         }
     }
 
@@ -100,9 +104,10 @@ public class MapUI : MonoBehaviour {
         GameManager.Instance.CurrentScene = areas[index];
         PlayerControls.Instance.SetLastMove(Vector2.up);
 
-        area = areas[index];
+        PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+        GameManager.Instance.OnMap = false;
 
-        StartCoroutine(loadScene());
+        LoadSceneLogic.Instance.LoadScene(areas[index]);
     }
 
     /// <summary>
@@ -130,9 +135,6 @@ public class MapUI : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator loadScene() {
         UIFade.Instance.FadeToBlack();
-        PlayerControls.Instance.PreviousAreaName = Constants.MAP;
-        GameManager.Instance.FadingBetweenAreas = true;
-        GameManager.Instance.OnMap = false;
         yield return new WaitForSeconds(waitToLoad);
         SceneManager.LoadScene(area);
     }

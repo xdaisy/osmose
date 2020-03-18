@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class LoadGame : MonoBehaviour {
     [Header("General")]
     public CanvasGroup MainGroup;
-    public string loadArea;
-    public float WaitToLoad = 1f;
+    public SceneName loadArea;
     public Button ContinueButton;
 
     [Header("Continue UI")]
     public GameObject ContinueScreen;
     public SaveMenu SaveMenuUI;
-
-    private bool shouldLoadAfterFade;
+    
     private bool isContinue;
     private int fileToLoad = -1;
     private bool onContinueScreen;
@@ -38,18 +35,6 @@ public class LoadGame : MonoBehaviour {
                 prevButton = currButton;
             }
         }
-        if (shouldLoadAfterFade) {
-            WaitToLoad -= Time.deltaTime;
-            if (WaitToLoad <= 0f) {
-                shouldLoadAfterFade = false;
-                GameManager.Instance.OnMainMenu = false;
-                if (isContinue) {
-                    SaveFileManager.Load(fileToLoad);
-                } else {
-                    SceneManager.LoadScene(loadArea);
-                }
-            }
-        }
         if (Input.GetButtonDown("Cancel") && onContinueScreen) {
             // if exiting continue screen
             playClick();
@@ -66,11 +51,10 @@ public class LoadGame : MonoBehaviour {
     /// </summary>
     public void StartNewGame() {
         playClick();
-        shouldLoadAfterFade = true;
         isContinue = false;
-        UIFade.Instance.FadeToBlack();
-        GameManager.Instance.FadingBetweenAreas = true;
-        GameManager.Instance.CurrentScene = loadArea;
+        GameManager.Instance.OnMainMenu = false;
+
+        LoadSceneLogic.Instance.LoadScene(loadArea.GetSceneName());
     }
 
     /// <summary>
@@ -94,11 +78,10 @@ public class LoadGame : MonoBehaviour {
         if (SaveFileManager.SaveExists(file)) {
             // can continue if save file exists
             playClick();
-            shouldLoadAfterFade = true;
             isContinue = true;
             fileToLoad = file;
-            UIFade.Instance.FadeToBlack();
-            GameManager.Instance.FadingBetweenAreas = true;
+            GameManager.Instance.OnMainMenu = false;
+            SaveFileManager.Load(fileToLoad);
         } else {
             playNotAllowed();
         }

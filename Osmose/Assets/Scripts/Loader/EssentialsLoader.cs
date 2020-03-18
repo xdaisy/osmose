@@ -7,6 +7,7 @@ public class EssentialsLoader : MonoBehaviour {
     public GameObject UICanvas;
     public GameObject EnemySpawn;
     public GameObject LoadEntrance;
+    public GameObject SceneLoader;
 
     private void Awake() {
         if (PlayerControls.Instance == null) {
@@ -27,6 +28,10 @@ public class EssentialsLoader : MonoBehaviour {
 
         if (Menu.Instance == null) {
             Instantiate(UICanvas);
+        }
+
+        if (LoadSceneLogic.Instance == null) {
+            Instantiate(SceneLoader);
         }
 
         Instantiate(LoadEntrance);

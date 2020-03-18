@@ -76,8 +76,6 @@ public class Menu : MonoBehaviour {
     private bool usingSkill;
 
     // wait for loading
-    [SerializeField]
-    private float waitToLoad = Constants.WAIT_TIME;
     private bool isLoading = false;
 
     // constants to keep track of hud names
@@ -711,10 +709,11 @@ public class Menu : MonoBehaviour {
         playClick();
 
         isLoading = true;
-
         CloseGameMenu();
 
-        StartCoroutine(loadScene());
+        PlayerControls.Instance.PreviousAreaName = GameManager.Instance.CurrentScene;
+
+        LoadSceneLogic.Instance.LoadScene(Constants.MAP);
     }
 
     /// <summary>
@@ -742,16 +741,5 @@ public class Menu : MonoBehaviour {
         if (GameManager.Instance.GameMenuOpen && !isLoading) {
             SoundManager.Instance.PlaySFX(0);
         }
-    }
-
-    /// <summary>
-    /// Wait and then load scene
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator loadScene() {
-        UIFade.Instance.FadeToBlack();
-        GameManager.Instance.FadingBetweenAreas = true;
-        yield return new WaitForSeconds(waitToLoad);
-        SceneManager.LoadScene("Map");
     }
 }
