@@ -22,6 +22,9 @@ public class LoadGame : MonoBehaviour {
     void Start() {
         GameManager.Instance.OnMainMenu = true;
         prevButton = EventSystem.current.firstSelectedGameObject;
+
+        // load the save data
+        SaveFileManager.LoadSaves();
     }
 
     // Update is called once per frame
@@ -65,7 +68,6 @@ public class LoadGame : MonoBehaviour {
         MainGroup.interactable = false;
         ContinueScreen.SetActive(true);
         onContinueScreen = true;
-        SaveFileManager.LoadSaves();
         SaveMenuUI.OpenSaveMenu();
         prevButton = EventSystem.current.currentSelectedGameObject;
     }

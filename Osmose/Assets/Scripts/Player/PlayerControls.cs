@@ -53,6 +53,10 @@ public class PlayerControls : MonoBehaviour {
                 menuOpen = true;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Application.Quit();
+        }
     }
 
     void FixedUpdate() {

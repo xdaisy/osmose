@@ -53,10 +53,10 @@ public class SaveFileManager {
     }
 
     // path for unity editor
-    private static string path = Application.dataPath + "/Resources/saveFiles.gd";
+    private static string editorPath = Application.dataPath + "/Resources/saveFiles.gd";
 
     // path for build
-    //private static string path = Application.persistentDataPath + "/Resources/saveFiles.gd";
+    private static string buildPath = Application.persistentDataPath + "/saveFiles.gd";
 
     /// <summary>
     /// Save the file data
@@ -89,6 +89,9 @@ public class SaveFileManager {
         Vector2 lastMove = PlayerControls.Instance.GetLastMove();
         saveFiles[file].LastMoveX = lastMove.x;
         saveFiles[file].LastMoveY = lastMove.y;
+
+        string path = getPath();
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Create(path);
         bf.Serialize(fs, saveFiles);
@@ -99,6 +102,8 @@ public class SaveFileManager {
     /// Get the save files
     /// </summary>
     public static void LoadSaves() {
+        string path = getPath();
+
         if (File.Exists(path)) {
             // if file exists load files
             BinaryFormatter bf = new BinaryFormatter();
@@ -106,6 +111,17 @@ public class SaveFileManager {
             saveFiles = (SaveData[])bf.Deserialize(fs);
             fs.Close();
         }
+    }
+
+    private static string getPath() {
+        string path = "";
+#if UNITY_EDITOR
+        path = editorPath;
+#endif
+#if UNITY_STANDALONE
+        path = buildPath;
+#endif
+        return path;
     }
 
     /// <summary>
