@@ -164,7 +164,7 @@ public class SaveFileManager {
             // load events
             EventManager.Instance.LoadEvents(saveFiles[file].Events);
 
-            PlayerControls.Instance.PreviousAreaName = "Continue";
+            GameManager.Instance.PreviousScene = "Continue";
 
             LoadSceneLogic.Instance.LoadScene(GameManager.Instance.CurrentScene);
         }

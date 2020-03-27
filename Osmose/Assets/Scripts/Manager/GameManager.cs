@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour {
     public bool OnMap;
     public bool OnMainMenu;
     public string CurrentScene;
+    public string PreviousScene;
     public string LastTown; // last town/non-battle area player was last in
     public bool IsBattleMap;
 

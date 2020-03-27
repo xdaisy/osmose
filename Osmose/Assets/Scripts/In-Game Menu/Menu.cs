@@ -711,7 +711,7 @@ public class Menu : MonoBehaviour {
         isLoading = true;
         CloseGameMenu();
 
-        PlayerControls.Instance.PreviousAreaName = GameManager.Instance.CurrentScene;
+        GameManager.Instance.PreviousScene = GameManager.Instance.CurrentScene;
 
         LoadSceneLogic.Instance.LoadScene(Constants.MAP);
     }

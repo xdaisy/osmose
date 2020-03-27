@@ -9,7 +9,7 @@ public class CutsceneEntrance : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (transitionFromCutscene.Equals(PlayerControls.Instance.PreviousAreaName)) {
+        if (transitionFromCutscene.Equals(GameManager.Instance.PreviousScene)) {
             // set player to entrance's position
             PlayerControls.Instance.SetPosition(transform.position);
             GameManager.Instance.IsBattleMap = IsBattleMap;

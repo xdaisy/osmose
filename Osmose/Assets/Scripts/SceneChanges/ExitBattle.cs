@@ -12,8 +12,8 @@ public class ExitBattle : MonoBehaviour {
     /// Go back to previous scene after battle was won
     /// </summary>
     public void EndBattle() {
-        string sceneToLoad = PlayerControls.Instance.PreviousAreaName;
-        PlayerControls.Instance.PreviousAreaName = SceneName;
+        string sceneToLoad = GameManager.Instance.PreviousScene;
+        GameManager.Instance.PreviousScene = SceneName;
         LoadSceneLogic.Instance.LoadScene(sceneToLoad);
     }
 
@@ -24,7 +24,7 @@ public class ExitBattle : MonoBehaviour {
         string sceneToLoad = GameManager.Instance.LastTown;
         GameManager.Instance.CurrentScene = GameManager.Instance.LastTown;
         GameManager.Instance.Party.RecoverParty();
-        PlayerControls.Instance.PreviousAreaName = "Defeated";
+        GameManager.Instance.PreviousScene = "Defeated";
         PlayerControls.Instance.SetPlayerForward();
         LoadSceneLogic.Instance.LoadScene(sceneToLoad);
     }

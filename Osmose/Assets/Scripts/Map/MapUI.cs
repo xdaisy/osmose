@@ -63,9 +63,9 @@ public class MapUI : MonoBehaviour {
             // go back to previous scene
             playClick();
 
-            string sceneName = PlayerControls.Instance.PreviousAreaName;
+            string sceneName = GameManager.Instance.PreviousScene;
 
-            PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+            GameManager.Instance.PreviousScene = Constants.MAP;
             GameManager.Instance.OnMap = false;
             
             LoadSceneLogic.Instance.LoadScene(sceneName);
@@ -104,7 +104,7 @@ public class MapUI : MonoBehaviour {
         GameManager.Instance.CurrentScene = areas[index];
         PlayerControls.Instance.SetLastMove(Vector2.up);
 
-        PlayerControls.Instance.PreviousAreaName = Constants.MAP;
+        GameManager.Instance.PreviousScene = Constants.MAP;
         GameManager.Instance.OnMap = false;
 
         LoadSceneLogic.Instance.LoadScene(areas[index]);

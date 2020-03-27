@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LoadEntrance : MonoBehaviour {
     private string transitionFromArea = "Continue";
 
     // Use this for initialization
     void Start() {
-        if (transitionFromArea == PlayerControls.Instance.PreviousAreaName) {
+        if (transitionFromArea == GameManager.Instance.PreviousScene) {
             GameManager.Instance.FadingBetweenAreas = false;
         }
         UIFade.Instance.FadeFromBlack();

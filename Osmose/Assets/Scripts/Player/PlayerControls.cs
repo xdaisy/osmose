@@ -9,8 +9,6 @@ public class PlayerControls : MonoBehaviour {
 
     public static PlayerControls Instance; // keep track if player exist
 
-    public string PreviousAreaName; // keep track of previous area player was in
-
     private Animator anim; // reference to animator
     private Rigidbody2D myRigidBody; // reference to ridgebody, use to add force, will push against collision boxes instead of bouncing off
     private Vector2 lastMove; // keep track if player was moving up/down or left/

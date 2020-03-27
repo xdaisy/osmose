@@ -14,7 +14,7 @@ public class AreaExit : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player")) {
-            PlayerControls.Instance.PreviousAreaName = AreaName;
+            GameManager.Instance.PreviousScene = AreaName;
 
             if (!SceneToLoad.Equals(Constants.MAP)) {
                 // only add scene if not going to map

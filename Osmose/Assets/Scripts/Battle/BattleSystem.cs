@@ -240,6 +240,7 @@ public class BattleSystem : MonoBehaviour {
                 }
             } else if (party.Contains(charTurn) && GameManager.Instance.Party.IsAlive(charTurn)) {
                 // if character is in party but is dead, do nothing
+                return;
             } else {
                 // enemy's turn
 

@@ -9,8 +9,8 @@ public class AreaEntrance : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        if (transitionFromArea == PlayerControls.Instance.PreviousAreaName || (
-            IsEntrance && PlayerControls.Instance.PreviousAreaName == Constants.MAP)) {
+        if (transitionFromArea == GameManager.Instance.PreviousScene || (
+            IsEntrance && GameManager.Instance.PreviousScene == Constants.MAP)) {
             // set player to entrance's position
             PlayerControls.Instance.SetPosition(transform.position);
             GameManager.Instance.IsBattleMap = IsBattleMap;

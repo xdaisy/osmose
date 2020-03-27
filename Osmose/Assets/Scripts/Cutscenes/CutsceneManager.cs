@@ -114,7 +114,7 @@ public class CutsceneManager : MonoBehaviour {
     /// Change the scene
     /// </summary>
     private void changeScene() {
-        PlayerControls.Instance.PreviousAreaName = CutsceneName;
+        GameManager.Instance.PreviousScene = CutsceneName;
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
         if (RegionUnlock.Length > 0) {
