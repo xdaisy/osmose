@@ -13,7 +13,7 @@ public class EnemyHandler : MonoBehaviour {
             }
         } else {
             List<Enemy> spawnedEnemies = EnemySpawner.Instance.SpawnEnemies(
-                GameManager.Instance.CurrentScene
+                PlayerControls.Instance.PreviousAreaName
             );
 
             Dictionary<string, int> enemyCount = new Dictionary<string, int>();

@@ -36,6 +36,7 @@ public class EnterBattle : MonoBehaviour {
     /// Go into battle
     /// </summary>
     public void goIntoBattle() {
+        PlayerControls.Instance.PreviousAreaName = GameManager.Instance.CurrentScene;
         LoadSceneLogic.Instance.LoadScene(Constants.BATTLE);
     }
 
