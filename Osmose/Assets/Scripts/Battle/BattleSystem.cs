@@ -249,7 +249,7 @@ public class BattleSystem : MonoBehaviour {
 
                 Enemy enemy = null;
                 for (int i = 0; i < enemies.Count; i++) {
-                    if (enemies[i].EnemyName == charTurn) {
+                    if (enemies[i].name == charTurn) {
                         enemy = enemies[i];
                     }
                 }

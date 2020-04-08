@@ -19,6 +19,7 @@ public class EnemyHandler : MonoBehaviour {
             Dictionary<string, int> enemyCount = new Dictionary<string, int>();
             for (int i = 0; i < spawnedEnemies.Count; i++) {
                 Enemy enemy = Instantiate(spawnedEnemies[i], EnemyPos[i].position, EnemyPos[i].rotation);
+                enemy.name = enemy.EnemyName + "_" + i;
 
                 if (enemyCount.ContainsKey(enemy.EnemyName)) {
                     // if have more than 1 of same enemy, adjust name so can differentiate by appending a number

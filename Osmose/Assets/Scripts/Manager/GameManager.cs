@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         DontDestroyOnLoad(gameObject);
+        PreviousScene = "Trail_to_Town";
     }
 
     // Update is called once per frame

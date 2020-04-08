@@ -144,7 +144,7 @@ public static class BattleLogic {
         }
 
         foreach (Enemy enemy in enemies) {
-            string name = enemy.EnemyName;
+            string name = enemy.name;
 
             int idx = enemy.Speed;
 
