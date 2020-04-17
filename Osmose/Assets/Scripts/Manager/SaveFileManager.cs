@@ -16,8 +16,8 @@ public class SaveFileManager {
         // game information
         public float PlayTime;
         public string CurrentScene;
-        public string LastTown;
-        public bool IsBattleMap;
+        //public string LastTown;
+        //public bool IsBattleMap;
         public float MagicMeter;
         public float LastMoveX;
         public float LastMoveY;
@@ -66,8 +66,8 @@ public class SaveFileManager {
         saveFiles[file] = new SaveData {
             PlayTime = GameManager.Instance.GetPlayTime(),
             CurrentScene = GameManager.Instance.CurrentScene,
-            LastTown = GameManager.Instance.LastTown,
-            IsBattleMap = GameManager.Instance.IsBattleMap,
+            //LastTown = GameManager.Instance.LastTown,
+            //IsBattleMap = GameManager.Instance.IsBattleMap,
             MagicMeter = GameManager.Instance.GetMagicMeter(),
             XPosition = PlayerControls.Instance.transform.position.x,
             YPosition = PlayerControls.Instance.transform.position.y,
@@ -135,8 +135,8 @@ public class SaveFileManager {
 
             // load current location information
             GameManager.Instance.CurrentScene = saveFiles[file].CurrentScene;
-            GameManager.Instance.LastTown = saveFiles[file].LastTown;
-            GameManager.Instance.IsBattleMap = saveFiles[file].IsBattleMap;
+            //GameManager.Instance.LastTown = saveFiles[file].LastTown;
+            //GameManager.Instance.IsBattleMap = saveFiles[file].IsBattleMap;
             GameManager.Instance.SetMagicMeter(saveFiles[file].MagicMeter);
             Vector2 lastMove = new Vector2(saveFiles[file].LastMoveX, saveFiles[file].LastMoveY);
             PlayerControls.Instance.SetLastMove(lastMove);

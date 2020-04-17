@@ -82,7 +82,7 @@ public class BattleSystem : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        GameManager.Instance.InBattle = true;
+        //GameManager.Instance.InBattle = true;
 
         // set up ui
         party = GameManager.Instance.Party.GetCurrentParty();
@@ -146,7 +146,7 @@ public class BattleSystem : MonoBehaviour {
                 // load back to previous scene
                 playClick();
 
-                GameManager.Instance.InBattle = false;
+                //GameManager.Instance.InBattle = false;
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
                 battleExit.EndBattle();
             }
@@ -173,7 +173,7 @@ public class BattleSystem : MonoBehaviour {
                 // load back to previous scene
                 playClick();
 
-                GameManager.Instance.InBattle = false;
+                //GameManager.Instance.InBattle = false;
                 // need to load back into scene
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
                 battleExit.EndBattle();
@@ -186,7 +186,7 @@ public class BattleSystem : MonoBehaviour {
             if (endedBattle && textToShow.Count < 1 && Input.GetButtonDown("Interact")) {
                 playClick();
 
-                GameManager.Instance.InBattle = false;
+                //GameManager.Instance.InBattle = false;
                 // load back to last town
                 ExitBattle battleExit = FindObjectOfType<ExitBattle>();
                 battleExit.DefeatedInBattle();

@@ -21,11 +21,11 @@ public class ExitBattle : MonoBehaviour {
     /// Go back to town after party was defeated
     /// </summary>
     public void DefeatedInBattle() {
-        string sceneToLoad = GameManager.Instance.LastTown;
-        GameManager.Instance.CurrentScene = GameManager.Instance.LastTown;
+        //string sceneToLoad = GameManager.Instance.LastTown;
+        //GameManager.Instance.CurrentScene = GameManager.Instance.LastTown;
         GameManager.Instance.Party.RecoverParty();
         GameManager.Instance.PreviousScene = "Defeated";
         PlayerControls.Instance.SetPlayerForward();
-        LoadSceneLogic.Instance.LoadScene(sceneToLoad);
+        //LoadSceneLogic.Instance.LoadScene(sceneToLoad);
     }
 }

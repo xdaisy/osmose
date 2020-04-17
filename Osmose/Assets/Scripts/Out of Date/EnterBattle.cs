@@ -18,18 +18,18 @@ public class EnterBattle : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.IsBattleMap) {
-            if (amountPlayerMoved >= movementTilEncounter) {
-                amountPlayerMoved = 0f; // reset the amount that the player has moved
-                goIntoBattle();
-                movementTilEncounter = Random.Range(10f, 25f); // new amount of movement until random encounter
-            } else {
-                Vector2 currPos = new Vector2(transform.position.x, transform.position.y);
+        //if (GameManager.Instance.IsBattleMap) {
+        //    if (amountPlayerMoved >= movementTilEncounter) {
+        //        amountPlayerMoved = 0f; // reset the amount that the player has moved
+        //        goIntoBattle();
+        //        movementTilEncounter = Random.Range(10f, 25f); // new amount of movement until random encounter
+        //    } else {
+        //        Vector2 currPos = new Vector2(transform.position.x, transform.position.y);
 
-                amountPlayerMoved += Vector2.Distance(prevPos, currPos);
-                prevPos = currPos;
-            }
-        }
+        //        amountPlayerMoved += Vector2.Distance(prevPos, currPos);
+        //        prevPos = currPos;
+        //    }
+        //}
     }
 
     /// <summary>

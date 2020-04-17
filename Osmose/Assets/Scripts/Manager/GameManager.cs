@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("Party")]
     public PartyStats Party;
+    //public List<String> Party;
     public Sprite ArenSprite;
     public Sprite ReySprite;
     public Sprite NaoiseSprite;
@@ -18,15 +19,15 @@ public class GameManager : MonoBehaviour {
     public bool GameMenuOpen;
     public bool DialogActive;
     public bool FadingBetweenAreas;
-    public bool InBattle;
+    //public bool InBattle;
     public bool InCutscene;
     public bool InShop;
     public bool OnMap;
     public bool OnMainMenu;
     public string CurrentScene;
     public string PreviousScene;
-    public string LastTown; // last town/non-battle area player was last in
-    public bool IsBattleMap;
+    //public string LastTown; // last town/non-battle area player was last in
+    //public bool IsBattleMap;
 
     [Header("Currency")]
     public int Wallet;
@@ -55,6 +56,10 @@ public class GameManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
             Party = new PartyStats();
+            //Party = new List<string>();
+            //Party.Add(Constants.AREN);
+            //Party.Add(Constants.REY);
+            //Party.Add(Constants.NAOISE);
         } else {
             Destroy(gameObject);
         }
@@ -64,7 +69,7 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InBattle || InCutscene || InShop || OnMap || OnMainMenu) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas /*|| InBattle*/ || InCutscene || InShop || OnMap || OnMainMenu) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);
@@ -76,7 +81,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     /// <returns>True if can open menu, false otherwise</returns>
     public bool CanOpenMenu() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !InShop && !OnMap && !OnMainMenu;
+        return !DialogActive && !FadingBetweenAreas /*&& !InBattle*/ && !InCutscene && !InShop && !OnMap && !OnMainMenu;
     }
 
     /// <summary>
@@ -84,7 +89,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     /// <returns>True if can open shop menu, false otherwise</returns>
     public bool CanOpenShop() {
-        return !DialogActive && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
+        return !DialogActive && !FadingBetweenAreas /*&& !InBattle*/ && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
     }
 
     /// <summary>
@@ -92,7 +97,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     /// <returns>True if can show dialogue, false otherwise</returns>
     public bool CanStartDialogue() {
-        return !InShop && !FadingBetweenAreas && !InBattle && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
+        return !InShop && !FadingBetweenAreas /*&& !InBattle*/ && !InCutscene && !GameMenuOpen && !OnMap && !OnMainMenu;
     }
 
     // get money

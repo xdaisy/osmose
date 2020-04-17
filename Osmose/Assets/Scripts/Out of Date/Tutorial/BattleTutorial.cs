@@ -57,7 +57,7 @@ public class BattleTutorial : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        GameManager.Instance.InBattle = true;
+        //GameManager.Instance.InBattle = true;
         eventSystem = EventSystem.current;
         attacking = false;
         usingSkill = false;
@@ -78,7 +78,7 @@ public class BattleTutorial : MonoBehaviour {
             updateCurrentAction();
         } else if (didTutorialEnd() && Input.GetButtonDown("Interact")) {
             // wait to load scene
-            GameManager.Instance.InBattle = false;
+            //GameManager.Instance.InBattle = false;
             LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
         }
     }

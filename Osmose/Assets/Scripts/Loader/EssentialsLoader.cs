@@ -5,7 +5,7 @@ public class EssentialsLoader : MonoBehaviour {
     public GameObject GameMang;
     public GameObject StatsMang;
     public GameObject UICanvas;
-    public GameObject EnemySpawn;
+    //public GameObject EnemySpawn;
     public GameObject LoadEntrance;
     public GameObject SceneLoader;
 
@@ -22,9 +22,9 @@ public class EssentialsLoader : MonoBehaviour {
             Instantiate(GameMang);
         }
 
-        if (EnemySpawner.Instance == null) {
-            Instantiate(EnemySpawn);
-        }
+        //if (EnemySpawner.Instance == null) {
+        //    Instantiate(EnemySpawn);
+        //}
 
         if (Menu.Instance == null) {
             Instantiate(UICanvas);

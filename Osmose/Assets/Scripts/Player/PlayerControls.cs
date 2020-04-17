@@ -17,7 +17,7 @@ public class PlayerControls : MonoBehaviour {
 
     private bool menuOpen;
 
-    private EnterBattle enterBattle;
+    //private EnterBattle enterBattle;
 
     // Use this for initialization
     void Start () {
@@ -31,7 +31,7 @@ public class PlayerControls : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         anim = GetComponent<Animator>(); // get animator for player
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
-        enterBattle = GetComponent<EnterBattle>();
+        //enterBattle = GetComponent<EnterBattle>();
 
         canMove = true;
         menuOpen = false;
@@ -130,6 +130,6 @@ public class PlayerControls : MonoBehaviour {
     /// <param name="newPos">Position where want to place the player</param>
     public void SetPosition(Vector3 newPos) {
         transform.position = newPos;
-        enterBattle.UpdatePos();
+        //enterBattle.UpdatePos();
     }
 }
