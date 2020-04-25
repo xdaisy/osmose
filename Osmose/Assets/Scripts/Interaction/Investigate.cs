@@ -10,11 +10,6 @@ public class Investigate : MonoBehaviour {
 
     private bool canActivate = false;
 
-    [Header("Item")]
-    public Items Item;
-    public int ItemAmount;
-    public int PickupNumber;
-
     // Update is called once per frame
     void Update() {
         if (canActivate && GameManager.Instance.CanStartDialogue() && Input.GetButtonDown("Interact") && !Dialogue.Instance.dBox.activeSelf) {
@@ -23,18 +18,6 @@ public class Investigate : MonoBehaviour {
                 // did not investigate yet
                 EventManager.Instance.AddEvent(EventName);
 
-                if (Item != null) {
-                    if (Item.IsItem) {
-                        // add item
-                        GameManager.Instance.AddItem(Item.ItemName, ItemAmount);
-                    } else if (Item.IsWeapon || Item.IsArmor) {
-                        // add equipment
-                        GameManager.Instance.AddEquipment(Item.ItemName, ItemAmount);
-                    } else {
-                        // add key item
-                        GameManager.Instance.AddKeyItem(Item.ItemName);
-                    }
-                }
             }
             Dialogue.Instance.ShowDialogue(dialogue, false);
         }
@@ -50,10 +33,6 @@ public class Investigate : MonoBehaviour {
             dialogue = new List<string>(this.postEventDialogue);
         } else {
             dialogue = new List<string>(this.preEventDialogue);
-            if (Item != null) {
-                // there's an item that is obtained
-                dialogue.Add("You got " + ItemAmount + " " + Item.ItemName + "!");
-            }
         }
 
         return dialogue.ToArray();
@@ -64,9 +43,7 @@ public class Investigate : MonoBehaviour {
     /// </summary>
     /// <returns>True if have investigated, false otherwise</returns>
     private bool haveInvestigated() {
-        bool obtainedItem = Item != null && ObtainItemManager.Instance.DidPickUpItem(PickupNumber);
-        bool eventHappened = EventName.Length > 0 && EventManager.Instance.DidEventHappened(EventName);
-        return obtainedItem || eventHappened;
+        return EventName.Length > 0 && EventManager.Instance.DidEventHappened(EventName);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

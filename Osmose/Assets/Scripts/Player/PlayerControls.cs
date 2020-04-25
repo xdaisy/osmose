@@ -17,8 +17,6 @@ public class PlayerControls : MonoBehaviour {
 
     private bool menuOpen;
 
-    //private EnterBattle enterBattle;
-
     // Use this for initialization
     void Start () {
         // don't destroy object on load if player don't exist
@@ -31,7 +29,6 @@ public class PlayerControls : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         anim = GetComponent<Animator>(); // get animator for player
         myRigidBody = GetComponent<Rigidbody2D>(); // get rigidbody2d
-        //enterBattle = GetComponent<EnterBattle>();
 
         canMove = true;
         menuOpen = false;
@@ -39,18 +36,18 @@ public class PlayerControls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
-            // if click open menu button, open/close menu
-            if (menuOpen) {
-                // close menu
-                Menu.Instance.CloseGameMenu();
-                menuOpen = false;
-            } else {
-                // open menu
-                Menu.Instance.OpenGameMenu();
-                menuOpen = true;
-            }
-        }
+        //if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
+        //    // if click open menu button, open/close menu
+        //    if (menuOpen) {
+        //        // close menu
+        //        Menu.Instance.CloseGameMenu();
+        //        menuOpen = false;
+        //    } else {
+        //        // open menu
+        //        Menu.Instance.OpenGameMenu();
+        //        menuOpen = true;
+        //    }
+        //}
 
         if (Input.GetKeyDown(KeyCode.Q)) {
             Application.Quit();
@@ -130,6 +127,5 @@ public class PlayerControls : MonoBehaviour {
     /// <param name="newPos">Position where want to place the player</param>
     public void SetPosition(Vector3 newPos) {
         transform.position = newPos;
-        //enterBattle.UpdatePos();
     }
 }

@@ -16,8 +16,6 @@ public class SaveFileManager {
         // game information
         public float PlayTime;
         public string CurrentScene;
-        //public string LastTown;
-        //public bool IsBattleMap;
         public float MagicMeter;
         public float LastMoveX;
         public float LastMoveY;
@@ -25,28 +23,8 @@ public class SaveFileManager {
         public float YPosition;
         public float ZPosition;
 
-        // inventory
-        public int Wallet;
-
-        public List<string> ItemsHeld;
-        public List<int> NumOfItems;
-
-        public List<string> EquipmentHeld;
-        public List<int> NumOfEquipment;
-
-        public List<string> KeyItemsHeld;
-
         // current party
         public List<string> CurrentParty;
-
-        // character stats
-        public SaveStats Aren;
-        public SaveStats Rey;
-        public SaveStats Naoise;
-
-        // opened chests
-        public bool[] OpenedChest;
-        public bool[] PickedUpItem;
 
         // events
         public List<string> Events;
@@ -66,24 +44,11 @@ public class SaveFileManager {
         saveFiles[file] = new SaveData {
             PlayTime = GameManager.Instance.GetPlayTime(),
             CurrentScene = GameManager.Instance.CurrentScene,
-            //LastTown = GameManager.Instance.LastTown,
-            //IsBattleMap = GameManager.Instance.IsBattleMap,
             MagicMeter = GameManager.Instance.GetMagicMeter(),
             XPosition = PlayerControls.Instance.transform.position.x,
             YPosition = PlayerControls.Instance.transform.position.y,
             ZPosition = PlayerControls.Instance.transform.position.z,
-            Wallet = GameManager.Instance.Wallet,
-            ItemsHeld = GameManager.Instance.ItemsHeld,
-            NumOfItems = GameManager.Instance.NumOfItems,
-            EquipmentHeld = GameManager.Instance.EquipmentHeld,
-            NumOfEquipment = GameManager.Instance.NumOfEquipment,
-            KeyItemsHeld = GameManager.Instance.KeyItemsHeld,
-            CurrentParty = GameManager.Instance.Party.GetCurrentParty(),
-            Aren = GameManager.Instance.Party.GetCharacterStats(Constants.AREN),
-            Rey = GameManager.Instance.Party.GetCharacterStats(Constants.REY),
-            Naoise = GameManager.Instance.Party.GetCharacterStats(Constants.NAOISE),
-            OpenedChest = ObtainItemManager.Instance.OpenedChest,
-            PickedUpItem = ObtainItemManager.Instance.PickedUpItem,
+            CurrentParty = GameManager.Instance.GetCurrentParty(),
             Events = EventManager.Instance.GetEvents()
         };
         Vector2 lastMove = PlayerControls.Instance.GetLastMove();
@@ -135,31 +100,14 @@ public class SaveFileManager {
 
             // load current location information
             GameManager.Instance.CurrentScene = saveFiles[file].CurrentScene;
-            //GameManager.Instance.LastTown = saveFiles[file].LastTown;
-            //GameManager.Instance.IsBattleMap = saveFiles[file].IsBattleMap;
             GameManager.Instance.SetMagicMeter(saveFiles[file].MagicMeter);
             Vector2 lastMove = new Vector2(saveFiles[file].LastMoveX, saveFiles[file].LastMoveY);
             PlayerControls.Instance.SetLastMove(lastMove);
             Vector3 playerPos = new Vector3(saveFiles[file].XPosition, saveFiles[file].YPosition, saveFiles[file].ZPosition);
             PlayerControls.Instance.SetPosition(playerPos);
 
-            // load items
-            GameManager.Instance.Wallet = saveFiles[file].Wallet;
-            GameManager.Instance.ItemsHeld = new List<string>(saveFiles[file].ItemsHeld);
-            GameManager.Instance.NumOfItems = new List<int>(saveFiles[file].NumOfItems);
-            GameManager.Instance.EquipmentHeld = new List<string>(saveFiles[file].EquipmentHeld);
-            GameManager.Instance.NumOfEquipment = new List<int>(saveFiles[file].NumOfEquipment);
-            GameManager.Instance.EquipmentHeld = new List<string>(saveFiles[file].KeyItemsHeld);
-
             // load stats
-            GameManager.Instance.Party.ChangeMembers(saveFiles[file].CurrentParty);
-            GameManager.Instance.Party.LoadCharStats(Constants.AREN, saveFiles[file].Aren);
-            GameManager.Instance.Party.LoadCharStats(Constants.REY, saveFiles[file].Rey);
-            GameManager.Instance.Party.LoadCharStats(Constants.NAOISE, saveFiles[file].Naoise);
-
-            // load chests and picked up items
-            saveFiles[file].OpenedChest.CopyTo(ObtainItemManager.Instance.OpenedChest, 0);
-            saveFiles[file].PickedUpItem.CopyTo(ObtainItemManager.Instance.PickedUpItem, 0);
+            GameManager.Instance.ChangeMembers(saveFiles[file].CurrentParty);
 
             // load events
             EventManager.Instance.LoadEvents(saveFiles[file].Events);

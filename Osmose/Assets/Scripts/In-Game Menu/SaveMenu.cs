@@ -73,7 +73,7 @@ public class SaveMenu : MonoBehaviour {
     /// Play the save animation
     /// </summary>
     public void PlaySaveAnimation() {
-        List<string> party = GameManager.Instance.Party.GetCurrentParty();
+        List<string> party = GameManager.Instance.GetCurrentParty();
 
         SaveAnimScreen.SetActive(true);
         if (party[0] == Constants.REY) {

@@ -2,7 +2,6 @@
 
 public class CutsceneEntrance : MonoBehaviour {
     public string transitionFromCutscene;
-    //public bool IsBattleMap;
 
     public bool ShowDialogue;
     public string[] PostDialogue;
@@ -12,7 +11,6 @@ public class CutsceneEntrance : MonoBehaviour {
         if (transitionFromCutscene.Equals(GameManager.Instance.PreviousScene)) {
             // set player to entrance's position
             PlayerControls.Instance.SetPosition(transform.position);
-            //GameManager.Instance.IsBattleMap = IsBattleMap;
 
             if (ShowDialogue) {
                 Dialogue.Instance.ShowDialogue(PostDialogue, true);
