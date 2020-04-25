@@ -113,10 +113,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 917, y: 348}
-  m_MaxSize: {x: 22012, y: 10024}
+  m_MinSize: {x: 913, y: 348}
+  m_MaxSize: {x: 22008, y: 10024}
   vertical: 0
-  controlID: 172
+  controlID: 168
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 37
+  controlID: 169
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -217,8 +217,8 @@ MonoBehaviour:
     y: 0
     width: 244
     height: 947
-  m_MinSize: {x: 204, y: 224}
-  m_MaxSize: {x: 4004, y: 4024}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -389,9 +389,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.049540997, y: -1.7010772, z: 0.5708166}
+    m_Target: {x: 1059.8413, y: 517.6825, z: 11.200161}
     speed: 2
-    m_Value: {x: -0.049540997, y: -1.7010772, z: 0.5708166}
+    m_Value: {x: 1059.8413, y: 517.6825, z: 11.200161}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -423,9 +423,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 28.231836
+    m_Target: 2514.8213
     speed: 2
-    m_Value: 28.231836
+    m_Value: 2514.8213
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -815,9 +815,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 5e170000
       m_LastClickedID: 0
-      m_ExpandedIDs: d6fbffff
+      m_ExpandedIDs: c0fbffffd6fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -909,20 +909,20 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Art/Monster Sprites
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Art/Monster Sprites
   m_LastFoldersGridSize: 58
   m_LastProjectPath: C:\Users\Daisy Xu\Desktop\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 4a0b0000
-    m_LastClickedID: 2890
-    m_ExpandedIDs: 000000005c0a00008a0a0000c80a00004a0b00001c0c0000500f00003c100000c01500000a1700000c1700009a3900009c3900009e390000a039000000ca9a3b
+    m_SelectedIDs: d2170000
+    m_LastClickedID: 6098
+    m_ExpandedIDs: 000000002c0a00005a0a0000980a00001a0b0000e60b0000140f0000fa0f00009013000068150000ae160000b01600002238000024380000263800002838000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -950,7 +950,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000005c0a00008a0a0000c80a00004a0b00001c0c0000500f00003c100000c01500000a1700000c1700009a3900009c3900009e390000a0390000
+    m_ExpandedIDs: 000000002c0a00005a0a0000980a00001a0b0000e60b0000140f0000fa0f00009013000068150000ae160000b016000022380000243800002638000028380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
