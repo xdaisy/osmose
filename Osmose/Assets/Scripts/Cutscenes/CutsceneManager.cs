@@ -21,6 +21,7 @@ public class CutsceneManager : MonoBehaviour {
     [Header("Scene Load")]
     public SceneName sceneToLoad;
     public string RegionUnlock;
+    public SceneName[] ScenesToUnlock;
 
     private StringReader reader;
 
@@ -117,9 +118,11 @@ public class CutsceneManager : MonoBehaviour {
         GameManager.Instance.PreviousScene = CutsceneName;
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
-        if (RegionUnlock.Length > 0) {
-            // if there's a region to be unlocked this cutscene, unlock it
-            EventManager.Instance.AddEvent(RegionUnlock);
+        if (ScenesToUnlock.Length > 0) {
+            // if there's a scene to be unlocked after this cutscene, unlock it
+            foreach (SceneName scene in ScenesToUnlock) {
+                EventManager.Instance.AddEvent(scene.GetSceneName());
+            }
         }
         LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
     }

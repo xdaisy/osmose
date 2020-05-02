@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Investigate : MonoBehaviour {
     public string EventName; // name of specific event for specific dialogue
+    [SerializeField] private SceneName scenetounlock; // scene to unlock
 
     [Header("Dialogue")]
     public string[] preEventDialogue; // lines of generic dialogue
@@ -17,7 +18,7 @@ public class Investigate : MonoBehaviour {
             if (!haveInvestigated()) {
                 // did not investigate yet
                 EventManager.Instance.AddEvent(EventName);
-
+                EventManager.Instance.AddEvent(scenetounlock.GetSceneName());
             }
             Dialogue.Instance.ShowDialogue(dialogue, false);
         }
