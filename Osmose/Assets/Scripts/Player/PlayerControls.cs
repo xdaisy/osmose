@@ -36,18 +36,18 @@ public class PlayerControls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
-        //    // if click open menu button, open/close menu
-        //    if (menuOpen) {
-        //        // close menu
-        //        Menu.Instance.CloseGameMenu();
-        //        menuOpen = false;
-        //    } else {
-        //        // open menu
-        //        Menu.Instance.OpenGameMenu();
-        //        menuOpen = true;
-        //    }
-        //}
+        if (GameManager.Instance.CanOpenMenu() && Input.GetKeyDown(KeyCode.M)) {
+            // if click open menu button, open/close menu
+            if (menuOpen) {
+                // close menu
+                Menu.Instance.CloseGameMenu();
+                menuOpen = false;
+            } else {
+                // open menu
+                Menu.Instance.OpenGameMenu();
+                menuOpen = true;
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Q)) {
             Application.Quit();
