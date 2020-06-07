@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour {
 
     private List<string> party;
 
+    private List<string> currentClues = new List<string> { "Test Clue" };
+    private List<string> pastClues = new List<string> { "Test Clue 2" };
+
+    public List<Clue> allClues;
+
     private float magicMeter = 1f;
     private float playTime = 0f;
 
@@ -130,5 +135,47 @@ public class GameManager : MonoBehaviour {
     /// <param name="time">Play time of the save file</param>
     public void SetPlayTIme(float time) {
         this.playTime = time;
+    }
+
+    /// <summary>
+    /// Get the current clue at the index position
+    /// </summary>
+    /// <param name="index">Index of the clue</param>
+    /// <returns>Current clue at index position</returns>
+    public Clue getCurrentClueAt(int index) {
+        if (index >= currentClues.Count) {
+            return null;
+        }
+        return findClue(currentClues[index]);
+    }
+
+    /// <summary>
+    /// Get the past clue at the index position
+    /// </summary>
+    /// <param name="index">Index of the clue</param>
+    /// <returns>Past clue at index position</returns>
+    public Clue getPastClueAt(int index) {
+        if (index >= pastClues.Count) {
+            return null;
+        }
+        return findClue(pastClues[index]);
+    }
+
+    /// <summary>
+    /// Get the clue with the name
+    /// </summary>
+    /// <param name="clueName">Name of the clue</param>
+    /// <returns>Clue with the name</returns>
+    public Clue GetClueWithName(string clueName) {
+        return findClue(clueName);
+    }
+
+    /// <summary>
+    /// Find the Clue object with the clue name
+    /// </summary>
+    /// <param name="clueName">Name of the clue</param>
+    /// <returns>Clue object with the clue name</returns>
+    private Clue findClue(string clueName) {
+        return allClues.Find((clue) => clue.GetName().Equals(clueName));
     }
 }
