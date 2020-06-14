@@ -9,12 +9,10 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class CluesMenu : MonoBehaviour {
     [Header("Canvas Groups")]
-    public CanvasGroup HeaderGroup;
     public CanvasGroup ListGroup;
 
     [Header("Header UI")]
-    public Button CluesButton;
-    public Button PastCluesButton;
+    public Dropdown CluesDropDown;
 
     [Header("Name List")]
     public Text[] Names;
@@ -25,6 +23,7 @@ public class CluesMenu : MonoBehaviour {
     public Image ClueImage;
 
     private EventSystem eventSystem;
+    private string chapter = "";
     private int clueOffset = 0;
     private bool lookCurrentClues = true;
     private Clue currClue = null;
@@ -34,21 +33,16 @@ public class CluesMenu : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         eventSystem = EventSystem.current;
+
+        List<string> prevChapters = GameManager.Instance.GetPastChapters();
+        CluesDropDown.AddOptions(prevChapters);
     }
 
     // Update is called once per frame
     void Update() {
-        if (HeaderGroup.interactable && Input.GetButtonDown("Horizontal")) {
-            // go about selecting which type of items
-            Button currentButton = eventSystem.currentSelectedGameObject.GetComponent<Button>();
-            if (currentButton != currButton) {
-                // different button
-                lookCurrentClues = currentButton == CluesButton;
-                currClue = lookCurrentClues ? GameManager.Instance.getCurrentClueAt(0) : GameManager.Instance.getPastClueAt(0);
-                updateNamesList();
-                updateDescription();
-                currButton = currentButton;
-            }
+        if (ListGroup.interactable && Input.GetButtonDown("Vertical")) {
+            // scrolling through clues
+            scrollThroughCluesList();
         }
     }
 
@@ -59,12 +53,13 @@ public class CluesMenu : MonoBehaviour {
         if (eventSystem == null) {
             eventSystem = EventSystem.current;
         }
-        HeaderGroup.interactable = true;
-        eventSystem.SetSelectedGameObject(CluesButton.gameObject);
+        CluesDropDown.interactable = true;
+        ListGroup.interactable = true;
+        eventSystem.SetSelectedGameObject(CluesDropDown.gameObject);
         clueOffset = 0;
         lookCurrentClues = true;
-        currButton = CluesButton;
-        currClue = GameManager.Instance.getCurrentClueAt(clueOffset);
+        currButton = Names[0].GetComponent<Button>();
+        currClue = GameManager.Instance.GetCurrentClueAt(clueOffset);
         updateNamesList();
         updateDescription();
     }
@@ -74,34 +69,31 @@ public class CluesMenu : MonoBehaviour {
     /// </summary>
     /// <returns>True if the menu is closed, false otherwise</returns>
     public bool GoBack() {
-        if (ListGroup.interactable) {
-            // go back to selecting current vs past clues
-            ListGroup.interactable = false;
-            HeaderGroup.interactable = true;
-            if (lookCurrentClues) {
-                eventSystem.SetSelectedGameObject(CluesButton.gameObject);
-            } else {
-                eventSystem.SetSelectedGameObject(PastCluesButton.gameObject);
-            }
-            return false;
-        }
         // go back to main menu
         ListGroup.interactable = false;
-        HeaderGroup.interactable = false;
+        CluesDropDown.interactable = false;
         eventSystem.SetSelectedGameObject(null);
         return true;
     }
 
     /// <summary>
-    /// Go to looking at clue list
+    /// Select the chapter of clues player wants to see
     /// </summary>
-    /// <param name="lookCurrentClues">True if looking at current clues, false if looking at past clues</param>
-    public void ClickHeaderOption(bool lookCurrentClues) {
-        this.lookCurrentClues = lookCurrentClues;
-        HeaderGroup.interactable = false;
-        ListGroup.interactable = true;
-        currClue = lookCurrentClues ? GameManager.Instance.getCurrentClueAt(0) : GameManager.Instance.getPastClueAt(0);
-        eventSystem.SetSelectedGameObject(Names[0].gameObject);
+    /// <param name="index"></param>
+    public void ChangeChapterDropdown() {
+        int val = CluesDropDown.value;
+        string currChapter = "";
+        lookCurrentClues = true;
+        if (val > 0) {
+            // is past chapter
+            currChapter = CluesDropDown.options[val].text;
+            lookCurrentClues = false;
+        }
+        chapter = currChapter;
+        clueOffset = 0;
+        currClue = lookCurrentClues ? GameManager.Instance.GetCurrentClueAt(clueOffset) : GameManager.Instance.GetPastClueAt(chapter, clueOffset);
+        currButton = Names[clueOffset].GetComponent<Button>();
+        eventSystem.SetSelectedGameObject(Names[clueOffset].gameObject);
         updateNamesList();
         updateDescription();
     }
@@ -114,10 +106,10 @@ public class CluesMenu : MonoBehaviour {
             Clue currentClue = null;
             if (lookCurrentClues) {
                 // looking at current clues
-                currentClue = GameManager.Instance.getCurrentClueAt(i + clueOffset);
+                currentClue = GameManager.Instance.GetCurrentClueAt(i + clueOffset);
             } else {
                 // looking at past clues
-                currentClue = GameManager.Instance.getPastClueAt(i + clueOffset);
+                currentClue = GameManager.Instance.GetPastClueAt(chapter, i + clueOffset);
             }
             if (currentClue == null) {
                 // no clue at index
@@ -143,6 +135,41 @@ public class CluesMenu : MonoBehaviour {
             ClueName.text = "";
             ClueDescription.text = "";
             ClueImage.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Set current clue and update Clues List and Description if needed
+    /// </summary>
+    private void scrollThroughCluesList() {
+        float input = Input.GetAxisRaw("Vertical");
+        Button currentButton = eventSystem.currentSelectedGameObject.GetComponent<Button>();
+        if (currentButton != null) {
+            if (currentButton != currButton) {
+                // set what is the current clue
+                currClue = GameManager.Instance.GetClueWithName(currentButton.GetComponent<Text>().text);
+                currButton = currentButton;
+                updateDescription();
+            } else {
+                // hit end of list (either top or bottom)
+                if (input < -0.5f) {
+                    // going down
+                    Clue c = lookCurrentClues ? GameManager.Instance.GetCurrentClueAt(clueOffset + Names.Length) : GameManager.Instance.GetPastClueAt(chapter, clueOffset + Names.Length);
+                    if (c != null) {
+                        clueOffset++;
+                        currClue = c;
+                        updateNamesList();
+                        updateDescription();
+                    }
+                }
+                if (input > 0.5f && clueOffset > 0) {
+                    // going up
+                    clueOffset--;
+                    updateNamesList();
+                    updateDescription();
+                    currClue = GameManager.Instance.GetClueWithName(currButton.GetComponent<Text>().text);
+                }
+            }
         }
     }
 }
