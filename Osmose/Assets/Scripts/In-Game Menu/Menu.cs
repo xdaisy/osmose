@@ -152,10 +152,13 @@ public class Menu : MonoBehaviour {
         if (currMenu == CLUES_MENU) {
             if (CluesMenuUI.GoBack()) {
                 // if going back from clues menu to main menu
-                closeAllMenu();
-                currMenu = MAIN_MENU;
-                Menus[MAIN_MENU].SetActive(true);
-                eventSystem.SetSelectedGameObject(CluesButton);
+                if (CluesMenuUI.GoBack()) {
+                    // if close clues menu
+                    closeAllMenu();
+                    currMenu = MAIN_MENU;
+                    Menus[MAIN_MENU].SetActive(true);
+                    eventSystem.SetSelectedGameObject(CluesButton);
+                }
             }
         }
         if (currMenu == SAVE_MENU) {

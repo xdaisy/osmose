@@ -65,6 +65,11 @@ public class GameManager : MonoBehaviour {
             party.Add(Constants.REY);
             party.Add(Constants.NAOISE);
             past.Add("Test_Chapter", pastClues);
+            past.Add("Test_Chapter_2", currentClues);
+            past.Add("Test_Chapter_3", pastClues);
+            past.Add("Test_Chapter_4", currentClues);
+            past.Add("Test_Chapter_5", pastClues);
+            past.Add("Test_Chapter_6", currentClues);
         } else {
             Destroy(gameObject);
         }
