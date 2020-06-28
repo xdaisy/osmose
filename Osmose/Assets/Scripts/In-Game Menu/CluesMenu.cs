@@ -67,7 +67,8 @@ public class CluesMenu : MonoBehaviour {
         if (eventSystem == null) {
             eventSystem = EventSystem.current;
         }
-        ListGroup.interactable = true;
+        ListGroup.interactable = false;
+        DropDownButton.interactable = true;
         clueOffset = 0;
         lookCurrentClues = true;
         currButton = Names[0].GetComponent<Button>();
@@ -84,7 +85,6 @@ public class CluesMenu : MonoBehaviour {
     /// </summary>
     /// <returns>True if the menu is closed, false otherwise</returns>
     public bool GoBack() {
-        // go back to main menu
         if (DropDownMenu.activeSelf) {
             // if drop down menu is active
             DropDownButton.interactable = true;
@@ -96,6 +96,15 @@ public class CluesMenu : MonoBehaviour {
             eventSystem.SetSelectedGameObject(DropDownButton.gameObject);
             return false;
         }
+        if (ListGroup.interactable) {
+            // if scrolling through clues list
+            ListGroup.interactable = false;
+            DropDownButton.interactable = true;
+            currButton = DropDownButton;
+            eventSystem.SetSelectedGameObject(DropDownButton.gameObject);
+            return false;
+        }
+        // go back to main menu
         ListGroup.interactable = false;
         eventSystem.SetSelectedGameObject(null);
         return true;
@@ -124,15 +133,15 @@ public class CluesMenu : MonoBehaviour {
             // is past chapter
             lookCurrentClues = true;
         }
-        DropDownButton.interactable = true;
+        //DropDownButton.interactable = true;
         DropDownMenu.SetActive(false);
         ListGroup.interactable = true;
         chapter = currChapter;
         clueOffset = 0;
         chapterOffset = 0;
         currClue = lookCurrentClues ? GameManager.Instance.GetCurrentClueAt(clueOffset) : GameManager.Instance.GetPastClueAt(chapter, clueOffset);
-        currButton = DropDownButton;
-        eventSystem.SetSelectedGameObject(DropDownButton.gameObject);
+        currButton = Names[0].GetComponent<Button>();
+        eventSystem.SetSelectedGameObject(Names[0].gameObject);
         updateNamesList();
         updateDescription();
     }

@@ -25,35 +25,15 @@ public class GameManager : MonoBehaviour {
 
     private List<string> party;
 
+    private string currentChapter = "ArenPrologue";
     private List<string> currentClues = new List<string> {
         "Test Clue",
         "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-    };
-    private List<string> pastClues = new List<string> {
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
-        "Test Clue 2",
-        "Test Clue",
     };
     private Dictionary<string, List<string>> past = new Dictionary<string, List<string>> ();
 
     public List<Clue> allClues;
-
-    private float magicMeter = 1f;
+    
     private float playTime = 0f;
 
     // Start is called before the first frame update
@@ -64,12 +44,6 @@ public class GameManager : MonoBehaviour {
             party.Add(Constants.AREN);
             party.Add(Constants.REY);
             party.Add(Constants.NAOISE);
-            past.Add("Test_Chapter", pastClues);
-            past.Add("Test_Chapter_2", currentClues);
-            past.Add("Test_Chapter_3", pastClues);
-            past.Add("Test_Chapter_4", currentClues);
-            past.Add("Test_Chapter_5", pastClues);
-            past.Add("Test_Chapter_6", currentClues);
         } else {
             Destroy(gameObject);
         }
@@ -78,7 +52,7 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (GameMenuOpen || DialogActive || FadingBetweenAreas /*|| InBattle*/ || InCutscene || OnMap || OnMainMenu) {
+        if (GameMenuOpen || DialogActive || FadingBetweenAreas || InCutscene || OnMap || OnMainMenu) {
             PlayerControls.Instance.SetCanMove(false);
         } else {
             PlayerControls.Instance.SetCanMove(true);
@@ -130,26 +104,6 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Get the magic meter
-    /// </summary>
-    /// <returns>Magic meter</returns>
-    public float GetMagicMeter() {
-        return magicMeter;
-    }
-
-    /// <summary>
-    /// Set the magic meter
-    /// </summary>
-    /// <param name="magic">Current amount of the magic meter</param>
-    public void SetMagicMeter(float magic) {
-        magicMeter = magic;
-        // cannot be under 0f
-        magicMeter = Mathf.Max(magicMeter, 0f);
-        // cannot be over 1f
-        magicMeter = Mathf.Min(magicMeter, 1f);
-    }
-
-    /// <summary>
     /// Get the total play time
     /// </summary>
     /// <returns>The total play time</returns>
@@ -166,6 +120,22 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Get the current chapter
+    /// </summary>
+    /// <returns>Name of the current chapter</returns>
+    public string GetCurrentChapter() {
+        return this.currentChapter;
+    }
+
+    /// <summary>
+    /// Set the current chapter
+    /// </summary>
+    /// <param name="chapter">Name of the current chapter</param>
+    public void SetCurrentChapter(string chapter) {
+        this.currentChapter = chapter;
+    }
+
+    /// <summary>
     /// Get the current clue at the index position
     /// </summary>
     /// <param name="index">Index of the clue</param>
@@ -178,6 +148,22 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Get all current clues
+    /// </summary>
+    /// <returns>List of all current clues</returns>
+    public List<string> GetCurrentClues() {
+        return new List<string>(currentClues);
+    }
+
+    /// <summary>
+    /// Set the current clues
+    /// </summary>
+    /// <param name="clues">List of the current clues</param>
+    public void SetCurrentClues(List<string> clues) {
+        this.currentClues = new List<string>(clues);
+    }
+
+    /// <summary>
     /// Get the past clue at the index position
     /// </summary>
     /// <param name="index">Index of the clue</param>
@@ -187,6 +173,29 @@ public class GameManager : MonoBehaviour {
             return null;
         }
         return findClue(past[chapter][index]);
+    }
+
+    /// <summary>
+    /// Get all clues from a chapter
+    /// </summary>
+    /// <param name="chapter">Chapter name</param>
+    /// <returns>List of clues from a chapter</returns>
+    public List<string> GetChapterClues(string chapter) {
+        if (!past.ContainsKey(chapter)) {
+            return null;
+        }
+        return new List<string>(past[chapter]);
+    }
+
+    /// <summary>
+    /// Set the clues for the chapter
+    /// </summary>
+    /// <param name="chapter">Name of the chapter</param>
+    /// <param name="clues">List of clues for the chapter</param>
+    public void SetChapterClues(string chapter, List<string> clues) {
+        if (clues != null) {
+        past.Add(chapter, new List<string>(clues));
+        }
     }
 
     /// <summary>

@@ -4,18 +4,24 @@
     public const string REY = "Rey";
     public const string NAOISE = "Naoise";
 
-    // stat names
-    public const string HP = "hp";
-    public const string SP = "sp";
-    public const string ATTACK = "attack";
-    public const string DEFENSE = "defense";
-    public const string MAGIC_DEFENSE = "magic defense";
-    public const string SPEED = "speed";
-    public const string LUCK = "luck";
-
     // scenes
     public const string MAP = "Map";
-    public const string BATTLE = "Battle";
+
+    // chapter names
+    public const string AREN_PROLOGUE = "ArenPrologue";
+    public const string AREN_CHAPER_1 = "ArenChapter1";
+    public const string AREN_CHAPER_2 = "ArenChapter2";
+    public const string REY_PROLOGUE = "ReyPrologue";
+    public const string REY_CHAPER_1 = "ReyChapter1";
+    public const string REY_CHAPER_2 = "ReyChapter2";
+    public const string NAOISE_PROLOGUE = "NaoisePrologue";
+    public const string NAOISE_CHAPER_1 = "NaoiseChapter1";
+    public const string NAOISE_CHAPER_2 = "NaoiseChapter2";
+    public const string CHAPER_3 = "Chapter3";
+    public const string CHAPER_4 = "Chapter4";
+    public const string CHAPER_5 = "Chapter5";
+    public const string CHAPER_6 = "Chapter6";
+    public const string CHAPER_7 = "Chapter7";
 
     public const float WAIT_TIME = 1f;
 }
