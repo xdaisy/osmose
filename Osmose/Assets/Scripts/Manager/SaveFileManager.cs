@@ -45,6 +45,9 @@ public class SaveFileManager {
 
         // events
         public List<string> Events;
+
+        // clues obtained
+        public bool[] ObtainedClues;
     }
 
     // path for unity editor
@@ -81,7 +84,8 @@ public class SaveFileManager {
             Chapter5 = null,
             Chapter6 = null,
             Chapter7 = null,
-            Events = EventManager.Instance.GetEvents()
+            Events = EventManager.Instance.GetEvents(),
+            ObtainedClues = CluesManager.Instance.GetObtainedClues()
         };
 
         // set chapter clues
@@ -207,6 +211,9 @@ public class SaveFileManager {
 
             // load events
             EventManager.Instance.LoadEvents(saveFiles[file].Events);
+
+            // load obtained clues
+            CluesManager.Instance.LoadObtainedClues(saveFiles[file].ObtainedClues);
 
             GameManager.Instance.PreviousScene = "Continue";
 

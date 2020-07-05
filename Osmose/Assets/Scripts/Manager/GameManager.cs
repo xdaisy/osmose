@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour {
     public string CurrentScene;
     public string PreviousScene;
 
+    [Header("Clues")]
+    public List<Clue> allClues;
+
     private List<string> party;
 
     private string currentChapter = "ArenPrologue";
@@ -31,8 +34,6 @@ public class GameManager : MonoBehaviour {
         "Test Clue 2",
     };
     private Dictionary<string, List<string>> past = new Dictionary<string, List<string>> ();
-
-    public List<Clue> allClues;
     
     private float playTime = 0f;
 
@@ -128,6 +129,14 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Add the clue to the current clues array
+    /// </summary>
+    /// <param name="clue">Clue that is being added</param>
+    public void AddClue(Clue clue) {
+        currentClues.Add(clue.GetName());
+    }
+
+    /// <summary>
     /// Set the current chapter
     /// </summary>
     /// <param name="chapter">Name of the current chapter</param>
@@ -141,10 +150,8 @@ public class GameManager : MonoBehaviour {
     /// <param name="index">Index of the clue</param>
     /// <returns>Current clue at index position</returns>
     public Clue GetCurrentClueAt(int index) {
-        if (index >= currentClues.Count) {
-            return null;
-        }
-        return findClue(currentClues[index]);
+        if (index >= currentClues.Count) return null;
+        return CluesManager.Instance.GetClue(currentChapter, currentClues[index]);
     }
 
     /// <summary>
@@ -169,10 +176,8 @@ public class GameManager : MonoBehaviour {
     /// <param name="index">Index of the clue</param>
     /// <returns>Past clue at index position</returns>
     public Clue GetPastClueAt(string chapter, int index) {
-        if (!past.ContainsKey(chapter) ||  index >= past[chapter].Count) {
-            return null;
-        }
-        return findClue(past[chapter][index]);
+        if (!past.ContainsKey(chapter) || index >= past[chapter].Count) return null;
+        return CluesManager.Instance.GetClue(chapter, past[chapter][index]);
     }
 
     /// <summary>
@@ -201,10 +206,11 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// Get the clue with the name
     /// </summary>
+    /// <param name="chapter">Name of the chapter</param>
     /// <param name="clueName">Name of the clue</param>
     /// <returns>Clue with the name</returns>
-    public Clue GetClueWithName(string clueName) {
-        return findClue(clueName);
+    public Clue GetClueWithName(string chapter, string clueName) {
+        return CluesManager.Instance.GetClue(chapter, clueName);
     }
 
     /// <summary>
@@ -213,14 +219,5 @@ public class GameManager : MonoBehaviour {
     /// <returns>List of the previous Chapters</returns>
     public List<string> GetPastChapters() {
         return new List<string>(past.Keys);
-    }
-
-    /// <summary>
-    /// Find the Clue object with the clue name
-    /// </summary>
-    /// <param name="clueName">Name of the clue</param>
-    /// <returns>Clue object with the clue name</returns>
-    private Clue findClue(string clueName) {
-        return allClues.Find((clue) => clue.GetName().Equals(clueName));
     }
 }

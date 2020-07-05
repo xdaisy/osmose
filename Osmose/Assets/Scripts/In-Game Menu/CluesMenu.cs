@@ -40,6 +40,8 @@ public class CluesMenu : MonoBehaviour {
 
     private Button currButton = null;
 
+    private const string CURRENT_CHAPTER = "------";
+
     // Start is called before the first frame update
     void Start() {
         eventSystem = EventSystem.current;
@@ -129,7 +131,7 @@ public class CluesMenu : MonoBehaviour {
     public void ChangeChapterDropdown(int index) {
         string currChapter = ChapterNames[index].text;
         lookCurrentClues = false;
-        if (currChapter.IndexOf("------") > -1) {
+        if (currChapter.IndexOf(CURRENT_CHAPTER) > -1) {
             // is past chapter
             lookCurrentClues = true;
         }
@@ -195,7 +197,8 @@ public class CluesMenu : MonoBehaviour {
         if (currentButton != null && currentButton != DropDownButton) {
             if (currentButton != currButton) {
                 // set what is the current clue
-                currClue = GameManager.Instance.GetClueWithName(currentButton.GetComponent<Text>().text);
+                string chapterOfClue = chapter.Equals(CURRENT_CHAPTER) ? GameManager.Instance.GetCurrentChapter() : chapter;
+                currClue = GameManager.Instance.GetClueWithName(chapterOfClue, currentButton.GetComponent<Text>().text);
                 currButton = currentButton;
                 updateDescription();
             } else {
@@ -215,7 +218,8 @@ public class CluesMenu : MonoBehaviour {
                     clueOffset--;
                     updateNamesList();
                     updateDescription();
-                    currClue = GameManager.Instance.GetClueWithName(currButton.GetComponent<Text>().text);
+                    string chapterOfClue = chapter.Equals(CURRENT_CHAPTER) ? GameManager.Instance.GetCurrentChapter() : chapter;
+                    currClue = GameManager.Instance.GetClueWithName(chapterOfClue, currButton.GetComponent<Text>().text);
                 }
             }
         }
