@@ -5,10 +5,12 @@ public class Investigate : MonoBehaviour {
     public Clue Clue;
     public int ClueNumber;
     [SerializeField] private SceneName sceneToUnlock; // scene to unlock
+    [SerializeField] private bool KeenEyes; // is Aren's ability?
 
     [Header("Dialogue")]
-    public string[] preObtainDialogue; // lines of generic dialogue
-    public string[] postObtainDialogue; // lines of dialogue for before/after specific event
+    public string[] PreObtainDialogue; // lines of generic dialogue
+    public string[] PostObtainDialogue; // lines of dialogue for before/after specific event
+    public string[] AbilityDialogue;
 
     private bool canActivate = false;
 
@@ -21,7 +23,7 @@ public class Investigate : MonoBehaviour {
     void Update() {
         if (Input.GetButtonDown("Interact") && canShowDialogue()) {
             string[] dialogue = getDialogue();
-            if (!haveInvestigated()) {
+            if (canAddClue()) {
                 // did not investigate yet
                 CluesManager.Instance.ObtainedClue(ClueNumber);
                 GameManager.Instance.AddClue(Clue);
@@ -38,7 +40,7 @@ public class Investigate : MonoBehaviour {
     /// </summary>
     /// <returns>True if can show dialogue, false otherwise</returns>
     private bool canShowDialogue() {
-        bool haveDialogue = haveInvestigated() ? postObtainDialogue.Length > 0 : true;
+        bool haveDialogue = haveInvestigated() ? PostObtainDialogue.Length > 0 : true;
         return haveDialogue && canActivate && GameManager.Instance.CanStartDialogue() &&  !Dialogue.Instance.dBox.activeSelf;
     }
 
@@ -49,12 +51,29 @@ public class Investigate : MonoBehaviour {
     private string[] getDialogue() {
         List<string> dialogue;
         if (haveInvestigated()) {
-            dialogue = new List<string>(this.postObtainDialogue);
+            dialogue = new List<string>(this.PostObtainDialogue);
+        } else if (KeenEyes && GameManager.Instance.IsLeader(Constants.AREN)) {
+            // if aren is in front and item needs keen eyes to show
+            Dialogue.Instance.ShowClueImage(Clue.GetSprite());
+            dialogue = new List<string>(this.AbilityDialogue);
         } else {
-            dialogue = new List<string>(this.preObtainDialogue);
+            dialogue = new List<string>(this.PreObtainDialogue);
         }
 
         return dialogue.ToArray();
+    }
+
+    /// <summary>
+    /// Get whether or not the clue can be added to the inventory
+    /// </summary>
+    /// <returns>True if can add clue to the inventory, false otherwise</returns>
+    private bool canAddClue() {
+        bool investigated = !haveInvestigated();
+        if (KeenEyes) {
+            // 
+            return GameManager.Instance.IsLeader(Constants.AREN) && investigated;
+        }
+        return investigated;
     }
 
     /// <summary>

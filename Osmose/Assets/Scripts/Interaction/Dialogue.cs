@@ -2,11 +2,16 @@
 using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour {
+    public static Dialogue Instance; // dialogue manager instance
+
+    [Header("Dialogue box")]
     public GameObject dBox; // dialogue box
     public Text dText; // dialogue text
     public Text dName; // name of dialogue 
 
-    public static Dialogue Instance; // dialogue manager instance
+    [Header("Clue image assets")]
+    public GameObject BlackBG;
+    public Image ClueImage;
 
     private string[] dialogueLines; // lines of dialogue
     private int currentLine; // current line of dialogue
@@ -27,6 +32,7 @@ public class Dialogue : MonoBehaviour {
                 currentLine++;
                 if (currentLine >= dialogueLines.Length) {
                     dBox.SetActive(false);
+                    BlackBG.SetActive(false);
 
                     currentLine = 0;
 
@@ -39,7 +45,11 @@ public class Dialogue : MonoBehaviour {
         }
 	}
 
-    // start the dialogue
+    /// <summary>
+    /// Start the dialogue
+    /// </summary>
+    /// <param name="lines">Lines of dialogue</param>
+    /// <param name="triggered">Flag if the dialogue was triggered because of a cutscene</param>
     public void ShowDialogue(string[] lines, bool triggered) {
         dBox.SetActive(true);
         dialogueLines = lines;
@@ -49,6 +59,15 @@ public class Dialogue : MonoBehaviour {
         // if triggered bc cutscene, want to set to false
         // if triggered by interacting, want to set to true
         justStarted = !triggered;
+    }
+
+    /// <summary>
+    /// Show the clue image on canvas
+    /// </summary>
+    /// <param name="clueImage">Image of the clue</param>
+    public void ShowClueImage(Sprite clueImage) {
+        BlackBG.SetActive(true);
+        ClueImage.sprite = clueImage;
     }
 
     private void showText() {

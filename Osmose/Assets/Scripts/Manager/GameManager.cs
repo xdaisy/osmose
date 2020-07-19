@@ -42,8 +42,8 @@ public class GameManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
             party = new List<string>();
-            party.Add(Constants.AREN);
             party.Add(Constants.REY);
+            party.Add(Constants.AREN);
             party.Add(Constants.NAOISE);
         } else {
             Destroy(gameObject);
@@ -219,5 +219,14 @@ public class GameManager : MonoBehaviour {
     /// <returns>List of the previous Chapters</returns>
     public List<string> GetPastChapters() {
         return new List<string>(past.Keys);
+    }
+
+    /// <summary>
+    /// Get whether or not the leader is the name passed in
+    /// </summary>
+    /// <param name="name">Name of the character</param>
+    /// <returns>True if the person is the leader, false otherwise</returns>
+    public bool IsLeader(string name) {
+        return party[0].Equals(name);
     }
 }
