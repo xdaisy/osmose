@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour {
     public bool OnMainMenu;
     public string CurrentScene;
     public string PreviousScene;
+    private bool seenTutorial;
 
     [Header("Clues")]
     public List<Clue> allClues;
@@ -228,5 +229,20 @@ public class GameManager : MonoBehaviour {
     /// <returns>True if the person is the leader, false otherwise</returns>
     public bool IsLeader(string name) {
         return party[0].Equals(name);
+    }
+
+    /// <summary>
+    /// Get whether or not the player has seen the tutorial
+    /// </summary>
+    /// <returns></returns>
+    public bool DidSeeTutorial() {
+        return seenTutorial;
+    }
+
+    /// <summary>
+    /// The player has seen the tutorial
+    /// </summary>
+    public void SawTutorial() {
+        seenTutorial = true;
     }
 }
