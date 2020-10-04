@@ -5,6 +5,7 @@ public class Clue : ScriptableObject {
     [SerializeField] private string clueName;
     [SerializeField] private string description;
     [SerializeField] private Sprite sprite;
+    [SerializeField] private int clueNumber;
 
     /// <summary>
     /// Get the name of the clue
@@ -28,5 +29,13 @@ public class Clue : ScriptableObject {
     /// <returns>Clue's sprite</returns>
     public Sprite GetSprite() {
         return sprite;
+    }
+
+    /// <summary>
+    /// Get the number of the clue
+    /// </summary>
+    /// <returns>Clue number</returns>
+    public int GetClueNumber() {
+        return clueNumber;
     }
 }

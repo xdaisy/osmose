@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Investigate : MonoBehaviour {
     public Clue Clue;
-    public int ClueNumber;
     [SerializeField] private SceneName sceneToUnlock; // scene to unlock
     [SerializeField] private bool KeenEyes; // is Aren's ability?
 
@@ -25,7 +24,7 @@ public class Investigate : MonoBehaviour {
             string[] dialogue = getDialogue();
             if (canAddClue()) {
                 // did not investigate yet
-                CluesManager.Instance.ObtainedClue(ClueNumber);
+                CluesManager.Instance.ObtainedClue(Clue.GetClueNumber());
                 GameManager.Instance.AddClue(Clue);
                 if (sceneToUnlock != null) {
                     EventManager.Instance.AddEvent(sceneToUnlock.GetSceneName());
@@ -81,7 +80,7 @@ public class Investigate : MonoBehaviour {
     /// </summary>
     /// <returns>True if have investigated, false otherwise</returns>
     private bool haveInvestigated() {
-        return CluesManager.Instance.DidObtainClue(ClueNumber);
+        return CluesManager.Instance.DidObtainClue(Clue.GetClueNumber());
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
