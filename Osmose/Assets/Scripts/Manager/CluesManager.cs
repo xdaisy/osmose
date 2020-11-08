@@ -7,6 +7,7 @@ public class CluesManager : MonoBehaviour {
     public static CluesManager Instance;
 
     [SerializeField] private bool[] obtainedClues; // List of bool to indicate whether or not the clue was obtained
+    [SerializeField] private bool[] updatedClues; // list of bool to indicate if the clue was updated
     [SerializeField] private Clue[] arenPrologueClues; // list of all clues in aren's prologue
 
     private Dictionary<string, Clue[]> clues;
@@ -38,6 +39,22 @@ public class CluesManager : MonoBehaviour {
     /// <returns>Array of the obtained clues</returns>
     public bool[] GetObtainedClues() {
         return this.obtainedClues;
+    }
+
+    /// <summary>
+    /// Load in save data's updated clues
+    /// </summary>
+    /// <param name="saveUpdatedClues">Updated clues array from the save data</param>
+    public void LoadUpdatedClues(bool[] saveUpdatedClues) {
+        saveUpdatedClues.CopyTo(this.updatedClues, 0);
+    }
+
+    /// <summary>
+    /// Get the file's updated clues array
+    /// </summary>
+    /// <returns>Array of the updated clues</returns>
+    public bool[] GetUpdatedClues() {
+        return this.updatedClues;
     }
 
     /// <summary>
@@ -76,5 +93,29 @@ public class CluesManager : MonoBehaviour {
             return;
         }
         obtainedClues[clueIndex] = true;
+    }
+
+    /// <summary>
+    /// Get whether or not the clue was updated
+    /// </summary>
+    /// <param name="clueIndex">Index of the clue</param>
+    /// <returns>True if clue was updated, false otherwise</returns>
+    public bool DidUpdateClue(int clueIndex) {
+        if (clueIndex >= updatedClues.Length) {
+            return false;
+        }
+        return updatedClues[clueIndex];
+    }
+
+    /// <summary>
+    /// Set the flag that the clue was updated
+    /// </summary>
+    /// <param name="clueIndex">Index of the clue</param>
+    public void UpdateClue(int clueIndex) {
+        if (clueIndex >= updatedClues.Length) {
+            Debug.LogError("Clue Index (" + clueIndex + ") does not exist");
+            return;
+        }
+        updatedClues[clueIndex] = true;
     }
 }

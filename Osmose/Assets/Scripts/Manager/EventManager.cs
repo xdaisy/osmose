@@ -17,9 +17,8 @@ public class EventManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         // this is for debugging purposes
-        // TODO: remove in production
+        AddEvent("Moons_Hallow");
         AddEvent("forest");
-        AddEvent("Aren_House");
     }
 
     /// <summary>

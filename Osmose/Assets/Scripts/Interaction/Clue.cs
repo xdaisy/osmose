@@ -3,7 +3,9 @@
 [CreateAssetMenu(menuName = "Clue")]
 public class Clue : ScriptableObject {
     [SerializeField] private string clueName;
+    [SerializeField] private bool canUpdate;
     [SerializeField] private string description;
+    [SerializeField] private string updatedDescription;
     [SerializeField] private Sprite sprite;
     [SerializeField] private int clueNumber;
 
@@ -20,6 +22,9 @@ public class Clue : ScriptableObject {
     /// </summary>
     /// <returns>Clue's description</returns>
     public string GetDescription() {
+        if (canUpdate && CluesManager.Instance.DidUpdateClue(clueNumber)) {
+            return updatedDescription;
+        }
         return description;
     }
 

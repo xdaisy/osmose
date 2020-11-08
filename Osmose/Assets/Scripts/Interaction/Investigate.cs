@@ -13,10 +13,7 @@ public class Investigate : MonoBehaviour {
 
     private bool canActivate = false;
 
-    void Start() {
-        // if there is no post obtaining dialogue, destroy this game object
-        //if (haveInvestigated() && postObtainDialogue.Length > 0) Destroy(gameObject);
-    }
+    void Start() {}
 
     // Update is called once per frame
     void Update() {
@@ -69,7 +66,7 @@ public class Investigate : MonoBehaviour {
     private bool canAddClue() {
         bool investigated = !haveInvestigated();
         if (KeenEyes) {
-            // 
+            // aren's special ability
             return GameManager.Instance.IsLeader(Constants.AREN) && investigated;
         }
         return investigated;
