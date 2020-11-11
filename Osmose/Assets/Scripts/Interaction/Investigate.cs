@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Investigate : MonoBehaviour {
     public Clue Clue;
-    public int ClueNumber;
     [SerializeField] private SceneName sceneToUnlock; // scene to unlock
     [SerializeField] private bool KeenEyes; // is Aren's ability?
 
@@ -14,10 +13,7 @@ public class Investigate : MonoBehaviour {
 
     private bool canActivate = false;
 
-    void Start() {
-        // if there is no post obtaining dialogue, destroy this game object
-        //if (haveInvestigated() && postObtainDialogue.Length > 0) Destroy(gameObject);
-    }
+    void Start() {}
 
     // Update is called once per frame
     void Update() {
@@ -25,7 +21,7 @@ public class Investigate : MonoBehaviour {
             string[] dialogue = getDialogue();
             if (canAddClue()) {
                 // did not investigate yet
-                CluesManager.Instance.ObtainedClue(ClueNumber);
+                CluesManager.Instance.ObtainedClue(Clue.GetClueNumber());
                 GameManager.Instance.AddClue(Clue);
                 if (sceneToUnlock != null) {
                     EventManager.Instance.AddEvent(sceneToUnlock.GetSceneName());
@@ -70,7 +66,7 @@ public class Investigate : MonoBehaviour {
     private bool canAddClue() {
         bool investigated = !haveInvestigated();
         if (KeenEyes) {
-            // 
+            // aren's special ability
             return GameManager.Instance.IsLeader(Constants.AREN) && investigated;
         }
         return investigated;
@@ -81,7 +77,7 @@ public class Investigate : MonoBehaviour {
     /// </summary>
     /// <returns>True if have investigated, false otherwise</returns>
     private bool haveInvestigated() {
-        return CluesManager.Instance.DidObtainClue(ClueNumber);
+        return CluesManager.Instance.DidObtainClue(Clue.GetClueNumber());
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

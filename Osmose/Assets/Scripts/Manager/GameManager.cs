@@ -30,10 +30,7 @@ public class GameManager : MonoBehaviour {
     private List<string> party;
 
     private string currentChapter = "ArenPrologue";
-    private List<string> currentClues = new List<string> {
-        "Test Clue",
-        "Test Clue 2",
-    };
+    private List<string> currentClues = new List<string>();
     private Dictionary<string, List<string>> past = new Dictionary<string, List<string>> ();
     
     private float playTime = 0f;
@@ -43,9 +40,7 @@ public class GameManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
             party = new List<string>();
-            party.Add(Constants.REY);
             party.Add(Constants.AREN);
-            party.Add(Constants.NAOISE);
         } else {
             Destroy(gameObject);
         }
