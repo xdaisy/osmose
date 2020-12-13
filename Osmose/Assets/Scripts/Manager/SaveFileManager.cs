@@ -15,7 +15,6 @@ public class SaveFileManager {
         // game information
         public float PlayTime;
         public string CurrentScene;
-        public float MagicMeter;
         public float LastMoveX;
         public float LastMoveY;
         public float XPosition;

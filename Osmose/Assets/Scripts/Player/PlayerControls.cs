@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Class that handles the player's movement on the map
@@ -127,5 +128,20 @@ public class PlayerControls : MonoBehaviour {
     /// <param name="newPos">Position where want to place the player</param>
     public void SetPosition(Vector3 newPos) {
         transform.position = newPos;
+    }
+
+    /// <summary>
+    /// Push the player in a direction
+    /// </summary>
+    /// <param name="direction">Direction of which the player is being pushed</param>
+    public void PushPlayer(Vector2 direction) {
+        Vector3 newPos = new Vector3(
+            this.transform.position.x + (direction.x * 0.1f),
+            this.transform.position.y + (direction.y * 0.1f),
+            this.transform.position.z
+        );
+        SetPosition(newPos);
+
+        SetLastMove(direction);
     }
 }
