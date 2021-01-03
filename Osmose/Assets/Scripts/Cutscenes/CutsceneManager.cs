@@ -32,8 +32,6 @@ public class CutsceneManager : MonoBehaviour {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         reader = new StringReader(TextFile.text); // open the file to read
 
-        UIFade.Instance.FadeFromBlack();
-
         ChangeText(reader.ReadLine()); // show the first line of dialogue
 
         GameManager.Instance.InCutscene = true;

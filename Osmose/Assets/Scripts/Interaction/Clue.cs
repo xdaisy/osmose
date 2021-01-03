@@ -43,4 +43,13 @@ public class Clue : ScriptableObject {
     public int GetClueNumber() {
         return clueNumber;
     }
+
+    /// <summary>
+    /// Determine whether or not the clue is equal to this clue
+    /// </summary>
+    /// <param name="other">Other clue that is being compared to this clue</param>
+    /// <returns>True if the two clues are the same, false otherwise</returns>
+    public bool IsEqual(Clue other) {
+        return this.clueName.Equals(other.clueName) && this.clueNumber == other.clueNumber;
+    }
 }
