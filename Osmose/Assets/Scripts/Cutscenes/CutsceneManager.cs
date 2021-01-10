@@ -83,10 +83,7 @@ public class CutsceneManager : MonoBehaviour {
             line = reader.ReadLine(); // name of person talking always followed by lines of text
         }
 
-        if (line.Contains("\\n")) {
-            // be able to place new lines in the dialogue box
-            line = line.Replace("\\n", Environment.NewLine); // replace \n with new line
-        }
+        line = Parser.PlaceNewLine(line);
 
         dText.text = line;
     }
@@ -97,16 +94,13 @@ public class CutsceneManager : MonoBehaviour {
     /// <param name="line">Line from the script</param>
     /// <returns>Name of the person talking</returns>
     private string ChangeSprite(string line) {
-        string[] person = line.Split('-'); // split name from expression
-        string name = person[0];
+        Portrait portrait = Parser.ParsePortrait(line);
 
         talkingSprite.enabled = true; // want to show sprite
-        string spriteName = person[0] + "_" + person[1];
-        Sprite personSprite = spriteHolder.GetSprite(spriteName);
+        Sprite personSprite = spriteHolder.GetSprite(portrait.spriteName);
         talkingSprite.sprite = personSprite;
         
-
-        return name;
+        return portrait.name;
     }
 
     /// <summary>

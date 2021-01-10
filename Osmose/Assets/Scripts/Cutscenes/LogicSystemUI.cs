@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,16 +28,23 @@ public class LogicSystemUI : MonoBehaviour {
     private List<string> clues;
     private CutsceneSpriteHolder spriteHolder;
 
+    private int currStep = 0;
     private int currClue = -1;
 
     // Start is called before the first frame update
     void Start() {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         clues = GameManager.Instance.GetChapterClues(chapterName);
+
+        updateDialogue();
     }
 
     // Update is called once per frame
     void Update() {
+        if (Input.GetButtonDown("Interact") && currStep < logicSteps.Length - 1) {
+            currStep++;
+            updateDialogue();
+        }
     }
 
     public void HandleScroll() {
@@ -52,7 +60,17 @@ public class LogicSystemUI : MonoBehaviour {
     }
 
     private void updateDialogue() {
+        LogicStep currLogicStep = logicSteps[currStep];
 
+        string[] stepString = Parser.SplitLogicDialogue(currLogicStep.GetDialogue());
+
+        Portrait portrait = Parser.ParsePortrait(stepString[0]); // get the name and sprite name
+        string dialogue = stepString[1]; // get dialogue
+        Sprite sprite = spriteHolder.GetSprite(portrait.spriteName); // get the sprite
+
+        Name.text = portrait.name;
+        Portrait.sprite = sprite;
+        Dialogue.text = dialogue;
     }
 
     private void updateCluePopup() {
