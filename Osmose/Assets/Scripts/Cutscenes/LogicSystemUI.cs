@@ -20,6 +20,7 @@ public class LogicSystemUI : MonoBehaviour {
     [Header("UI For Clues")]
     public GameObject CluesPopup;
     public Text[] ClueNames;
+    public Text Question;
     public Image ClueImage;
     public Text Description;
 
@@ -80,15 +81,18 @@ public class LogicSystemUI : MonoBehaviour {
 
             if (currButtonName.Equals(currClueName)) {
                 // if curr button name does not match curr clue name, need to scroll
+                int prevClueOffset = clueOffset;
                 clueOffset += xInput > 0.5f ? -1 : 1;
                 clueOffset = Math.Max(0, clueOffset); // cannot go below 0
                 clueOffset = Math.Min(clueOffset, clues.Count - ClueNames.Length); // cannot up above number of clues in chapter - 1
                 updateCluesPopup();
                 int newClueIndx = xInput > 0.5f ? clueOffset : clueOffset + ClueNames.Length - 1;
                 currClueName = clues[newClueIndx];
+                if (prevClueOffset != clueOffset) updateCluesDescription();
             } else {
                 // if prev button isn't current button, update current clue name
                 currClueName = currButtonName;
+                updateCluesDescription();
             }
         }
     }
@@ -123,8 +127,14 @@ public class LogicSystemUI : MonoBehaviour {
             // show clues popup
             clueOffset = 0;
             CluesPopup.SetActive(true);
+
+            string[] stepString = Parser.SplitLogicDialogue(currLogicStep.GetDialogue());
+            Question.text = stepString[1];
+
             updateCluesPopup();
             EventSystem.current.SetSelectedGameObject(ClueNames[0].gameObject);
+            currClueName = clues[0];
+            updateCluesDescription();
         } else {
             // show choices popup
             updateChoicesPopup();
@@ -144,6 +154,12 @@ public class LogicSystemUI : MonoBehaviour {
                 ClueNames[i].text = clues[i + clueOffset];
             }
         }
+    }
+
+    private void updateCluesDescription() {
+        Clue clue = GameManager.Instance.GetClueWithName(chapterName, currClueName);
+        ClueImage.sprite = clue.GetSprite();
+        Description.text = clue.GetDescription();
     }
 
     /// <summary>
