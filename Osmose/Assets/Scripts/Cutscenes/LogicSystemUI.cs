@@ -26,7 +26,7 @@ public class LogicSystemUI : MonoBehaviour {
 
     [Header("UI For Multiple Choice")]
     public GameObject ChoicePopup;
-    public Button[] Choices;
+    public Text[] Choices;
 
     private List<string> clues;
     private CutsceneSpriteHolder spriteHolder;
@@ -35,38 +35,75 @@ public class LogicSystemUI : MonoBehaviour {
     private int clueOffset = -1;
     private string currClueName = "";
     private bool showPopup = false;
+    private bool wrongAnswer = false;
 
     // Start is called before the first frame update
     void Start() {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         clues = GameManager.Instance.GetCurrentClues();
 
-        updateDialogue();
+        updateLogicStepDialogue();
     }
 
     // Update is called once per frame
     void Update() {
         if (Input.GetButtonDown("Interact")) {
             // if press input
-            if (!showPopup && currStep < logicSteps.Length - 1) {
+            if (!showPopup && !wrongAnswer && currStep < logicSteps.Length - 1) {
                 // if can go to next logic step, progress
                 currStep++;
-                updateDialogue();
+                updateLogicStepDialogue();
+            } else if (wrongAnswer) {
+                showPopup = true;
+                wrongAnswer = false;
             } else if (showPopup) {
                 // else show the popup after showing current logic step's dialogue
                 handlePopup();
+            } else if (currStep >= logicSteps.Length - 1) {
+                // end of steps
+                Dialogue.text = "End of Logic System";
             }
         }
 
         handleScroll();
     }
 
+    /// <summary>
+    /// Select a clue
+    /// </summary>
+    /// <param name="clueIndex">Index of the clue</param>
     public void SelectClue(int clueIndex) {
-
+        if (clueIndex < ClueNames.Length) {
+            wrongAnswer = false;
+            string clueName = ClueNames[clueIndex].text;
+            Clue selectedClue = GameManager.Instance.GetClueWithName(chapterName, clueName);
+            LogicStep currLogicStep = logicSteps[currStep];
+            CluesPopup.SetActive(false);
+            showPopup = false;
+            if (!currLogicStep.GetClue().IsEqual(selectedClue)) {
+                // selected wrong clue
+                wrongAnswer = true;
+                updateWrongDialogue();
+            }
+        }
     }
 
+    /// <summary>
+    /// Select a choice
+    /// </summary>
+    /// <param name="choice"> Index of the choice</param>
     public void SelectChoice(int choice) {
+        LogicStep currLogicStep = logicSteps[currStep];
 
+        int correctChoice = currLogicStep.GetCorrectChoice();
+
+        ChoicePopup.SetActive(false);
+        showPopup = false;
+        if (choice != correctChoice) {
+            // selected wrong choice
+            wrongAnswer = true;
+            updateWrongDialogue();
+        }
     }
 
     /// <summary>
@@ -98,12 +135,30 @@ public class LogicSystemUI : MonoBehaviour {
     }
 
     /// <summary>
-    /// Update the dialogue and the character portrait being shown on screen
+    /// Update to the next step's dialogue
     /// </summary>
-    private void updateDialogue() {
+    private void updateLogicStepDialogue() {
         LogicStep currLogicStep = logicSteps[currStep];
+        updateDialogue(currLogicStep.GetDialogue());
+        // if there is a clue or choice to be made, cannot go to next logic step
+        showPopup = currLogicStep.GetClue() != null || currLogicStep.GetCorrectChoice() > -1;
+    }
 
-        string[] stepString = Parser.SplitLogicDialogue(currLogicStep.GetDialogue());
+    /// <summary>
+    /// Update the dialogue to the wrong answer dialogue
+    /// </summary>
+    private void updateWrongDialogue() {
+        LogicStep currLogicStep = logicSteps[currStep];
+        updateDialogue(currLogicStep.GetWrongDialogue());
+        showPopup = true;
+    }
+
+    /// <summary>
+    /// Update the dialogue text and protrait
+    /// </summary>
+    /// <param name="text">Dialogue text</param>
+    private void updateDialogue(string text) {
+        string[] stepString = Parser.SplitLogicDialogue(text);
 
         Portrait portrait = Parser.ParsePortrait(stepString[0]); // get the name and sprite name
         string dialogue = stepString[1]; // get dialogue
@@ -112,9 +167,6 @@ public class LogicSystemUI : MonoBehaviour {
         Name.text = portrait.name;
         Portrait.sprite = sprite;
         Dialogue.text = dialogue;
-
-        // if there is a clue or choice to be made, cannot go to next logic step
-        showPopup = currLogicStep.GetClue() != null || currLogicStep.GetCorrectChoice() > -1;
     }
 
     /// <summary>
@@ -146,6 +198,7 @@ public class LogicSystemUI : MonoBehaviour {
     /// </summary>
     private void updateCluesPopup() {
         for (int i = 0; i < ClueNames.Length; i++) {
+            ClueNames[i].gameObject.SetActive(true);
             if (i + clueOffset >= clues.Count) {
                 // if there are less clues than the amount of clue names
                 ClueNames[i].gameObject.SetActive(false);
@@ -156,6 +209,9 @@ public class LogicSystemUI : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Update the clue description on Clues popup
+    /// </summary>
     private void updateCluesDescription() {
         Clue clue = GameManager.Instance.GetClueWithName(chapterName, currClueName);
         ClueImage.sprite = clue.GetSprite();
@@ -166,6 +222,26 @@ public class LogicSystemUI : MonoBehaviour {
     /// Update the choices popup
     /// </summary>
     private void updateChoicesPopup() {
+        LogicStep currLogicStep = logicSteps[currStep];
 
+        if (!Dialogue.text.Equals(currLogicStep.GetDialogue())) {
+            // if the dialogue isn't the same
+            updateLogicStepDialogue();
+        }
+
+        string[] choices = currLogicStep.GetChoices();
+
+        ChoicePopup.SetActive(true);
+        for (int i = 0; i < Choices.Length; i++) {
+            Choices[i].gameObject.SetActive(true);
+            if (i >= choices.Length) {
+                // if there are less choices than there are buttons for choices
+                Choices[i].gameObject.SetActive(false);
+            } else {
+                Choices[i].text = choices[i];
+            }
+        }
+
+        EventSystem.current.SetSelectedGameObject(Choices[0].gameObject);
     }
 }
