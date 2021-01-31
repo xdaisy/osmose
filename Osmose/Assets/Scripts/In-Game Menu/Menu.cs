@@ -52,6 +52,7 @@ public class Menu : MonoBehaviour {
     /// Open the menu
     /// </summary>
     public void OpenGameMenu() {
+        eventSystem.enabled = true;
         GameManager.Instance.GameMenuOpen = true;
         currMenu = MAIN_MENU;
         Menus[MAIN_MENU].SetActive(true);
@@ -65,6 +66,7 @@ public class Menu : MonoBehaviour {
         closeAllMenu();
         eventSystem.SetSelectedGameObject(null);
         currMenu = MAIN_MENU;
+        eventSystem.enabled = false;
         GameManager.Instance.GameMenuOpen = false;
     }
 

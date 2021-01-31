@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +10,13 @@ using UnityEngine.EventSystems;
 public class LogicSystemUI : MonoBehaviour {
     [SerializeField] LogicStep[] logicSteps;
     [SerializeField] string chapterName;
+    [SerializeField] SceneName sceneName;
+    [SerializeField] int lifeCount = 3;
+
+    [Header("UI for Lives")]
+    public Image[] Lives;
+    public Sprite LifeIcon;
+    public Sprite DamageIcon;
     public EventSystem EventSystem;
     [Header("UI For Dialogue")]
     public Text Name;
@@ -36,12 +42,14 @@ public class LogicSystemUI : MonoBehaviour {
     private string currClueName = "";
     private bool showPopup = false;
     private bool wrongAnswer = false;
+    private int numWrongGuesses = 0;
 
     // Start is called before the first frame update
     void Start() {
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         clues = GameManager.Instance.GetCurrentClues();
 
+        updateLives();
         updateLogicStepDialogue();
     }
 
@@ -148,6 +156,13 @@ public class LogicSystemUI : MonoBehaviour {
     /// Update the dialogue to the wrong answer dialogue
     /// </summary>
     private void updateWrongDialogue() {
+        numWrongGuesses++;
+        updateLives();
+        if (numWrongGuesses >= lifeCount) {
+            // gameover
+            GameManager.Instance.PreviousScene = sceneName.GetSceneName();
+            LoadSceneLogic.Instance.LoadScene(Constants.GAMEOVER);
+        }
         LogicStep currLogicStep = logicSteps[currStep];
         updateDialogue(currLogicStep.GetWrongDialogue());
         showPopup = true;
@@ -243,5 +258,23 @@ public class LogicSystemUI : MonoBehaviour {
         }
 
         EventSystem.current.SetSelectedGameObject(Choices[0].gameObject);
+    }
+
+    /// <summary>
+    /// Update the number of lives on screen
+    /// </summary>
+    private void updateLives() {
+        int numLives = lifeCount - numWrongGuesses;
+        for (int i = 0; i < Lives.Length; i++) {
+            Lives[i].gameObject.SetActive(true);
+            if (i >= lifeCount) {
+                // hide additional lives
+                Lives[i].gameObject.SetActive(false);
+            } else if (i < numLives) {
+                Lives[i].sprite = LifeIcon;
+            } else {
+                Lives[i].sprite = DamageIcon;
+            }
+        }
     }
 }

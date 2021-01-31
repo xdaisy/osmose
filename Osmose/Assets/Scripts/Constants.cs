@@ -5,7 +5,9 @@
     public const string NAOISE = "Naoise";
 
     // scenes
+    public const string MAIN = "Main";
     public const string MAP = "Map";
+    public const string GAMEOVER = "GameOver";
 
     // chapter names
     public const string AREN_PROLOGUE = "ArenPrologue";
