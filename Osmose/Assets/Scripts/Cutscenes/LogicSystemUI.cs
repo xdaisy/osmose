@@ -11,6 +11,7 @@ public class LogicSystemUI : MonoBehaviour {
     [SerializeField] LogicStep[] logicSteps;
     [SerializeField] string chapterName;
     [SerializeField] SceneName sceneName;
+    [SerializeField] SceneName nextScene;
     [SerializeField] int lifeCount = 3;
 
     [Header("UI for Lives")]
@@ -69,7 +70,10 @@ public class LogicSystemUI : MonoBehaviour {
                 handlePopup();
             } else if (currStep >= logicSteps.Length - 1) {
                 // end of steps
+                // TODO: transition to next scene
                 Dialogue.text = "End of Logic System";
+                //GameManager.Instance.PreviousScene = sceneName.GetSceneName();
+                //LoadSceneLogic.Instance.LoadScene(nextScene.GetSceneName());
             }
         }
 

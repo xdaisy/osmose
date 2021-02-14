@@ -7,20 +7,23 @@ Silence! \nThe Pack Leader will now speak!
 Warrick-Neutral:
 Thank you all for coming here on such short notice. 
 It has come to the council's attention that there has been an increase in shift-related incidents. 
-Many rangers have reported feral shifters roaming the woods and attacking anything that moves. Pack members have come to me with worry that they're losing control of their shifts. This is a serious threat to us that must be dealt with immediately.
+Rangers have reported feral shifters roaming the woods and attacking anything that moves. Pack members have come to me with worries that they're losing control of their shifts. This is a serious threat to us, and it must be dealt with immediately.
 
 Geoffrey-Angry:
-What proof do you have of this threat? Sounds like a bunch of superstitious nonsense to me.
+Do you have any proof? Sounds like a bunch of superstitious nonsense to me.
 
 Isabella-Angry:
 Silence! How dare you interrupt the Pack Leader!
 
 Warrick-Neutral:
-No, he's right to be suspicious. Let me prove it to you that this threat is very real. 
+No, he's right to be suspicious. Let me prove to you that this threat is very real. 
 Rory, come forward.
 
 Rory-Neutral:
 Yes, Pack Leader?
+
+Aren-Surprised:
+What happened to her?! \nThose injuries…they look like they were made by a shifter. \nThat can’t be!
 
 Warrick-Neutral:
 Tell us about the shifter that attacked you.
@@ -29,18 +32,18 @@ Rory-Thinking:
 It was the night of the new moon, when the moon's pull is weakest. I was walking home from the pub with Erik when it happened. We heard a growl from the underbrush as we passed.
 We thought nothing of it in our drunken state, 'til the sound grew and seemed to follow us down the path. Whatever it was kept pace with us to Erik's, even when our pace quickened out of fear.
 We were almost to the door when it leapt from the bushes and attacked us. It was a shifter. Erik fumbled with his keys as I tried to fend it off. There was something familiar about the shifter, but at the time I couldn't place it.
-By the time Erik finally got the door open the shifter had flung me aside and was charging at him. I tried to get up but my vision spun, I must have hit my head.
+By the time Erik finally got the door open the shifter had flung me aside and was charging at him. I tried to get up, but my vision spun. I must have hit my head.
 
 Rory-Scared:
 When my vision cleared the shifter was standing over Erik's body, blood on their claws. I lost control of my shift and attacked them. I almost tore them to ribbons.
-I was lucky I managed to get my shift under control in time to stop myself for killing them. They had lost consciousness and were beginning to shift back. That's when I finally recognized them.
+I barely managed to get my shift under control in time to stop myself from killing them. They had lost consciousness and were beginning to shift back. That's when I finally recognized them.
 It was Erik's older brother, Aidan.
 
 Rory-Thinking:
-I couldn't believe my eyes. Erik's own flesh and blood had tried to kill us. A man I had known my whole life. I didn't have time to ponder it though, Erik was dying and needed help. I picked Erik up and sprinted to town. 
+I couldn't believe my eyes. Erik's own brother had tried to kill us, a man I considered family. I didn't have time to ponder it though, Erik was dying and needed help. I picked Erik up and sprinted to town.
 
 Rory-Angry:
-He was lucky to get away with his life. A few more minutes and he would have died. I went back to Erik's house with a few others to grab Aidan. When we got there he was just waking up. I almost lunged at him in my anger, but someone held me back.
+Erik was lucky. A few more minutes and he would have died. I went back to the house with a few others to grab Aidan. When we got there, he was just waking up. I almost lunged at him in my anger, but someone held me back.
 
 Rory-Thinking:
 One of my companions asked him why he'd attacked us, but Aidan had no idea what they were talking about. He had no memory of the attack or what had started it. The last thing he remembered was walking through the town square. 
@@ -49,7 +52,10 @@ Rory-Scared:
 It was like his shift had completely taken over his mind and body.
 
 Portraitless:
-How can that be?! \nAidan wouldn't hurt a fly! \nWhy would he attack his own kin!? \nWhat is going on?!
+How can that be?!
+Aidan wouldn't hurt a fly!
+Why would he attack his own kin?!
+What is going on?!
 
 Warrick-Neutral:
 Silence. \nThank you Rory. I know that couldn't have been easy for you. \nGo ahead and take a seat.
@@ -70,7 +76,7 @@ We're never going to come to a unanimous decision like this!
 Isabella-Neutral:
 Quiet! One at a time!
 
-Portraitless:
+Crowd-Portraitless:
 *silence*
 
 Geoffrey-Neutral:
@@ -93,9 +99,9 @@ Isabella-Angry:
 *growl*
 
 Warrick-Angry:
-Geoffrey, it is against our ways to kill our own kind, you know that. We will not take such actions, and any who do will be punished severely as our laws state. Am I understood?
+Geoffrey, it is against our laws to kill pack members without just cause, you know that. We will not take such actions, and any who do will be punished severely, as our laws state. Am I understood?
 
-Geoffrey-Neutral:
+Geoffrey-Scared:
 Of course, Pack Leader.
 
 Warrick-Angry:
@@ -105,7 +111,7 @@ Warrick-Neutral:
 Any other suggestions?
 
 Philippe-Neutral:
-We should take our concerns to the proper authorities. The Alliance. They'll be able to handle it. This seems to goes beyond the scope of our pack's law keepers.
+We should take our concerns to the proper authorities. The Alliance. They'll be able to handle it. This seems to go beyond the scope of our pack's law keepers.
 
 Portraitless:
 Cowardly!
@@ -118,16 +124,16 @@ Isabella-Neutral:
 Quiet! All of you!
 
 Warrick-Neutral:
-You have a point Philippe. It would be wise to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results. What do you suggest we do in the mean time? Sit on our thumbs?
+You have a point, Philippe. It would be smart to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results. What do you suggest we do in the meantime? Sit on our hands?
 
 Philippe-Thinking:
-I don't know, Pack Leader. Perhaps we-"
+I don't know, Pack Leader. Maybe we-
 
 Aren-Neutral:
 I think we should investigate the source of whatever is causing shifters to lose control, while we wait for a response from the Alliance.
 
 Isabella-Neutral:
-Aren, you do not interrupt your fellow pack members.
+Aren! you do not interrupt your fellow pack members.
 
 Aren-Sad:
 Sorry Council Member.
@@ -148,7 +154,7 @@ Maybe it's because whatever is affecting our shifts is out there in the forest, 
 Warrick-Neutral:
 Interesting. If your theory is sound, why shouldn't we have the Alliance investigate it instead?
 
-Aren-Neutral:
+Aren-Angry:
 Because the attacks are getting more frequent, and having the Alliance lead the investigation would take too long. By the time they find the cause, it could already be too late for our pack.
 
 Portraitless:
@@ -183,7 +189,8 @@ Portraitless:
 *GROWL*
 
 Warrick-Angry:
-Everyone clear out immediately! It's-
+Everyone, clear out immediately! It's-
 
 Aren-Surprised:
 A feral shifter!
+

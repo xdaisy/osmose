@@ -4,12 +4,16 @@ Oh! I just got an alert on my computer!
 Aren-Neutral:
 Looks like a message from the Pack Leader.
 
-Aren:
+Aren-Neutral:
 "To All Pack Members, An emergency Town Pack Meeting has been called. The meeting will start at 10am in the town hall. Attendance is mandatory for all adult pack members.
 Warrick Henderson, Pack Leader"
 
 Aren-Thinking:
 That sounds serious, I wonder what must have happened.
 
+Aren-Sad:
+Guess my plans with Rory are canceled. 
+
 Aren-Neutral:
-It's almost 9am, I should head out soon if I want to be at the meeting on time.
+Hopefully I'll see her at the meeting.
+It's almost 9am, I should head out soon if I want to be there on time.
