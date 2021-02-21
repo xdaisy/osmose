@@ -13,6 +13,7 @@ public class LogicSystemUI : MonoBehaviour {
     [SerializeField] SceneName sceneName;
     [SerializeField] SceneName nextScene;
     [SerializeField] int lifeCount = 3;
+    [SerializeField] private string[] gameOverDialogue;
 
     [Header("UI for Lives")]
     public Image[] Lives;
@@ -39,6 +40,8 @@ public class LogicSystemUI : MonoBehaviour {
     private CutsceneSpriteHolder spriteHolder;
 
     private int currStep = 0;
+    private string[] currDialogue = null;
+    private int currDialogueIndx = 0;
     private int clueOffset = -1;
     private string currClueName = "";
     private bool showPopup = false;
@@ -51,17 +54,25 @@ public class LogicSystemUI : MonoBehaviour {
         clues = GameManager.Instance.GetCurrentClues();
 
         updateLives();
-        updateLogicStepDialogue();
+        updateLogicStep();
     }
 
     // Update is called once per frame
     void Update() {
         if (Input.GetButtonDown("Interact")) {
             // if press input
-            if (!showPopup && !wrongAnswer && currStep < logicSteps.Length - 1) {
+            if (!wrongAnswer && currDialogueIndx < currDialogue.Length - 1) {
+                // update the dialogue to the next one
+                currDialogueIndx++;
+                updateDialogue();
+            } else if (!wrongAnswer && numWrongGuesses >= lifeCount) {
+                // go to game over screen
+                GameManager.Instance.PreviousScene = sceneName.GetSceneName();
+                LoadSceneLogic.Instance.LoadScene(Constants.GAMEOVER);
+            } else if (!showPopup && !wrongAnswer && currStep < logicSteps.Length - 1) {
                 // if can go to next logic step, progress
                 currStep++;
-                updateLogicStepDialogue();
+                updateLogicStep();
             } else if (wrongAnswer) {
                 showPopup = true;
                 wrongAnswer = false;
@@ -146,12 +157,11 @@ public class LogicSystemUI : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Update to the next step's dialogue
-    /// </summary>
-    private void updateLogicStepDialogue() {
+    private void updateLogicStep() {
         LogicStep currLogicStep = logicSteps[currStep];
-        updateDialogue(currLogicStep.GetDialogue());
+        currDialogue = currLogicStep.GetDialogue();
+        currDialogueIndx = 0;
+        updateDialogue();
         // if there is a clue or choice to be made, cannot go to next logic step
         showPopup = currLogicStep.GetClue() != null || currLogicStep.GetCorrectChoice() > -1;
     }
@@ -164,19 +174,23 @@ public class LogicSystemUI : MonoBehaviour {
         updateLives();
         if (numWrongGuesses >= lifeCount) {
             // gameover
-            GameManager.Instance.PreviousScene = sceneName.GetSceneName();
-            LoadSceneLogic.Instance.LoadScene(Constants.GAMEOVER);
+            currDialogue = gameOverDialogue;
+            currDialogueIndx = 0;
+            updateDialogue();
+            return;
         }
         LogicStep currLogicStep = logicSteps[currStep];
-        updateDialogue(currLogicStep.GetWrongDialogue());
+        currDialogue = currLogicStep.GetWrongDialogue();
+        currDialogueIndx = 0;
+        updateDialogue();
         showPopup = true;
     }
 
     /// <summary>
     /// Update the dialogue text and protrait
     /// </summary>
-    /// <param name="text">Dialogue text</param>
-    private void updateDialogue(string text) {
+    private void updateDialogue() {
+        string text = currDialogue[currDialogueIndx];
         string[] stepString = Parser.SplitLogicDialogue(text);
 
         Portrait portrait = Parser.ParsePortrait(stepString[0]); // get the name and sprite name
@@ -199,7 +213,7 @@ public class LogicSystemUI : MonoBehaviour {
             clueOffset = 0;
             CluesPopup.SetActive(true);
 
-            string[] stepString = Parser.SplitLogicDialogue(currLogicStep.GetDialogue());
+            string[] stepString = Parser.SplitLogicDialogue(currDialogue[currDialogueIndx]);
             Question.text = stepString[1];
 
             updateCluesPopup();
@@ -245,7 +259,7 @@ public class LogicSystemUI : MonoBehaviour {
 
         if (!Dialogue.text.Equals(currLogicStep.GetDialogue())) {
             // if the dialogue isn't the same
-            updateLogicStepDialogue();
+            //updateLogicStepDialogue();
         }
 
         string[] choices = currLogicStep.GetChoices();

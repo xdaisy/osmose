@@ -11,7 +11,7 @@ public struct Portrait {
 /// Class that holds static methods for parsing dialogue text
 /// </summary>
 public class Parser {
-    private static string[] dialogueSeparators = { ":\n" };
+    private static string[] dialogueSeparators = { ":" };
 
     /// <summary>
     /// Parse the line into the character name and the sprite name

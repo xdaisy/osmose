@@ -95,6 +95,7 @@ public class CutsceneManager : MonoBehaviour {
     /// <returns>Name of the person talking</returns>
     private string ChangeSprite(string line) {
         Portrait portrait = Parser.ParsePortrait(line);
+        Debug.Log(portrait.spriteName);
 
         talkingSprite.enabled = true; // want to show sprite
         Sprite personSprite = spriteHolder.GetSprite(portrait.spriteName);

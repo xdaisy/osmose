@@ -5,17 +5,17 @@
 /// </summary>
 [CreateAssetMenu(menuName = "LogicStep")]
 public class LogicStep : ScriptableObject {
-    [SerializeField] [TextArea(1, 20)] private string dialogue;
+    [SerializeField] private string[] dialogue;
     [SerializeField] private Clue clue;
     [SerializeField] private string[] choices;
     [SerializeField] private int correctChoice;
-    [SerializeField] [TextArea(1, 20)] private string wrongDialogue;
+    [SerializeField] private string[] wrongDialogue;
     
     /// <summary>
     /// Get the text for the dialogue
     /// </summary>
     /// <returns>Dialogue</returns>
-    public string GetDialogue() {
+    public string[] GetDialogue() {
         return dialogue;
     }
 
@@ -47,7 +47,7 @@ public class LogicStep : ScriptableObject {
     /// Get the dialogue when the player chose the wrong answer
     /// </summary>
     /// <returns>Dialogue for selecting the wrong answer</returns>
-    public string GetWrongDialogue() {
+    public string[] GetWrongDialogue() {
         return wrongDialogue;
     }
 }
