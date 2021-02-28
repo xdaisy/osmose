@@ -71,15 +71,16 @@ public class CutsceneManager : MonoBehaviour {
             // if line contains :, then is name
             line = line.Remove(line.Length - 1); // remove :
             string name = line;
-            if (line.Contains("-")) {
-                name = ChangeSprite(line);
-            } else if(name.Equals("Portraitless")) {
+            Portrait portrait = Parser.ParsePortrait(line);
+            if (portrait.spriteName.Equals("Portraitless")) {
                 // do NOT want to show sprite
                 talkingSprite.enabled = false;
-                name = ""; // set name to empty string
+            } else {
+                // change sprite
+                ChangeSprite(portrait);
             }
 
-            dName.text = name; // name of person talking is always first word
+            dName.text = portrait.name; // name of person talking is always first word
             line = reader.ReadLine(); // name of person talking always followed by lines of text
         }
 
@@ -91,17 +92,15 @@ public class CutsceneManager : MonoBehaviour {
     /// <summary>
     /// Change the portrait of the person talking
     /// </summary>
-    /// <param name="line">Line from the script</param>
-    /// <returns>Name of the person talking</returns>
-    private string ChangeSprite(string line) {
-        Portrait portrait = Parser.ParsePortrait(line);
-        Debug.Log(portrait.spriteName);
-
+    /// <param name="portrait">Portrait struct that contains name and sprite name</param>
+    private void ChangeSprite(Portrait portrait) {
+        if (portrait.spriteName.Length == 0) {
+            // if the sprite name is an empty string
+            return;
+        }
         talkingSprite.enabled = true; // want to show sprite
         Sprite personSprite = spriteHolder.GetSprite(portrait.spriteName);
         talkingSprite.sprite = personSprite;
-        
-        return portrait.name;
     }
 
     /// <summary>

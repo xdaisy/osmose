@@ -19,9 +19,20 @@ public class Parser {
     /// <param name="line">Line which holds the name</param>
     /// <returns>Struct that contains the name of the character and the sprite</returns>
     public static Portrait ParsePortrait(string line) {
-        string[] person = line.Split('-');
-        string name = person[0];
-        string spriteName = person[0] + "_" +  person[1];
+        string name = "";
+        string spriteName = "";
+        if (line.Contains("-")) {
+            string[] person = line.Split('-');
+            name = person[0];
+            spriteName = !isPortraitless(person[1]) ? person[0] + "_" + person[1] : person[1];
+        } else {
+            // no "-" in line
+            if (isPortraitless(line)) {
+                spriteName = line;
+            } else {
+                name = line;
+            }
+        }
 
         return new Portrait {
             name = name,
@@ -50,5 +61,14 @@ public class Parser {
     /// <returns>String array that contains the portrait and the line of dialogue</returns>
     public static string[] SplitLogicDialogue(string dialogue) {
         return dialogue.Split(dialogueSeparators, StringSplitOptions.None);
+    }
+
+    /// <summary>
+    /// Get whether or not there is a portrait shown
+    /// </summary>
+    /// <param name="portraitName">Name of the portrait</param>
+    /// <returns>True if it is portraitless, false otherwise</returns>
+    private static bool isPortraitless(string portraitName) {
+        return portraitName.Equals("Portraitless");
     }
 }
