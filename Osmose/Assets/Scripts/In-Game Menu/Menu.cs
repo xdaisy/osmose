@@ -53,6 +53,7 @@ public class Menu : MonoBehaviour {
     /// </summary>
     public void OpenGameMenu() {
         eventSystem.enabled = true;
+        eventSystem.SetSelectedGameObject(null);
         GameManager.Instance.GameMenuOpen = true;
         currMenu = MAIN_MENU;
         Menus[MAIN_MENU].SetActive(true);
