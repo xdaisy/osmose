@@ -126,7 +126,7 @@ Quiet! All of you!
 Warrick-Neutral:
 You have a point, Philippe. It would be smart to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results. What do you suggest we do in the meantime? Sit on our hands?
 
-Philippe-Thinking:
+Philippe-Neutral:
 I don't know, Pack Leader. Maybe we-
 
 Aren-Neutral:
@@ -193,4 +193,3 @@ Everyone, clear out immediately! It's-
 
 Aren-Surprised:
 A feral shifter!
-
