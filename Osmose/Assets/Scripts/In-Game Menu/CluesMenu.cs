@@ -134,7 +134,6 @@ public class CluesMenu : MonoBehaviour {
             // is past chapter
             lookCurrentClues = true;
         }
-        //DropDownButton.interactable = true;
         DropDownMenu.SetActive(false);
         ListGroup.interactable = true;
         chapter = currChapter;
