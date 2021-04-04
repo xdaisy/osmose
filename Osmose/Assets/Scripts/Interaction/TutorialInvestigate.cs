@@ -14,6 +14,8 @@ public class TutorialInvestigate : MonoBehaviour {
             showingDialogue = true;
             Dialogue.Instance.ShowDialogue(dialogue, false);
         } else if (showingDialogue && !Dialogue.Instance.GetDialogueActive()) {
+            InteractMark mark = GameObject.FindObjectOfType<InteractMark>();
+            mark.SetMarkOff();
             LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
         }
     }
