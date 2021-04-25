@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 /// <summary>
 /// Class for managing the Logic System UI
@@ -20,10 +21,12 @@ public class LogicSystemUI : MonoBehaviour {
     public Sprite LifeIcon;
     public Sprite DamageIcon;
     public EventSystem EventSystem;
+
     [Header("UI For Dialogue")]
     public Text Name;
     public Text Dialogue;
     public Image Portrait;
+    public Animator SpriteAnim;
 
     [Header("UI For Clues")]
     public GameObject CluesPopup;
@@ -199,6 +202,9 @@ public class LogicSystemUI : MonoBehaviour {
 
         Name.text = portrait.name;
         Portrait.sprite = sprite;
+        if (portrait.animationTime > 0f) {
+            StartCoroutine(playAnimationCo(portrait.animationName, portrait.animationTime));
+        }
         Dialogue.text = dialogue;
     }
 
@@ -294,5 +300,17 @@ public class LogicSystemUI : MonoBehaviour {
                 Lives[i].sprite = DamageIcon;
             }
         }
+    }
+
+    /// <summary>
+    /// Coroutine for playing animation
+    /// </summary>
+    /// <param name="animationName">Name of the animation</param>
+    /// <param name="animationTime">Time to play animation</param>
+    /// <returns></returns>
+    private IEnumerator playAnimationCo(string animationName, float animationTime) {
+        SpriteAnim.SetBool(animationName, true);
+        yield return new WaitForSeconds(animationTime);
+        SpriteAnim.SetBool(animationName, false);
     }
 }

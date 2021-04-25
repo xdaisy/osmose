@@ -17,6 +17,7 @@ public class CutsceneManager : MonoBehaviour {
     public Text dText;
     public Text dName;
     public Image talkingSprite;
+    public Animator spriteAnim;
 
     [Header("Scene Load")]
     public SceneName sceneToLoad;
@@ -81,6 +82,10 @@ public class CutsceneManager : MonoBehaviour {
             }
 
             dName.text = portrait.name; // name of person talking is always first word
+            if (portrait.animationTime > 0f) {
+                // if there is an animation, play it
+                StartCoroutine(playAnimationCo(portrait.animationName, portrait.animationTime));
+            }
             line = reader.ReadLine(); // name of person talking always followed by lines of text
         }
 
@@ -117,5 +122,17 @@ public class CutsceneManager : MonoBehaviour {
             }
         }
         LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
+    }
+
+    /// <summary>
+    /// Coroutine for playing animation
+    /// </summary>
+    /// <param name="animationName">Name of the animation</param>
+    /// <param name="animationTime">Time to play animation</param>
+    /// <returns></returns>
+    private IEnumerator playAnimationCo(string animationName, float animationTime) {
+        spriteAnim.SetBool(animationName, true);
+        yield return new WaitForSeconds(animationTime);
+        spriteAnim.SetBool(animationName, false);
     }
 }

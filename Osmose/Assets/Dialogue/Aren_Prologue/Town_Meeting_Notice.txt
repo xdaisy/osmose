@@ -1,4 +1,4 @@
-Aren-Surprised:
+Aren-Surprised<j>:
 Oh! I just got an alert on my computer!
 
 Aren-Neutral:
@@ -14,6 +14,6 @@ That sounds serious, I wonder what must have happened.
 Aren-Sad:
 Guess my plans with Rory are canceled. 
 
-Aren-Neutral:
+Aren-Neutral<s>:
 Hopefully I'll see her at the meeting.
 It's almost 9am, I should head out soon if I want to be there on time.

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 
 public struct Portrait {
     public string name;
     public string spriteName;
+    public string animationName;
+    public float animationTime;
 };
 
 /// <summary>
@@ -21,22 +21,36 @@ public class Parser {
     public static Portrait ParsePortrait(string line) {
         string name = "";
         string spriteName = "";
-        if (line.Contains("-")) {
-            string[] person = line.Split('-');
+
+        int indexOfAngBracket = line.IndexOf('<');
+        if (indexOfAngBracket < 0) {
+            indexOfAngBracket = line.Length;
+        }
+        string namePortrait = line.Substring(0, indexOfAngBracket);
+        string animationCommand = line.Substring(indexOfAngBracket);
+
+        if (namePortrait.Contains("-")) {
+            string[] person = namePortrait.Split('-');
             name = person[0];
             spriteName = !isPortraitless(person[1]) ? person[0] + "_" + person[1] : person[1];
         } else {
             // no "-" in line
-            if (isPortraitless(line)) {
-                spriteName = line;
+            if (isPortraitless(namePortrait)) {
+                spriteName = namePortrait;
             } else {
-                name = line;
+                name = namePortrait;
             }
         }
 
+        // get animation information
+        string animationName = getAnimationName(animationCommand);
+        float animationTime = getAnimationTime(animationCommand);
+
         return new Portrait {
             name = name,
-            spriteName = spriteName
+            spriteName = spriteName,
+            animationName = animationName,
+            animationTime = animationTime
         };
     }
 
@@ -70,5 +84,37 @@ public class Parser {
     /// <returns>True if it is portraitless, false otherwise</returns>
     private static bool isPortraitless(string portraitName) {
         return portraitName.Equals("Portraitless");
+    }
+
+    /// <summary>
+    /// Get the animation name
+    /// </summary>
+    /// <param name="animationCommand">Command for the animation</param>
+    /// <returns>Animation name if the command exists</returns>
+    private static string getAnimationName(string animationCommand) {
+        switch(animationCommand) {
+            case "<j>":
+                return "Jump";
+            case "<s>":
+                return "Shake";
+            default:
+                return "";
+        }
+    }
+
+    /// <summary>
+    /// Get the animation time
+    /// </summary>
+    /// <param name="animationCommand">Command for the animation</param>
+    /// <returns>Animation time if the command exists</returns>
+    private static float getAnimationTime(string animationCommand) {
+        switch (animationCommand) {
+            case "<j>":
+                return 0.5f;
+            case "<s>":
+                return 0.25f;
+            default:
+                return 0f;
+        }
     }
 }
