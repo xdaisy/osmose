@@ -84,10 +84,8 @@ public class LogicSystemUI : MonoBehaviour {
                 handlePopup();
             } else if (currStep >= logicSteps.Length - 1) {
                 // end of steps
-                // TODO: transition to next scene
-                Dialogue.text = "End of Logic System";
-                //GameManager.Instance.PreviousScene = sceneName.GetSceneName();
-                //LoadSceneLogic.Instance.LoadScene(nextScene.GetSceneName());
+                GameManager.Instance.PreviousScene = sceneName.GetSceneName();
+                LoadSceneLogic.Instance.LoadScene(nextScene.GetSceneName());
             }
         }
 
@@ -223,6 +221,7 @@ public class LogicSystemUI : MonoBehaviour {
             Question.text = stepString[1];
 
             updateCluesPopup();
+            EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(ClueNames[0].gameObject);
             currClueName = clues[0];
             updateCluesDescription();
@@ -263,11 +262,6 @@ public class LogicSystemUI : MonoBehaviour {
     private void updateChoicesPopup() {
         LogicStep currLogicStep = logicSteps[currStep];
 
-        if (!Dialogue.text.Equals(currLogicStep.GetDialogue())) {
-            // if the dialogue isn't the same
-            //updateLogicStepDialogue();
-        }
-
         string[] choices = currLogicStep.GetChoices();
 
         ChoicePopup.SetActive(true);
@@ -281,6 +275,7 @@ public class LogicSystemUI : MonoBehaviour {
             }
         }
 
+        EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(Choices[0].gameObject);
     }
 

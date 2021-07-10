@@ -7,7 +7,8 @@ public class GameOver : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start() {
-        eventSystem.SetSelectedGameObject(YesButton);   
+        eventSystem.SetSelectedGameObject(null);
+        eventSystem.SetSelectedGameObject(YesButton);
     }
 
     public void Yes() {
