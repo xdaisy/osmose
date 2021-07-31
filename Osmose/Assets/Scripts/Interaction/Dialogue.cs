@@ -38,8 +38,7 @@ public class Dialogue : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-        eventSystem = this.GetComponent<EventSystem>();
-        eventSystem.enabled = false;
+        eventSystem = EventSystem.current;
     }
 
     // Update is called once per frame
@@ -68,7 +67,7 @@ public class Dialogue : MonoBehaviour {
                 if (currentLine >= dialogueLines.Length && needInput && !ConfirmationPopup.activeSelf) {
                     // if needs to show popup
                     ConfirmationPopup.SetActive(true);
-                    eventSystem.enabled = true;
+                    eventSystem = EventSystem.current;
                     eventSystem.SetSelectedGameObject(null);
                     eventSystem.SetSelectedGameObject(YesButton);
                     return;
@@ -160,7 +159,6 @@ public class Dialogue : MonoBehaviour {
         }
         justStarted = true;
         ConfirmationPopup.SetActive(false);
-        eventSystem.enabled = false;
     }
 
     /// <summary>

@@ -7,19 +7,16 @@ using UnityEngine.EventSystems;
 public class MapAvatar : MonoBehaviour {
     public float MoveSpeed;
 
-    private EventSystem eventSystem;
-
     private Vector3 offset;
 
     private void Awake() {
-        eventSystem = EventSystem.current;
         offset = new Vector3(2, 59, 0);
     }
 
     // Update is called once per frame
     void Update() {
-        if (eventSystem.currentSelectedGameObject.GetComponent<Node>() != null) {
-            Vector3 nodePos = eventSystem.currentSelectedGameObject.transform.position + offset;
+        if (EventSystem.current.currentSelectedGameObject.GetComponent<Node>() != null) {
+            Vector3 nodePos = EventSystem.current.currentSelectedGameObject.transform.position + offset;
             if (this.transform.position != nodePos) {
                 // move if avatar is not on top of current node
                 this.transform.position = Vector3.MoveTowards(

@@ -35,8 +35,7 @@ public class Menu : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-        eventSystem = this.GetComponent<EventSystem>();
-        eventSystem.SetSelectedGameObject(CluesButton);
+        eventSystem = EventSystem.current;
         updateCharacterOrder();
     }
 
@@ -52,7 +51,7 @@ public class Menu : MonoBehaviour {
     /// Open the menu
     /// </summary>
     public void OpenGameMenu() {
-        eventSystem.enabled = true;
+        eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(null);
         GameManager.Instance.GameMenuOpen = true;
         currMenu = MAIN_MENU;
@@ -67,7 +66,6 @@ public class Menu : MonoBehaviour {
         closeAllMenu();
         eventSystem.SetSelectedGameObject(null);
         currMenu = MAIN_MENU;
-        eventSystem.enabled = false;
         GameManager.Instance.GameMenuOpen = false;
     }
 

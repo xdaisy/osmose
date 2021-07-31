@@ -2,13 +2,12 @@
 using UnityEngine.EventSystems;
 
 public class GameOver : MonoBehaviour {
-    public EventSystem eventSystem;
     public GameObject YesButton;
     
     // Start is called before the first frame update
     void Start() {
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(YesButton);
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(YesButton);
     }
 
     public void Yes() {

@@ -6,6 +6,7 @@ public class LoadGame : MonoBehaviour {
     [Header("General")]
     public CanvasGroup MainGroup;
     public SceneName loadArea;
+    public GameObject NewGameButton;
     public Button ContinueButton;
 
     [Header("Continue UI")]
@@ -21,7 +22,8 @@ public class LoadGame : MonoBehaviour {
 
     void Start() {
         GameManager.Instance.OnMainMenu = true;
-        prevButton = EventSystem.current.firstSelectedGameObject;
+        prevButton = NewGameButton;
+        EventSystem.current.SetSelectedGameObject(NewGameButton);
 
         // load the save data
         SaveFileManager.LoadSaves();
