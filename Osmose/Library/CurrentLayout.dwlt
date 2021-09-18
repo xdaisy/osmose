@@ -114,7 +114,7 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 942, y: 348}
+  m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
   controlID: 37
@@ -162,8 +162,8 @@ MonoBehaviour:
     y: 0
     width: 808
     height: 528
-  m_MinSize: {x: 202, y: 224}
-  m_MaxSize: {x: 4002, y: 4024}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -190,8 +190,8 @@ MonoBehaviour:
     y: 528
     width: 808
     height: 419
-  m_MinSize: {x: 102, y: 124}
-  m_MaxSize: {x: 4002, y: 4024}
+  m_MinSize: {x: 100, y: 100}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 12}
@@ -271,14 +271,14 @@ MonoBehaviour:
     y: 0
     width: 419
     height: 947
-  m_MinSize: {x: 302, y: 324}
+  m_MinSize: {x: 277, y: 74}
   m_MaxSize: {x: 4002, y: 4024}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
   - {fileID: 22}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -835,21 +835,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c0edffffdcedffff3eefffffa6effffffeefffff30f0ffff62f0ffff98f0ffffd4f0ffff18f1ffff62f1ffffc4f1ffff22f2ffff3af3ffffd4f3ffff20f4ffff70f4ffffa6f4fffffaf4ffff14f5ffff2ef5ffff32f5ffff10fbffffd6fbffff1243000002440000
+      m_ExpandedIDs: dcdafffff8daffff50dcffffb8dcffff10ddffff42ddffff74ddffffaaddffffe6ddffff2adeffff74deffffd6deffff34dfffff4ce0ffffe6e0ffff32e1ffff82e1ffffb8e1ffff0ce2ffff26e2ffff40e2ffff44e2ffffd2e2ffffdefbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: Canvas
+        m_OriginalName: Canvas
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: 20796
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -938,9 +938,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 86}
-    m_SelectedIDs: e0270000
-    m_LastClickedID: 10208
-    m_ExpandedIDs: 000000006627000094270000e02700009e280000ee290000d62d00001a3200005c3300008c350000d0350000003700004e380000bc39000076420000784200007a4200007c42000000ca9a3b
+    m_SelectedIDs: 260b0000
+    m_LastClickedID: 2854
+    m_ExpandedIDs: 00000000ac0a0000da0a0000260b0000e40b0000340d00001c11000060150000a2160000d218000016190000461a0000941b0000021d000046430000484300004a4300004c43000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -968,7 +968,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000006627000094270000e02700009e280000ee290000d62d00001a3200005c3300008c350000d0350000003700004e380000bc39000076420000784200007a4200007c420000
+    m_ExpandedIDs: 00000000ac0a0000da0a0000260b0000e40b0000340d00001c11000060150000a2160000d218000016190000461a0000941b0000021d000046430000484300004a4300004c430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
