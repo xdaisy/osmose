@@ -46,7 +46,7 @@ MonoBehaviour:
     y: 0
     width: 1920
     height: 997
-  m_MinSize: {x: 950, y: 398}
+  m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &3
 MonoBehaviour:
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 348}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 37
+  controlID: 173
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 348}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 38
+  controlID: 57
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -271,8 +271,8 @@ MonoBehaviour:
     y: 0
     width: 419
     height: 947
-  m_MinSize: {x: 277, y: 74}
-  m_MaxSize: {x: 4002, y: 4024}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 21}
   m_Panes:
   - {fileID: 21}
@@ -835,21 +835,21 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: dcdafffff8daffff50dcffffb8dcffff10ddffff42ddffff74ddffffaaddffffe6ddffff2adeffff74deffffd6deffff34dfffff4ce0ffffe6e0ffff32e1ffff82e1ffffb8e1ffff0ce2ffff26e2ffff40e2ffff44e2ffffd2e2ffffdefbffff
+      m_ExpandedIDs: 7ce6ffff94e6ffffd8e7ffff40e8ffff98e8ffffcae8fffffce8ffff32e9ffff6ee9ffffb2e9fffffce9ffff5eeaffffbceaffffd4ebffff6eecffffbaecffff0aedffff40edffff92edffffacedffffc4edffffe2edffffa8eeffffdefbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Canvas
-        m_OriginalName: Canvas
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 20796
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 9}
       m_SearchString: 
@@ -927,19 +927,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Prefabs
   m_ViewMode: 1
   m_StartGridSize: 58
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Prefabs
   m_LastFoldersGridSize: 58
   m_LastProjectPath: E:\My shit\osmose\Osmose
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 86}
-    m_SelectedIDs: 260b0000
-    m_LastClickedID: 2854
+    m_SelectedIDs: e40b0000
+    m_LastClickedID: 3044
     m_ExpandedIDs: 00000000ac0a0000da0a0000260b0000e40b0000340d00001c11000060150000a2160000d218000016190000461a0000941b0000021d000046430000484300004a4300004c43000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -995,7 +995,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: fc2c0000c42b0000142c00004a2f0000c42f0000aa2c000050300000d42900001a100000d42f0000923200007c0b0000a83100005e60000066600000ca6f0000765a00001e120000e8110000b60b0000d2130000dc1300000e2e000058350000f82c000036100000b20c0000ec0f0000ae0a00004815000002320000265900003e150000642b0000b60e0000ba270000262d000068270000902b00001235000052140000740d0000382b0000340a0000c00b00000428000010280000783a000070120000c80e00007a280000c80b0000a4190000ea3f0000500a0000cc290000de400000c86900004242000066510000740f0000dc050000da1a0000a00f0000121100001c1100004c0f00004a18000076100000e0190000c4120000000000007c270000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
