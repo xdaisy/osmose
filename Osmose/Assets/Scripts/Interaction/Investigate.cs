@@ -4,16 +4,22 @@ using UnityEngine;
 public class Investigate : MonoBehaviour {
     public Clue Clue;
     [SerializeField] private SceneName sceneToUnlock; // scene to unlock
+    [SerializeField] private SceneName lockedByScene; // scene to unlock
     [SerializeField] private bool KeenEyes; // is Aren's ability?
 
     [Header("Dialogue")]
     public string[] PreObtainDialogue; // lines of generic dialogue
     public string[] PostObtainDialogue; // lines of dialogue for before/after specific event
     public string[] AbilityDialogue;
+    public string[] PreInvestigationDialogue;
 
     private bool canActivate = false;
 
-    void Start() {}
+    void Start() {
+        if (lockedByScene != null && (PreInvestigationDialogue == null || PreInvestigationDialogue.Length == 0) && !EventManager.Instance.DidEventHappened(lockedByScene.GetSceneName())) {
+            Destroy(this.gameObject);
+        }
+    }
 
     // Update is called once per frame
     void Update() {
@@ -46,7 +52,9 @@ public class Investigate : MonoBehaviour {
     /// <returns>Correct dialogue to show</returns>
     private string[] getDialogue() {
         List<string> dialogue;
-        if (haveInvestigated()) {
+        if (lockedByScene != null && !EventManager.Instance.DidEventHappened(lockedByScene.GetSceneName())) {
+            dialogue = new List<string>(this.PreInvestigationDialogue);
+        } else if (haveInvestigated()) {
             dialogue = new List<string>(this.PostObtainDialogue);
         } else if (KeenEyes && GameManager.Instance.IsLeader(Constants.AREN)) {
             // if aren is in front and item needs keen eyes to show
@@ -64,7 +72,7 @@ public class Investigate : MonoBehaviour {
     /// </summary>
     /// <returns>True if can add clue to the inventory, false otherwise</returns>
     private bool canAddClue() {
-        bool investigated = !haveInvestigated();
+        bool investigated = (lockedByScene == null || EventManager.Instance.DidEventHappened(lockedByScene.GetSceneName())) && !haveInvestigated();
         if (KeenEyes) {
             // aren's special ability
             return GameManager.Instance.IsLeader(Constants.AREN) && investigated;
