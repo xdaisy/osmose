@@ -23,6 +23,14 @@ public class LoadSceneLogic : MonoBehaviour {
     }
 
     /// <summary>
+    /// Load a scene
+    /// </summary>
+    /// <param name="sceneName">Name of the scene to load</param>
+    public void LoadScene(string sceneName, Vector2 lastMove) {
+        StartCoroutine(loadSceneCo(sceneName, lastMove));
+    }
+
+    /// <summary>
     /// Wait and then load scene
     /// </summary>
     /// <param name="sceneName">Name of the scene to load</param>
@@ -32,6 +40,20 @@ public class LoadSceneLogic : MonoBehaviour {
         GameManager.Instance.FadingBetweenAreas = true;
         GameManager.Instance.CurrentScene = sceneName;
         yield return new WaitForSeconds(Constants.WAIT_TIME);
+        SceneManager.LoadScene(sceneName);
+    }
+
+    /// <summary>
+    /// Wait and then load scene
+    /// </summary>
+    /// <param name="sceneName">Name of the scene to load</param>
+    /// <returns></returns>
+    private IEnumerator loadSceneCo(string sceneName, Vector2 lastMove) {
+        UIFade.Instance.FadeToBlack();
+        GameManager.Instance.FadingBetweenAreas = true;
+        GameManager.Instance.CurrentScene = sceneName;
+        yield return new WaitForSeconds(Constants.WAIT_TIME);
+        PlayerControls.Instance.SetLastMove(Vector2.up);
         SceneManager.LoadScene(sceneName);
     }
 }

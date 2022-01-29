@@ -4,11 +4,22 @@ using UnityEngine.EventSystems;
 
 public class Navigation : MonoBehaviour {
     public SceneName[] Places;
-    public GameObject UI;
     public Text[] AreaNames;
+
+    // field for playing sound effects
+    private GameObject prevButton;
 
     // Update is called once per frame
     void Update() {
+        if (gameObject.activeSelf && Input.GetButtonDown("Vertical")) {
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+
+            if (currButton != prevButton) {
+                playClick();
+
+                prevButton = currButton;
+            }
+        }
         if (gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
             playClick();
             Close();
@@ -27,14 +38,14 @@ public class Navigation : MonoBehaviour {
     }
 
     public void SelectArea(int area) {
+        playClick();
         string sceneName = Places[area].GetSceneName();
-        GameManager.Instance.PreviousScene = GameManager.Instance.CurrentScene;
+        GameManager.Instance.PreviousScene = Constants.MAP;
         GameManager.Instance.CurrentScene = sceneName;
 
-        PlayerControls.Instance.SetLastMove(Vector2.up);
         GameManager.Instance.OnMap = false;
 
-        LoadSceneLogic.Instance.LoadScene(sceneName);
+        LoadSceneLogic.Instance.LoadScene(sceneName, Vector2.up);
     }
 
     private void updateArenNames() {
