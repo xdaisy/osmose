@@ -11,7 +11,7 @@ public class Navigation : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (gameObject.activeSelf && Input.GetButtonDown("Vertical")) {
+        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
             GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
             if (currButton != prevButton) {
@@ -27,16 +27,26 @@ public class Navigation : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Open the navigation popup
+    /// </summary>
     public void Open() {
         this.gameObject.SetActive(true);
-        updateArenNames();
+        updateAreaNames();
     }
 
+    /// <summary>
+    /// Close the navigation popup
+    /// </summary>
     public void Close() {
         GameManager.Instance.OnMap = false;
         this.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Select an area to go to
+    /// </summary>
+    /// <param name="area">Index of the area want to go to</param>
     public void SelectArea(int area) {
         playClick();
         string sceneName = Places[area].GetSceneName();
@@ -48,7 +58,10 @@ public class Navigation : MonoBehaviour {
         LoadSceneLogic.Instance.LoadScene(sceneName, Vector2.up);
     }
 
-    private void updateArenNames() {
+    /// <summary>
+    /// Update the buttons with the name of the areas in the navigation popup
+    /// </summary>
+    private void updateAreaNames() {
         bool setCurrentButton = false;
         for (int i = 0; i < AreaNames.Length; i++) {
             if (i >= Places.Length || !EventManager.Instance.DidEventHappened(Places[i].GetSceneName())) {
@@ -62,7 +75,7 @@ public class Navigation : MonoBehaviour {
             string area = scene.GetSceneName().Replace('_', ' ');
             AreaNames[i].gameObject.SetActive(true);
             AreaNames[i].text = area;
-            if (!setCurrentButton) {
+            if (!setCurrentButton && EventSystem.current != null) {
                 EventSystem.current.SetSelectedGameObject(AreaNames[i].gameObject);
                 setCurrentButton = true;
             }
