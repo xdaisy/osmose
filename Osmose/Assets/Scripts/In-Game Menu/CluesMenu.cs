@@ -86,6 +86,7 @@ public class CluesMenu : MonoBehaviour {
     /// </summary>
     /// <returns>True if the menu is closed, false otherwise</returns>
     public bool GoBack() {
+        playClick();
         if (DropDownMenu.activeSelf) {
             // if drop down menu is active
             DropDownButton.interactable = true;
@@ -115,6 +116,7 @@ public class CluesMenu : MonoBehaviour {
     /// Open the Chapter drop down menu
     /// </summary>
     public void OpenChapterDropdown() {
+        playClick();
         ListGroup.interactable = false;
         DropDownMenu.SetActive(true);
         eventSystem.SetSelectedGameObject(ChapterNames[0].gameObject);
@@ -128,6 +130,7 @@ public class CluesMenu : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index of the button</param>
     public void ChangeChapterDropdown(int index) {
+        playClick();
         string currChapter = ChapterNames[index].text;
         lookCurrentClues = false;
         if (currChapter.IndexOf(CURRENT_CHAPTER) > -1) {
@@ -195,6 +198,7 @@ public class CluesMenu : MonoBehaviour {
         if (currentButton != null && currentButton != DropDownButton) {
             if (currentButton != currButton) {
                 // set what is the current clue
+                playClick();
                 string chapterOfClue = chapter.Equals(CURRENT_CHAPTER) ? GameManager.Instance.GetCurrentChapter() : chapter;
                 currClue = GameManager.Instance.GetClueWithName(chapterOfClue, currentButton.GetComponent<Text>().text);
                 currButton = currentButton;
@@ -205,6 +209,7 @@ public class CluesMenu : MonoBehaviour {
                     // going down
                     Clue c = lookCurrentClues ? GameManager.Instance.GetCurrentClueAt(clueOffset + Names.Length) : GameManager.Instance.GetPastClueAt(chapter, clueOffset + Names.Length);
                     if (c != null) {
+                        playClick();
                         clueOffset++;
                         currClue = c;
                         updateNamesList();
@@ -213,6 +218,7 @@ public class CluesMenu : MonoBehaviour {
                 }
                 if (input > 0.5f && clueOffset > 0) {
                     // going up
+                    playClick();
                     clueOffset--;
                     updateNamesList();
                     updateDescription();
@@ -263,20 +269,30 @@ public class CluesMenu : MonoBehaviour {
         if (currentButton != null) {
             if (currentButton != currButton) {
                 // set current button
+                playClick();
                 currButton = currentButton;
             } else {
                 // hit end of list (either top or bottom)
                 if (input < -0.5f && chapterOffset + ChapterNames.Length < prevChapters.Count) {
                     // going down
+                    playClick();
                     chapterOffset++;
                     updateChapterNames();
                 }
                 if (input > 0.5f && chapterOffset > 0) {
                     // going up
+                    playClick();
                     chapterOffset--;
                     updateChapterNames();
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        SoundManager.Instance.PlaySFX(0);
     }
 }

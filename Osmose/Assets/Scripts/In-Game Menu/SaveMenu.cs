@@ -24,6 +24,22 @@ public class SaveMenu : MonoBehaviour {
     public GameObject SaveAnimScreen;
     public Animator SaveAnim;
 
+    // field for playing sound effects
+    private GameObject prevButton;
+
+    // Update is called once per frame
+    void Update() {
+        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+
+            if (currButton != prevButton) {
+                playClick();
+
+                prevButton = currButton;
+            }
+        }
+    }
+
     /// <summary>
     /// Open the save menu
     /// </summary>
@@ -103,5 +119,12 @@ public class SaveMenu : MonoBehaviour {
     /// <returns>Playtime in a string format</returns>
     private string parsePlayTime(float playTime) {
         return "" + playTime;
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        SoundManager.Instance.PlaySFX(0);
     }
 }

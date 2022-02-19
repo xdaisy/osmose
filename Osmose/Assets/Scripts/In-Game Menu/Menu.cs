@@ -30,6 +30,9 @@ public class Menu : MonoBehaviour {
     private const int CLUES_MENU = 1;
     private const int SAVE_MENU = 2;
 
+    // field for playing sound effects
+    private GameObject prevButton;
+
     // Start is called before the first frame update
     void Start() {
         if (Instance == null) {
@@ -45,12 +48,22 @@ public class Menu : MonoBehaviour {
             // go back
             goBack();
         }
+        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Horizontal")) {
+            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+
+            if (currButton != prevButton) {
+                playClick();
+
+                prevButton = currButton;
+            }
+        }
     }
 
     /// <summary>
     /// Open the menu
     /// </summary>
     public void OpenGameMenu() {
+        playClick();
         eventSystem = EventSystem.current;
         eventSystem.SetSelectedGameObject(null);
         GameManager.Instance.GameMenuOpen = true;
@@ -63,6 +76,7 @@ public class Menu : MonoBehaviour {
     /// Close the menu
     /// </summary>
     public void CloseGameMenu() {
+        playClick();
         closeAllMenu();
         eventSystem.SetSelectedGameObject(null);
         currMenu = MAIN_MENU;
@@ -74,6 +88,7 @@ public class Menu : MonoBehaviour {
     /// </summary>
     /// <param name="index">Position of the menu that is being opened</param>
     public void OpenMenu(int index) {
+        playClick();
         closeAllMenu();
         eventSystem.SetSelectedGameObject(null);
         Menus[index].SetActive(true);
@@ -164,6 +179,7 @@ public class Menu : MonoBehaviour {
         }
         if (currMenu == SAVE_MENU) {
             // if going back from save menu to main menu
+            playClick();
             closeAllMenu();
             currMenu = MAIN_MENU;
             Menus[MAIN_MENU].SetActive(true);
@@ -178,5 +194,12 @@ public class Menu : MonoBehaviour {
         foreach(GameObject menu in Menus) {
             menu.SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Play the click sound effect
+    /// </summary>
+    private void playClick() {
+        SoundManager.Instance.PlaySFX(0);
     }
 }
