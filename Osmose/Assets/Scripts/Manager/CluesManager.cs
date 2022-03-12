@@ -68,6 +68,7 @@ public class CluesManager : MonoBehaviour {
             return null;
         }
         Clue[] chapterClues = clues[chapter];
+        Clue foundClue = Array.Find(chapterClues, (clue) => clue.GetName().Equals(clueName));
         return Array.Find(chapterClues, (clue) => clue.GetName().Equals(clueName));
     }
 

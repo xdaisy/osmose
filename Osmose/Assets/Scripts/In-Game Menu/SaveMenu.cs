@@ -29,7 +29,7 @@ public class SaveMenu : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
+        if (gameObject.activeSelf && gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
             GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
             if (currButton != prevButton) {

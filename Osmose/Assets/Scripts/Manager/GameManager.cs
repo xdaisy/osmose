@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour {
     private string currentChapter = "ArenPrologue";
     //private List<string> currentClues = new List<string>();
     private List<string> currentClues = new List<string> {
-        "Aiden's Testimony",
         "Claw marks",
         "Magic Circle",
         "Piece of Fabric",
+        "Footprints",
         "Rory's Boots",
         "Tuft of Fur",
         "Testimony from a witness 1",

@@ -196,14 +196,18 @@ public class LogicSystemUI : MonoBehaviour {
 
         Portrait portrait = Parser.ParsePortrait(stepString[0]); // get the name and sprite name
         string dialogue = stepString[1]; // get dialogue
-        Sprite sprite = spriteHolder.GetSprite(portrait.spriteName); // get the sprite
+        if (portrait.spriteName.Equals("Portraitless")) {
+            Portrait.enabled = false;
+        } else {
+            Sprite sprite = spriteHolder.GetSprite(portrait.spriteName); // get the sprite
+            Portrait.sprite = sprite;
+        }
 
         Name.text = portrait.name;
-        Portrait.sprite = sprite;
         if (portrait.animationTime > 0f) {
             StartCoroutine(playAnimationCo(portrait.animationName, portrait.animationTime));
         }
-        Dialogue.text = dialogue;
+        Dialogue.text = Parser.PlaceNewLine(dialogue);
     }
 
     /// <summary>

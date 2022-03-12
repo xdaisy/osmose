@@ -48,7 +48,7 @@ public class Menu : MonoBehaviour {
             // go back
             goBack();
         }
-        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Horizontal")) {
+        if (isMenuOpen() && EventSystem.current != null && Input.GetButtonDown("Horizontal")) {
             GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
             if (currButton != prevButton) {
@@ -194,6 +194,19 @@ public class Menu : MonoBehaviour {
         foreach(GameObject menu in Menus) {
             menu.SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Determine whether or not the game menu is open
+    /// </summary>
+    /// <returns>True if at least one of the menus is open, false otherwise</returns>
+    private bool isMenuOpen() {
+        for (int i = 0; i < Menus.Length; i++) {
+            if (Menus[i].activeSelf) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// <summary>
