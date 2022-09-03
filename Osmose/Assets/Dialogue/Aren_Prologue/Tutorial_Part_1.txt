@@ -1,2 +1,235 @@
+Parker-Surprised:
+Look who it is!
+
+Erik-Neutral:
+Aren! Good to see you! Glad you could make it.
+
 Aren-Neutral:
-Stub text
+Sorry I’m late.
+
+Blaire-Neutral:
+Hey, at least you beat Rory. I swear, that woman can’t show up on time to save her own life.
+
+Philippe-Neutral:
+I told you to give Rory an earlier time to avoid this.
+
+Blaire-Neutral:
+Yeah, yeah, whatever, Philippe. I’m gonna get some drinks. Want anything, Aren?
+
+Aren-Neutral:
+I’m good, thanks.
+
+Geoffrey-Neutral:
+I’ll take a pint!
+
+Blaire-Thinking:
+Haven’t you had two already?
+
+Geoffrey-Angry:
+What are you, my mum? I thought we were here to hang out and cut loose!
+
+Blaire-Neutral:
+It’s your funeral. Don’t come crying to me if you’re hungover tomorrow.
+
+Geoffrey-Neutral:
+Yes, mum!
+
+Blaire-Neutral:
+Parker, Philippe, Erik, anything for you three?
+
+Erik-Neutral:
+I’ll take a pint as well!
+
+Parker-Neutral:
+Nothing for me.
+
+Philippe-Neutral:
+A glass of brandy, please.
+
+Blaire-Thinking:
+On the rocks?
+
+Philippe-Neutral:
+Are you a heathen? Brandy must always be drunk neat.
+
+Blaire-Neutral:
+Alright. Sorry I’m not a pretentious git like yourself.
+
+Geoffrey-Neutral:
+*snigger*
+
+Philippe-Neutral:
+Is name calling really necessary?
+
+Blaire-Neutral:
+Always. \nBe back in a bit.
+
+Erik-Neutral:
+It feels like forever since we last hung out together, just the seven of us. 
+
+Parker-Neutral:
+Yeah. I’m glad we could all make it today, I missed you guys!
+
+Philippe-Neutral:
+I mean, we’re all adults now. We all have our own pack responsibilities to handle. It’s understandable that we’re not able to hang out as frequently. Different schedules and all that.
+
+Geoffrey-Angry:
+Ugh! I hate being a responsible pack member! Can we go back to being kids, and just run wild and free?
+
+Parker-Neutral:
+Cheers to that, mate!
+
+Erik-Neutral:
+Agreed!
+
+Aren-Thinking:
+I do miss the good old days sometimes. We were a bunch of little terrors back then.
+
+Parker-Neutral:
+Hell yeah, we were! Just think of all the grey hairs we’ve given Warrick over the years! I bet Isabella’s wanted to strangle the lot of us on more than one occasion.
+
+Philippe-Neutral:
+Speak for yourselves, Rory and I were perfectly behaved children. We never got in trouble with our leaders.
+
+Parker-Neutral:
+That’s because everyone loves Rory, and is willing to forgive her for almost anything. You’re an entirely different story, mate.
+
+Philippe-Neutral:
+Pardon? I am a delightful person to--
+
+Erik-Surprised:
+Oh look, it’s Rory! Perfect timing!
+
+Rory-Neutral:
+Sorry I’m late, everyone!
+
+Erik-Neutral:
+It’s fine, Aren got here not too long ago herself.
+
+Rory-Neutral:
+That’s a relief, at least.
+
+Aren-Neutral:
+How’ve you been, Rory?
+
+Rory-Sad:
+Busy. Isabella’s been running me ragged these past few weeks.
+
+Parker-Neutral:
+Not too busy to hang out with us, though?
+
+Rory-Neutral:
+Never! I already miss you all too much as it is.
+
+Blaire-Neutral:
+I come bearing drinks!
+
+Geoffrey-Neutral:
+Thank the gods!
+
+Philippe-Neutral:
+Thank you, Blaire.
+
+Blaire-Neutral:
+You’re welcome, snob.
+
+Philippe-Neutral:
+Hey!
+
+Rory-Neutral:
+*giggle*
+
+Blaire-Surprised:
+Rory! You’re here! 
+
+Blaire-Neutral:
+Glad you could make it!
+
+Rory-Neutral:
+Me too!
+
+Parker-Neutral:
+So what made you late this time, Rory?
+
+Rory-Sad:
+Oh! Uh, I might have misplaced my office keys.
+
+Blaire-Sad:
+Oh Rory. Again?
+
+Rory-Sad:
+I know, I know! Isabella’s going to kill me if she finds out that I lost them for the third time. It’s getting ridiculous.
+
+Blaire-Neutral:
+Why don’t we help you look for them, then?
+
+Erik-Neutral:
+Yeah! It wouldn’t be the first time we’ve helped you recover a lost item. 
+
+Aren-Neutral:
+I’m down to help!
+
+Rory-Neutral:
+Guys, thank you, but it’s really not necessary. I’ll look for them tomorrow before I go to work. 
+
+Aren-Neutral:
+Come on, Rory! It’ll be just like old times.
+
+Parker-Neutral:
+Maybe it’ll turn into an adventure!
+
+Geoffrey-Neutral:
+Like that time when we searched like half the forest for your missing teddy bear when we were pups! We didn’t get back home until way after dark. 
+Man, Isabella and Warrick were so pissed at us for that!
+
+Rory-Sad:
+Guys…
+
+Philippe-Neutral:
+Let’s at least finish our drinks before we head out on this quest.
+
+Blaire-Neutral:
+*chug* \n*chug* \n*chug*
+Done!
+
+Philippe-Neutral:
+How utterly barbaric.
+
+Aren-Surprised:
+He means “That was impressive, Blaire!” \nDon’t you, Philippe?
+
+Philippe-Neutral:
+Definitely not. I meant what I said, Aren.
+
+Aren-Neutral:
+Would it kill you to be just a bit more polite?
+
+Parker-Neutral:
+It probably would.
+
+Blaire-Neutral:
+Definitely would.
+
+Geoffrey-Neutral:
+The fact that it hasn’t already is astounding.
+
+Rory-Neutral:
+Guys, you really don’t have to. I can do this on my own.
+
+Parker-Neutral:
+Nonsense! It’ll be fun!
+
+Blaire-Neutral:
+Besides, it’s not like we haven’t helped you out like this before.
+
+Erik-Thinking:
+That’s what friends are for, right?
+
+Rory-Neutral:
+*sigh* \nThanks.
+
+Erik-Neutral:
+Then let’s head out! Onwards to our noble quest!
+
+Geoffrey-Angry:
+Wait, I haven’t finished my pint yet! \nGuys! \nWait for me!

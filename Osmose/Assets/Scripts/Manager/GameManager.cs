@@ -30,17 +30,17 @@ public class GameManager : MonoBehaviour {
     private List<string> party;
 
     private string currentChapter = "ArenPrologue";
-    //private List<string> currentClues = new List<string>();
-    private List<string> currentClues = new List<string> {
+    private List<string> currentClues = new List<string>();
+    /*private List<string> currentClues = new List<string> {
         "Claw marks",
         "Magic Circle",
         "Piece of Fabric",
         "Footprints",
         "Rory's Boots",
         "Tuft of Fur",
-        "Testimony from a witness 1",
-        "Testimony from witness 2"
-    };
+        "Olivia's Testimony",
+        "Gael's Testimony"
+    };*/
     private Dictionary<string, List<string>> past = new Dictionary<string, List<string>> ();
     
     private float playTime = 0f;

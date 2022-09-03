@@ -1,2 +1,93 @@
+Rory-Neutral:
+Thank you guys so much!
+
+Geoffrey-Neutral:
+Yeah, sure, whatever.
+
+Blaire-Neutral:
+Knock it off, Geoffrey. We all know you’re actually just a softy.
+
+Geoffrey-Angry:
+S-shut up, Blaire!
+
+Rory-Neutral:
+*giggle*
+
+Parker-Neutral:
+It was no problem, Rory. Besides, Aren did most of the work  anyway. I think she deserves most of the credit.
+
+Rory-Neutral:
+That’s true! Thanks, Aren! You’re really good at this kind of thing. I bet you never lose anything.
+
 Aren-Neutral:
-Stub text 2
+It’s no big deal.
+
+Philippe-Neutral:
+She’s modest, too.
+
+Blaire-Neutral:
+Isn’t she always?
+
+Aren-Neutral:
+Heh heh.
+
+Rory-Surprised:
+Oh shoot! \nI still haven’t delivered that paperwork for Mrs. McCarthy! I gotta run!
+
+Erik-Surprised:
+Wait! \nWe’re supposed to go over my lesson plans together tonight!
+
+Rory-Surprised:
+Right! \nDarn it! \nI’ll meet you back at the pub in thirty minutes! Promise!
+
+Parker-Neutral:
+And she’s gone.
+
+Erik-Neutral:
+*sigh* \nGuess I’m heading back to the pub.
+
+Philippe-Neutral:
+Hopefully she’ll only be thirty minutes late.
+
+Erik-Neutral:
+*SIGH* \nHopefully they still have coffee at this hour.
+
+Geoffrey-Neutral:
+Ha! Sucks to be you, mate!
+
+Aren-Neutral:
+Hopefully she remembers our plans for tomorrow. I forgot to remind her.
+
+Parker-Neutral:
+Oh, she always remembers plans, just not times.
+
+Aren-Sad:
+*Sigh* \nMaybe I should join you for a drink, Erik. Something stronger than coffee may be required.
+
+Blaire-Neutral:
+Ha ha ha! 
+
+Erik-Neutral:
+Any other night I’d be willing to drink and commiserate with you, Aren, but I have a monsterous stack of lesson plans to go through, and I should probably get a head start on them.
+Another time?
+
+Aren-Neutral:
+Another time, then!
+
+Blaire-Neutral:
+Well, have a good night everyone. Hopefully we can all hang out again soon!
+
+Parker-Neutral:
+Definitely! This was fun!
+
+Geoffrey-Neutral:
+As long as there’s alcohol, I’ll be there!
+
+Philippe-Neutral:
+I look forward to it.
+
+Erik-Neutral:
+For sure! See you all later!
+
+Aren-Neutral:
+Night everyone!

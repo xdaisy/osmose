@@ -1,0 +1,151 @@
+Aren-Sad:
+What turned you into this?
+
+Feral Shifter-Portraitless:
+*whine*
+
+Aren-Sad:
+I’m sorry, I don’t know how to help you..
+
+Feral Shifter-Portraitless:
+*whine*
+*CRACK* \n*SNAP* \n*POP*
+Ughhhh…
+
+Aren-Sad:
+Oh Rory.
+
+Rory-Sad:
+I’m- I’m so sorry, Aren. I didn’t mean-
+
+Aren-Neutral:
+I know.
+
+Rory-Scared:
+It hurts. So much. I feel like I’m being torn apart. Like my wolf is ripping away from me. \nPlease make it stop. Please. I can’t. The pain. It’s too much.
+
+Aren-Scared:
+I- I don’t know how.
+
+Rory-Scared:
+Please. \nHelp me.
+
+Aren-Scared:
+Rory, just stay put. I’ll go get help.
+
+Rory-Angry:
+*growl*
+
+Rory-Scared:
+No! \nI can’t control it! Make it stop!
+
+Aren-Scared:
+Rory!
+
+Rory-Scared:
+It’s too much, Aren! \nIt’s tearing me apart! I can’t-
+
+Rory-Portraitless:
+*Anguished Cry*
+
+Aren-Scared:
+RORY!!!
+
+Rory-Portraitless:
+*thud*
+
+Aren-Sad:
+Rory...
+
+Aren-Scared:
+It killed her. The feral shifting. H-how is that possible?
+
+Warrick-Neutral:
+It tore her apart.
+
+Aren-Sad:
+Do you think we could have saved Rory?
+
+Warrick-Sad:
+No. I’m afraid it was too late for her.
+
+Aren-Angry:
+How can you say that?!
+
+Isabella-Sad:
+There is a legend that the pack elders once told me when I was just pup, about a shifter whose wolf was stolen by a cruel magician. It was a slow and painful process that felt like being torn apart from the inside out.
+It ended up killing the shifter. Before they died, the shifter went feral, just like Rory and the others had. Rory was already too far gone to be saved, Aren. I’m sorry.
+
+Aren-Sad:
+How could this have happened to Rory and Aidan, and the others? A curse from a magician? How could they target so many people? And over such a vast area? That’s just not possible.
+
+Isabella-Sad:
+Whether it’s possible or not, it’s happening. Someone or something is targeting our pack, with the intent to kill.
+
+Aren-Angry:
+Then I will find them and put a stop to this. No matter what it takes.
+For the pack. \nFor Rory and Aidan. For my friends.
+
+Warrick-Neutral:
+I have an idea of where to start.
+
+Warrick-Thinking:
+There’s an old professor that lives a few towns from here. From what I’ve been told they were one of the leading experts on spell circles and related arcana before they retired.
+
+Isabella-Thinking:
+Do you think they could help identify the circle from the lake?
+
+Warrick-Neutral:
+It’s a definite possibility.
+
+Aren-Neutral:
+Then we should go speak with them.
+
+Warrick-Neutral:
+It may be best if you go alone.
+
+Isabella-Sad:
+There’s a lot we have to do. Cordon off the lake, inform the rest of the pack council, contact the Alliance…
+
+Warrick-Sad:
+I’ll also need to inform Rory’s family.
+
+Aren-Sad:
+…
+
+Isabella-Sad:
+…
+
+Warrick-Neutral:
+Let me know when you’re ready to leave, and I’ll give you the professor’s address.
+
+Aren-Neutral:
+Now. \nI’ll go now.
+
+Isabella-Neutral:
+Are you sure? You can take a few hours to rest if you need.
+
+Aren-Neutral:
+I’d rather meet with this professor as soon as possible.
+
+Aren-Sad:
+I- I don’t want this to happen to anyone else.
+
+Isabella-Sad:
+… \nI understand.
+
+Warrick-Neutral:
+In that case…
+The professor’s name is Finley Carter. They live in Redbrook Village, to the west of our territory. Their house is across from the village green, and is covered in white wisteria. You can’t miss it.
+
+Aren-Neutral:
+Alright. \nThank you.
+
+Warrick-Neutral:
+Swift journey, Aren.
+
+Isabella-Neutral:
+Come back safe.
+
+Aren-Neutral:
+I will.

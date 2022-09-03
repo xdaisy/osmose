@@ -20,7 +20,7 @@ public class LogicSystemUI : MonoBehaviour {
     public Image[] Lives;
     public Sprite LifeIcon;
     public Sprite DamageIcon;
-    public EventSystem EventSystem;
+    //public EventSystem EventSystem;
 
     [Header("UI For Dialogue")]
     public Text Name;
@@ -53,6 +53,7 @@ public class LogicSystemUI : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        PlayerControls.Instance.SetCanMove(false);
         spriteHolder = GetComponent<CutsceneSpriteHolder>();
         clues = GameManager.Instance.GetCurrentClues();
 
@@ -201,6 +202,7 @@ public class LogicSystemUI : MonoBehaviour {
         } else {
             Sprite sprite = spriteHolder.GetSprite(portrait.spriteName); // get the sprite
             Portrait.sprite = sprite;
+            Portrait.enabled = true;
         }
 
         Name.text = portrait.name;
@@ -220,9 +222,8 @@ public class LogicSystemUI : MonoBehaviour {
             // show clues popup
             clueOffset = 0;
             CluesPopup.SetActive(true);
-
-            string[] stepString = Parser.SplitLogicDialogue(currDialogue[currDialogueIndx]);
-            Question.text = stepString[1];
+            
+            Question.text = currLogicStep.GetQuestion();
 
             updateCluesPopup();
             EventSystem.current.SetSelectedGameObject(null);
