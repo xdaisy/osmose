@@ -5,6 +5,8 @@ public struct Portrait {
     public string spriteName;
     public string animationName;
     public float animationTime;
+    public bool hideCG;
+    public bool showCG;
 };
 
 /// <summary>
@@ -50,7 +52,9 @@ public class Parser {
             name = name,
             spriteName = spriteName,
             animationName = animationName,
-            animationTime = animationTime
+            animationTime = animationTime,
+            showCG = animationCommand.Equals(Constants.SHOW_CG),
+            hideCG = animationCommand.Equals(Constants.HIDE_CG)
         };
     }
 
@@ -93,9 +97,9 @@ public class Parser {
     /// <returns>Animation name if the command exists</returns>
     private static string getAnimationName(string animationCommand) {
         switch(animationCommand) {
-            case "<j>":
+            case Constants.JUMP:
                 return "Jump";
-            case "<s>":
+            case Constants.SHAKE:
                 return "Shake";
             default:
                 return "";
@@ -109,9 +113,9 @@ public class Parser {
     /// <returns>Animation time if the command exists</returns>
     private static float getAnimationTime(string animationCommand) {
         switch (animationCommand) {
-            case "<j>":
+            case Constants.JUMP:
                 return 0.5f;
-            case "<s>":
+            case Constants.SHAKE:
                 return 0.25f;
             default:
                 return 0f;

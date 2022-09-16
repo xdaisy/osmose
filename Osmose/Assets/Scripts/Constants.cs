@@ -25,5 +25,11 @@
     public const string CHAPER_6 = "Chapter6";
     public const string CHAPER_7 = "Chapter7";
 
+    // cutscene command names
+    public const string SHOW_CG = "<scg>";
+    public const string HIDE_CG = "<hcg>";
+    public const string JUMP = "<j>";
+    public const string SHAKE = "<s>";
+
     public const float WAIT_TIME = 1f;
 }

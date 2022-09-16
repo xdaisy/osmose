@@ -18,6 +18,8 @@ public class CutsceneManager : MonoBehaviour {
     public Text dName;
     public Image talkingSprite;
     public Animator spriteAnim;
+    public Image cgImage;
+    public float FadeSpeed = 1f;
 
     [Header("Scene Load")]
     public SceneName sceneToLoad;
@@ -25,8 +27,9 @@ public class CutsceneManager : MonoBehaviour {
     public SceneName[] ScenesToUnlock;
 
     private StringReader reader;
-
     private CutsceneSpriteHolder spriteHolder;
+    private bool IsFadingIn = false;
+    private bool IsFadingOut = false;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +43,35 @@ public class CutsceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (IsFadingIn) {
+            // fade cg in
+            cgImage.color = new Color(
+                cgImage.color.r,
+                cgImage.color.g,
+                cgImage.color.b,
+                Mathf.MoveTowards(cgImage.color.a, 1f, FadeSpeed * Time.deltaTime)
+            );
+
+            if (cgImage.color.a == 1.0f) {
+                IsFadingIn = false;
+            }
+            return;
+        }
+        if (IsFadingOut) {
+            // fade cg out
+            cgImage.color = new Color(
+                cgImage.color.r,
+                cgImage.color.g,
+                cgImage.color.b,
+                Mathf.MoveTowards(cgImage.color.a, 0f, FadeSpeed * Time.deltaTime)
+            );
+
+            if (cgImage.color.a == 0f) {
+                IsFadingOut = false;
+            }
+            return;
+        }
+
 		if (Input.GetButtonDown("Interact")) {
             string line = reader.ReadLine();
             if (line == null) {
@@ -85,6 +117,14 @@ public class CutsceneManager : MonoBehaviour {
             if (portrait.animationTime > 0f) {
                 // if there is an animation, play it
                 StartCoroutine(playAnimationCo(portrait.animationName, portrait.animationTime));
+            }
+            if (portrait.showCG) {
+                IsFadingIn = true;
+                IsFadingOut = false;
+            }
+            if (portrait.hideCG) {
+                IsFadingOut = true;
+                IsFadingIn = false;
             }
             line = reader.ReadLine(); // name of person talking always followed by lines of text
         }
