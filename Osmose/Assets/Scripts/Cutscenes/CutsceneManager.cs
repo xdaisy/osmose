@@ -126,6 +126,11 @@ public class CutsceneManager : MonoBehaviour {
                 IsFadingOut = true;
                 IsFadingIn = false;
             }
+
+            if (portrait.newTrack > -1) {
+                SoundManager.Instance.PlayBGM(portrait.newTrack);
+            }
+
             line = reader.ReadLine(); // name of person talking always followed by lines of text
         }
 

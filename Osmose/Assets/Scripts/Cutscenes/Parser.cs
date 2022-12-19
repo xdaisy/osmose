@@ -7,6 +7,7 @@ public struct Portrait {
     public float animationTime;
     public bool hideCG;
     public bool showCG;
+    public int newTrack;
 };
 
 /// <summary>
@@ -25,11 +26,21 @@ public class Parser {
         string spriteName = "";
 
         int indexOfAngBracket = line.IndexOf('<');
+        int indexOfParenthesis = line.IndexOf('(');
         if (indexOfAngBracket < 0) {
             indexOfAngBracket = line.Length;
         }
+        if (indexOfParenthesis < 0) {
+            indexOfParenthesis = line.Length;
+        }
         string namePortrait = line.Substring(0, indexOfAngBracket);
-        string animationCommand = line.Substring(indexOfAngBracket);
+        string animationCommand = "";
+        if (indexOfAngBracket > -1 && indexOfParenthesis != line.Length) {
+            animationCommand = line.Substring(indexOfAngBracket, (indexOfParenthesis - indexOfAngBracket));
+        } else {
+            animationCommand = line.Substring(indexOfAngBracket);
+        }
+        string trackIndex = line.Substring(indexOfParenthesis);
 
         if (namePortrait.Contains("-")) {
             string[] person = namePortrait.Split('-');
@@ -48,13 +59,17 @@ public class Parser {
         string animationName = getAnimationName(animationCommand);
         float animationTime = getAnimationTime(animationCommand);
 
+        // get new track
+        int track = getTrackIndex(trackIndex);
+
         return new Portrait {
             name = name,
             spriteName = spriteName,
             animationName = animationName,
             animationTime = animationTime,
             showCG = animationCommand.Equals(Constants.SHOW_CG),
-            hideCG = animationCommand.Equals(Constants.HIDE_CG)
+            hideCG = animationCommand.Equals(Constants.HIDE_CG),
+            newTrack = track
         };
     }
 
@@ -120,5 +135,31 @@ public class Parser {
             default:
                 return 0f;
         }
+    }
+
+    /// <summary>
+    /// Get the track index
+    /// </summary>
+    /// <param name="trackString">String that contains the track index in parenthesis</param>
+    /// <returns></returns>
+    private static int getTrackIndex(string trackString) {
+        if (trackString.Length < 1) {
+            return -1;
+        }
+
+        int indexOfOpenParent = trackString.IndexOf('(');
+        int indexOfEndParent = trackString.IndexOf(')');
+        int trackInd = -1;
+
+        if (indexOfOpenParent > -1 && indexOfEndParent > -1) {
+            string track = trackString.Substring(indexOfOpenParent + 1, (indexOfEndParent - indexOfOpenParent - 1));
+            try {
+                trackInd = Int32.Parse(track);
+            } catch (FormatException) {
+            }
+
+        }
+
+        return trackInd;
     }
 }
