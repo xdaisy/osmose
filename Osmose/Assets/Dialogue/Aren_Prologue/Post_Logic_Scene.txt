@@ -1,0 +1,66 @@
+Aren-Neutral:
+(Well, here I am.) \n(About to do something both incredibly brave and incredibly stupid.)
+(Not very logical of you, Aren.)
+
+Warrick-Neutral:
+You alright, pup?
+
+Aren-Scared:
+Ahh!
+
+Aren-Neutral:
+Oh. \nSorry. \nI got a little lost in my thoughts there. 
+
+Warrick-Sad:
+Can’t blame you, pup. \nWhat you’re planning to do is incredibly dangerous.
+
+Isabella-Sad:
+You don’t have to do this, Aren. \nIt’s a risky plan at best, and a death sentence at worst.
+
+Aren-Sad:
+I know, but I want to do this.
+
+Aren-Neutral:
+I need to do this.
+
+Rory-Portraitless:
+*whine*
+
+Aren-Neutral:
+Don’t worry, Rory. I’ll save you.
+
+Aren-Portraitless:
+*kicks dirt*
+
+Portraitless:
+*woosh* *woosh*
+
+Rory-Portraitless:
+AWHOOOO!
+
+Rory-Sad:
+Ha…ha….
+
+Warrick-Neutral:
+Is she..?
+
+Isabella-Surprised:
+My gods, she did it.
+
+Rory-Portraitless:
+*collapses*
+
+Aren-Surprised:
+RORY!
+
+Warrick-Neutral:
+Oh no!\n…Don’t worry, she’s alive. Looks like the worst is over.
+
+Isabella-Neutral:
+We’ll need to take her to the clinic to be sure.
+
+Isabella-Neutral:
+Aren, that plan of yours was idiotic, but somehow it worked. Good job, pup.
+
+Aren-Neutral:
+I’m just glad Rory will be alright. Now, let’s get her to the clinic.
