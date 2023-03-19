@@ -46,6 +46,13 @@ public class SoundManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Stop playing BGM track
+    /// </summary>
+    public void StopBGM() {
+        BGMAudio.Stop();
+    }
+
+    /// <summary>
     /// Play a sound effect
     /// </summary>
     /// <param name="sfx">Sound effect that is to be played</param>

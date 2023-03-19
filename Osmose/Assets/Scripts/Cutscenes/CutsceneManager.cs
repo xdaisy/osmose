@@ -10,7 +10,7 @@ using System;
 /// </summary>
 public class CutsceneManager : MonoBehaviour {
     [Header("Cutscene Info")]
-    public string CutsceneName;
+    public SceneName CutsceneName;
     public TextAsset TextFile;
 
     [Header("UI")]
@@ -23,8 +23,6 @@ public class CutsceneManager : MonoBehaviour {
 
     [Header("Scene Load")]
     public SceneName sceneToLoad;
-    public string RegionUnlock;
-    public SceneName[] ScenesToUnlock;
 
     private StringReader reader;
     private CutsceneSpriteHolder spriteHolder;
@@ -76,7 +74,7 @@ public class CutsceneManager : MonoBehaviour {
             string line = reader.ReadLine();
             if (line == null) {
                 // if reader is at the end of the file, don't do anything
-                EventManager.Instance.AddEvent(CutsceneName); // add the event to cutscene handler
+                EventManager.Instance.AddEvent(CutsceneName.GetSceneName()); // add the event to cutscene handler
                 changeScene(); // fade to next scene
                 return; // don't change the text bc at end of file
             }
@@ -85,7 +83,7 @@ public class CutsceneManager : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("Skip")) {
-            EventManager.Instance.AddEvent(CutsceneName); // add the event to cutscene handler
+            EventManager.Instance.AddEvent(CutsceneName.GetSceneName()); // add the event to cutscene handler
             changeScene(); // fade to next scene
             return; // don't change the text bc at end of file
         }
@@ -157,15 +155,9 @@ public class CutsceneManager : MonoBehaviour {
     /// Change the scene
     /// </summary>
     private void changeScene() {
-        GameManager.Instance.PreviousScene = CutsceneName;
+        GameManager.Instance.PreviousScene = CutsceneName.GetSceneName();
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;
-        if (ScenesToUnlock.Length > 0) {
-            // if there's a scene to be unlocked after this cutscene, unlock it
-            foreach (SceneName scene in ScenesToUnlock) {
-                EventManager.Instance.AddEvent(scene.GetSceneName());
-            }
-        }
         LoadSceneLogic.Instance.LoadScene(sceneToLoad.GetSceneName());
     }
 

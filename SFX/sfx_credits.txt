@@ -1,0 +1,9 @@
+wolf growl:
+	wolf growl, newagesoup - https://freesound.org/s/338674/
+
+clue collect:
+	collect, Wagna - https://freesound.org/s/325805/
+
+save:
+	UpRising2, JFRecords - https://freesound.org/s/420505/
+	OKAY!, Scrampunk - https://freesound.org/s/345299/

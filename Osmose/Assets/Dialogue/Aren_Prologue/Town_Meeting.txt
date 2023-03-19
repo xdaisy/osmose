@@ -126,7 +126,7 @@ Quiet! All of you!
 Warrick-Neutral:
 You have a point, Philippe. It would be smart to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results. What do you suggest we do in the meantime? Sit on our hands?
 
-Philippe-Neutral:
+Philippe-Thinking:
 I don't know, Pack Leader. Maybe we-
 
 Aren-Neutral:
@@ -173,7 +173,7 @@ Portraitless:
 Warrick-Neutral:
 Aren, that is a very grim picture you've drawn. What makes you so sure-
 
-Portraitless:
+Portraitless<bg>(3):
 *growl*
 
 Isabella-Surprised:
@@ -188,7 +188,7 @@ It's coming from the back of the clearing!
 Portraitless:
 *GROWL*
 
-Warrick-Angry:
+Warrick-Angry<scg>:
 Everyone, clear out immediately! It's-
 
 Aren-Surprised:

@@ -1,0 +1,59 @@
+meeting/logic:
+	let the mystery unfold
+	mystery 70 mix
+	witch
+	Ethernight Club - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Half Mystery - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Dream Catcher - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Guilt - Schematist (https://www.free-stock-music.com/schematist-guilt.html)
+wolf attack:
+	tension and fear
+	war is coming - https://pixabay.com/music/main-title-war-is-coming-103662/
+	Hot Pursuit - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Outfoxing the Fox - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Elmtwist - Audiorezout (https://freemusicarchive.org/music/audiorezout/burning-sky/elmtwist/)
+investigation:
+	Envision - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	I Can Feel it Coming - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+	Film Soundtrack - Free Music (https://www.free-stock-music.com/fm-freemusic-film-soundtrack.html)
+other:
+	peaceful music (beginning scenes?) - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+		Devonshire Waltz Allegretto
+		Devonshire Waltz Moderato
+		Pleasant Porridge
+
+
+Selected:
+	town: Acoustic Breeze - Benjamin Tissot
+		"Acoustic Breeze" - Benjamin Tissot (bensound.com)
+		Creative Commons / Attribution-NoDerivs 3.0 Unported License (CC BY-ND 3.0)
+		https://creativecommons.org/licenses/by-nd/3.0/
+
+	meeting/logic: Dream Catcher - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+		"Dream Catcher" Kevin MacLeod (incompetech.com)
+		Licensed under Creative Commons: By Attribution 4.0 License
+		http://creativecommons.org/licenses/by/4.0/
+
+	wolf attack: war is coming - https://pixabay.com/music/main-title-war-is-coming-103662/
+		"War is Coming" Musictown (pixabay.com)
+
+	investigation: Film Soundtrack - Free Music (https://www.free-stock-music.com/fm-freemusic-film-soundtrack.html)
+		Film Soundtrack by Free Music | https://soundcloud.com/fm_freemusic
+		Music promoted by https://www.free-stock-music.com
+		Creative Commons / Attribution 3.0 Unported License (CC BY 3.0)
+		https://creativecommons.org/licenses/by/3.0/deed.en_US
+
+	post logic cutscene: Outfoxing the Fox - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+		"Outfoxing the Fox" Kevin MacLeod (incompetech.com)
+		Licensed under Creative Commons: By Attribution 4.0 License
+		http://creativecommons.org/licenses/by/4.0/
+
+	epilogue: Devonshire Waltz Allegretto - Kevin MacLeod (https://incompetech.com/music/royalty-free/music.html)
+		"Devonshire Waltz Allegretto" Kevin MacLeod (incompetech.com)
+		Licensed under Creative Commons: By Attribution 4.0 License
+		http://creativecommons.org/licenses/by/4.0/
+
+	main menu: Pleasant Porridge - Kevin MacLoead (https://incompetech.com/music/royalty-free/music.html)
+		"Pleasant Porridge" Kevin MacLeod (incompetech.com)
+		Licensed under Creative Commons: By Attribution 4.0 License
+		http://creativecommons.org/licenses/by/4.0/
