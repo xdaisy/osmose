@@ -30,6 +30,10 @@
     public const string HIDE_CG = "<hcg>";
     public const string JUMP = "<j>";
     public const string SHAKE = "<s>";
+    public const string BGM_COMMAND = "<bg>";
+    public const string SFX_COMMAND = "<sfx>";
+    public const string WHITE_FADE_IN = "<wfi>";
+    public const string WHITE_FADE_OUT = "<wfo>";
 
     public const float WAIT_TIME = 1f;
 }

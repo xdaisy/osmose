@@ -33,7 +33,7 @@ public class SaveMenu : MonoBehaviour {
             GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
             if (currButton != prevButton) {
-                playClick();
+                playClick(0);
 
                 prevButton = currButton;
             }
@@ -108,6 +108,7 @@ public class SaveMenu : MonoBehaviour {
     /// Stop the save animation
     /// </summary>
     public void StopSaveAnimation() {
+        playClick(1);
         SaveAnim.SetBool("ArenSave", false);
         SaveAnimScreen.SetActive(false);
     }
@@ -118,13 +119,21 @@ public class SaveMenu : MonoBehaviour {
     /// <param name="playTime">Play time</param>
     /// <returns>Playtime in a string format</returns>
     private string parsePlayTime(float playTime) {
-        return "" + playTime;
+        int sec = (int)playTime;
+        int hour = sec / 3600;
+        sec = sec % 3600;
+        int min = sec / 60;
+        sec = sec % 60;
+        string hourString = hour < 10 ? "0" + hour : "" + hour;
+        string minString = min < 10 ? "0" + min : "" + min;
+        string secString = sec < 10 ? "0" + sec : "" + sec;
+        return hourString + ":" + minString + ":" + secString;
     }
 
     /// <summary>
     /// Play the click sound effect
     /// </summary>
-    private void playClick() {
-        SoundManager.Instance.PlaySFX(0);
+    private void playClick(int sfx) {
+        SoundManager.Instance.PlaySFX(sfx);
     }
 }

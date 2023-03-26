@@ -7,3 +7,18 @@ clue collect:
 save:
 	UpRising2, JFRecords - https://freesound.org/s/420505/
 	OKAY!, Scrampunk - https://freesound.org/s/345299/
+
+selected:
+	click: Menu Selection Click - NenadSimic
+		"Menu Selection Click" - NenadSimic (https://freesound.org/people/NenadSimic/sounds/171697/)
+
+	growl: Growl - morganpurkis
+		"Growl" - morganpurkis (https://pixabay.com/sound-effects/growl-101263/)
+
+	collect clue: CollectCoin - bradwesson
+		"CollectCoin" - bradwesson (https://pixabay.com/sound-effects/collectcoin-6075/)
+
+	save: UpRising2 - JFRecords
+		"UpRising2" - JFRecords (https://freesound.org/people/NenadSimic/sounds/171697/)	
+		Creative Commons / Attribution 3.0 Unported License (CC BY 3.0)
+		https://creativecommons.org/licenses/by/3.0/deed.en_US

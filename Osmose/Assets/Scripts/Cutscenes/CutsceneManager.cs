@@ -19,6 +19,7 @@ public class CutsceneManager : MonoBehaviour {
     public Image talkingSprite;
     public Animator spriteAnim;
     public Image cgImage;
+    public Image whiteFade;
     public float FadeSpeed = 1f;
 
     [Header("Scene Load")]
@@ -28,6 +29,8 @@ public class CutsceneManager : MonoBehaviour {
     private CutsceneSpriteHolder spriteHolder;
     private bool IsFadingIn = false;
     private bool IsFadingOut = false;
+    private bool WhiteFadingIn = false;
+    private bool WhiteFadingOut = false;
 
 	// Use this for initialization
 	void Start () {
@@ -66,6 +69,35 @@ public class CutsceneManager : MonoBehaviour {
 
             if (cgImage.color.a == 0f) {
                 IsFadingOut = false;
+            }
+            return;
+        }
+
+        if (WhiteFadingIn) {
+            // fade white in
+            whiteFade.color = new Color(
+                whiteFade.color.r,
+                whiteFade.color.g,
+                whiteFade.color.b,
+                Mathf.MoveTowards(whiteFade.color.a, 1f, FadeSpeed * Time.deltaTime)
+            );
+
+            if (whiteFade.color.a == 1.0f) {
+                WhiteFadingIn = false;
+            }
+            return;
+        }
+        if (WhiteFadingOut) {
+            // fade white out
+            whiteFade.color = new Color(
+                whiteFade.color.r,
+                whiteFade.color.g,
+                whiteFade.color.b,
+                Mathf.MoveTowards(whiteFade.color.a, 0f, FadeSpeed * Time.deltaTime)
+            );
+
+            if (whiteFade.color.a == 0f) {
+                WhiteFadingOut = false;
             }
             return;
         }
@@ -124,9 +156,21 @@ public class CutsceneManager : MonoBehaviour {
                 IsFadingOut = true;
                 IsFadingIn = false;
             }
+            if (portrait.whiteFadeIn) {
+                WhiteFadingIn = true;
+                WhiteFadingOut = false;
+            }
+            if (portrait.whiteFadeOut) {
+                WhiteFadingOut = true;
+                WhiteFadingIn = false;
+            }
 
             if (portrait.newTrack > -1) {
                 SoundManager.Instance.PlayBGM(portrait.newTrack);
+            }
+
+            if (portrait.soundEffect > -1) {
+                SoundManager.Instance.PlaySFX(portrait.soundEffect);
             }
 
             line = reader.ReadLine(); // name of person talking always followed by lines of text

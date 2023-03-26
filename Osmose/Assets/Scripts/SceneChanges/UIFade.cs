@@ -69,4 +69,12 @@ public class UIFade : MonoBehaviour
             FadeImage.color = new Color(FadeImage.color.r, FadeImage.color.g, FadeImage.color.b, 1f);
         }
     }
+
+    /// <summary>
+    /// Get the flag for whether or not the fade has finished
+    /// </summary>
+    /// <returns>True if the fade has finished, false otherwise</returns>
+    public bool IsFadeDone() {
+        return !shouldFadeFromBlack && !shouldFadeToBlack && FadeImage.color.a <= 0.0f;
+    }
 }

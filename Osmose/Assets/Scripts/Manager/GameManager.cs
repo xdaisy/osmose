@@ -43,11 +43,13 @@ public class GameManager : MonoBehaviour {
     };*/
     private Dictionary<string, List<string>> past = new Dictionary<string, List<string>> ();
     
-    private float playTime = 0f;
+    private float playTime = 0.0f;
+    private float startTime = 0.0f;
 
     // Start is called before the first frame update
     void Start() {
         if (Instance == null) {
+            startTime = Time.realtimeSinceStartup;
             Instance = this;
             party = new List<string>();
             party.Add(Constants.AREN);
@@ -116,6 +118,24 @@ public class GameManager : MonoBehaviour {
     /// <returns>The total play time</returns>
     public float GetPlayTime() {
         return playTime;
+    }
+
+    /// <summary>
+    /// Get the time when game was started
+    /// </summary>
+    /// <returns></returns>
+    public float GetStartTime() {
+        return startTime;
+    }
+
+    /// <summary>
+    /// Update the playtime
+    /// </summary>
+    public void UpdateTime() {
+        float currTime = Time.realtimeSinceStartup;
+        float diffTime = currTime - startTime;
+        playTime += diffTime;
+        startTime = currTime;
     }
 
     /// <summary>

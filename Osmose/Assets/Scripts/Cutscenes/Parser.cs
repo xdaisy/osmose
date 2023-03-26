@@ -5,9 +5,12 @@ public struct Portrait {
     public string spriteName;
     public string animationName;
     public float animationTime;
+    public int newTrack;
+    public int soundEffect;
     public bool hideCG;
     public bool showCG;
-    public int newTrack;
+    public bool whiteFadeIn;
+    public bool whiteFadeOut;
 };
 
 /// <summary>
@@ -60,7 +63,14 @@ public class Parser {
         float animationTime = getAnimationTime(animationCommand);
 
         // get new track
-        int track = getTrackIndex(trackIndex);
+        int bgmTrack = -1;
+        int sfxTrack = -1;
+        if (animationCommand.Equals(Constants.BGM_COMMAND)) {
+            bgmTrack = getTrackIndex(trackIndex);
+        }
+        if (animationCommand.Equals(Constants.SFX_COMMAND)) {
+            sfxTrack = getTrackIndex(trackIndex);
+        }
 
         return new Portrait {
             name = name,
@@ -69,7 +79,10 @@ public class Parser {
             animationTime = animationTime,
             showCG = animationCommand.Equals(Constants.SHOW_CG),
             hideCG = animationCommand.Equals(Constants.HIDE_CG),
-            newTrack = track
+            whiteFadeIn = animationCommand.Equals(Constants.WHITE_FADE_IN),
+            whiteFadeOut = animationCommand.Equals(Constants.WHITE_FADE_OUT),
+            newTrack = bgmTrack,
+            soundEffect = sfxTrack
         };
     }
 

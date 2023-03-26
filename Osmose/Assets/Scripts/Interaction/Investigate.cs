@@ -25,15 +25,17 @@ public class Investigate : MonoBehaviour {
     void Update() {
         if (Input.GetButtonDown("Interact") && canShowDialogue()) {
             string[] dialogue = getDialogue();
+            int sfx = -1;
             if (canAddClue()) {
                 // did not investigate yet
+                sfx = 2;
                 CluesManager.Instance.ObtainedClue(Clue.GetClueNumber());
                 GameManager.Instance.AddClue(Clue);
                 if (sceneToUnlock != null) {
                     EventManager.Instance.AddEvent(sceneToUnlock.GetSceneName());
                 }
             }
-            Dialogue.Instance.ShowDialogue(dialogue, false);
+            Dialogue.Instance.ShowDialogue(dialogue, false, sfx);
         }
     }
 

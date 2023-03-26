@@ -61,6 +61,7 @@ public class SaveFileManager {
     /// </summary>
     /// <param name="file">File being saved to</param>
     public static void Save(int file) {
+        GameManager.Instance.UpdateTime();
         saveFiles[file] = new SaveData {
             PlayTime = GameManager.Instance.GetPlayTime(),
             CurrentScene = GameManager.Instance.CurrentScene,

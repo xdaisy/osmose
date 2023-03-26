@@ -33,6 +33,8 @@ public class Dialogue : MonoBehaviour {
     private string sceneName;
     private bool doChangeScene;
 
+    private int sfx = -1;
+
     // Start is called before the first frame update
     void Start() {
         if (Instance == null) {
@@ -62,6 +64,8 @@ public class Dialogue : MonoBehaviour {
 
                     currentLine = 0;
 
+                    playSfx(sfx);
+                    sfx = -1;
                     GameManager.Instance.DialogActive = false;
                 }
                 if (currentLine >= dialogueLines.Length && needInput && !ConfirmationPopup.activeSelf) {
@@ -84,7 +88,8 @@ public class Dialogue : MonoBehaviour {
     /// </summary>
     /// <param name="lines">Lines of dialogue</param>
     /// <param name="triggered">Flag if the dialogue was triggered because of a cutscene</param>
-    public void ShowDialogue(string[] lines, bool triggered) {
+    /// <param name="sfx">Sfx played after the dialouge</param>
+    public void ShowDialogue(string[] lines, bool triggered, int sfx = -1) {
         dBox.SetActive(true);
         dialogueLines = lines;
         currentLine = 0;
@@ -94,6 +99,7 @@ public class Dialogue : MonoBehaviour {
         // if triggered bc cutscene, want to set to false
         // if triggered by interacting, want to set to true
         justStarted = !triggered;
+        this.sfx = sfx;
     }
 
     /// <summary>
@@ -176,5 +182,9 @@ public class Dialogue : MonoBehaviour {
             dName.text = "";
         }
         dText.text = line;
+    }
+
+    private void playSfx(int sfx) {
+        SoundManager.Instance.PlaySFX(sfx);
     }
 }

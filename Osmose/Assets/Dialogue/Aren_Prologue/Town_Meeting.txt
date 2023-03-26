@@ -173,19 +173,19 @@ Portraitless:
 Warrick-Neutral:
 Aren, that is a very grim picture you've drawn. What makes you so sure-
 
-Portraitless<bg>(3):
+Portraitless<sfx>(3):
 *growl*
 
-Isabella-Surprised:
+Isabella-Surprised<bg>(3):
 Who was that?
 
-Portraitless:
+Portraitless<sfx>(3):
 *Growl*
 
 Philippe-Scared:
 It's coming from the back of the clearing!
 
-Portraitless:
+Portraitless<sfx>(3):
 *GROWL*
 
 Warrick-Angry<scg>:

@@ -34,7 +34,7 @@ public class SoundManager : MonoBehaviour {
     /// </summary>
     /// <param name="bgm">Track that is to be played</param>
     public void PlayBGM(int bgm) {
-        if (bgm < Bgm.Length && (BGMAudio.clip == null || !BGMAudio.clip.Equals(Bgm[bgm])) ) {
+        if (bgm > -1 && bgm < Bgm.Length && (BGMAudio.clip == null || !BGMAudio.clip.Equals(Bgm[bgm])) ) {
             // make sure that the track is an index in the bgm array
             // also do not change the song if it is the same one being played
             if (BGMAudio.isPlaying) {
@@ -57,7 +57,7 @@ public class SoundManager : MonoBehaviour {
     /// </summary>
     /// <param name="sfx">Sound effect that is to be played</param>
     public void PlaySFX(int sfx) {
-        if (sfx < Sfx.Length) {
+        if (sfx > -1 && sfx < Sfx.Length) {
             // make sure that the track is an index in the sfx array
             SFXAudio.clip = Sfx[sfx];
             SFXAudio.Play();
