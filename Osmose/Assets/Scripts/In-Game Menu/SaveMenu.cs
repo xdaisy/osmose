@@ -63,7 +63,7 @@ public class SaveMenu : MonoBehaviour {
             Data[i].SetActive(true);
             NoData[i].gameObject.SetActive(false);
             PlayTime[i].text = parsePlayTime(saveData.PlayTime);
-            Location[i].text = saveData.Location;
+            Location[i].text = Parser.PlaceSpace(saveData.Location);
             for (int j = saveData.CurrentParty.Count; j < 3; j++) {
                 // set the images of the party members that aren't in the party inactive
                 if (j == 1) {

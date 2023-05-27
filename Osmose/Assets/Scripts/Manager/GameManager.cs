@@ -189,11 +189,26 @@ public class GameManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Return the number of current clues
+    /// </summary>
+    /// <returns>Number of the current clues</returns>
+    public int GetNumCurrentClues() {
+        return currentClues.Count;
+    }
+
+    /// <summary>
     /// Set the current clues
     /// </summary>
     /// <param name="clues">List of the current clues</param>
     public void SetCurrentClues(List<string> clues) {
         this.currentClues = new List<string>(clues);
+    }
+
+    /// <summary>
+    /// Clear the current clues
+    /// </summary>
+    public void ClearCurrentClues() {
+        this.currentClues.Clear();
     }
 
     /// <summary>
@@ -225,7 +240,17 @@ public class GameManager : MonoBehaviour {
     /// <param name="clues">List of clues for the chapter</param>
     public void SetChapterClues(string chapter, List<string> clues) {
         if (clues != null) {
-        past.Add(chapter, new List<string>(clues));
+            past.Add(chapter, new List<string>(clues));
+        }
+    }
+
+    /// <summary>
+    /// Clear the clues for the chapter
+    /// </summary>
+    /// <param name="chapter">Chapter name</param>
+    public void ClearChapterClues(string chapter) {
+        if (past.ContainsKey(chapter)) {
+            past[chapter].Clear();
         }
     }
 

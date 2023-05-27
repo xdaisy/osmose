@@ -28,19 +28,6 @@ public class SaveFileManager {
         public string CurrentChapter;
         public List<string> CurrentClues;
         public List<string> ArenPrologue;
-        public List<string> ArenChapter1;
-        public List<string> ArenChapter2;
-        public List<string> ReyPrologue;
-        public List<string> ReyChapter1;
-        public List<string> ReyChapter2;
-        public List<string> NaoisePrologue;
-        public List<string> NaoiseChapter1;
-        public List<string> NaoiseChapter2;
-        public List<string> Chapter3;
-        public List<string> Chapter4;
-        public List<string> Chapter5;
-        public List<string> Chapter6;
-        public List<string> Chapter7;
 
         // events
         public List<string> Events;
@@ -72,19 +59,6 @@ public class SaveFileManager {
             CurrentChapter = GameManager.Instance.GetCurrentChapter(),
             CurrentClues = GameManager.Instance.GetCurrentClues(),
             ArenPrologue = null,
-            ArenChapter1 = null,
-            ArenChapter2 = null,
-            ReyPrologue = null,
-            ReyChapter1 = null,
-            ReyChapter2 = null,
-            NaoisePrologue = null,
-            NaoiseChapter1 = null,
-            NaoiseChapter2 = null,
-            Chapter3 = null,
-            Chapter4 = null,
-            Chapter5 = null,
-            Chapter6 = null,
-            Chapter7 = null,
             Events = EventManager.Instance.GetEvents(),
             ObtainedClues = CluesManager.Instance.GetObtainedClues(),
             UpdatedClues = CluesManager.Instance.GetUpdatedClues()
@@ -94,45 +68,6 @@ public class SaveFileManager {
         List<string> previousChapters = GameManager.Instance.GetPastChapters();
         if (previousChapters.IndexOf(Constants.AREN_PROLOGUE) > -1) {
             saveFiles[file].ArenPrologue = GameManager.Instance.GetChapterClues(Constants.AREN_PROLOGUE);
-        }
-        if (previousChapters.IndexOf(Constants.AREN_CHAPER_1) > -1) {
-            saveFiles[file].ArenChapter1 = GameManager.Instance.GetChapterClues(Constants.AREN_CHAPER_1);
-        }
-        if (previousChapters.IndexOf(Constants.AREN_CHAPER_2) > -1) {
-            saveFiles[file].ArenChapter2 = GameManager.Instance.GetChapterClues(Constants.AREN_CHAPER_2);
-        }
-        if (previousChapters.IndexOf(Constants.REY_PROLOGUE) > -1) {
-            saveFiles[file].ReyPrologue = GameManager.Instance.GetChapterClues(Constants.REY_PROLOGUE);
-        }
-        if (previousChapters.IndexOf(Constants.REY_CHAPER_1) > -1) {
-            saveFiles[file].ReyChapter1 = GameManager.Instance.GetChapterClues(Constants.REY_CHAPER_1);
-        }
-        if (previousChapters.IndexOf(Constants.REY_CHAPER_2) > -1) {
-            saveFiles[file].ReyChapter2 = GameManager.Instance.GetChapterClues(Constants.REY_CHAPER_2);
-        }
-        if (previousChapters.IndexOf(Constants.NAOISE_PROLOGUE) > -1) {
-            saveFiles[file].NaoisePrologue = GameManager.Instance.GetChapterClues(Constants.NAOISE_PROLOGUE);
-        }
-        if (previousChapters.IndexOf(Constants.NAOISE_CHAPER_1) > -1) {
-            saveFiles[file].NaoiseChapter1 = GameManager.Instance.GetChapterClues(Constants.NAOISE_CHAPER_1);
-        }
-        if (previousChapters.IndexOf(Constants.NAOISE_CHAPER_2) > -1) {
-            saveFiles[file].NaoiseChapter2 = GameManager.Instance.GetChapterClues(Constants.NAOISE_CHAPER_2);
-        }
-        if (previousChapters.IndexOf(Constants.CHAPER_3) > -1) {
-            saveFiles[file].Chapter3 = GameManager.Instance.GetChapterClues(Constants.CHAPER_3);
-        }
-        if (previousChapters.IndexOf(Constants.CHAPER_4) > -1) {
-            saveFiles[file].Chapter4 = GameManager.Instance.GetChapterClues(Constants.CHAPER_4);
-        }
-        if (previousChapters.IndexOf(Constants.CHAPER_5) > -1) {
-            saveFiles[file].Chapter5 = GameManager.Instance.GetChapterClues(Constants.CHAPER_5);
-        }
-        if (previousChapters.IndexOf(Constants.CHAPER_6) > -1) {
-            saveFiles[file].Chapter6 = GameManager.Instance.GetChapterClues(Constants.CHAPER_6);
-        }
-        if (previousChapters.IndexOf(Constants.CHAPER_7) > -1) {
-            saveFiles[file].Chapter7 = GameManager.Instance.GetChapterClues(Constants.CHAPER_7);
         }
 
         // set lastMove
@@ -197,19 +132,6 @@ public class SaveFileManager {
             GameManager.Instance.SetCurrentChapter(saveFiles[file].CurrentChapter);
             GameManager.Instance.SetCurrentClues(saveFiles[file].CurrentClues);
             GameManager.Instance.SetChapterClues(Constants.AREN_PROLOGUE, saveFiles[file].ArenPrologue);
-            GameManager.Instance.SetChapterClues(Constants.AREN_CHAPER_1, saveFiles[file].ArenChapter1);
-            GameManager.Instance.SetChapterClues(Constants.AREN_CHAPER_2, saveFiles[file].ArenChapter2);
-            GameManager.Instance.SetChapterClues(Constants.REY_PROLOGUE, saveFiles[file].ReyPrologue);
-            GameManager.Instance.SetChapterClues(Constants.REY_CHAPER_1, saveFiles[file].ReyChapter1);
-            GameManager.Instance.SetChapterClues(Constants.REY_CHAPER_2, saveFiles[file].ReyChapter2);
-            GameManager.Instance.SetChapterClues(Constants.NAOISE_PROLOGUE, saveFiles[file].NaoisePrologue);
-            GameManager.Instance.SetChapterClues(Constants.NAOISE_CHAPER_1, saveFiles[file].NaoiseChapter1);
-            GameManager.Instance.SetChapterClues(Constants.NAOISE_CHAPER_2, saveFiles[file].NaoiseChapter2);
-            GameManager.Instance.SetChapterClues(Constants.CHAPER_3, saveFiles[file].Chapter3);
-            GameManager.Instance.SetChapterClues(Constants.CHAPER_4, saveFiles[file].Chapter4);
-            GameManager.Instance.SetChapterClues(Constants.CHAPER_5, saveFiles[file].Chapter5);
-            GameManager.Instance.SetChapterClues(Constants.CHAPER_6, saveFiles[file].Chapter6);
-            GameManager.Instance.SetChapterClues(Constants.CHAPER_7, saveFiles[file].Chapter7);
 
             // load events
             EventManager.Instance.LoadEvents(saveFiles[file].Events);
@@ -224,6 +146,42 @@ public class SaveFileManager {
 
             LoadSceneLogic.Instance.LoadScene(GameManager.Instance.CurrentScene);
         }
+    }
+
+    /// <summary>
+    /// Set the data for a new game
+    /// </summary>
+    public static void LoadNewGameData() {
+        // set play time
+        GameManager.Instance.SetPlayTIme(0);
+
+        // load current location information
+        GameManager.Instance.CurrentScene = "";
+        Vector2 lastMove = Vector2.zero;
+        Vector3 playerPos = Vector3.zero;
+        PlayerControls.Instance.SetPosition(playerPos);
+
+        // load party
+        List<string> party = new List<string> { "Aren" };
+        GameManager.Instance.ChangeMembers(party);
+
+        // load clues
+        GameManager.Instance.SetCurrentChapter(Constants.AREN_PROLOGUE);
+        GameManager.Instance.ClearCurrentClues();
+        GameManager.Instance.ClearChapterClues(Constants.AREN_PROLOGUE);
+
+        // load events
+        EventManager.Instance.LoadEvents(new List<string>());
+
+        // load obtained clues
+        bool[] clues = new bool[Constants.TOTAL_CLUES];
+        CluesManager.Instance.LoadObtainedClues(clues);
+
+        // load updated clues
+        CluesManager.Instance.LoadUpdatedClues(clues);
+
+        GameManager.Instance.PreviousScene = "";
+        GameManager.Instance.CurrentScene = "";
     }
 
     /// <summary>

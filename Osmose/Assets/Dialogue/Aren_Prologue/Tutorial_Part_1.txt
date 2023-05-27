@@ -16,7 +16,7 @@ I told you to give Rory an earlier time to avoid this.
 Blaire-Neutral:
 Yeah, yeah, whatever, Philippe. I’m gonna get some drinks. Want anything, Aren?
 
-Aren-Neutral:
+Aren-Neutral<s>:
 I’m good, thanks.
 
 Geoffrey-Neutral:
@@ -73,13 +73,13 @@ Yeah. I’m glad we could all make it today, I missed you guys!
 Philippe-Neutral:
 I mean, we’re all adults now. We all have our own pack responsibilities to handle. It’s understandable that we’re not able to hang out as frequently. Different schedules and all that.
 
-Geoffrey-Angry:
+Geoffrey-Angry<s>:
 Ugh! I hate being a responsible pack member! Can we go back to being kids, and just run wild and free?
 
-Parker-Neutral:
+Parker-Neutral<j>:
 Cheers to that, mate!
 
-Erik-Neutral:
+Erik-Neutral<j>:
 Agreed!
 
 Aren-Thinking:
@@ -118,7 +118,7 @@ Busy. Isabella’s been running me ragged these past few weeks.
 Parker-Neutral:
 Not too busy to hang out with us, though?
 
-Rory-Neutral:
+Rory-Neutral<s>:
 Never! I already miss you all too much as it is.
 
 Blaire-Neutral:
@@ -179,7 +179,7 @@ Parker-Neutral:
 Maybe it’ll turn into an adventure!
 
 Geoffrey-Neutral:
-Like that time when we searched like half the forest for your missing teddy bear when we were pups! We didn’t get back home until way after dark. 
+Like that time when we searched like half the forest for your missing teddy bear when we were pups! We didn’t get back home until way after dark.
 Man, Isabella and Warrick were so pissed at us for that!
 
 Rory-Sad:

@@ -109,6 +109,13 @@ public class Parser {
         return dialogue.Split(dialogueSeparators, StringSplitOptions.None);
     }
 
+    public static string PlaceSpace(string line) {
+        if (line.Contains("_")) {
+            return line.Replace("_", " ");
+        }
+        return line;
+    }
+
     /// <summary>
     /// Get whether or not there is a portrait shown
     /// </summary>

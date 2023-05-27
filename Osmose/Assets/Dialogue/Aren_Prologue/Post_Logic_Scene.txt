@@ -5,7 +5,7 @@ Aren-Neutral:
 Warrick-Neutral:
 You alright, pup?
 
-Aren-Scared:
+Aren-Scared<j>:
 Ahh!
 
 Aren-Neutral:

@@ -5,14 +5,14 @@ Feral Shifter-Portraitless:
 *whine*
 
 Aren-Sad:
-I’m sorry, I don’t know how to help you..
+I’m sorry, I don’t know how to help you...
 
 Feral Shifter-Portraitless:
 *whine*
 *CRACK* \n*SNAP* \n*POP*
 Ughhhh…
 
-Aren-Sad:
+Aren-Sad<hcg>:
 Oh Rory.
 
 Rory-Sad:
@@ -36,7 +36,7 @@ Rory, just stay put. I’ll go get help.
 Rory-Angry:
 *growl*
 
-Rory-Scared:
+Rory-Scared<s>:
 No! \nI can’t control it! Make it stop!
 
 Aren-Scared:
@@ -55,97 +55,71 @@ Rory-Portraitless:
 *thud*
 
 Aren-Sad:
-Rory...
-
-Aren-Scared:
-It killed her. The feral shifting. H-how is that possible?
+Rory?
 
 Warrick-Neutral:
-It tore her apart.
+She’s still breathing, but it’s faint. \nI don’t think she has long.
 
-Aren-Sad:
-Do you think we could have saved Rory?
+Isabella-Sad:
+Is there anything we can do?
 
 Warrick-Sad:
-No. I’m afraid it was too late for her.
+Nothing we’re capable of, I’m afraid. Given the intricacy of the magic circle, we’d need at least a master, maybe even a grandmaster, to properly dismantle the spell.
 
-Aren-Angry:
-How can you say that?!
+Aren-Thinking:
+The circle… 
 
-Isabella-Sad:
-There is a legend that the pack elders once told me when I was just pup, about a shifter whose wolf was stolen by a cruel magician. It was a slow and painful process that felt like being torn apart from the inside out.
-It ended up killing the shifter. Before they died, the shifter went feral, just like Rory and the others had. Rory was already too far gone to be saved, Aren. I’m sorry.
+Aren-Surprised<j>:
+That’s it!
 
-Aren-Sad:
-How could this have happened to Rory and Aidan, and the others? A curse from a magician? How could they target so many people? And over such a vast area? That’s just not possible.
+Isabella-Surprised:
+What about the circle? \nWhat did you figure out, Aren?
 
-Isabella-Sad:
-Whether it’s possible or not, it’s happening. Someone or something is targeting our pack, with the intent to kill.
+Aren-Neutral:
+It’s a longshot, but I might have a way to save Rory.
 
-Aren-Angry:
-Then I will find them and put a stop to this. No matter what it takes.
-For the pack. \nFor Rory and Aidan. For my friends.
+Isabella-Neutral:
+Let’s hear it then.
 
-Warrick-Neutral:
-I have an idea of where to start.
+Aren-Neutral:
+We break the magic circle.
 
 Warrick-Thinking:
-There’s an old professor that lives a few towns from here. From what I’ve been told they were one of the leading experts on spell circles and related arcana before they retired.
+That’s… \nI don’t- \nI don’t think that’s a good idea-
 
-Isabella-Thinking:
-Do you think they could help identify the circle from the lake?
+Isabella-Angry<s>:
+It’s an incredibly stupid idea, is what it is! \nBy the moon- \nWhat makes you think that will even work?!
 
-Warrick-Neutral:
-It’s a definite possibility.
-
-Aren-Neutral:
-Then we should go speak with them.
-
-Warrick-Neutral:
-It may be best if you go alone.
+Aren-Angry:
+Because there’s nothing else we CAN do!!!
 
 Isabella-Sad:
-There’s a lot we have to do. Cordon off the lake, inform the rest of the pack council, contact the Alliance…
+…
 
 Warrick-Sad:
-I’ll also need to inform Rory’s family.
+…
 
 Aren-Sad:
-…
+Because it’s either that or we stand here and watch her die.
+
+Aren-Angry:
+And I refuse to do that.
 
 Isabella-Sad:
 …
 
 Warrick-Neutral:
-Let me know when you’re ready to leave, and I’ll give you the professor’s address.
+… \nOkay.
 
-Aren-Neutral:
-Now. \nI’ll go now.
-
-Isabella-Neutral:
-Are you sure? You can take a few hours to rest if you need.
-
-Aren-Neutral:
-I’d rather meet with this professor as soon as possible.
-
-Aren-Sad:
-I- I don’t want this to happen to anyone else.
+Isabella-Angry:
+Okay? \nOkay?! \nThis is a powerful magic circle we’re talking about! 
 
 Isabella-Sad:
-… \nI understand.
-
-Warrick-Neutral:
-In that case…
-The professor’s name is Finley Carter. They live in Redbrook Village, to the west of our territory. Their house is across from the village green, and is covered in white wisteria. You can’t miss it.
+It could kill you, Aren.
 
 Aren-Neutral:
-Alright. \nThank you.
+Maybe. \nBut I’d rather that than let this happen to my friends and potentially my whole pack.
+This is bigger than just Aiden and Rory.
 
-Warrick-Neutral:
-Swift journey, Aren.
-
-Isabella-Neutral:
-Come back safe.
-
-Aren-Neutral:
-I will.
+Aren-Angry:
+And I’m going to make sure it ends here. \nNow.

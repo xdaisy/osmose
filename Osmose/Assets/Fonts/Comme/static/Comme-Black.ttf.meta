@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: cbb7c10a65aebbc43be70793da6d0404
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Comme
+  fontNames:
+  - Comme
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 7b26be6383b9099428f362f952243855, type: 3}
+  - {fileID: 12800000, guid: 910680161de9d044f9e4448a9c2a4123, type: 3}
+  - {fileID: 12800000, guid: c5d8dc6899f9f5a40ad03c1badf04aeb, type: 3}
+  - {fileID: 12800000, guid: 0fd94e689403d4f42a5c7dadac6ae963, type: 3}
+  - {fileID: 12800000, guid: b2de08adfe0b6fb449a5e998f1318f94, type: 3}
+  - {fileID: 12800000, guid: 4c42abdd018d2924a82badb078d4ad53, type: 3}
+  - {fileID: 12800000, guid: a704c19f5d08cc64d8c2dab9864e0716, type: 3}
+  - {fileID: 12800000, guid: aa50d4ff07dfb4542915b93989399596, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

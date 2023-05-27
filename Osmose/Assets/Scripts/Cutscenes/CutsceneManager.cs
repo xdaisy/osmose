@@ -14,6 +14,7 @@ public class CutsceneManager : MonoBehaviour {
     public TextAsset TextFile;
 
     [Header("UI")]
+    public GameObject textBox;
     public Text dText;
     public Text dName;
     public Image talkingSprite;
@@ -24,6 +25,7 @@ public class CutsceneManager : MonoBehaviour {
 
     [Header("Scene Load")]
     public SceneName sceneToLoad;
+    public SceneName areaToUnlock;
 
     private StringReader reader;
     private CutsceneSpriteHolder spriteHolder;
@@ -31,6 +33,7 @@ public class CutsceneManager : MonoBehaviour {
     private bool IsFadingOut = false;
     private bool WhiteFadingIn = false;
     private bool WhiteFadingOut = false;
+    private float WaitTimeAfterFade = 0.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -55,6 +58,7 @@ public class CutsceneManager : MonoBehaviour {
 
             if (cgImage.color.a == 1.0f) {
                 IsFadingIn = false;
+                WaitTimeAfterFade = Constants.WAIT_TIME;
             }
             return;
         }
@@ -102,11 +106,18 @@ public class CutsceneManager : MonoBehaviour {
             return;
         }
 
+        if (WaitTimeAfterFade > 0.0f) {
+            WaitTimeAfterFade -= Time.deltaTime;
+            if (WaitTimeAfterFade <= 0.0f) {
+                textBox.SetActive(true);
+            }
+            return;
+        }
+
 		if (Input.GetButtonDown("Interact")) {
             string line = reader.ReadLine();
             if (line == null) {
                 // if reader is at the end of the file, don't do anything
-                EventManager.Instance.AddEvent(CutsceneName.GetSceneName()); // add the event to cutscene handler
                 changeScene(); // fade to next scene
                 return; // don't change the text bc at end of file
             }
@@ -115,7 +126,6 @@ public class CutsceneManager : MonoBehaviour {
         }
 
         if (Input.GetButtonDown("Skip")) {
-            EventManager.Instance.AddEvent(CutsceneName.GetSceneName()); // add the event to cutscene handler
             changeScene(); // fade to next scene
             return; // don't change the text bc at end of file
         }
@@ -151,6 +161,7 @@ public class CutsceneManager : MonoBehaviour {
             if (portrait.showCG) {
                 IsFadingIn = true;
                 IsFadingOut = false;
+                textBox.SetActive(false);
             }
             if (portrait.hideCG) {
                 IsFadingOut = true;
@@ -199,6 +210,11 @@ public class CutsceneManager : MonoBehaviour {
     /// Change the scene
     /// </summary>
     private void changeScene() {
+        EventManager.Instance.AddEvent(CutsceneName.GetSceneName()); // add the event to cutscene handler
+        if (areaToUnlock != null) {
+            // unlock area after cutscene
+            EventManager.Instance.AddEvent(areaToUnlock.GetSceneName());
+        }
         GameManager.Instance.PreviousScene = CutsceneName.GetSceneName();
         PlayerControls.Instance.SetPlayerForward();
         GameManager.Instance.InCutscene = false;

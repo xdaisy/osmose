@@ -34,6 +34,8 @@ public class LogicSystemUI : MonoBehaviour {
     public Text Question;
     public Image ClueImage;
     public Text Description;
+    public GameObject UpArrow;
+    public GameObject DownArrow;
 
     [Header("UI For Multiple Choice")]
     public GameObject ChoicePopup;
@@ -240,11 +242,24 @@ public class LogicSystemUI : MonoBehaviour {
     /// Update the clues popup
     /// </summary>
     private void updateCluesPopup() {
+        if (clueOffset > 0) {
+            UpArrow.SetActive(true);
+        } else {
+            UpArrow.SetActive(false);
+        }
+
+        if (clueOffset + ClueNames.Length < clues.Count) {
+            DownArrow.SetActive(true);
+        } else {
+            DownArrow.SetActive(false);
+        }
+        DownArrow.gameObject.SetActive(true);
         for (int i = 0; i < ClueNames.Length; i++) {
             ClueNames[i].gameObject.SetActive(true);
             if (i + clueOffset >= clues.Count) {
                 // if there are less clues than the amount of clue names
                 ClueNames[i].gameObject.SetActive(false);
+                DownArrow.gameObject.SetActive(false);
             } else {
                 // update name of the clue
                 ClueNames[i].text = clues[i + clueOffset];

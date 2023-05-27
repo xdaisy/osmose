@@ -176,7 +176,7 @@ public class Dialogue : MonoBehaviour {
             // if someone is talking, will have <name>-<text>
             string[] lineSplit = line.Split('-');
             dName.text = lineSplit[0];
-            line = lineSplit[1];
+            line = Parser.PlaceNewLine(lineSplit[1]);
         } else {
             // else, no one is talking. have text showing
             dName.text = "";

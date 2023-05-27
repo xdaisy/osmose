@@ -7,7 +7,8 @@ Silence! \nThe Pack Leader will now speak!
 Warrick-Neutral:
 Thank you all for coming here on such short notice. 
 It has come to the council's attention that there has been an increase in shift-related incidents. 
-Rangers have reported feral shifters roaming the woods and attacking anything that moves. Pack members have come to me with worries that they're losing control of their shifts. This is a serious threat to us, and it must be dealt with immediately.
+Rangers have reported feral shifters roaming the woods and attacking anything that moves. Pack members have come to me with worries that they're losing control of their shifts.
+This is a serious threat to us, and it must be dealt with immediately.
 
 Geoffrey-Angry:
 Do you have any proof? Sounds like a bunch of superstitious nonsense to me.
@@ -22,31 +23,46 @@ Rory, come forward.
 Rory-Neutral:
 Yes, Pack Leader?
 
-Aren-Surprised:
-What happened to her?! \nThose injuries…they look like they were made by a shifter. \nThat can’t be!
+Aren-Surprised<j>:
+(What happened to her?! \nThose injuries…they look like they were made by a shifter. \nThat can’t be!)
 
 Warrick-Neutral:
 Tell us about the shifter that attacked you.
 
 Rory-Thinking:
 It was the night of the new moon, when the moon's pull is weakest. I was walking home from the pub with Erik when it happened. We heard a growl from the underbrush as we passed.
-We thought nothing of it in our drunken state, 'til the sound grew and seemed to follow us down the path. Whatever it was kept pace with us to Erik's, even when our pace quickened out of fear.
-We were almost to the door when it leapt from the bushes and attacked us. It was a shifter. Erik fumbled with his keys as I tried to fend it off. There was something familiar about the shifter, but at the time I couldn't place it.
-By the time Erik finally got the door open the shifter had flung me aside and was charging at him. I tried to get up, but my vision spun. I must have hit my head.
+
+Aren-Surprised:
+(That must have been just after I parted ways with them!)
+
+Rory-Thinking:
+We heard a growl from the underbrush as we passed. We were still pretty drunk, so we thought nothing of it, 'til the sound grew and seemed to follow us down the path.
+Whatever it was kept pace with us to Erik's, even when we got nervous and started walking faster.
+We were almost to the door when it leapt from the bushes and attacked us. Erik fumbled with his keys as I tried to fend it off.
+By the time Erik finally got the door open the shifter had flung me aside and was charging at him. I tried to get up, but my vision was spinning.
 
 Rory-Scared:
-When my vision cleared the shifter was standing over Erik's body, blood on their claws. I lost control of my shift and attacked them. I almost tore them to ribbons.
-I barely managed to get my shift under control in time to stop myself from killing them. They had lost consciousness and were beginning to shift back. That's when I finally recognized them.
+When my vision cleared the shifter was standing over Erik's body, blood on their claws. 
+
+Aren-Scared:
+(Oh my gosh! Is Erik okay?! Please say he’s okay!)
+
+Rory-Scared:
+I lost control of my shift and attacked them. I almost tore them to ribbons.
+I barely managed to get my shift under control in time to stop myself from killing them. They had lost consciousness and were beginning to shift back. That’s...that's when I finally recognized them.
 It was Erik's older brother, Aidan.
 
-Rory-Thinking:
-I couldn't believe my eyes. Erik's own brother had tried to kill us, a man I considered family. I didn't have time to ponder it though, Erik was dying and needed help. I picked Erik up and sprinted to town.
-
-Rory-Angry:
-Erik was lucky. A few more minutes and he would have died. I went back to the house with a few others to grab Aidan. When we got there, he was just waking up. I almost lunged at him in my anger, but someone held me back.
+Aren-Surprised<j>:
+(What?! Aidan would never attack his own brother! What on earth is going on?!)
 
 Rory-Thinking:
-One of my companions asked him why he'd attacked us, but Aidan had no idea what they were talking about. He had no memory of the attack or what had started it. The last thing he remembered was walking through the town square. 
+I couldn't believe my eyes. Erik's own brother, a man I considered family, had tried to kill us. But I didn't have time to ponder it, Erik was dying and needed help. I picked Erik up and sprinted to town.
+
+Rory-Angry<s>:
+Erik was lucky. A few more minutes and he would have died. I went back to the house with a few others to grab Aidan. When we got there, he was just waking up. I was so angry, and I tried to  lunge at him, but one of the others held me back.
+
+Rory-Thinking:
+One of my companions asked him why he'd attacked us, but Aidan had no idea what they were talking about. He had no memory of the attack or what had started it. The last thing he remembered was walking by the lake. 
 
 Rory-Scared:
 It was like his shift had completely taken over his mind and body.
@@ -63,8 +79,15 @@ Silence. \nThank you Rory. I know that couldn't have been easy for you. \nGo ahe
 Rory-Sad:
 ...
 
+Aren-Sad:
+(Oh Rory. I can’t imagine how difficult this has been for her. I should check in with her after the meeting is over.)
+
 Warrick-Neutral:
-Something is affecting our shifts, making our pack members lose control and attack anyone nearby, whether they are friend or foe. Something must be done, and we as a pack must do it together. I put this question to you all: What should we do?
+As Rory’s testimony shows, something is affecting our shifts, making our pack members lose control and attack anyone nearby, whether they are friend or foe.
+Something must be done, and we as a pack must do it together. 
+
+Warrick-Neutral:
+I put this question to you all: What should we do?
 
 Portraitless:
 What if there's nothing we can do?
@@ -89,6 +112,10 @@ That's murder!
 You're despicable!
 He has a point.
 
+Aren-Neutral:
+*Sigh*
+(Typical Geoffrey, always giving outrageous suggestions.) 
+
 Isabella-Angry:
 Silence! \nI'll put you out of your misery, whelp!
 
@@ -100,6 +127,9 @@ Isabella-Angry:
 
 Warrick-Angry:
 Geoffrey, it is against our laws to kill pack members without just cause, you know that. We will not take such actions, and any who do will be punished severely, as our laws state. Am I understood?
+
+Crowd-Portraitless:
+*mutter* \n*mutter* \n*mutter*
 
 Geoffrey-Scared:
 Of course, Pack Leader.
@@ -120,16 +150,20 @@ He's right, we aren't equipped to handle this ourselves.
 This is giving me a headache.
 Since when have the feds ever been reliable?
 
+Aren-Thinking:
+(He has a point, but Alliance investigations always take forever. We can’t afford to wait that long.)
+
 Isabella-Neutral:
 Quiet! All of you!
 
 Warrick-Neutral:
-You have a point, Philippe. It would be smart to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results. What do you suggest we do in the meantime? Sit on our hands?
+You have a point, Philippe. It would be smart to inform the Federal Shifter Alliance. However, it would be a slow process, and a long time before we would see any results.
+What do you suggest we do in the meantime?
 
 Philippe-Thinking:
 I don't know, Pack Leader. Maybe we-
 
-Aren-Neutral:
+Aren-Neutral<j>:
 I think we should investigate the source of whatever is causing shifters to lose control, while we wait for a response from the Alliance.
 
 Isabella-Neutral:
@@ -148,19 +182,19 @@ Warrick-Neutral:
 And how will we find this source?
 
 Aren-Thinking:
-The forest has been more dangerous recently. I myself was attacked on my way to this meeting by a usually harmless creature. 
-Maybe it's because whatever is affecting our shifts is out there in the forest, scaring the wildlife and infecting our pack members.
+We need to figure out how Aidan became feral. We should retrace his steps and see what, if anything, he crossed paths with that was the cause.
+And if we can cross reference that with another feral shifter to find any shared events, we’ll know for sure we’ve found the source.
 
 Warrick-Neutral:
-Interesting. If your theory is sound, why shouldn't we have the Alliance investigate it instead?
+Interesting. And who should head this investigation?
 
-Aren-Angry:
-Because the attacks are getting more frequent, and having the Alliance lead the investigation would take too long. By the time they find the cause, it could already be too late for our pack.
+Aren-Neutral:
+I will.
 
 Portraitless:
-What does she mean by that?!
-She's just making stuff up now!
-The pup has a point, the feds always take too long.
+What?!
+She's just a pup!
+Makes sense to me. She seems to know what she’s doing.
 I'd volunteer to help!
 She's crazy.
 
@@ -171,7 +205,15 @@ Portraitless:
 *silence*
 
 Warrick-Neutral:
-Aren, that is a very grim picture you've drawn. What makes you so sure-
+Aren, I’m proud that you’re so willing to help, but the others bring up a good point. You’re young and relatively inexperienced compared to other pack members, 
+What makes you so sure you’re the best choice to head this investigation?
+
+Aren-Angry:
+Because it was my pack mates that were attacked. \nMy friends. 
+What kind of pack mate would I be if I didn’t do everything I could to find the real culprit, who drove Aidan to attack his own kin?
+
+Aren-Neutral:
+Ask any one of my pack mates, and they’ll tell you that I’ve a knack for finding things. Finding the cause of the feral shifters is no different. I’m-
 
 Portraitless<sfx>(3):
 *growl*

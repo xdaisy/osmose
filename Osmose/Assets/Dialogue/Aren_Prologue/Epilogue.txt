@@ -64,7 +64,7 @@ Absolutely.
 Aidan-Neutral:
 Yes!
 
-Geoffrey-Angry:
+Geoffrey-Angry<s>:
 Wha!? No way! My tab is big enough as it is!
 
 Blaire-Neutral:

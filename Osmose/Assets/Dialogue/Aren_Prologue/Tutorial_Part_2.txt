@@ -31,7 +31,7 @@ Isn’t she always?
 Aren-Neutral:
 Heh heh.
 
-Rory-Surprised:
+Rory-Surprised<j>:
 Oh shoot! \nI still haven’t delivered that paperwork for Mrs. McCarthy! I gotta run!
 
 Erik-Surprised:

@@ -56,6 +56,7 @@ public class LoadGame : MonoBehaviour {
     /// </summary>
     public void StartNewGame() {
         playClick();
+        SaveFileManager.LoadNewGameData();
         isContinue = false;
         GameManager.Instance.OnMainMenu = false;
 
@@ -89,6 +90,13 @@ public class LoadGame : MonoBehaviour {
         } else {
             playNotAllowed();
         }
+    }
+
+    /// <summary>
+    /// Exit the game
+    /// </summary>
+    public void QuitGame() {
+        Application.Quit();
     }
 
     /// <summary>

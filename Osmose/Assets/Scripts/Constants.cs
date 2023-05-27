@@ -9,6 +9,9 @@
     public const string MAP = "Map";
     public const string GAMEOVER = "GameOver";
 
+    // data
+    public const int TOTAL_CLUES = 8;
+
     // chapter names
     public const string AREN_PROLOGUE = "ArenPrologue";
     public const string AREN_CHAPER_1 = "ArenChapter1";
