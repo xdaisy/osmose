@@ -73,6 +73,14 @@ public class CluesManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Get all the clues from the chapter
+    /// </summary>
+    /// <returns></returns>
+    public List<Clue> GetAllClues() {
+        return new List<Clue>(clues[Constants.AREN_PROLOGUE]);
+    }
+
+    /// <summary>
     /// Get whether or not the player has obtained the clue
     /// </summary>
     /// <param name="clueIndex">Index of the clue</param>

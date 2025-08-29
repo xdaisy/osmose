@@ -11,31 +11,34 @@ public class NPC : MonoBehaviour {
     [SerializeField] private Sprite RightSprite;
 
     private bool canInteract = false;
-    private Vector2 direction;
 
     // Update is called once per frame
     void Update() {
         if (canInteract && Input.GetButtonDown("Interact")) {
             // if interacting with npc
-            if (direction.y > 0) {
-                // npc face up
-                NpcSprite.sprite = UpSprite;
-            } else if (direction.y < 0) {
+            float degree = GetDirectionToPlayer();
+            if (degree < 45.0f || degree > 315.0f) {
                 // npc face down
                 NpcSprite.sprite = DownSprite;
-            } else if (direction.x > 0) {
-                // npc face right
-                NpcSprite.sprite = RightSprite;
-            } else if (direction.x < 0) {
-                // npc face left
+                PlayerControls.Instance.SetLastMove(Vector2.up);
+            } else if (degree > 45.0f && degree < 135.0f) {
+                // npc face down
                 NpcSprite.sprite = LeftSprite;
+                PlayerControls.Instance.SetLastMove(Vector2.right);
+            } else if (degree > 135.0f && degree < 225.0f) {
+                // npc face right
+                NpcSprite.sprite = UpSprite;
+                PlayerControls.Instance.SetLastMove(Vector2.down);
+            } else if (degree > 225.0f && degree < 315.0f) {
+                // npc face left
+                NpcSprite.sprite = RightSprite;
+                PlayerControls.Instance.SetLastMove(Vector2.left);
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
-            direction = other.GetComponent<PlayerControls>().GetLastMove() * -1; // want the direction to be the inverse of the player's last movement
             canInteract = true;
         }
     }
@@ -44,5 +47,19 @@ public class NPC : MonoBehaviour {
         if (other.tag == "Player") {
             canInteract = false;
         }
+    }
+
+    private float GetDirectionToPlayer() {
+        Transform playerTransform = PlayerControls.Instance.GetComponent<Transform>();
+        Vector3 direction = (this.transform.position - playerTransform.position).normalized;
+
+        float angleRadian = Mathf.Atan2(direction.x, direction.y);
+
+        float angleDegree = angleRadian * Mathf.Rad2Deg;
+        if (angleDegree < 0.0f) {
+            angleDegree += 360.0f;
+        }
+
+        return angleDegree;
     }
 }

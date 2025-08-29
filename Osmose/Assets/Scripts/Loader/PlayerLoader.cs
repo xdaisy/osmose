@@ -12,14 +12,4 @@ public class PlayerLoader : MonoBehaviour {
             player.name = player.name.Replace("(Clone)", ""); // remove (clone) from name
         }
     }
-
-    // Use this for initialization
-    void Start () {
-        
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

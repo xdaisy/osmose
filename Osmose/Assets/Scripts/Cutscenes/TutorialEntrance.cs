@@ -7,7 +7,7 @@ public class TutorialEntrance : MonoBehaviour {
     public string[] PostDialogue;
 
     private List<string> tutorial = new List<string> {
-        "When you see an exclamiation mark, it means that you can interact with the object using the spacebar.",
+        "When you see an exclamation mark, it means that you can interact with the object using the spacebar.",
         "Move using either the arrow keys or ASWD."
     };
 

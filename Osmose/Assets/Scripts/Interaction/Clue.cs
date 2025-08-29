@@ -45,6 +45,14 @@ public class Clue : ScriptableObject {
     }
 
     /// <summary>
+    /// Get the flag of if this clue can be updated
+    /// </summary>
+    /// <returns>True if the clue can be updated, false otherwise</returns>
+    public bool GetCanUpdate() {
+        return canUpdate;
+    }
+
+    /// <summary>
     /// Determine whether or not the clue is equal to this clue
     /// </summary>
     /// <param name="other">Other clue that is being compared to this clue</param>

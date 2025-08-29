@@ -50,6 +50,7 @@ public class Dialogue : MonoBehaviour {
                 currentLine++;
                 if (currentLine >= dialogueLines.Length && doChangeScene) {
                     // change the scene
+                    doChangeScene = false;
                     dBox.SetActive(false);
                     BlackBG.SetActive(false);
                     currentLine = 0;

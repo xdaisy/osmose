@@ -35,10 +35,13 @@ Geoffrey-Neutral:
 Yes, mum!
 
 Blaire-Neutral:
-Parker, Philippe, Erik, anything for you three?
+Parker, Philippe, Aidan, Erik, anything for you four?
 
 Erik-Neutral:
 I’ll take a pint as well!
+
+Aidan-Neutral:
+Me, too!
 
 Parker-Neutral:
 Nothing for me.
@@ -65,7 +68,7 @@ Blaire-Neutral:
 Always. \nBe back in a bit.
 
 Erik-Neutral:
-It feels like forever since we last hung out together, just the seven of us. 
+It feels like forever since we last hung out together, just the eight of us. 
 
 Parker-Neutral:
 Yeah. I’m glad we could all make it today, I missed you guys!
@@ -81,6 +84,9 @@ Cheers to that, mate!
 
 Erik-Neutral<j>:
 Agreed!
+
+Aidan-Neutral<j>:
+Hear, hear!
 
 Aren-Thinking:
 I do miss the good old days sometimes. We were a bunch of little terrors back then.
@@ -209,6 +215,9 @@ It probably would.
 
 Blaire-Neutral:
 Definitely would.
+
+Aidan-Neutral:
+Absolutely would.
 
 Geoffrey-Neutral:
 The fact that it hasn’t already is astounding.

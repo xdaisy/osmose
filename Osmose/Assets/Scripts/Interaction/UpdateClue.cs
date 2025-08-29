@@ -28,7 +28,7 @@ public class UpdateClue : MonoBehaviour {
             } else {
                 // clue did not get updated
                 CluesManager.Instance.UpdateClue(Clue.GetClueNumber());
-                Dialogue.Instance.ShowDialogue(this.preUpdateDialogue, false);
+                Dialogue.Instance.ShowDialogue(this.preUpdateDialogue, false, 2);
             }
         }
     }

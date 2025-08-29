@@ -165,6 +165,9 @@ public class Menu : MonoBehaviour {
     /// Go back to previous area
     /// </summary>
     private void goBack() {
+        if (currMenu == MAIN_MENU) {
+            CloseGameMenu();
+        }
         if (currMenu == CLUES_MENU) {
             if (CluesMenuUI.GoBack()) {
                 // if going back from clues menu to main menu
