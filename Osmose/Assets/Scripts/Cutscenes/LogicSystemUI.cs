@@ -106,6 +106,7 @@ public class LogicSystemUI : MonoBehaviour {
             Clue selectedClue = GameManager.Instance.GetClueWithName(chapterName, clueName);
             LogicStep currLogicStep = logicSteps[currStep];
             CluesPopup.SetActive(false);
+            GameManager.Instance.NavigationActive = false;
             showPopup = false;
             if (!currLogicStep.GetClue().IsEqual(selectedClue)) {
                 // selected wrong clue
@@ -125,6 +126,7 @@ public class LogicSystemUI : MonoBehaviour {
         int correctChoice = currLogicStep.GetCorrectChoice();
 
         ChoicePopup.SetActive(false);
+        GameManager.Instance.NavigationActive = false;
         showPopup = false;
         if (choice != correctChoice) {
             // selected wrong choice
@@ -224,7 +226,8 @@ public class LogicSystemUI : MonoBehaviour {
             // show clues popup
             clueOffset = 0;
             CluesPopup.SetActive(true);
-            
+            GameManager.Instance.NavigationActive = true;
+
             Question.text = currLogicStep.GetQuestion();
 
             updateCluesPopup();
@@ -285,6 +288,7 @@ public class LogicSystemUI : MonoBehaviour {
         string[] choices = currLogicStep.GetChoices();
 
         ChoicePopup.SetActive(true);
+        GameManager.Instance.NavigationActive = true;
         for (int i = 0; i < Choices.Length; i++) {
             Choices[i].gameObject.SetActive(true);
             if (i >= choices.Length) {

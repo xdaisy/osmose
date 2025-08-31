@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     [Header("Game Status")]
     public bool GameMenuOpen;
     public bool DialogActive;
+    public bool NavigationActive;
     public bool FadingBetweenAreas;
     public bool InCutscene;
     public bool OnMap;

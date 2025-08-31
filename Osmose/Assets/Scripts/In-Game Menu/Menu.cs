@@ -44,17 +44,19 @@ public class Menu : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetButtonDown("Cancel")) {
-            // go back
-            goBack();
-        }
-        if (isMenuOpen() && EventSystem.current != null && Input.GetButtonDown("Horizontal")) {
-            GameObject currButton = EventSystem.current.currentSelectedGameObject;
+        if (GameManager.Instance.GameMenuOpen) {
+            if (Input.GetButtonDown("Cancel")) {
+                // go back
+                goBack();
+            }
+            if (isMenuOpen() && EventSystem.current != null && Input.GetButtonDown("Horizontal")) {
+                GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
-            if (currButton != prevButton) {
-                playClick();
+                if (currButton != prevButton) {
+                    playClick();
 
-                prevButton = currButton;
+                    prevButton = currButton;
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ public class Navigation : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
+        if (GameManager.Instance.NavigationActive && gameObject.activeInHierarchy && EventSystem.current != null && Input.GetButtonDown("Vertical")) {
             GameObject currButton = EventSystem.current.currentSelectedGameObject;
 
             if (currButton != prevButton) {
@@ -20,11 +20,11 @@ public class Navigation : MonoBehaviour {
                 prevButton = currButton;
             }
         }
-        if (gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
+        /*if (gameObject.activeSelf && Input.GetButtonDown("Cancel")) {
             playClick();
             Close();
             PlayerControls.Instance.PushPlayer(Vector2.up);
-        }
+        }*/
     }
 
     /// <summary>

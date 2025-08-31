@@ -72,6 +72,7 @@ public class Dialogue : MonoBehaviour {
                 if (currentLine >= dialogueLines.Length && needInput && !ConfirmationPopup.activeSelf) {
                     // if needs to show popup
                     ConfirmationPopup.SetActive(true);
+                    GameManager.Instance.NavigationActive = true;
                     eventSystem = EventSystem.current;
                     eventSystem.SetSelectedGameObject(null);
                     eventSystem.SetSelectedGameObject(YesButton);
@@ -164,8 +165,10 @@ public class Dialogue : MonoBehaviour {
             showText();
             needInput = false;
         }
+        playSfx(0);
         justStarted = true;
         ConfirmationPopup.SetActive(false);
+        GameManager.Instance.NavigationActive = false;
     }
 
     /// <summary>
