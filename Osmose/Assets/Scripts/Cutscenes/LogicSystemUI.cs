@@ -101,6 +101,7 @@ public class LogicSystemUI : MonoBehaviour {
     /// <param name="clueIndex">Index of the clue</param>
     public void SelectClue(int clueIndex) {
         if (clueIndex < ClueNames.Length) {
+            SoundManager.Instance.PlaySFX(0);
             wrongAnswer = false;
             string clueName = ClueNames[clueIndex].text;
             Clue selectedClue = GameManager.Instance.GetClueWithName(chapterName, clueName);
@@ -121,6 +122,7 @@ public class LogicSystemUI : MonoBehaviour {
     /// </summary>
     /// <param name="choice"> Index of the choice</param>
     public void SelectChoice(int choice) {
+        SoundManager.Instance.PlaySFX(0);
         LogicStep currLogicStep = logicSteps[currStep];
 
         int correctChoice = currLogicStep.GetCorrectChoice();

@@ -7,8 +7,10 @@ public class TutorialEntrance : MonoBehaviour {
     public string[] PostDialogue;
 
     private List<string> tutorial = new List<string> {
-        "When you see an exclamation mark, it means that you can interact with the object using the spacebar.",
-        "Move using either the arrow keys or ASWD."
+        "When you see an exclamation mark, it means that you can interact with the object using the SPACEBAR.",
+        "Move using either the arrow keys or ASWD.",
+        "Open the menu with M.",
+        "Cancel with C or ESC."
     };
 
     // Use this for initialization
